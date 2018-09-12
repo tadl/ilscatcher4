@@ -1,0 +1,103 @@
+<div id="search_box" class="col">
+  <form id="search_form" action="/search">
+    <div class="row">
+      <div class="col">
+      <div class="form-group">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="search-addon">Search</span>
+        </div>
+        <input id="search_for" name="query" class="form-control" aria-describedby="search-addon" value="<%= @search.query %>" autocomplete='off' oninput="update_search()">
+        <div class="input-group-append">
+          <button id="search_button" class="btn btn-primary" type="submit" form="search_form"><%= fa_icon "search" %></button>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 col-md-6 col-lg-3">
+        <div class="input-group input-group-sm mb-2">
+          <div class="input-group-prepend" style="width: 100%">
+            <span class="input-group-text">Type</span>
+            <select class="form-control form-control-sm" id="type" name="type">
+              <% @search.search_type_options.each do |s| %>
+                <option value="<%= s[1] %>"  <%= check_selected(@search.type, s[1]) %>>
+                  <%= s[0] %>
+                </option>
+              <% end %>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-3">
+        <div class="input-group input-group-sm mb-2">
+          <div class="input-group-prepend" style="width: 100%">
+            <span class="input-group-text">Format</span>
+            <select class="form-control form-control-sm" id="formats" name="fmt">
+              <% @search.format_options.each do |s| %>
+                <option value="<%= s[2] %>"  <%= check_selected(@search.fmt, s[2]) %>>
+                  <%= s[0] %>  
+                </option>
+              <% end %>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-3">
+        <div class="input-group input-group-sm mb-2">
+          <div class="input-group-prepend" style="width: 100%">
+            <span class="input-group-text">Sort By</span>
+            <select class="form-control form-control-sm" id="sorts" name="sort">
+              <% @search.sort_options.each do |s| %>
+                <option value="<%= s[1] %>" <%= check_selected(@search.sort, s[1]) %>>
+                  <%= s[0] %>  
+                </option>
+              <% end %>
+            </select>
+          </div>
+        </div>
+      </div>
+      <% if @search.location_options %>
+        <div class="col-sm-12 col-md-6 col-lg-3">
+          <div class="input-group input-group-sm mb-2">
+            <div class="input-group-prepend" style="width: 100%">
+              <span class="input-group-text">Location</span>
+              <select class="form-control form-control-sm" id="locations" name="location">
+                <% @search.location_options.each do |s| %>
+                  <option value="<%= s[1] %>"  <%= check_selected(@search.location, s[1]) %>>
+                    <%= s[0] %>  
+                  </option>
+                <% end %>
+              </select>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <div class="col-sm-12 col-md-6 col-lg-3">
+        <div class="input-group input-group-sm mb-2">
+          <div class="input-group-prepend" style="width: 100%">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="limit_available" name="only_available">
+              <label class="form-check-label" for="limit_available">
+                Limit to Available
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-3">
+        <div class="input-group input-group-sm mb-2">
+          <div class="input-group-prepend" style="width: 100%">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="limit_physical" name="only_physical">
+              <label class="form-check-label" for="limit_physical">
+                Limit to Physical Items
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
