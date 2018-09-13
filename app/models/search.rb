@@ -1,7 +1,7 @@
 class Search
   require 'elasticsearch'
   include ActiveModel::Model
-  attr_accessor :query, :type, :sort, :fmt, :location, :min_score
+  attr_accessor :query, :type, :sort, :fmt, :location, :min_score, :page
   
   def client
     client = Elasticsearch::Client.new host: ENV['ES_URL']
@@ -42,6 +42,11 @@ class Search
   private
 
   def get_results
+    if self.page
+      page = (self.page.to_i * 24) + self.page.to_i 
+    else
+      page = 0
+    end
     if !self.type || self.type == 'keyword'
       search_scheme = keyword_search
     elsif self.type == 'author'
@@ -95,6 +100,7 @@ class Search
       },
       sort: sort_strategy,
       size: 25,
+      from: page,
       min_score: min_score
     }
   end
