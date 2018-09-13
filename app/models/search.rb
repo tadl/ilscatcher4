@@ -46,10 +46,11 @@ class Search
       search_scheme = keyword_search
     elsif self.type == 'author'
       search_scheme = author_search
-      if self.min_score != 0.0
+      if self.min_score 
+        puts "tacoooooo"
         min_score = self.min_score
       else
-        min_score = 0.24
+        min_score = 10
       end
     elsif self.type == 'title'
       search_scheme = title_search
@@ -94,6 +95,7 @@ class Search
       },
       sort: sort_strategy,
       size: 25,
+      min_score: min_score
     }
   end
 
