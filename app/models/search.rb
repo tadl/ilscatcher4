@@ -49,10 +49,14 @@ class Search
     end
     if !self.type || self.type == 'keyword'
       search_scheme = keyword_search
+      if self.min_score 
+        min_score = self.min_score
+      else
+        min_score = 10
+      end
     elsif self.type == 'author'
       search_scheme = author_search
       if self.min_score 
-        puts "tacoooooo"
         min_score = self.min_score
       else
         min_score = 10
@@ -340,15 +344,19 @@ class Search
     facets = Array.new
     subjects = Hash.new
     subjects['type'] = 'Subjects'
+    subjects['type_raw'] = 'subjects'
     subjects['subfacets'] = Array.new
     authors = Hash.new
     authors['type'] = 'Authors'
+    authors['type_raw'] = 'authors'
     authors['subfacets'] = Array.new
     series = Hash.new
     series['type'] = 'Series'
+    series['type_raw'] = 'series'
     series['subfacets'] = Array.new
     genres = Hash.new
     genres['type'] = 'Genres'
+    genres['type_raw'] = 'genres'
     genres['subfacets'] = Array.new
     results.each do |r|
       authors['subfacets'].push(r.author)

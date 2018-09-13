@@ -8,13 +8,13 @@
         <div class="col-sm-12 col-md-2">
           <img src="https://catalog.tadl.org/opac/extras/ac/jacket/medium/r/<%= i.id %>" class="img-fluid">
         </div>
-        <div class="col-sm-12 col-md-9">
-          <h5 class="card-title"><%= i.author %> - <%= i.id %> - <%= i.isbn %></h5>
+        <div class="col-sm-12 col-md-10">
+          <h5 class="card-title"><%= i.author %></h5>
           <% if i.abstract != '' %>
-            <p class="card-text"><b>Abstract:</b><%= i.abstract %></p>
+            <p class="card-text"><b>Abstract:</b> <%= i.abstract %></p>
           <% end %>
           <% if i.contents != '' %>
-            <p class="card-text"><b>Contents:</b><%= i.contents %></p>
+            <p class="card-text"><b>Contents:</b> <%= i.contents %></p>
           <% end %>
         </div>
       </div>

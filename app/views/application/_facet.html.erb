@@ -1,0 +1,14 @@
+<div class="card mb-2">
+  <div class="card-header">
+    <%= facet['type'] %>
+  </div>
+  <ul class="list-group list-group-flush">
+    <% facet['subfacets'].each do |s| %>
+      <li class="list-group-item">
+        <a href='<%= search_link_builder('add_facet', search, [facet['type_raw'], s]) %>'>
+          <%= s %>
+        </a>
+      </li>
+    <% end %>
+  </ul>
+</div>
