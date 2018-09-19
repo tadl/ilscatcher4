@@ -1,14 +1,25 @@
-<div class="card mb-2">
-  <div class="card-header">
-    <%= facet['type'] %>
+<% if facet['subfacets'].size > 0 %>
+  <div class="card mb-2">
+    <div class="card-header">
+      <%= facet['type'] %>
+    </div>
+    <ul class="list-group list-group-flush">
+      <% facet['subfacets'].each do |s| %>
+        <li class="list-group-item">
+          <% if active_facet_tester(search, [facet['type_raw'], s]) == true %>
+            <%= s %> 
+            <a href='<%= search_link_builder('remove_facet', search, [facet['type_raw'], s]) %>'>
+              <span style="color: red; font-weight: bold;">
+                X
+              </span>
+            </a>
+          <% else %>
+            <a href='<%= search_link_builder('add_facet', search, [facet['type_raw'], s]) %>'>
+              <%= s %>
+            </a>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
   </div>
-  <ul class="list-group list-group-flush">
-    <% facet['subfacets'].each do |s| %>
-      <li class="list-group-item">
-        <a href='<%= search_link_builder('add_facet', search, [facet['type_raw'], s]) %>'>
-          <%= s %>
-        </a>
-      </li>
-    <% end %>
-  </ul>
-</div>
+<% end %>

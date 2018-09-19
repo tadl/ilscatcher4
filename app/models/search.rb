@@ -1,7 +1,8 @@
 class Search
   require 'elasticsearch'
   include ActiveModel::Model
-  attr_accessor :query, :type, :sort, :fmt, :location, :min_score, :page
+  attr_accessor :query, :type, :sort, :fmt, :location, :min_score, :page, :subjects,
+                :authors, :genres, :series
   
   def client
     client = Elasticsearch::Client.new host: ENV['ES_URL']
@@ -63,28 +64,28 @@ class Search
       end
     elsif self.type == 'title'
       search_scheme = title_search
-      if self.min_score != 0.0
+      if self.min_score
         min_score = self.min_score
       else
         min_score = 0.24
       end
     elsif self.type == 'subject'
       search_scheme = subject_search
-      if self.min_score != 0.0
+      if self.min_score
         min_score = self.min_score
       else
         min_score = 0.6
       end
     elsif self.type == 'series'
       search_scheme = series_search
-      if self.min_score != 0.0
+      if self.min_score
         min_score = self.min_score
       else
         min_score = 0.6
       end
     elsif self.type == 'single_genre'
       search_scheme = single_genre_search
-      if self.min_score != 0.0
+      if self.min_score
         min_score = self.min_score
       else
         min_score = 0.24
@@ -382,15 +383,15 @@ class Search
     series['subfacets'].reject!(&:empty?)
     genres['subfacets'].reject!(&:empty?)
     #sort by most commmon values and only indclude uniques
-    subjects['subfacets'].sort_by! { |u| subjects['subfacets'].count(u) }.reverse!.uniq!
-    authors['subfacets'].sort_by! { |u| authors['subfacets'].count(u) }.reverse!.uniq!
-    series['subfacets'].sort_by! { |u| series['subfacets'].count(u) }.reverse!.uniq!
-    genres['subfacets'].sort_by! { |u| genres['subfacets'].count(u) }.reverse!.uniq!
+    subjects['subfacets'].sort_by! { |u| subjects['subfacets'].count(u) }.uniq!.sort!
+    authors['subfacets'].sort_by! { |u| authors['subfacets'].count(u) }.uniq!
+    series['subfacets'].sort_by! { |u| series['subfacets'].count(u) }.uniq!
+    genres['subfacets'].sort_by! { |u| genres['subfacets'].count(u) }.uniq!
     #get the first ten values 
-    subjects['subfacets'] = subjects['subfacets'].first(10)
-    authors['subfacets'] = authors['subfacets'].first(10)
-    series['subfacets'] = series['subfacets'].first(10)
-    genres['subfacets'] = genres['subfacets'].first(10)
+    subjects['subfacets'] = subjects['subfacets'].first(10).sort_by!{|u| u.downcase}
+    authors['subfacets'] = authors['subfacets'].first(10).sort_by!{|u| u.downcase}
+    series['subfacets'] = series['subfacets'].first(10).sort_by!{|u| u.downcase}
+    genres['subfacets'] = genres['subfacets'].first(10).sort_by!{|u| u.downcase}
     facets += [subjects, authors, series, genres]
     return facets
   end
