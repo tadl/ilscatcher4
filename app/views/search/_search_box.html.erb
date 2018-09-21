@@ -78,7 +78,7 @@
         <div class="input-group input-group-sm mb-2">
           <div class="input-group-prepend" style="width: 100%">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="limit_available" name="only_available">
+              <input class="form-check-input" type="checkbox" value="true" id="limit_available" name="limit_available" <%= if_true_checked(@search.limit_available) %>>
               <label class="form-check-label" for="limit_available">
                 Limit to Available
               </label>
@@ -90,7 +90,7 @@
         <div class="input-group input-group-sm mb-2">
           <div class="input-group-prepend" style="width: 100%">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="limit_physical" name="only_physical">
+              <input class="form-check-input" type="checkbox" value="true" id="limit_physical" name="only_physical">
               <label class="form-check-label" for="limit_physical">
                 Limit to Physical Items
               </label>

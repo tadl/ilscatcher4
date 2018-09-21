@@ -2,7 +2,7 @@ class Search
   require 'elasticsearch'
   include ActiveModel::Model
   attr_accessor :query, :type, :sort, :fmt, :location, :min_score, :page, :subjects,
-                :authors, :genres, :series
+                :authors, :genres, :series, :limit_available
   
   def client
     client = Elasticsearch::Client.new host: ENV['ES_URL']
@@ -430,33 +430,87 @@ class Search
       filters.push(term: {"author.raw": URI.unescape(s)})
     end unless authors.nil?
     if self.location && self.location != Settings.location_default
-      filters.push(nested_filters)
+      filters.push(location_filter)
+    end
+    if self.limit_available == 'true'
+      filters.push(available_filter)
     end
     return filters
   end
 
-  def nested_filters
-    if self.location && self.location != Settings.location_default
-      location_filter = {
-        bool: {
-          should:[
-            {nested:{
+  def location_filter
+   {
+      bool: {
+        should:[
+          {
+            nested:{
               path: "holdings",
               query:{
                 bool:{
                   should:[
-                      {term: {"holdings.circ_lib": self.location_code}},
+                    {term: {"holdings.circ_lib": self.location_code}},
                   ]
                 }
               }
-            }},
-            {term:{
-              "electronic": true
-            }}
-          ]
+            }
+          },
+          {term:{"electronic": true}}
+        ]
+      }
+    }
+  end
+
+  def available_filter
+    if self.location && self.location != Settings.location_default
+      puts "got location"
+      {
+        bool:{
+          should:[
+            {
+              nested:{
+                path: "holdings",
+                query: {
+                  bool:{
+                    must:[
+                      {term: {"holdings.circ_lib": self.location_code}}
+                    ],
+                    should:[
+                      {term: {"holdings.status": "Available"}},
+                      {term: {"holdings.status": "Reshelving"}},
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              term:{
+                "electronic": true
+              }
+            }
+          ]  
         }
       }
-      return location_filter
+    else
+      {
+        bool:{
+          should:[
+            {
+              nested: {
+                path: "holdings",
+                query:{
+                  bool:{
+                    should:[
+                      {term: {"holdings.status": "Available"}},
+                      {term: {"holdings.status": "Reshelving"}},
+                    ]
+                  }
+                }
+              }
+            },
+            {term: {"electronic": true}}
+          ]  
+        }
+      }
     end
   end
 end

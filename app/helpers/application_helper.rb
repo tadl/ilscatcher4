@@ -47,4 +47,11 @@ module ApplicationHelper
       return false
     end
   end
+
+  def if_true_checked(value)
+    puts value.to_s
+    if value == 'true' || value == true
+      return 'checked'
+    end
+  end
 end
