@@ -16,6 +16,11 @@
           <% if i.contents != '' %>
             <p class="card-text"><b>Contents:</b> <%= i.contents %></p>
           <% end %>
+          <hr>
+          <% i.holdings.each do |h| %>
+            <%= h['circ_lib'] %> - <%= h['status'] %> - <%= h['location'] %> <%= h['call_number'] %>
+            <hr>
+          <% end %>
         </div>
       </div>
     </div>

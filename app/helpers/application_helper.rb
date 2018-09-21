@@ -12,25 +12,25 @@ module ApplicationHelper
     url += '&sort=' + search.sort if search.sort
     url += '&location=' + search.location if search.location
     search.subjects.each do |s|
-      url += '&subjects[]=' + s
+      url += '&subjects[]=' +   url_encode(s)
     end if search.subjects
     search.authors.each do |a|
-      url += '&authors[]=' + a
+      url += '&authors[]=' +   url_encode(a)
     end if search.authors
     search.series.each do |s|
-      url += '&series[]=' + s
+      url += '&series[]=' +   url_encode(s)
     end if search.series
     search.genres.each do |g|
-      url += '&genres[]=' + g
+      url += '&genres[]=' +   url_encode(g)
     end if search.genres
     if type == 'base' || type == ''
-      return URI.encode(url)
+      return url
     elsif type == 'add_facet'
-      url +=  '&'+ facet[0] + '[]=' + facet[1]
-      return URI.encode(url)
+      url +=  '&'+ facet[0] + '[]=' +  url_encode(facet[1])
+      return url
     elsif type == 'remove_facet'
-      remove_from_url = '&'+ facet[0] + '[]=' + facet[1]
-      return URI.encode(url.gsub(remove_from_url,''))
+      remove_from_url = '&'+ facet[0] + '[]=' +   url_encode(facet[1])
+      return url.gsub(remove_from_url,'')
     end
   end
 

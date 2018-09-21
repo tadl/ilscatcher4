@@ -40,6 +40,14 @@ class Search
     return Settings.location_options
   end
 
+  def location_code
+    self.location_options.each do |l|
+      if l[1] == self.location
+        return l[2]
+      end
+    end
+  end
+
   private
 
   def get_results
@@ -53,7 +61,7 @@ class Search
       if self.min_score 
         min_score = self.min_score
       else
-        min_score = 10
+        min_score = 0.01
       end
     elsif self.type == 'author'
       search_scheme = author_search
@@ -101,7 +109,7 @@ class Search
     end
     self.client.search index: ENV['ES_INDEX'], body: { 
       query: {
-        bool: search_scheme
+        bool: search_scheme,
       },
       sort: sort_strategy,
       size: 25,
@@ -111,36 +119,39 @@ class Search
   end
 
   def keyword_search
-    { should:[
-      {
-        multi_match: {
-          type: "phrase",
-          query: self.query,
-          fields: ['title.folded^10', 'title.raw^10', 'title_short', 'author^7', 'title_alt', 'author_other^3','contents^5','abstract^5','subjects^3','series^6','genres'],
-          slop:  100,
-          boost: 14
-        }
-      },
-      {
-        multi_match: {
-          type: 'cross_fields',
-          query: self.query,
-          fields: ['title.folded^10', 'title.raw^10','author^2','contents','series'],
-          slop:  10,
-          boost: 25
-        }
-      },
-      {
-        multi_match: {
-          type: 'most_fields',
-          query: self.query,
-          fields: ['title.folded^10', 'title.raw','author', 'title_alt', 'author_other','contents','abstract','subjects','series','genres'],
-          fuzziness: 2,
-          slop:  100,
-          boost: 1
-        }
-      },        
-    ]}
+    { 
+      should:[
+        {
+          multi_match: {
+            type: "phrase",
+            query: self.query,
+            fields: ['title.folded^10', 'title.raw^10', 'title_short', 'author^7', 'title_alt', 'author_other^3','contents^5','abstract^5','subjects^3','series^6','genres'],
+            slop:  100,
+            boost: 14
+          }
+        },
+        {
+          multi_match: {
+            type: 'cross_fields',
+            query: self.query,
+            fields: ['title.folded^10', 'title.raw^10','author^2','contents','series'],
+            slop:  10,
+            boost: 25
+          }
+        },
+        {
+          multi_match: {
+            type: 'most_fields',
+            query: self.query,
+            fields: ['title.folded^10', 'title.raw','author', 'title_alt', 'author_other','contents','abstract','subjects','series','genres'],
+            fuzziness: 2,
+            slop:  100,
+            boost: 1
+          }
+        },        
+      ],
+      filter: process_filters,
+    }
   end
 
   def isbn_search
@@ -151,7 +162,8 @@ class Search
             "isbn": self.query
           }
         }
-      ]
+      ],
+      filter: process_filters
     }
   end
 
@@ -164,7 +176,8 @@ class Search
             :match_phrase_prefix => {'holdings.call_number': self.query}
           }
         }
-      ]
+      ],
+      filter: process_filters
     }
   end
 
@@ -175,7 +188,7 @@ class Search
           multi_match: {
           type: 'phrase',
           query: self.query,
-          fields: ['author^3', 'author_other'],
+          fields: ['author^10', 'author_other'],
           slop:  3,
           boost: 10
           }
@@ -184,12 +197,13 @@ class Search
           multi_match: {
           type: 'best_fields',
           query: self.query,
-          fields: ['author^3', 'author_other'],
+          fields: ['author^10', 'author_other'],
           fuzziness: 2,
           boost: 1
           }
         }
-      ]
+      ],
+      filter: process_filters
     }
   end
 
@@ -200,21 +214,22 @@ class Search
           multi_match: {
             type: 'phrase',
             query: self.query,
-            fields: ['title_short', 'title_alt','title.folded', 'title.raw^4'],
+            fields: ['title_short', 'title_alt', 'title.raw^20'],
             slop:  3,
             boost: 10
           }
         },
         {
           multi_match: {
-          type: 'best_fields',
+          type: 'most_fields',
           query: self.query,
-          fields: ['title_short', 'title_alt', 'title.folded', 'title.raw^4'],
-          fuzziness: 2,
+          fields: ['title_short', 'title_alt', 'title.raw^20'],
+          fuzziness: 1,
           boost: 1
           }
         }
-      ]
+      ],
+      filter: process_filters
     }
   end
 
@@ -239,7 +254,8 @@ class Search
           boost: 1
           }
         }
-      ]
+      ],
+      filter: process_filters
     }
   end
 
@@ -264,7 +280,8 @@ class Search
           boost: 1
           }
         }
-      ]
+      ],
+      filter: process_filters
     }
   end
 
@@ -289,7 +306,8 @@ class Search
           boost: 1
           }
         }
-      ]
+      ],
+      filter: process_filters
     }
   end
 
@@ -304,7 +322,8 @@ class Search
     {
       should:[
         record_id_array
-      ]
+      ],
+      filter: process_filters
     }
   end
 
@@ -383,10 +402,10 @@ class Search
     series['subfacets'].reject!(&:empty?)
     genres['subfacets'].reject!(&:empty?)
     #sort by most commmon values and only indclude uniques
-    subjects['subfacets'].sort_by! { |u| subjects['subfacets'].count(u) }.uniq!.sort!
-    authors['subfacets'].sort_by! { |u| authors['subfacets'].count(u) }.uniq!
-    series['subfacets'].sort_by! { |u| series['subfacets'].count(u) }.uniq!
-    genres['subfacets'].sort_by! { |u| genres['subfacets'].count(u) }.uniq!
+    subjects['subfacets'].sort_by! { |u| subjects['subfacets'].count(u) }.reverse!.uniq!
+    authors['subfacets'].sort_by! { |u| authors['subfacets'].count(u) }.reverse!.uniq!
+    series['subfacets'].sort_by! { |u| series['subfacets'].count(u) }.reverse!.uniq!
+    genres['subfacets'].sort_by! { |u| genres['subfacets'].count(u) }.reverse!.uniq!
     #get the first ten values 
     subjects['subfacets'] = subjects['subfacets'].first(10).sort_by!{|u| u.downcase}
     authors['subfacets'] = authors['subfacets'].first(10).sort_by!{|u| u.downcase}
@@ -396,4 +415,48 @@ class Search
     return facets
   end
 
+  def process_filters
+    filters = Array.new
+    self.subjects.each do |s|
+      filters.push(term: {"subjects.raw": URI.unescape(s)})
+    end unless subjects.nil?
+    self.genres.each do |s|
+      filters.push(term: {"genres.raw": URI.unescape(s)})
+    end unless genres.nil?
+    self.series.each do |s|
+      filters.push(term: {"series.raw": URI.unescape(s)})
+    end unless series.nil?
+    self.authors.each do |s|
+      filters.push(term: {"author.raw": URI.unescape(s)})
+    end unless authors.nil?
+    if self.location && self.location != Settings.location_default
+      filters.push(nested_filters)
+    end
+    return filters
+  end
+
+  def nested_filters
+    if self.location && self.location != Settings.location_default
+      location_filter = {
+        bool: {
+          should:[
+            {nested:{
+              path: "holdings",
+              query:{
+                bool:{
+                  should:[
+                      {term: {"holdings.circ_lib": self.location_code}},
+                  ]
+                }
+              }
+            }},
+            {term:{
+              "electronic": true
+            }}
+          ]
+        }
+      }
+      return location_filter
+    end
+  end
 end
