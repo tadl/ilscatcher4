@@ -2,7 +2,7 @@ class Search
   require 'elasticsearch'
   include ActiveModel::Model
   attr_accessor :query, :type, :sort, :fmt, :location, :min_score, :page, :subjects,
-                :authors, :genres, :series, :limit_available
+                :authors, :genres, :series, :limit_available, :limit_physical
   
   def client
     client = Elasticsearch::Client.new host: ENV['ES_URL']
@@ -434,6 +434,9 @@ class Search
     end
     if self.limit_available == 'true'
       filters.push(available_filter)
+    end
+    if self.limit_physical == 'true'
+      filters.push(term: {"electronic": false})
     end
     return filters
   end

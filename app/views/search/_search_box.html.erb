@@ -90,7 +90,7 @@
         <div class="input-group input-group-sm mb-2">
           <div class="input-group-prepend" style="width: 100%">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="true" id="limit_physical" name="only_physical">
+              <input class="form-check-input" type="checkbox" value="true" id="limit_physical" name="limit_physical" <%= if_true_checked(@search.limit_physical) %>>
               <label class="form-check-label" for="limit_physical">
                 Limit to Physical Items
               </label>

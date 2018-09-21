@@ -19,7 +19,7 @@ class SearchController < ApplicationController
   private
 
   def allowed_params
-    params.permit(:query, :type, :sort, :fmt, :location, :page, :limit_available, subjects: [],
-                  authors: [], genres: [], series: [])
+    params.permit(:query, :type, :sort, :fmt, :location, :page, :limit_available, 
+                  :limit_physical, subjects: [], authors: [], genres: [], series: [])
   end
 end
