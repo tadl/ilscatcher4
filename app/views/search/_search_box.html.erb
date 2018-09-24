@@ -36,7 +36,7 @@
             <span class="input-group-text">Format</span>
             <select class="form-control form-control-sm" id="formats" name="fmt">
               <% @search.format_options.each do |s| %>
-                <option value="<%= s[2] %>"  <%= check_selected(@search.fmt, s[2]) %>>
+                <option value="<%= s[0] %>"  <%= check_selected(@search.fmt, s[0]) %>>
                   <%= s[0] %>  
                 </option>
               <% end %>

@@ -52,7 +52,7 @@ class Search
 
   def get_results
     if self.page
-      page = (self.page.to_i * 24) + self.page.to_i 
+      page = (self.page.to_i * 24)
     else
       page = 0
     end
@@ -107,15 +107,30 @@ class Search
       search_scheme = call_number_search
       min_score = 1
     end
-    self.client.search index: ENV['ES_INDEX'], body: { 
-      query: {
-        bool: search_scheme,
-      },
-      sort: sort_strategy,
-      size: 25,
-      from: page,
-      min_score: min_score
-    }
+    if self.query  != ''
+      self.client.search index: ENV['ES_INDEX'], body: { 
+        query: {
+          bool: search_scheme,
+        },
+        sort: sort_strategy,
+        size: 25,
+        from: page,
+        min_score: min_score
+      }
+    else
+      self.client.search index: ENV['ES_INDEX'], body: { 
+        query: {
+          bool:{
+            must: {"match_all":{}},
+            filter: process_filters
+          }
+        },
+        sort: sort_strategy,
+        size: 25,
+        from: page,
+        min_score: min_score
+      }
+    end
   end
 
   def keyword_search
@@ -419,16 +434,16 @@ class Search
     filters = Array.new
     self.subjects.each do |s|
       filters.push(term: {"subjects.raw": URI.unescape(s)})
-    end unless subjects.nil?
+    end unless self.subjects.nil?
     self.genres.each do |s|
       filters.push(term: {"genres.raw": URI.unescape(s)})
-    end unless genres.nil?
+    end unless self.genres.nil?
     self.series.each do |s|
       filters.push(term: {"series.raw": URI.unescape(s)})
-    end unless series.nil?
+    end unless self.series.nil?
     self.authors.each do |s|
       filters.push(term: {"author.raw": URI.unescape(s)})
-    end unless authors.nil?
+    end unless self.authors.nil?
     if self.location && self.location != Settings.location_default
       filters.push(location_filter)
     end
@@ -438,7 +453,69 @@ class Search
     if self.limit_physical == 'true'
       filters.push(term: {"electronic": false})
     end
+    if self.fmt != "All Formats"
+      self.format_options.each do |f|
+        if f[0] == self.fmt
+          if f[1] == 'fmt'
+            filters.push(format_filter(f[2]))
+          elsif f[1] == 'shelving_location'
+            filters.push(shelving_location_filter(f[2]))
+          # elsif f[1] == 'large_print'
+          #   filters.push(large_print_filter(f[2]))
+          end
+        end
+      end
+    end unless self.fmt.nil?
     return filters
+  end
+
+  def format_filter(format_code)
+    format_array = code_to_format(format_code)
+    should_query = Array.new
+    format_array.each do |f|
+      should_query.push(term: {"type_of_resource": f})
+    end
+    {
+      bool:{
+        should: should_query
+      }
+    }
+  end
+
+  def code_to_format(format_code)
+    if format_code == 'a'
+      return ['text', 'kit', 'cartographic']
+    elsif format_code == 'g'
+      return ['moving image']
+    elsif format_code == 'j'
+      return ['sound recording-musical']
+    elsif format_code == 'ebooks'
+      return [['Safari','OverDrive','Hoopla'],['text', 'kit', 'sound recording-nonmusical', 'cartographic', 'software, multimedia']]
+    end
+  end
+
+  def shelving_location_filter(format_code)
+    shelving_locations = format_code.split(',')
+    should_query = Array.new
+    shelving_locations.each do |f|
+      should_query.push(term: {"holdings.location_id": f})
+    end
+    {
+      bool:{
+        should:[
+          {
+            nested:{
+              path: "holdings",
+              query:{
+                bool:{
+                  should: should_query
+                }
+              }
+            }
+          },
+        ]
+      }
+    }
   end
 
   def location_filter
