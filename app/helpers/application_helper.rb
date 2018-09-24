@@ -11,6 +11,8 @@ module ApplicationHelper
     url += '&fmt=' + search.fmt if search.fmt
     url += '&sort=' + search.sort if search.sort
     url += '&location=' + search.location if search.location
+    url += '&limit_physical=' + search.limit_physical if search.limit_physical
+    url += '&limit_available=' + search.limit_available if search.limit_available
     search.subjects.each do |s|
       url += '&subjects[]=' +   url_encode(s)
     end if search.subjects

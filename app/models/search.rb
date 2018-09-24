@@ -460,8 +460,8 @@ class Search
             filters.push(format_filter(f[2]))
           elsif f[1] == 'shelving_location'
             filters.push(shelving_location_filter(f[2]))
-          # elsif f[1] == 'large_print'
-          #   filters.push(large_print_filter(f[2]))
+          elsif f[1] == 'call_prefix'
+            filters.push(call_prefix_filter(f[2]))
           end
         end
       end
@@ -494,8 +494,25 @@ class Search
     end
   end
 
-  def shelving_location_filter(format_code)
-    shelving_locations = format_code.split(',')
+  def call_prefix_filter(prefix)
+    {
+      bool:{
+        should:[
+          {
+            nested:{
+              path: "holdings",
+              query:{
+                prefix: {'holdings.call_number': prefix}
+              }
+            }
+          },
+        ]
+      }
+    }
+  end
+
+  def shelving_location_filter(locations)
+    shelving_locations = locations.split(',')
     should_query = Array.new
     shelving_locations.each do |f|
       should_query.push(term: {"holdings.location_id": f})
@@ -542,7 +559,6 @@ class Search
 
   def available_filter
     if self.location && self.location != Settings.location_default
-      puts "got location"
       {
         bool:{
           should:[
