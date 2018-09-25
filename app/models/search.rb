@@ -56,7 +56,14 @@ class Search
     else
       page = 0
     end
-    if !self.type || self.type == 'keyword'
+    if !self.query || self.query == '' 
+      search_scheme = blank_search
+      if self.min_score 
+        min_score = self.min_score
+      else
+        min_score = 0.01
+      end
+    elsif !self.type || self.type == 'keyword'
       search_scheme = keyword_search
       if self.min_score 
         min_score = self.min_score
@@ -107,7 +114,6 @@ class Search
       search_scheme = call_number_search
       min_score = 1
     end
-    if self.query  != ''
       self.client.search index: ENV['ES_INDEX'], body: { 
         query: {
           bool: search_scheme,
@@ -117,20 +123,13 @@ class Search
         from: page,
         min_score: min_score
       }
-    else
-      self.client.search index: ENV['ES_INDEX'], body: { 
-        query: {
-          bool:{
-            must: {"match_all":{}},
-            filter: process_filters
-          }
-        },
-        sort: sort_strategy,
-        size: 25,
-        from: page,
-        min_score: min_score
-      }
-    end
+  end
+
+  def blank_search
+    {
+      must: {"match_all":{}},
+      filter: process_filters
+    }
   end
 
   def keyword_search
@@ -462,6 +461,8 @@ class Search
             filters.push(shelving_location_filter(f[2]))
           elsif f[1] == 'call_prefix'
             filters.push(call_prefix_filter(f[2]))
+          elsif f[1] == 'electronic'
+            filters.push(electronic_filter(f[2]))
           end
         end
       end
@@ -480,6 +481,28 @@ class Search
         should: should_query
       }
     }
+  end
+
+  def electronic_filter(format_code)
+    should_query = Array.new
+    Settings.format_electronic.each do |e|
+      if e[0] == format_code
+        e[1].each do |p|
+          should_query.push(term: {"source": p})
+        end
+        e[2].each do |f|
+          should_query.push(term: {"type_of_resource": f})
+        end
+      end
+    end
+    did_it = {
+      bool:{
+        should: should_query,
+        minimum_should_match: 2
+      }
+    }
+    puts did_it.to_s
+    return did_it
   end
 
   def code_to_format(format_code)
