@@ -1,2 +1,3 @@
 location_options: [['Woodmere', '23', 'TADL-WOOD'],['All Locations', '22', 'TADL-ALL'],['Interlochen', '24', 'TADL-IPL'],['Kingsley', '25', 'TADL-KBL'], ['Peninsula', '26', 'TADL-PCL'], ['East Bay', '28', 'TADL-EBB'], ['Fife Lake', '27', 'TADL-FLPL']]
 location_default: '22'
+location_single: false
