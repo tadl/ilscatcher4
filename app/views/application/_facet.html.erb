@@ -1,7 +1,7 @@
 <% if facet['subfacets'].size > 0 %>
   <div class="card mb-2">
-    <div class="card-header">
-      <%= facet['type'] %>
+    <div class="card-header bg-primary">
+      <span style="color: #fff"><%= facet['type'] %></span>
     </div>
     <ul class="list-group list-group-flush">
       <% facet['subfacets'].each do |s| %>

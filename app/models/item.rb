@@ -7,21 +7,31 @@ class Item
                 :type_of_resource, :sort_year, :publisher, :title_short, :author, :hold_count,
                 :author_other, :record_year
 
-  def is_available_at(search)
+  def is_available(search)
+    # returns bool if item is available at all or a single location depending on the search location param
+    available = false
     if self.electronic == true
-      return true
+      available = true
     elsif search.location == Settings.location_default || Settings.location_single == true
       self.holdings.each do |h|
         if h['status'] == "Available" || h['status'] == "Reshelving"
-          return true
+          available = true
         end
       end
     else
-      if (h['status'] == "Available" || h['status'] == "Reshelving") && h['circ_lib'] == search.location_name_condensed
-        return true
+      self.holdings.each do |h|
+        if (h['status'] == "Available" || h['status'] == "Reshelving") && h['circ_lib'] == search.location_code
+           available = true
+        end
       end
     end
-    return false
+    return available 
   end
+
+  def availability_report(search)
+    
+  end
+
+
 
 end

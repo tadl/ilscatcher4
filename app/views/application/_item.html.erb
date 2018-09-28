@@ -1,7 +1,13 @@
 <div class="card  mb-3">
-  <h5 class="card-header">
-    <%= i.title %>
-  </h5>
+  <% if i.is_available(search) %>
+    <h5 class="card-header bg-success">
+      <span style="color: #fff"><%= i.title %></span>
+    </h5>
+  <% else %>
+    <h5 class="card-header">
+      <%= i.title %>
+    </h5>
+  <% end %>
   <div class="card-body">
     <div class="container-fluid">
       <div class="row">
