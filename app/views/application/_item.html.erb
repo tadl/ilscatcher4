@@ -17,15 +17,29 @@
         <div class="col-sm-12 col-md-9">
           <h5 class="card-title"><%= i.author %></h5>
           <% if i.abstract != '' %>
-            <p class="card-text"><b>Abstract:</b> <%= i.abstract %></p>
+            <p class="card-text"><b>Abstract:</b> <%= i.abstract.truncate(250) %></p>
           <% end %>
           <% if i.contents != '' %>
-            <p class="card-text"><b>Contents:</b> <%= i.contents %></p>
+            <p class="card-text"><b>Contents:</b> <%= i.contents.truncate(250) %></p>
           <% end %>
           <hr>
-          <% i.holdings.each do |h| %>
-            <%= h['circ_lib'] %> - <%= h['status'] %> - <%= h['location'] %> <%= h['call_number'] %>
-            <hr>
+          <% if i.electronic == false %>
+            <% if search.location == Settings.location_default %>
+              <% if i.availability['copies_all_available'] > 0 %>
+                <% i.availability['by_location'].each do |l| %>
+                  <% if l['copies_available'] > 0 %>
+                    <span class="text-success"><b>Copies Available at <%= l['name'] %></b></span>
+                    <br>
+                    <% l['shelving_locations'].each do |sl| %>
+                      <b><%= sl['available_copies'] %></b> available in <b><%= sl['shelving_location'] %></b>, Call number: <b><%= sl['call_number'] %></b>  
+                      <hr>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              <% else %>
+                No copies available please place a hold
+              <% end %>
+            <% end %>
           <% end %>
         </div>
       </div>

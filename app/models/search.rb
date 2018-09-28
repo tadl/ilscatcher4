@@ -13,8 +13,10 @@ class Search
     results = Array.new
     search['hits']['hits'].each do |h|
       item = Item.new(h['_source'])
+      #this line adds availability which is a method as if it was an attribute
+      item.instance_variable_set(:@availability, item.availability)
       results.push(item)
-    end rescue nil
+    end 
     if results.size > 24
       more_results = true
     else

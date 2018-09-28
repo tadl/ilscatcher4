@@ -28,8 +28,49 @@ class Item
     return available 
   end
 
-  def availability_report(search)
-    
+  def availability
+    # takes holdings data and compacts to show available copies
+    report = Hash.new
+    # if an eresouce return a message that says so
+    if self.electronic == true
+      report['message'] = "eresource"
+    else
+      report ['copies_all'] = 0
+      report['copies_all_available'] = 0
+      report['by_location'] = Array.new
+      Settings.location_options_minus_all.each do |l|
+        location_report = Hash.new
+        location_report['code'] = l[1]
+        location_report['name'] = l[0]
+        location_report['name_compact'] = l[2]
+        location_report['copies_total'] = 0
+        location_report['copies_available'] = 0
+        location_report['shelving_locations'] = Array.new
+        self.holdings.each do |h|
+          if h['circ_lib'] == l[2]
+            report['copies_all'] += 1
+            location_report['copies_total'] += 1 
+            if h['status'] == "Available" || h['status'] == "Reshelving"
+              location_report['copies_available'] += 1
+              report['copies_all_available'] += 1
+              shelving_hash = Hash.new
+              shelving_hash['shelving_location'] = h['location']
+              shelving_hash['call_number'] = h['call_number']
+              shelving_hash['available_copies'] = 1
+              # either add the shelving hash to the array or update the available copy count
+              if !location_report['shelving_locations'].any? {|sl| sl['shelving_location'] == h['location'] }
+                location_report['shelving_locations'].push(shelving_hash)
+              else
+                existing_hash = location_report['shelving_locations'].find { |sl| sl['shelving_location'] ==  h['location'] }
+                existing_hash['available_copies'] +=1
+              end
+            end
+          end
+        end
+        report['by_location'].push(location_report)
+      end  
+    end
+    return report
   end
 
 
