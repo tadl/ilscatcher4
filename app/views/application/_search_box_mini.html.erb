@@ -1,0 +1,25 @@
+<div id="search_box" class="col">
+  <form id="search_form" action="/search">
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="search-addon">Search</span>
+            </div>
+            <input id="search_for" name="query" class="form-control" aria-describedby="search-addon" value="" placeholder="Books, movies, music &amp; more!" autocomplete='off' oninput="update_search()">
+            <input type="hidden" name="type" value="keyword" />
+            <input type="hidden" name="fmt" value="All Formats" />
+            <input type="hidden" name="sort" value="relevancy" />
+            <input type="hidden" name="location" value="22" />
+            <input type="hidden" name="limit_available" value="false" />
+            <input type="hidden" name="limit_physical" value="false" />
+            <div class="input-group-append">
+              <button id="search_button" class="btn btn-primary" type="submit" form="search_form"><span class="sr-only">Search</span><%= fa_icon "search" %></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
