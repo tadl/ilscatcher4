@@ -1,11 +1,11 @@
 <div class="row">
-<div class="col-md-3">
-  <% @facets.each do |f| %>
+<div class="col-md-3" id="facets">
+  <% @search.facets.each do |f| %>
     <%= render 'facet', facet: f, search: @search %>
   <% end %>
 </div>
-<div class="col-md-9">
-  <% items.each do |i| %>
+<div class="col-md-9" id="items">
+  <% @search.results.each do |i| %>
     <%= render "item", i: i , search: @search %>
   <% end %>
 </div>

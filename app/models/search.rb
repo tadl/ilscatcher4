@@ -2,18 +2,19 @@ class Search
   require 'elasticsearch'
   include ActiveModel::Model
   attr_accessor :query, :type, :sort, :fmt, :location, :min_score, :page, :subjects,
-                :authors, :genres, :series, :limit_available, :limit_physical
+                :authors, :genres, :series, :limit_available, :limit_physical, :more_results,
+                :facets, :results
   
   def client
     client = Elasticsearch::Client.new host: ENV['ES_URL']
   end
 
-  def results
-    search = get_results
+  def get_results
+    search = elastic_search()
     results = Array.new
     search['hits']['hits'].each do |h|
       item = Item.new(h['_source'])
-      #this line adds availability which is a method as if it was an attribute
+      #this line adds availability to items which is a method as if it was an attribute
       item.instance_variable_set(:@availability, item.availability)
       results.push(item)
     end 
@@ -22,8 +23,10 @@ class Search
     else
       more_results = false
     end
-    facets = process_facets(results)
-    return results.first(24), more_results, facets
+    #set more_results, facets, and the search results to be attributes of the search
+    self.instance_variable_set(:@more_results, more_results)
+    self.instance_variable_set(:@facets, process_facets(results))
+    self.instance_variable_set(:@results, results.first(24))
   end
 
   def search_type_options
@@ -52,7 +55,7 @@ class Search
 
   private
 
-  def get_results
+  def elastic_search()
     if self.page
       page = (self.page.to_i * 24)
     else
@@ -70,7 +73,7 @@ class Search
       if self.min_score 
         min_score = self.min_score
       else
-        min_score = 0.01
+        min_score = 10
       end
     elsif self.type == 'author'
       search_scheme = author_search

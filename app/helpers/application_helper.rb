@@ -33,6 +33,11 @@ module ApplicationHelper
     elsif type == 'remove_facet'
       remove_from_url = '&'+ facet[0] + '[]=' +   url_encode(facet[1])
       return url.gsub(remove_from_url,'')
+    elsif type == 'next_page'
+      next_page = search.page.to_i + 1
+      url += '&page=' + next_page.to_s
+      url += '&format=js'
+      return url 
     end
   end
 

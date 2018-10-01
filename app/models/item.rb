@@ -29,7 +29,7 @@ class Item
   end
 
   def availability
-    # takes holdings data and compacts to show available copies
+    # takes holdings data and compacts to show availability data
     report = Hash.new
     # if an eresouce return a message that says so
     if self.electronic == true
@@ -67,7 +67,10 @@ class Item
             end
           end
         end
-        report['by_location'].push(location_report)
+        #if a location has any copies, avaiable or otherwise, push to report
+        if location_report['copies_total'] > 0
+          report['by_location'].push(location_report)
+        end
       end  
     end
     return report
