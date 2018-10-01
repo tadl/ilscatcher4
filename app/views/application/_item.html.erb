@@ -24,7 +24,7 @@
           <% end %>
           <hr>
           <% if i.electronic == false %>
-            <% if search.location == Settings.location_default %>
+            <% if search.location == Settings.location_default || search.location.nil? %>
               <% if i.availability['copies_all_available'] > 0 %>
                 <% i.availability['by_location'].each do |l| %>
                   <% if l['copies_available'] > 0 %>
@@ -38,6 +38,25 @@
                 <% end %>
               <% else %>
                 No copies available please place a hold
+              <% end %>
+            <% else %>
+              <% i.availability['by_location'].select{|h| h["code"] == search.location}.each do |l| %>
+                <% if l['copies_available'] > 0 %>
+                  <span class="text-success"><b>Copies Available at <%= l['name'] %></b></span>
+                  <br>
+                  <% l['shelving_locations'].each do |sl| %>
+                    <% if sl['available_copies'] > 0 &&  %>
+                      <b><%= sl['available_copies'] %></b> available in <b><%= sl['shelving_location'] %></b>, Call number: <b><%= sl['call_number'] %></b>
+                      <hr>
+                    <% end %>
+                  <% end %>
+                <% else %>
+                  <% if i.availability['copies_all_available'] > 0 %>
+                    No copies available at this location. <b><%= i.availability['copies_all_available'] %></b> available elsewhere in the district. See more or place hold.
+                  <% else %>
+                    No copies available please place a hold
+                  <% end %>
+                <% end %>
               <% end %>
             <% end %>
           <% end %>

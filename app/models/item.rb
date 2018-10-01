@@ -12,7 +12,7 @@ class Item
     available = false
     if self.electronic == true
       available = true
-    elsif search.location == Settings.location_default || Settings.location_single == true
+    elsif search.location.nil? || search.location == Settings.location_default || Settings.location_single == true
       self.holdings.each do |h|
         if h['status'] == "Available" || h['status'] == "Reshelving"
           available = true
