@@ -2,18 +2,18 @@
   <form id="search_form" action="/search">
     <div class="row">
       <div class="col">
-      <div class="form-group">
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="search-addon">Search</span>
-        </div>
-        <input id="search_for" name="query" class="form-control" aria-describedby="search-addon" value="<%= @search.query %>" autocomplete='off' oninput="update_search()">
-        <div class="input-group-append">
-          <button id="search_button" class="btn btn-primary" type="submit" form="search_form"><%= fa_icon "search" %></button>
+        <div class="form-group">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="search-addon">Search</span>
+            </div>
+            <input id="search_for" name="query" class="form-control" aria-describedby="search-addon" value="<%= @search.query %>" autocomplete='off' oninput="update_search()">
+            <div class="input-group-append">
+              <button id="search_button" class="btn btn-primary" type="submit" form="search_form"><%= fa_icon "search" %></button>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    </div>
     </div>
     <div class="row">
       <div class="col-sm-12 col-md-6 col-lg-3">
@@ -37,7 +37,7 @@
             <select class="form-control form-control-sm" id="formats" name="fmt">
               <% @search.format_options.each do |s| %>
                 <option value="<%= s[0] %>"  <%= check_selected(@search.fmt, s[0]) %>>
-                  <%= s[0] %>  
+                  <%= s[0] %>
                 </option>
               <% end %>
             </select>
@@ -51,7 +51,7 @@
             <select class="form-control form-control-sm" id="sorts" name="sort">
               <% @search.sort_options.each do |s| %>
                 <option value="<%= s[1] %>" <%= check_selected(@search.sort, s[1]) %>>
-                  <%= s[0] %>  
+                  <%= s[0] %>
                 </option>
               <% end %>
             </select>
@@ -66,7 +66,7 @@
               <select class="form-control form-control-sm" id="locations" name="location">
                 <% @search.location_options.each do |s| %>
                   <option value="<%= s[1] %>"  <%= check_selected(@search.location, s[1]) %>>
-                    <%= s[0] %>  
+                    <%= s[0] %>
                   </option>
                 <% end %>
               </select>
