@@ -1,2 +1,6 @@
 format_options: [['All Formats', 'fmt', 'all'], ['Books', 'fmt', 'a'], ['Large Print', 'call_prefix', 'LP'], ['Audiobooks', 'shelving_location', '515,518,546,571,572,582,584,590,597,680'], ['eBooks', 'electronic', 'ebooks'], ['Movies / TV', 'fmt', 'g'], ['Music', 'fmt', 'j'], ['Video Games', 'shelving_location', '777']]
 format_electronic: [['ebooks', ['Safari', 'OverDrive', 'Hoopla'], ['text', 'kit', 'sound recording-nonmusical', 'cartographic', 'software, multimedia']]]
+lists:
+  - name: 'largeprint'
+    prettyname: 'Large Print'
+    params: 'query=&type=keyword&fmt=Large+Print&sort=relevancy&location=22'
