@@ -7,13 +7,12 @@ task :sliders => :environment do
   lists = Settings.lists
 
   lists.each do |l|
-    params = l['params']
-    search = Search.new
+    search = Search.new l['params'].to_h
     results = search.get_results
     results_with_images = Array.new
     puts "Processing " + l['prettyname']
-
     results.each do |r|
+      puts r.title
       if check_cover(r.id) == true
         results_with_images.push(r)
       end
