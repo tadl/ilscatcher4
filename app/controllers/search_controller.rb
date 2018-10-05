@@ -5,7 +5,9 @@ class SearchController < ApplicationController
       params[:query] = ''
     end
   	@search = Search.new(allowed_params)
-    @search.get_results
+    unless params[:new_search] == 'true'
+      @search.get_results
+    end
     respond_to do |format|
       format.html
       format.json {render :json => @search}

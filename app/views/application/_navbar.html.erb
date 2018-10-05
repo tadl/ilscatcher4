@@ -12,7 +12,7 @@
           <a class="nav-link" href="<%= index_path %>">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item<% if request.path == search_path %> active<% end %>">
-          <a class="nav-link" href="<%= search_path %>">Search</a>
+          <a class="nav-link" href="<%= search_path %>?new_search=true">Search</a>
         </li>
         <% if !Settings.added_nav_links.nil? %>
           <% Settings.added_nav_links.each do |link| %>
