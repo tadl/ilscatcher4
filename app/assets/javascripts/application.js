@@ -13,6 +13,8 @@
 //= require jquery3
 //= require jquery_ujs
 //= require jquery3
+//= requre jquery.fancybox.min
 //= require popper
 //= require bootstrap
+//= require all
 //= require_tree .
