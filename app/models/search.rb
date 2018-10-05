@@ -80,7 +80,7 @@ class Search
       if self.min_score 
         min_score = self.min_score
       else
-        min_score = 10
+        min_score = 30
       end
     elsif self.type == 'title'
       search_scheme = title_search
@@ -207,18 +207,16 @@ class Search
           multi_match: {
           type: 'phrase',
           query: self.query,
-          fields: ['author^10', 'author_other'],
-          slop:  3,
-          boost: 10
+          fields: ['author^4', 'author_other'],
+          slop:  3
           }
         },
         {
           multi_match: {
           type: 'best_fields',
           query: self.query,
-          fields: ['author^10', 'author_other'],
+          fields: ['author^4', 'author_other'],
           fuzziness: 2,
-          boost: 1
           }
         }
       ],
