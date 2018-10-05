@@ -1,10 +1,16 @@
 class ItemController < ApplicationController
   respond_to :html, :json, :js
   def details
-    @item = Item.new(allowed_params)
+    if request.format == 'js'
+      @item = Item.new(allowed_params)
+    else
+      search = Search.new(query: params[:id], type: 'record_id')
+      search.get_results
+      @item = search.results[0]
+    end
     respond_to do |format|
       format.html
-      format.json 
+      format.json {render :json => @item}
       format.js
     end
   end

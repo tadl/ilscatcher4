@@ -112,6 +112,7 @@ class Search
       end
     elsif self.type == 'record_id'
       search_scheme = record_id_search
+      min_score = 1
     elsif self.type == 'isbn'
       search_scheme = isbn_search
       min_score = 3

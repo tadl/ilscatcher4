@@ -6,7 +6,7 @@
     <div class="col-md-6">
       <h4><%= i.title %></h4>
       <h5><%= i.author %></h5>
-      <% if i.abstract %>
+      <% if i.abstract != '' %>
         <p><b>Summary: </b> <%= i.abstract %></p>
       <% end %>
     </div>
