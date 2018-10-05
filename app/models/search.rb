@@ -119,6 +119,9 @@ class Search
     elsif self.type == 'call_number'
       search_scheme = call_number_search
       min_score = 1
+    elsif self.type == 'shelving_location'
+      search_scheme = shelving_location_search
+      min_score = 1
     end
       self.client.search index: ENV['ES_INDEX'], body: { 
         query: {
@@ -136,6 +139,29 @@ class Search
       must: {"match_all":{}},
       filter: process_filters
     }
+  end
+
+  def shelving_location_search
+    shelving_locations = self.query.split(',')
+    should_query = Array.new
+    shelving_locations.each do |f|
+      should_query.push(term: {"holdings.location_id": f})
+    end
+    query = {
+      should:[
+        {
+          nested:{
+            path: "holdings",
+            query:{
+              bool:{
+                should: should_query
+              }
+            }
+          }
+        }
+      ]
+    }
+    return query
   end
 
   def keyword_search
