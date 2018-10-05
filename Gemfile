@@ -19,6 +19,7 @@ gem 'jquery-rails'
 gem 'bootstrap', '~> 4.1.3'
 gem 'bootswatch', github: 'thomaspark/bootswatch'
 gem 'font-awesome-rails'
+gem 'mini_magick'
 gem 'config'
 
 

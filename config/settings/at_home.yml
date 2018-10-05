@@ -3,4 +3,4 @@ format_electronic: [['ebooks', ['Safari', 'OverDrive', 'Hoopla'], ['text', 'kit'
 lists:
   - name: 'largeprint'
     prettyname: 'Large Print'
-    params: 'query=&type=keyword&fmt=Large+Print&sort=relevancy&location=22'
+    params: {query: "", type: "keyword", fmt: "Large Print", sort: "relevance", location: "22"}

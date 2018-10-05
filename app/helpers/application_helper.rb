@@ -1,4 +1,5 @@
 module ApplicationHelper
+
   def check_selected(current, option)
     if current == option
       return 'selected'
@@ -61,4 +62,19 @@ module ApplicationHelper
       return 'checked'
     end
   end
+
+  def check_cover(id)
+    Rails.cache.fetch("cover" + id.to_s) do
+      url = 'https://catalog.tadl.org/opac/extras/ac/jacket/medium/r/' + id.to_s
+      image = MiniMagick::Image.open(url) rescue nil
+      if image != nil && image.width > 2
+        @result = true
+      else
+        @result = false
+      end
+      @result
+    end
+  end
+
 end
+
