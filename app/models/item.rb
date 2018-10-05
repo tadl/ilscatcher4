@@ -3,7 +3,7 @@ class Item
   attr_accessor :isbn, :links, :series, :abstract, :publisher_location, :attrs, :create_date,
                 :corpauthor, :electronic, :id, :abstract_array, :genres, :physical_description,
                 :title, :holdings, :title_alt, :fiction, :source, :subjects, :title_display,
-                :contents, :holdable, :title_nonfiling, :contents_array, :edit_date, 
+                :contents, :holdable, :title_nonfiling, :contents_array, :edit_date,
                 :type_of_resource, :sort_year, :publisher, :title_short, :author, :hold_count,
                 :author_other, :record_year
 
@@ -25,7 +25,7 @@ class Item
         end
       end
     end
-    return available 
+    return available
   end
 
   def availability
@@ -35,7 +35,7 @@ class Item
     if self.electronic == true
       report['message'] = "eresource"
     else
-      report ['copies_all'] = 0
+      report['copies_all'] = 0
       report['copies_all_available'] = 0
       report['by_location'] = Array.new
       Settings.location_options_minus_all.each do |l|
@@ -49,7 +49,7 @@ class Item
         self.holdings.each do |h|
           if h['circ_lib'] == l[2]
             report['copies_all'] += 1
-            location_report['copies_total'] += 1 
+            location_report['copies_total'] += 1
             if h['status'] == "Available" || h['status'] == "Reshelving"
               location_report['copies_available'] += 1
               report['copies_all_available'] += 1
@@ -71,7 +71,7 @@ class Item
         if location_report['copies_total'] > 0
           report['by_location'].push(location_report)
         end
-      end  
+      end
     end
     return report
   end

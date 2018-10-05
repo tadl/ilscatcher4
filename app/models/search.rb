@@ -34,7 +34,7 @@ class Search
   end
 
   def sort_options
-    return [['Relevance', 'relevancy'], ['Newest to Oldest', 'pubdateDESC'],['Oldest to Newest', 'pubdateASC'],['Title A to Z', 'titleAZ'], ['Title Z to A', 'titleZA']]
+    return [['Relevance', 'relevance'], ['Newest to Oldest', 'pubdateDESC'],['Oldest to Newest', 'pubdateASC'],['Title A to Z', 'titleAZ'], ['Title Z to A', 'titleZA']]
   end
 
   def format_options
@@ -346,7 +346,7 @@ class Search
 
   def sort_strategy
     sort_type = Array.new
-    if self.sort == nil || self.sort == '' || self.sort == 'relevancy'
+    if self.sort == nil || self.sort == '' || self.sort == 'relevance'
       sort_type.push("_score")
       sort_type.push({ "author.raw": "asc" })
       sort_type.push({ "title_nonfiling.sort": "asc" })
