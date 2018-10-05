@@ -1,17 +1,16 @@
-<div class="container-fluid">
+
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-3 order-1 mb-2">
       <img src="https://catalog.tadl.org/opac/extras/ac/jacket/large/r/<%= i.id %>" class="img-fluid">
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6 order-md-2 order-3 mb-2">
       <h4><%= i.title %></h4>
       <h5><%= i.author %></h5>
       <% if i.abstract != '' %>
         <p><b>Summary: </b> <%= i.abstract %></p>
       <% end %>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-3 order-md-3 order-2 mb-2">
       <button type="button" class="btn btn-success btn-lg btn-block">Place Hold</button>
     </div>
   </div>
-</div>
