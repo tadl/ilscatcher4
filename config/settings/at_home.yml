@@ -3,28 +3,38 @@ format_electronic: [['ebooks', ['Safari', 'OverDrive', 'Hoopla'], ['text', 'kit'
 lists:
   - group: "tadl_one"
     searches:
-      - name: 'New Fiction and Non-fiction'
+      - name: "tadlnewbooks"
+        display_name: 'New Fiction and Non-fiction'
         params: {query: "619,621", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "22"}
-      - name: "New Fiction"
+      - name: "tadlnewfiction"
+        display_name: "New Fiction"
         params: {query: "619", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "22"}
-      - name: "New Non-fiction"
+      - name: "tadlnewnonfiction"
+        display_name: "New Non-fiction"
         params: {query: "621", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "22"}
   - group: 'tadl_two'
     searches:
-      - name: "New Movies and TV"
+      - name: "tadlnewvideo"
+        display_name: "New Movies and TV"
         params: {query: "687,682", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "22"}
-      - name: "HOT DVDs"
+      - name: "tadlhotdvds"
+        display_name: "HOT DVDs"
         params: {query: "682", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "22"}
-      - name: "New DVDs"
+      - name: "tadlnewdvds"
+        display_name: "New DVDs"
         params: {query: "687", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "22"}
-      - name: "TC Film Festival"
+      - name: "tadltcfilmfest"
+        display_name: "TC Film Festival"
         params: {query: "778", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "22"}
   - group: 'tadl_three'
     searches:
-      - name: 'New and HOT Music'
+      - name: "tadlnewandhotmusic"
+        display_name: 'New and HOT Music'
         params: {query: "686,684", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "22"}
-      - name: "New Music"
+      - name: "tadlnewmusic"
+        display_name: "New Music"
         params: {query: "686", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "22"}
-      - name: "HOT Tunes"
+      - name: "tadlhottunes"
+        display_name: "HOT Tunes"
         params: {query: "684", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "22"}
 

@@ -1,9 +1,24 @@
 <%= render :partial => 'application/search_box_mini' %>
-<h1>new content</h1>
-<% @slidedata.each do |g| %>
-  <% g.each do |l| %>
-    <h2><%= l.inspect %></h2>
 
-  <% end %>
-
+<% Settings.lists.each do |lists| %>
+  <h1><%= lists['group'] %></h1>
+  <ul class="nav nav-tabs" id="<%= lists['group'] %>" role="tablist">
+    <% lists['searches'].each_with_index do |search, index| %>
+      <li class="nav-item">
+        <a class="nav-link <%= if index == 0 then 'active' end %>" id="<%= search.name %>-tab" data-toggle="tab" href="#<%= search.name %>" role="tab" aria-controls="<%= search.name %>" aria-selected="<%= if index == 0 then 'true' else 'false' end %>"><%= search.display_name %></a>
+      </li>
+    <% end %>
+  </ul>
+  <div class="tab-content" id="<%= lists['group'] %>Content">
+    <% lists['searches'].each_with_index do |search, index| %>
+      <% items = Rails.cache.read(search.name) %>
+      <div class="tab-pane fade<%= if index == 0 then ' show active' end %>" id="<%= search.name %>" role="tabpanel" aria-labelledby="<%= search.name %>-tab">
+        <% items.each do |item| %>
+          <% # image bits go here # %>
+          <%= item.id %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
 <% end %>
+
