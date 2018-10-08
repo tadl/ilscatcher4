@@ -12,7 +12,6 @@ task :sliders => :environment do
     results_with_images = Array.new
     puts "Processing " + l['prettyname']
     results.each do |r|
-      puts r.title
       if check_cover(r.id) == true
         results_with_images.push(r)
       end
