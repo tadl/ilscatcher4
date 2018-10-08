@@ -1,1 +1,18 @@
-$.fancybox.open('<div style="max-width: 1200px"><%= escape_javascript(render 'details', i: @item) %></div>')
+$.fancybox.defaults.hideScrollbar = false;
+$.fancybox.open('<div style="max-width: 1200px;"><%= escape_javascript(render 'details', i: @item) %></div>')
+current_id = <%= @item.id %>
+
+function check_for_next(){
+  next_div = $('[data-record_id="'+ current_id+'"]').next('.result')
+  if(next_div.length){
+    console.log('there is a next item')
+  }
+}
+function check_for_previous(){
+  previous_div = $('[data-record_id="'+ current_id+'"]').prev('.result')
+  if(previous_div.length){
+    console.log('there is a previous item')
+  }
+}
+check_for_next()
+check_for_previous()
