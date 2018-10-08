@@ -1,18 +1,41 @@
+$.fancybox.close()
 $.fancybox.defaults.hideScrollbar = false;
 $.fancybox.open('<div style="max-width: 1200px;"><%= escape_javascript(render 'details', i: @item) %></div>')
-current_id = <%= @item.id %>
 
+var current_id = <%= @item.id %>
+var next_div = $('[data-record_id="'+ current_id+'"]').next('.result')
+previous_div = $('[data-record_id="'+ current_id+'"]').prev('.result')
+
+
+//only show next and previous arrows if there are next and previous items
 function check_for_next(){
-  next_div = $('[data-record_id="'+ current_id+'"]').next('.result')
   if(next_div.length){
-    console.log('there is a next item')
+    $('#next-' + current_id).show()
   }
 }
 function check_for_previous(){
-  previous_div = $('[data-record_id="'+ current_id+'"]').prev('.result')
   if(previous_div.length){
-    console.log('there is a previous item')
+    $('#previous-' + current_id).show()
   }
 }
 check_for_next()
 check_for_previous()
+
+//what to do when next and previous arrows are clicked
+function next_item(){
+  if(next_div.length){
+    next_div.find('.item_details_link').first().click()
+    $('html, body').animate({
+      scrollTop: (next_div.first().offset().top)
+    },500);
+  }
+}
+
+function previous_item(){
+  if(previous_div.length){
+    previous_div.find('.item_details_link').first().click()
+    $('html, body').animate({
+      scrollTop: (previous_div.first().offset().top)
+    },500);
+  }
+}
