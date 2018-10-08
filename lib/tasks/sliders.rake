@@ -6,17 +6,19 @@ task :sliders => :environment do
 
   lists = Settings.lists
 
-  lists.each do |l|
-    search = Search.new l['params'].to_h
-    results = search.get_results
-    results_with_images = Array.new
-    puts "Processing " + l['prettyname']
-    results.each do |r|
-      if check_cover(r.id) == true
-        results_with_images.push(r)
+  lists.each do |g|
+    g['searches'].each do |l|
+      search = Search.new l['params'].to_h
+      results = search.get_results
+      results_with_images = Array.new
+      puts "Processing " + l['name']
+      results.each do |r|
+        if check_cover(r.id) == true
+          results_with_images.push(r)
+        end
       end
+      Rails.cache.write(l['name'], results_with_images)
     end
-    Rails.cache.write(l['name'], results_with_images)
   end
 
 end
