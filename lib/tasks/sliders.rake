@@ -5,8 +5,10 @@ task :sliders => :environment do
   include ApplicationHelper
 
   lists = Settings.lists
+  groups = {}
 
   lists.each do |g|
+    groups[g['group']] = {}
     g['searches'].each do |l|
       search = Search.new l['params'].to_h
       results = search.get_results
@@ -17,9 +19,12 @@ task :sliders => :environment do
           results_with_images.push(r)
         end
       end
-      Rails.cache.write(l['name'], results_with_images)
+      groups[g['group']][l['name']] = {}
+      groups[g['group']][l['name']]['name'] = l['name']
+      groups[g['group']][l['name']]['items'] = results_with_images
     end
   end
+  Rails.cache.write('listdata', groups)
 
 end
 
