@@ -11,8 +11,11 @@ $(document).ready(ready);
 
 
 //open fancybox with item details
-function item_details(item){
+function item_details(item, slider){
   var params = $.parseJSON(item)
+  if(slider == true){
+    params['from_slider'] = true
+  }
   $.post("/details.js", params)
 }
 

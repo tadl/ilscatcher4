@@ -1,4 +1,4 @@
-<div class="result card mb-3" data-record_id="<%= i.id %>">
+<div class="item card mb-3" data-record_id="<%= i.id %>">
   <a href="details?id=<%= i.id %>" onclick="item_details('<%= escape_javascript( i.to_json) %>')" class="item_details_link">
     <% if i.is_available(search) %>
       <h5 class="card-header bg-success">
