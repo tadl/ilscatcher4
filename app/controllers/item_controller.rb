@@ -1,7 +1,7 @@
 class ItemController < ApplicationController
   respond_to :html, :json, :js
   def details
-    if request.format == 'js'
+    if request.format == 'js' && params[:from_slider] != 'true'
       @item = Item.new(allowed_params)
     else
       search = Search.new(query: params[:id], type: 'record_id')
