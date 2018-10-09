@@ -1,14 +1,8 @@
 <div class="result card mb-3" data-record_id="<%= i.id %>">
   <a href="details?id=<%= i.id %>" onclick="item_details('<%= escape_javascript( i.to_json) %>')" class="item_details_link">
-    <% if i.is_available(search) %>
-      <h5 class="card-header bg-success">
-        <span style="color: #fff"><%= icon('fas', item_format_icon(i.type_of_resource)) %> <%= i.title_display %></span>
-      </h5>
-    <% else %>
-      <h5 class="card-header">
-       <%= icon('fas', item_format_icon(i.type_of_resource)) %> <%= i.title_display %>
-      </h5>
-    <% end %>
+    <h5 class="card-header<%= if i.is_available(search) then ' bg-success item-available' end %>">
+      <%= icon('fas', item_format_icon(i.type_of_resource)) %> <%= i.title_display %>
+    </h5>
   </a>
   <div class="card-body">
     <div class="container-fluid">
