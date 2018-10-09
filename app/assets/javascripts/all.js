@@ -15,3 +15,42 @@ function item_details(item){
   var params = $.parseJSON(item)
   $.post("/details.js", params)
 }
+
+function missing_cover(item){
+  var item = $.parseJSON(item)
+  var icon_array = [['a','book','text'], 
+                        ['c','music','notated music'], 
+                        ['d','music','notated music'], 
+                        ['e','globe-americas','cartographic'], 
+                        ['f','globe-americas','cartographic'], 
+                        ['g','film','moving image'], 
+                        ['i','compact-disc','sound recording-nonmusical'], 
+                        ['j','compact-disc','sound recording-musical'], 
+                        ['k','image','still image'], 
+                        ['m','save','software, multimedia'], 
+                        ['o','briefcase','kit'], 
+                        ['p','briefcase','mixed-material'], 
+                        ['r','cube','three dimensional object'],
+                        ['t','book','text']
+                    ]
+  icon = 'book'
+  $.each(icon_array, function(index, value){
+    if(value[2] == item['type_of_resource']){
+      icon = value[1]
+    } 
+  });
+  var target_div = '#item_cover_' + item['id']
+  var icon_base = '<i class="fas fa-'+ icon
+  var icon_html_large = icon_base + ' fa-10x">' 
+  $(target_div).html(icon_html_large)
+}
+
+function check_for_blank_covers(){
+  covers = $("img.item_cover")
+  $.each(covers, function(index, value){
+    if(value.naturalWidth == 1){
+      target = '#' + value.id
+      $(target).trigger('error')
+    }
+  })
+}

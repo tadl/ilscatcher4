@@ -2,10 +2,10 @@
   <div class="row mb-3">
     <div class="col-lg-12">
       <button id="previous-<%= i.id%>" style="display:none" class="btn btn-sm btn-outline-primary float-left" onclick="previous_item()">
-        <%= fa_icon "arrow-left" %> Previous
+        <%= icon('fas',"arrow-left") %> Previous
       </button>
       <button id="next-<%= i.id%>" style="display:none" class="btn btn-sm btn-outline-primary float-right" onclick="next_item()">
-        Next <%= fa_icon "arrow-right" %>    
+        Next <%= icon('fas', "arrow-right") %>    
       </button>
     </div>
   </div>
@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="col-md-6 order-md-2 order-3 mb-2">
-      <h4><%= fa_icon item_format_icon(i.type_of_resource) %> <%= i.title %></h4>
+      <h4><%= icon('fas', item_format_icon(i.type_of_resource)) %> <%= i.title_display %></h4>
       <h5><%= i.author %></h5>
       <% if i.abstract != '' %>
         <p><b>Summary: </b> <%= i.abstract %></p>
