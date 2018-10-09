@@ -1,5 +1,4 @@
 $.fancybox.close()
-$.fancybox.defaults.hideScrollbar = false;
 $.fancybox.open('<div style="max-width: 1200px;"><%= escape_javascript(render 'details', i: @item) %></div>')
 
 var current_id = <%= @item.id %>
