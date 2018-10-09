@@ -2,7 +2,7 @@
     $("#items").append('<%= escape_javascript(render "item", i: i , search: @search) %>')
 <% end %>
 <% if @search.more_results == true %>
-  $("#more_results").html('<%= escape_javascript(render "more_results", seach: @search) %>')
+  $("#more_results").html('<%= escape_javascript(render "more_results", search: @search) %>')
 <% else %>
    $("#more_results").html('')
 <% end %>
