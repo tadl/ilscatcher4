@@ -43,9 +43,11 @@ function missing_cover(item){
     } 
   });
   var target_div = '#item_cover_' + item['id']
+  var target_div_details = target_div + '_details'
   var icon_base = '<i class="fas fa-'+ icon
   var icon_html_large = icon_base + ' fa-10x">' 
   $(target_div).html(icon_html_large)
+  $(target_div_details).html(icon_html_large)
 }
 
 function check_blank_cover(image){

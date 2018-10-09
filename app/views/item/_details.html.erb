@@ -10,7 +10,7 @@
     </div>
   </div>
   <div class="row">
-    <div id="item_cover_<%= i.id %>" class="col-md-3 order-1 mb-2">
+    <div id="item_cover_<%= i.id %>_details" class="col-md-3 order-1 mb-2">
       <div class="text-center">
         <img src="https://catalog.tadl.org/opac/extras/ac/jacket/large/r/<%= i.id %>" class="img-fluid" onerror="missing_cover('<%= escape_javascript(i.to_json) %>')" onload="check_blank_cover(this)">
       </div>
