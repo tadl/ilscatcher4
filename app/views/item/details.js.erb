@@ -9,6 +9,8 @@ var current_id = <%= @item.id %>
 <% if params[:from_slider ] %>
   var next_div = $('[data-record_id="'+ current_id+'"]').parent().next('.owl-item')
   var previous_div = $('[data-record_id="'+ current_id+'"]').parent().prev('.owl-item')
+  var parent_slider = $('[data-record_id="'+ current_id+'"]').parent('.owl-item').parent('.owl-stage').parent('.owl-stage-outer').parent('.owl-carousel')
+  parent_slider.owlCarousel()
 <% else %>
   var next_div = $('[data-record_id="'+ current_id+'"]').next('.item')
   var previous_div = $('[data-record_id="'+ current_id+'"]').prev('.item')
@@ -32,17 +34,25 @@ check_for_previous()
 function next_item(){
   if(next_div.length){
     next_div.find('.item_details_link').first().click()
-    $('html, body').animate({
-      scrollTop: (next_div.first().offset().top)
-    },500);
+    <% if params[:from_slider] %>
+      parent_slider.trigger('next.owl.carousel');
+    <% else %>
+      $('html, body').animate({
+        scrollTop: (next_div.first().offset().top)
+      },500);
+    <% end %>
   }
 }
 
 function previous_item(){
   if(previous_div.length){
     previous_div.find('.item_details_link').first().click()
-    $('html, body').animate({
-      scrollTop: (previous_div.first().offset().top)
-    },500);
+    <% if params[:from_slider] %>
+      parent_slider.trigger('prev.owl.carousel');
+    <% else %>
+      $('html, body').animate({
+        scrollTop: (previous_div.first().offset().top)
+      },500);
+    <% end %>
   }
 }
