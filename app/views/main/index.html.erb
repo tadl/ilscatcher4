@@ -18,7 +18,7 @@
             <div class="owl-carousel owl-theme w-100 mx-auto">
               <% items.each do |item| %>
                 <div class="item">
-                  <img class="img-fluid mx-auto" src="https://catalog.tadl.org/opac/extras/ac/jacket/medium/r/<%= item.id %>" alt="<%= item.title %>">
+                  <img class="owl-lazy mx-auto" data-src="https://catalog.tadl.org/opac/extras/ac/jacket/medium/r/<%= item.id %>" data-src-retina="https://catalog.tadl.org/opac/extras/ac/jacket/large/r/<%= item.id %>" alt="<%= item.title %>">
                 </div>
               <% end %>
             </div>
