@@ -13,6 +13,7 @@
 //= require jquery3
 //= require jquery_ujs
 //= require jquery.fancybox.min
+//= require font_awesome5
 //= require OwlCarousel2
 //= require popper
 //= require bootstrap
