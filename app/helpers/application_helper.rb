@@ -63,6 +63,35 @@ module ApplicationHelper
     end
   end
 
+  def format_icon_array
+    icon_array = [['a','book','text'], 
+                        ['c','music','notated music'], 
+                        ['d','music','notated music'], 
+                        ['e','globe-americas','cartographic'], 
+                        ['f','globe-americas','cartographic'], 
+                        ['g','film','moving image'], 
+                        ['i','compact-disc','sound recording-nonmusical'], 
+                        ['j','compact-disc','sound recording-musical'], 
+                        ['k','image','still image'], 
+                        ['m','save','software, multimedia'], 
+                        ['o','briefcase','kit'], 
+                        ['p','briefcase','mixed-material'], 
+                        ['r','cube','three dimensional object'],
+                        ['t','book','text']
+                  ]
+    return icon_array
+  end
+
+# return correct format icon for items (may require different approach for checkouts, etc.
+  def item_format_icon(type_of_resource)
+    icon_array = format_icon_array
+    icon_array.each do |i|
+      if i[2] == type_of_resource
+        return i[1]
+      end
+    end
+  end
+
   def check_cover(id)
     Rails.cache.fetch("cover" + id.to_s) do
       url = 'https://catalog.tadl.org/opac/extras/ac/jacket/medium/r/' + id.to_s

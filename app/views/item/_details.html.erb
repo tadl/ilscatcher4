@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="col-md-6 order-md-2 order-3 mb-2">
-      <h4><%= i.title %></h4>
+      <h4><%= fa_icon item_format_icon(i.type_of_resource) %> <%= i.title %></h4>
       <h5><%= i.author %></h5>
       <% if i.abstract != '' %>
         <p><b>Summary: </b> <%= i.abstract %></p>
