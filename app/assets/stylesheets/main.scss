@@ -5,3 +5,15 @@
 #search_box{
   margin-top: 10px
 }
+
+.owl-carousel .item img {
+  max-height: 200px;
+  width: auto;
+}
+.owl-carousel {
+  margin-bottom: 20px;
+}
+
+.nav-tabs .nav-item .nav-link.active {
+  font-weight: bold;
+}
