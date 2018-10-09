@@ -45,12 +45,9 @@ function missing_cover(item){
   $(target_div).html(icon_html_large)
 }
 
-function check_for_blank_covers(){
-  covers = $("img.item_cover")
-  $.each(covers, function(index, value){
-    if(value.naturalWidth == 1){
-      target = '#' + value.id
-      $(target).trigger('error')
-    }
-  })
+function check_blank_cover(image){
+  if(image.naturalWidth == 1){
+    $(image).trigger('error')
+  } 
 }
+

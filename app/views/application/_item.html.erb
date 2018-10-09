@@ -14,7 +14,7 @@
     <div class="container-fluid">
       <div class="row">
         <div id="item_cover_<%= i.id %>" class="col-sm-12 col-md-3">
-          <img id="cover_<%= i.id %>" src="https://catalog.tadl.org/opac/extras/ac/jacket/large/r/<%= i.id %>" class="img-fluid item_cover" onerror="missing_cover('<%= escape_javascript(i.to_json) %>')">
+          <img id="cover_<%= i.id %>" src="https://catalog.tadl.org/opac/extras/ac/jacket/large/r/<%= i.id %>" class="img-fluid item_cover" onerror="missing_cover('<%= escape_javascript(i.to_json) %>')" onload="check_blank_cover(this)">
         </div>
         <div class="col-sm-12 col-md-9">
           <h5 class="card-title"><%= i.author %></h5>
