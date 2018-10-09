@@ -10,10 +10,10 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require OwlCarousel2
 //= require jquery3
 //= require jquery_ujs
-//= require jquery3
-//= requre jquery.fancybox.min
+//= require jquery.fancybox.min
 //= require popper
 //= require bootstrap
 //= require all

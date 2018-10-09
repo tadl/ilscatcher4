@@ -21,7 +21,7 @@ gem 'bootswatch', github: 'thomaspark/bootswatch'
 gem 'font-awesome-rails'
 gem 'mini_magick'
 gem 'config'
-
+gem 'rails-assets-OwlCarousel2', source: 'https://rails-assets.org'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
