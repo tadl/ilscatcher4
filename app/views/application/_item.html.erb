@@ -2,11 +2,11 @@
   <a href="details?id=<%= i.id %>" onclick="item_details('<%= escape_javascript( i.to_json) %>')" class="item_details_link">
     <% if i.is_available(search) %>
       <h5 class="card-header bg-success">
-        <span style="color: #fff"><%= fa_icon item_format_icon(i.type_of_resource) %> <%= i.title %></span>
+        <span style="color: #fff"><%= icon('fas', item_format_icon(i.type_of_resource)) %> <%= i.title_display %></span>
       </h5>
     <% else %>
       <h5 class="card-header">
-        <%= fa_icon item_format_icon(i.type_of_resource) %> <%= i.title %>
+       <%= icon('fas', item_format_icon(i.type_of_resource)) %> <%= i.title_display %>
       </h5>
     <% end %>
   </a>
