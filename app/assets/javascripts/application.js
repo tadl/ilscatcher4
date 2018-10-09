@@ -16,6 +16,5 @@
 //= require jquery.fancybox.min
 //= require popper
 //= require bootstrap
-//= require font_awesome5
 //= require all
 //= require_tree .
