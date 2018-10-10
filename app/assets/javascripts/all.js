@@ -12,6 +12,7 @@ $(document).ready(ready);
 
 //open fancybox with item details
 function item_details(item, slider){
+  if (window.sliding == true) { return; }
   var params = $.parseJSON(item)
   if(slider == true){
     params['from_slider'] = true

@@ -22,13 +22,21 @@ $(document).ready(function() {
     },
   });
 
+  window.sliding = false;
+
   owl.on('drag.owl.carousel', function(event) {
     $('body').css('overflow', 'hidden');
+    window.sliding = true;
   });
 
   owl.on('dragged.owl.carousel', function(event) {
     $('body').css('overflow', 'auto');
+    setTimeout(function() {
+      window.sliding = false;
+    }, 30);
   });
+
+
 });
 
 
