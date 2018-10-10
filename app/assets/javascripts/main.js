@@ -33,7 +33,7 @@ $(document).ready(function() {
     $('body').css('overflow', 'auto');
     setTimeout(function() {
       window.sliding = false;
-    }, 30);
+    }, 10);
   });
 
 
