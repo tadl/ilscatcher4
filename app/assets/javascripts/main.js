@@ -1,6 +1,7 @@
 $(document).ready(function() {
-  $('.owl-carousel').owlCarousel({
-    loop: true,
+  var owl = $('.owl-carousel');
+  owl.owlCarousel({
+    loop: false,
     margin: 10,
     nav: false,
     dots: true,
@@ -16,9 +17,18 @@ $(document).ready(function() {
       },
       1000: {
         items: 5,
-        loop: false,
-        margin: 20
-      }
-    }
+        margin: 20,
+      },
+    },
+  });
+
+  owl.on('drag.owl.carousel', function(event) {
+    $('body').css('overflow', 'hidden');
+  });
+
+  owl.on('dragged.owl.carousel', function(event) {
+    $('body').css('overflow', 'auto');
   });
 });
+
+
