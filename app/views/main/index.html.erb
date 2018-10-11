@@ -1,7 +1,7 @@
 <%= render :partial => 'application/search_box_mini' %>
 
 <% Settings.lists.each do |lists| %>
-  <!--<h1><%= lists['group'] %></h1> -->
+  <h1><%= lists['group'] %></h1>
   <ul class="nav nav-tabs" id="<%= lists['group'] %>" role="tablist">
     <% lists['searches'].each_with_index do |search, index| %>
       <li class="nav-item">

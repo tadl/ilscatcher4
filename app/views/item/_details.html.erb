@@ -2,13 +2,15 @@
   <div class="row mb-3">
     <div class="col-lg-12">
       <button id="previous-<%= i.id%>" style="display:none" class="btn btn-sm btn-outline-primary float-left" onclick="previous_item()">
-        <%= icon('fas',"arrow-left") %> Previous
+        <%= icon('fas', 'arrow-left') %> Previous
       </button>
       <button id="next-<%= i.id%>" style="display:none" class="btn btn-sm btn-outline-primary float-right" onclick="next_item()">
-        Next <%= icon('fas', "arrow-right") %>    
+        Next <%= icon('fas', 'arrow-right') %>
       </button>
     </div>
   </div>
+
+
   <div class="row">
     <div id="item_cover_<%= i.id %>_details" class="col-md-3 order-1 mb-2">
       <div class="text-center">
@@ -18,8 +20,49 @@
     <div class="col-md-6 order-md-2 order-3 mb-2">
       <h4><%= icon('fas', item_format_icon(i.type_of_resource)) %> <%= i.title_display %></h4>
       <h5><%= i.author %></h5>
-      <% if i.abstract != '' %>
-        <p><b>Summary: </b> <%= i.abstract %></p>
+      <% if !i.abstract.blank? %>
+        <dl>
+          <dt>Summary</dt>
+          <dd>
+            <% if i.abstract_array.map { |str| "#{str}"}.join().length > 275 %>
+              <%= truncate(i.abstract, length: 250) %>
+              <%= link_to 'Read more', '', class: "read-more-#{i.id}-abstract" %>
+              <script>
+                $('.read-more-<%= i.id %>-abstract').on('click', function(e) {
+                  e.preventDefault();
+                  $(this).parent().html('<% i.abstract_array.each do |abstract| %><p><%= escape_javascript abstract %></p><% end %>');
+                  /* maybe fancybox update/reposition here? */
+                });
+              </script>
+            <% else %>
+              <% i.abstract_array.each do |abstract| %>
+                <p><%= abstract %></p>
+              <% end %>
+            <% end %>
+          </dd>
+        </dl>
+      <% end %>
+      <% if !i.contents.blank? %>
+        <dl>
+          <dt>Contents</dt>
+          <dd>
+            <% if i.contents_array.map { |str| "#{str}"}.join().length > 275 %>
+              <%= truncate(i.contents, length: 250) %>
+              <%= link_to 'Read more', '', class: "read-more-#{i.id}-contents" %>
+              <script>
+                $('.read-more-<%= i.id %>-contents').on('click', function(e) {
+                  e.preventDefault();
+                  $(this).parent().html('<% i.contents_array.each do |contents| %><p><%= escape_javascript contents %></p><% end %>');
+                  /* again, fancybox update/reposition? */
+                });
+              </script>
+            <% else %>
+              <% i.contents_array.each do |contents| %>
+                <p><%= contents %></p>
+              <% end %>
+            <% end %>
+          </dd>
+        </dl>
       <% end %>
     </div>
     <div class="col-md-3 order-md-3 order-2 mb-2">
@@ -28,4 +71,6 @@
       </div>
     </div>
   </div>
+
+
 </div>
