@@ -51,6 +51,15 @@
   transform: scale(1,6);
 }
 
+/* carousel dot numbering */
+.owl-dots {
+  counter-reset: dots;
+}
+.owl-dot:before {
+  counter-increment: dots;
+  content: counter(dots);
+}
+
 /* utility classes */
 .item-available {
   color: #fff;
