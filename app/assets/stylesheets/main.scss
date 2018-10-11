@@ -30,6 +30,30 @@
   visibility: visible;
 }
 
+/* carousel nav positioning */
+.owl-prev {
+  width: 35px;
+  height: 100px;
+  position: absolute;
+  top: 20%;
+  left: -40px;
+  display: block !important;
+  border: 0px solid black;
+}
+
+.owl-next {
+  width: 35px;
+  height: 100px;
+  position: absolute;
+  top: 20%;
+  right: -40px;
+  display: block !important;
+  border: 0px solid black;
+}
+.owl-prev i, .owl-next i {
+  transform : scale(1,6);
+}
+
 /* utility classes */
 .item-available {
   color: #fff;

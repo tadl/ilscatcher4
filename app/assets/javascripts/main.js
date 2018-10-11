@@ -3,40 +3,31 @@ $(document).ready(function() {
   owl.owlCarousel({
     loop: false,
     margin: 10,
-    nav: false,
+    nav: true,
     dots: true,
+    mouseDrag: false,
     lazyLoad: true,
+    navText : ['<i class="fa fa-angle-left" aria-hidden="true"></i>','<i class="fa fa-angle-right" aria-hidden="true"></i>'],
     responsiveClass: true,
     responsive: {
       0: {
-        items: 1,
+        items: 2,
+        nav: false,
         dots: false,
+        slideBy: 'page',
+        mouseDrag: true,
       },
       600: {
         items: 3,
+        slideBy: 'page',
       },
       1000: {
         items: 5,
+        slideBy: 'page',
         margin: 20,
       },
     },
   });
-
-  window.sliding = false;
-
-  owl.on('drag.owl.carousel', function(event) {
-    $('body').css('overflow', 'hidden');
-    window.sliding = true;
-  });
-
-  owl.on('dragged.owl.carousel', function(event) {
-    $('body').css('overflow', 'auto');
-    setTimeout(function() {
-      window.sliding = false;
-    }, 10);
-  });
-
-
 });
 
 
