@@ -2,12 +2,11 @@ $(document).ready(function() {
   var owl = $('.owl-carousel');
   owl.owlCarousel({
     loop: false,
-    margin: 10,
+    margin: 5,
     nav: true,
     dots: true,
     mouseDrag: false,
     lazyLoad: true,
-    navText : ['<i class="fa fa-angle-left" aria-hidden="true"></i>','<i class="fa fa-angle-right" aria-hidden="true"></i>'],
     responsiveClass: true,
     responsive: {
       0: {
@@ -22,9 +21,9 @@ $(document).ready(function() {
         slideBy: 'page',
       },
       1000: {
-        items: 5,
+        items: 6,
         slideBy: 'page',
-        margin: 20,
+        margin: 10,
       },
     },
   });

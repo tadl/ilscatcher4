@@ -8,23 +8,20 @@
 
 /* fix up carousels */
 .owl-carousel .item img {
-  max-height: 200px;
+  max-height: 160px;
   width: auto;
 }
 .owl-carousel {
   margin-bottom: 20px;
 }
-
 .nav-tabs .nav-item .nav-link.active {
   font-weight: bold;
 }
-
 .tab-content > .tab-pane {
   display: block;
   visibility: hidden;
   height: 0;
 }
-
 .tab-content > .active {
   height: auto;
   visibility: visible;
@@ -35,23 +32,23 @@
   width: 35px;
   height: 100px;
   position: absolute;
-  top: 20%;
+  top: 12%;
   left: -40px;
   display: block !important;
   border: 0px solid black;
 }
-
 .owl-next {
   width: 35px;
   height: 100px;
   position: absolute;
-  top: 20%;
+  top: 12%;
   right: -40px;
   display: block !important;
   border: 0px solid black;
 }
-.owl-prev i, .owl-next i {
-  transform : scale(1,6);
+.owl-prev span, .owl-next span {
+  font-size: 64px;
+  transform: scale(1,6);
 }
 
 /* utility classes */
