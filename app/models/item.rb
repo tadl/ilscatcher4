@@ -46,7 +46,6 @@ class Item
         location_report['copies_total'] = 0
         location_report['copies_available'] = 0
         location_report['shelving_locations'] = Array.new
-        puts self.holdings.is_a?(Array)
         self.holdings.to_a.each do |h|
           if h['circ_lib'] == l[2]
             report['copies_all'] += 1
