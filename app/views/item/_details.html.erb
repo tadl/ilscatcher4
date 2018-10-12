@@ -31,7 +31,6 @@
                 $('.read-more-<%= i.id %>-abstract').on('click', function(e) {
                   e.preventDefault();
                   $(this).parent().html('<% i.abstract_array.each do |abstract| %><p><%= escape_javascript abstract %></p><% end %>');
-                  /* maybe fancybox update/reposition here? */
                 });
               </script>
             <% else %>
@@ -53,7 +52,6 @@
                 $('.read-more-<%= i.id %>-contents').on('click', function(e) {
                   e.preventDefault();
                   $(this).parent().html('<% i.contents_array.each do |contents| %><p><%= escape_javascript contents %></p><% end %>');
-                  /* again, fancybox update/reposition? */
                 });
               </script>
             <% else %>
@@ -75,39 +73,56 @@
     <!-- holdings (on shelf and all), genres, subjects, other authors/cast ... -->
     <div class="container-fluid">
       <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="pills-tab" role="tablist">
-        <!-- THIS IS JUST A MOCKUP FOR NOW -->
+
         <li class="nav-item">
-          <a class="flex-md-fill text-md-center nav-link active" id="pills-copies_available-tab" data-toggle="pill" href="#pills-copies_available" role="tab" aria-controls="pills-copies_available" aria-selected="true">Copies on Shelf</a>
+          <a class="flex-md-fill text-md-center nav-link<%= if i.availability['copies_all_available'].to_i >= 1 then ' active' else ' disabled' end %>" id="pills-copies_available-tab" data-toggle="pill" href="#pills-copies_available" role="tab" aria-controls="pills-copies_available" aria-selected="true">Copies on Shelf</a>
         </li>
+
         <li class="nav-item">
-          <a class="flex-md-fill text-md-center nav-link" id="pills-all_copies-tab" data-toggle="pill" href="#pills-all_copies" role="tab" aria-controls="pills-all_copies" aria-selected="false">All Copies</a>
+          <a class="flex-md-fill text-md-center nav-link<%= if i.availability['copies_all_available'].to_i == 0 then ' active' end %>" id="pills-all_copies-tab" data-toggle="pill" href="#pills-all_copies" role="tab" aria-controls="pills-all_copies" aria-selected="false">All Copies <span class="badge badge-light"><%= i.availability['copies_all'] %></span></a>
         </li>
-        <li class="nav-item">
-          <a class="flex-md-fill text-md-center nav-link" id="pills-genres-tab" data-toggle="pill" href="#pills-genres" role="tab" aria-controls="pills-genres" aria-selected="false">Genres</a>
-        </li>
-        <li class="nav-item">
-          <a class="flex-md-fill text-md-center nav-link" id="pills-subjects-tab" data-toggle="pill" href="#pills-subjects" role="tab" aria-controls="pills-subjects" aria-selected="false">Subjects</a>
-        </li>
-        <li class="nav-item">
-          <a class="flex-md-fill text-md-center nav-link" id="pills-other_authors-tab" data-toggle="pill" href="#pills-other_authors" role="tab" aria-controls="pills-other_authors" aria-selected="false">Other Authors/Cast</a>
-        </li>
+
+        <% if !i.genres.blank? %>
+          <li class="nav-item">
+            <a class="flex-md-fill text-md-center nav-link" id="pills-genres-tab" data-toggle="pill" href="#pills-genres" role="tab" aria-controls="pills-genres" aria-selected="false">Genres</a>
+          </li>
+        <% end %>
+
+        <% if !i.subjects.blank? %>
+          <li class="nav-item">
+            <a class="flex-md-fill text-md-center nav-link" id="pills-subjects-tab" data-toggle="pill" href="#pills-subjects" role="tab" aria-controls="pills-subjects" aria-selected="false">Subjects</a>
+          </li>
+        <% end %>
+
+        <% if !i.author_other.blank? %>
+          <li class="nav-item">
+            <a class="flex-md-fill text-md-center nav-link" id="pills-other_authors-tab" data-toggle="pill" href="#pills-other_authors" role="tab" aria-controls="pills-other_authors" aria-selected="false">Other Authors/Cast</a>
+          </li>
+        <% end %>
+
       </ul>
       <div class="tab-content" id="pills-tabContent">
-        <div class="tab-pane fade show active" id="pills-copies_available" role="tabpanel" aria-labelledby="pills-copies_available-tab">
+        <div class="tab-pane fade<%= if i.availability['copies_all_available'].to_i >= 1 then ' show active' end %>" id="pills-copies_available" role="tabpanel" aria-labelledby="pills-copies_available-tab">
           ... Copies on Shelf
         </div>
-        <div class="tab-pane" id="pills-all_copies" role="tabpanel" aria-labelledby="pills-all_copies-tab">
+        <div class="tab-pane fade<%= if i.availability['copies_all_available'].to_i == 0 then ' show active' end %>" id="pills-all_copies" role="tabpanel" aria-labelledby="pills-all_copies-tab">
           ... All Copies
         </div>
-        <div class="tab-pane" id="pills-genres" role="tabpanel" aria-labelledby="pills-genres-tab">
-          ... Genres
-        </div>
-        <div class="tab-pane" id="pills-subjects" role="tabpanel" aria-labelledby="pills-subjects-tab">
-          ... Subjects
-        </div>
-        <div class="tab-pane" id="pills-other_authors" role="tabpanel" aria-labelledby="pills-other_authors-tab">
-          ... Other Authors/Cast
-        </div>
+        <% if !i.genres.blank? %>
+          <div class="tab-pane fade" id="pills-genres" role="tabpanel" aria-labelledby="pills-genres-tab">
+            ... Genres
+          </div>
+        <% end %>
+        <% if !i.subjects.blank? %>
+          <div class="tab-pane fade" id="pills-subjects" role="tabpanel" aria-labelledby="pills-subjects-tab">
+            ... Subjects
+          </div>
+        <% end %>
+        <% if !i.author_other.blank? %>
+          <div class="tab-pane fade" id="pills-other_authors" role="tabpanel" aria-labelledby="pills-other_authors-tab">
+            ... Other Authors/Cast
+          </div>
+        <% end %>
       </div>
     </div>
   </div>
