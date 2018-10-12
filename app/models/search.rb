@@ -15,7 +15,7 @@ class Search
     search['hits']['hits'].each do |h|
       item = Item.new(h['_source'])
       #this line adds availability to items which is a method as if it was an attribute
-      item.instance_variable_set(:@availability, item.availability)
+      item.instance_variable_set(:@availability, item.check_availability)
       results.push(item)
     end 
     if results.size > 24

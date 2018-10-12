@@ -28,7 +28,7 @@ class Item
     return available
   end
 
-  def availability
+  def check_availability
     # takes holdings data and compacts to show availability data
     report = Hash.new
     # if an eresouce return a message that says so
@@ -46,7 +46,8 @@ class Item
         location_report['copies_total'] = 0
         location_report['copies_available'] = 0
         location_report['shelving_locations'] = Array.new
-        self.holdings.each do |h|
+        puts self.holdings.is_a?(Array)
+        self.holdings.to_a.each do |h|
           if h['circ_lib'] == l[2]
             report['copies_all'] += 1
             location_report['copies_total'] += 1
