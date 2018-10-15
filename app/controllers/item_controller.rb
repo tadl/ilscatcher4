@@ -3,7 +3,11 @@ class ItemController < ApplicationController
   def details
     if request.format == 'js' && params[:from_slider] != 'true'
       @item = Item.new(allowed_params)
-      @item.holdings = @item.holdings.values
+      if @item.holdings != nil
+        @item.holdings = @item.holdings.values
+      else
+        @item.holdings = []
+      end
     else
       search = Search.new(query: params[:id], type: 'record_id')
       search.get_results
