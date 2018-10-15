@@ -16,6 +16,7 @@ class Search
       item = Item.new(h['_source'])
       #this line adds availability to items which is a method as if it was an attribute
       item.instance_variable_set(:@availability, item.check_availability)
+      item.instance_variable_set(:@eresource_link, item.check_eresource_link)
       results.push(item)
     end 
     if results.size > 24

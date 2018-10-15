@@ -30,6 +30,6 @@ class ItemController < ApplicationController
                 :type_of_resource, :sort_year, :publisher, :title_short, :author, :hold_count,
                 :author_other, :record_year, isbn: [], series: [], attrs: {},
                 genres: [], holdings: {}, subjects: [], availability: {}, abstract_array: [],
-                contents_array: [], author_other: [], title_alt: [])
+                contents_array: [], author_other: [], title_alt: [], eresource_link:)
   end
 end
