@@ -31,11 +31,12 @@ class Item
   def check_eresource_link
     if self.links.size >= 1
       self.links.each do |l|
-        if l.include? 'via.tadl.org'
+        if (l.include? 'via.tadl.org') || (l.include? 'hoopladigital.com')
           return l
         end
       end
     end
+    return nil
   end
 
   def check_availability
