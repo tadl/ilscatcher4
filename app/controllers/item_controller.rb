@@ -28,7 +28,7 @@ class ItemController < ApplicationController
                 :title, :title_alt, :fiction, :source, :title_display, :abstract_array,
                 :contents, :holdable, :title_nonfiling, :contents_array, :edit_date,
                 :type_of_resource, :sort_year, :publisher, :title_short, :author, :hold_count,
-                :author_other, :record_year, isbn: [], series: [], attrs: {},
+                :author_other, :record_year, :eresource_link, isbn: [], series: [], attrs: {},
                 genres: [], holdings: {}, subjects: [], availability: {}, abstract_array: [],
                 contents_array: [], author_other: [], title_alt: [])
   end
