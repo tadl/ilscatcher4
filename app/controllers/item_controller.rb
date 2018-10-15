@@ -12,13 +12,6 @@ class ItemController < ApplicationController
       search = Search.new(query: params[:id], type: 'record_id')
       search.get_results
       @item = search.results[0]
-      if @item.links
-        @item.links.each do |link|
-          if link.include? "via.tadl.org"
-            @item.eresource_link = link
-          end
-        end
-      end
     end
     respond_to do |format|
       format.html
