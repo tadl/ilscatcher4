@@ -5,7 +5,7 @@ class Item
                 :title, :holdings, :title_alt, :fiction, :source, :subjects, :title_display,
                 :contents, :holdable, :title_nonfiling, :contents_array, :edit_date,
                 :type_of_resource, :sort_year, :publisher, :title_short, :author, :hold_count,
-                :author_other, :record_year, :availability, :attrs
+                :author_other, :record_year, :availability, :attrs, :eresource_link
 
   def is_available(search)
     # returns bool if item is available at all or a single location depending on the search location param
