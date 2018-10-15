@@ -92,8 +92,9 @@ module ApplicationHelper
   end
 
   def check_cover(id)
+    # this needs a ttl
     Rails.cache.fetch("cover" + id.to_s) do
-      url = 'https://catalog.tadl.org/opac/extras/ac/jacket/medium/r/' + id.to_s
+      url = Settings.cover_url_prefix_md + id.to_s
       image = MiniMagick::Image.open(url) rescue nil
       if image != nil && image.width > 2
         @result = true
