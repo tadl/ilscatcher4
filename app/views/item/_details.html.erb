@@ -72,15 +72,19 @@
   <div class="row">
     <div class="container-fluid">
       <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="pills-tab" role="tablist">
+        <% if i.electronic == false %>
+          <li class="nav-item">
+            <a class="flex-md-fill text-md-center nav-link<%= if i.availability['copies_all_available'].to_i >= 1 then ' active' else ' disabled' end %>" id="pills-copies_available-tab" data-toggle="pill" href="#pills-copies_available" role="tab" aria-controls="pills-copies_available" aria-selected="true">Copies on Shelf</a>
+          </li>
 
-        <li class="nav-item">
-          <a class="flex-md-fill text-md-center nav-link<%= if i.availability['copies_all_available'].to_i >= 1 then ' active' else ' disabled' end %>" id="pills-copies_available-tab" data-toggle="pill" href="#pills-copies_available" role="tab" aria-controls="pills-copies_available" aria-selected="true">Copies on Shelf</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="flex-md-fill text-md-center nav-link<%= if i.availability['copies_all_available'].to_i == 0 then ' active' end %>" id="pills-all_copies-tab" data-toggle="pill" href="#pills-all_copies" role="tab" aria-controls="pills-all_copies" aria-selected="false">All Copies <span class="badge badge-light"><%= i.availability['copies_all'] %></span></a>
-        </li>
-
+          <li class="nav-item">
+            <a class="flex-md-fill text-md-center nav-link<%= if i.availability['copies_all_available'].to_i == 0 then ' active' end %>" id="pills-all_copies-tab" data-toggle="pill" href="#pills-all_copies" role="tab" aria-controls="pills-all_copies" aria-selected="false">All Copies <span class="badge badge-light"><%= i.availability['copies_all'] %></span></a>
+          </li>
+        <% else %>
+          <li class="nav-item">
+            <a class="flex-md-fill text-md-center nav-link active" id="pills-eresource-tab" data-toggle="pill" href="#pills-eresource" role="tab" aria-controls="pills-eresource" aria-selected="false">Electronic Resource</a>
+          </li>
+        <% end %>
         <% if !i.genres.blank? %>
           <li class="nav-item">
             <a class="flex-md-fill text-md-center nav-link" id="pills-genres-tab" data-toggle="pill" href="#pills-genres" role="tab" aria-controls="pills-genres" aria-selected="false">Genres</a>
@@ -101,52 +105,58 @@
 
       </ul>
       <div class="tab-content" id="pills-tabContent">
-        <div class="tab-pane fade<%= if i.availability['copies_all_available'].to_i >= 1 then ' show active' end %>" id="pills-copies_available" role="tabpanel" aria-labelledby="pills-copies_available-tab">
-          <div class="table-responsive-sm">
-            <table class="table table-hover table-sm">
-              <thead>
-                <tr>
-                  <th scope="col">Library</td>
-                  <th scope="col">Location</td>
-                  <th scope="col">Status</td>
-                </tr>
-              </thead>
-              <tbody>
-                <% i.holdings.each do |copy| %>
-                  <% if copy['status'] == 'Available' %>
+        <% if i.electronic == false %>
+          <div class="tab-pane fade<%= if i.availability['copies_all_available'].to_i >= 1 then ' show active' end %>" id="pills-copies_available" role="tabpanel" aria-labelledby="pills-copies_available-tab">
+            <div class="table-responsive-sm">
+              <table class="table table-hover table-sm">
+                <thead>
+                  <tr>
+                    <th scope="col">Library</td>
+                    <th scope="col">Location</td>
+                    <th scope="col">Status</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% i.holdings.each do |copy| %>
+                    <% if copy['status'] == 'Available' %>
+                      <tr>
+                        <td><%= copy['circ_lib'] %></td>
+                        <td><strong><%= copy['call_number'] %></strong> in <strong><%= copy['location'] %></strong></td>
+                        <td><%= copy['status'] %></td>
+                      </tr>
+                    <% end %>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="tab-pane fade<%= if i.availability['copies_all_available'].to_i == 0 then ' show active' end %>" id="pills-all_copies" role="tabpanel" aria-labelledby="pills-all_copies-tab">
+            <div class="table-responsive-sm">
+              <table class="table table-hover table-sm">
+                <thead>
+                  <tr>
+                    <th scope="col">Library</td>
+                    <th scope="col">Location</td>
+                    <th scope="col">Status</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% i.holdings.each do |copy| %>
                     <tr>
                       <td><%= copy['circ_lib'] %></td>
                       <td><strong><%= copy['call_number'] %></strong> in <strong><%= copy['location'] %></strong></td>
                       <td><%= copy['status'] %></td>
                     </tr>
                   <% end %>
-                <% end %>
-              </tbody>
-            </table>
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
-        <div class="tab-pane fade<%= if i.availability['copies_all_available'].to_i == 0 then ' show active' end %>" id="pills-all_copies" role="tabpanel" aria-labelledby="pills-all_copies-tab">
-          <div class="table-responsive-sm">
-            <table class="table table-hover table-sm">
-              <thead>
-                <tr>
-                  <th scope="col">Library</td>
-                  <th scope="col">Location</td>
-                  <th scope="col">Status</td>
-                </tr>
-              </thead>
-              <tbody>
-                <% i.holdings.each do |copy| %>
-                  <tr>
-                    <td><%= copy['circ_lib'] %></td>
-                    <td><strong><%= copy['call_number'] %></strong> in <strong><%= copy['location'] %></strong></td>
-                    <td><%= copy['status'] %></td>
-                  </tr>
-                <% end %>
-              </tbody>
-            </table>
+        <% else %>
+          <div class="tab-pane fade show active" id="pills-eresource" role="tabpanel" aria-labelledby="pills-eresource-tab">
+            <h3>This item is an electronic resource provided by <%= i.source %>.</h3>
           </div>
-        </div>
+        <% end %>
         <% if !i.genres.blank? %>
           <div class="tab-pane fade" id="pills-genres" role="tabpanel" aria-labelledby="pills-genres-tab">
             <div class="list-group">
