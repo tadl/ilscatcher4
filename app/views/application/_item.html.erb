@@ -13,7 +13,7 @@
         <div class="col-sm-12 col-md-9">
           <h5 class="card-title"><%= i.author %></h5>
           <% if i.abstract != '' %>
-            <p class="card-text"><b>Abstract:</b> <%= i.abstract.truncate(250) %></p>
+            <p class="card-text"><b>Summary:</b> <%= i.abstract.truncate(250) %></p>
           <% end %>
           <% if i.contents != '' %>
             <p class="card-text"><b>Contents:</b> <%= i.contents.truncate(250) %></p>
