@@ -19,8 +19,7 @@ function item_details(item, slider){
   $.post("/details.js", params);
 }
 
-function missing_cover(item) {
-  var item = $.parseJSON(item)
+function missing_cover(id, type) {
   var icon_array = [['a','book','text'],
                         ['c','music','notated music'],
                         ['d','music','notated music'],
@@ -38,11 +37,11 @@ function missing_cover(item) {
                     ]
   icon = 'book';
   $.each(icon_array, function(index, value) {
-    if (value[2] == item['type_of_resource']) {
+    if (value[2] == type) {
       icon = value[1];
     }
   });
-  var target_div = '#item_cover_' + item['id'];
+  var target_div = '#item_cover_' + id;
   var target_div_details = target_div + '_details';
   var icon_base = '<i class="fas fa-'+ icon;
   var icon_html_large = icon_base + ' fa-10x">';
