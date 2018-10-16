@@ -13,7 +13,7 @@
       <% end %>
     </div>
   <% elsif @search.results && @view == 'grid' %>
-    <div class="card-columns col-md-9" id="items">
+    <div class="card-deck col-md-9" id="items">
       <% @search.results.each do |i| %>
         <%= render "card_item", i: i, search: @search %>
       <% end %>
