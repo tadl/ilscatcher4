@@ -1,0 +1,63 @@
+<div class="item card mb-3" data-record_id="<%= i.id %>">
+  <a href="details?id=<%= i.id %>" onclick="item_details('<%= escape_javascript( i.to_json) %>')" class="item_details_link">
+    <h5 class="card-header<%= if i.is_available(search) then ' bg-success item-available' end %>">
+      <%= icon('fas', item_format_icon(i.type_of_resource)) %> <%= i.title_display %>
+    </h5>
+  </a>
+  <div class="card-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div id="item_cover_<%= i.id %>" class="col-sm-12 col-md-3">
+          <img id="cover_<%= i.id %>" src="<%= Settings.cover_url_prefix_lg %><%= i.id %>" class="img-fluid item_cover" onerror="missing_cover('<%= i.id %>', '<%= i.type_of_resource %>')" onload="check_blank_cover(this)">
+        </div>
+        <div class="col-sm-12 col-md-9">
+          <h5 class="card-title"><%= i.author %></h5>
+          <% if !i.abstract.blank? %>
+            <p class="card-text"><strong>Summary:</strong> <%= i.abstract.truncate(250) %></p>
+          <% end %>
+          <% if !i.contents.blank? %>
+            <p class="card-text"><strong>Contents:</strong> <%= i.contents.truncate(250) %></p>
+          <% end %>
+          <hr>
+          <% if i.electronic.to_s == "false" %>
+            <% if search.location == Settings.location_default || search.location.nil? %>
+              <% if i.availability['copies_all_available'] > 0 %>
+                <% i.availability['by_location'].each do |l| %>
+                  <% if l['copies_available'] > 0 %>
+                    <span class="text-success"><strong>Copies Available at <%= l['name'] %></strong></span>
+                    <br>
+                    <% l['shelving_locations'].each do |sl| %>
+                      <strong><%= sl['available_copies'] %></strong> available in <strong><%= sl['shelving_location'] %></strong>, Call number: <strong><%= sl['call_number'] %></strong>  
+                      <hr>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              <% else %>
+                No copies available please place a hold
+              <% end %>
+            <% else %>
+              <% i.availability['by_location'].select{|h| h["code"] == search.location}.each do |l| %>
+                <% if l['copies_available'] > 0 %>
+                  <span class="text-success"><strong>Copies Available at <%= l['name'] %></strong></span>
+                  <br>
+                  <% l['shelving_locations'].each do |sl| %>
+                    <% if sl['available_copies'] > 0 &&  %>
+                      <strong><%= sl['available_copies'] %></strong> available in <strong><%= sl['shelving_location'] %></strong>, Call number: <strong><%= sl['call_number'] %></strong>
+                      <hr>
+                    <% end %>
+                  <% end %>
+                <% else %>
+                  <% if i.availability['copies_all_available'] > 0 %>
+                    No copies available at this location. <strong><%= i.availability['copies_all_available'] %></strong> available elsewhere in the district. See more or place hold.
+                  <% else %>
+                    No copies available please place a hold
+                  <% end %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

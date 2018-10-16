@@ -6,10 +6,16 @@
       <% end %>
     </div>
   <% end %>
-  <% if @search.results %>
+  <% if @search.results && @view == 'list' %>
     <div class="col-md-9" id="items">
       <% @search.results.each do |i| %>
-        <%= render "item", i: i , search: @search %>
+        <%= render "list_item", i: i , search: @search %>
+      <% end %>
+    </div>
+  <% elsif @search.results && @view == 'grid' %>
+    <div class="card-columns col-md-9" id="items">
+      <% @search.results.each do |i| %>
+        <%= render "card_item", i: i, search: @search %>
       <% end %>
     </div>
   <% end %>

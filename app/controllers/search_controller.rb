@@ -4,6 +4,10 @@ class SearchController < ApplicationController
     if !params[:query]
       params[:query] = ''
     end
+    if !params[:view]
+      params[:view] = 'list'
+    end
+    @view = params[:view]
   	@search = Search.new(allowed_params)
     unless params[:new_search] == 'true'
       @search.get_results
@@ -18,7 +22,7 @@ class SearchController < ApplicationController
   private
 
   def allowed_params
-    params.permit(:query, :type, :sort, :fmt, :location, :page, :limit_available, 
+    params.permit(:query, :type, :sort, :fmt, :location, :page, :limit_available, :view,
                   :limit_physical, subjects: [], authors: [], genres: [], series: [])
   end
 end

@@ -1,7 +1,7 @@
 class Search
   require 'elasticsearch'
   include ActiveModel::Model
-  attr_accessor :query, :type, :sort, :fmt, :location, :min_score, :page, :subjects,
+  attr_accessor :query, :type, :sort, :fmt, :location, :min_score, :page, :subjects, :view,
                 :authors, :genres, :series, :limit_available, :limit_physical, :more_results,
                 :facets, :results
   
