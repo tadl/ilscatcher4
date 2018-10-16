@@ -1,0 +1,12 @@
+<tr>
+  <td>
+    <%= icon('fas', item_format_icon(i.type_of_resource)) %>
+  </td>
+  <td>
+    <a href="details?id=<%= i.id %>" onclick="item_details('<%= escape_javascript( i.to_json) %>')" class="item_details_link">
+      <%= i.title %>
+    </a>
+  </td>
+  <td><%= i.author %></td>
+  <td>Hold/View</td>
+</tr>

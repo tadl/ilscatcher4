@@ -82,4 +82,7 @@ a:hover {
 .item-available {
   color: #fff;
 }
-
+.img-thumbnail.item_cover {
+  max-height: 64px;
+  width: auto;
+}

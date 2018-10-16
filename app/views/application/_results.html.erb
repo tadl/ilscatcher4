@@ -20,9 +20,11 @@
     </div>
   <% elsif @search.results && @view == 'simple' %>
     <div class="col-md-9" id="items">
-      <% @search.results.each do |i| %>
-        <%= render "simple_item", i: i, search: @search %>
-      <% end %>
+      <table class="table"><tbody>
+        <% @search.results.each do |i| %>
+          <%= render "simple_item", i: i, search: @search %>
+        <% end %>
+      </tbody></table>
     </div>
   <% end %>
 </div>
