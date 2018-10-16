@@ -18,5 +18,11 @@
         <%= render "card_item", i: i, search: @search %>
       <% end %>
     </div>
+  <% elsif @search.results && @view == 'simple' %>
+    <div class="col-md-9" id="items">
+      <% @search.results.each do |i| %>
+        <%= render "simple_item", i: i, search: @search %>
+      <% end %>
+    </div>
   <% end %>
 </div>
