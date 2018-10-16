@@ -7,8 +7,24 @@
   font-size: 20px;
 }
 
-#search_box{
+/* pad the searchbox */
+#search_box {
   margin-top: 10px
+}
+
+/* get rid of the super annoying underline on hover for links! */
+a:hover {
+  text-decoration: none;
+}
+
+/* set card column breakpoints for grid search view */
+.card-columns {
+  @include media-breakpoint-only(lg) {
+    column-count: 3;
+  }
+  @include media-breakpoint-only(xl) {
+    column-count: 4;
+  }
 }
 
 /* fix up carousels */
