@@ -19,8 +19,8 @@
       <% end %>
     </div>
   <% elsif @search.results && @view == 'simple' %>
-    <div class="col-md-9" id="items">
-      <table class="table"><tbody>
+    <div class="col-md-9">
+      <table class="table"><tbody id="items">
         <% @search.results.each do |i| %>
           <%= render "simple_item", i: i, search: @search %>
         <% end %>
