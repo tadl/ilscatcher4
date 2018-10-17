@@ -17,6 +17,12 @@ a:hover {
   text-decoration: none;
 }
 
+/* position fancybox at top of viewport */
+.fancybox-content {
+  vertical-align: top;
+  margin: 10px !important;
+}
+
 /* card deck layout */
 /* unused
 .card-deck {
