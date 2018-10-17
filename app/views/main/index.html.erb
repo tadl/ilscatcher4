@@ -18,7 +18,7 @@
             <div class="owl-carousel owl-theme w-100 mx-auto">
               <% items.each do |item| %>
                 <div class="item" data-record_id="<%= item.id %>">
-                  <a href="details?id=<%= item.id %>" onclick="item_details(<%= item.id %>, true)" class="item_details_link">
+                  <a href="details?id=<%= item.id %>" onclick="item_details(<%= item.id %>, 'slider')" class="item_details_link">
                     <img class="owl-lazy mx-auto" data-src="<%= Settings.cover_url_prefix_md %><%= item.id %>" data-src-retina="<%= Settings.cover_url_prefix_lg %><%= item.id %>" alt="<%= item.title %>">
                   </a>
                 </div>

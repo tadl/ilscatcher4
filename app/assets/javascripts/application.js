@@ -14,10 +14,6 @@
 //= require jquery_ujs
 //= require jquery.fancybox.min
 //= require OwlCarousel2
-//= require masonry/jquery.masonry
-//= require masonry/jquery.imagesloaded.min
-//= require masonry/jquery.infinitescroll.min
-//= require masonry/modernizr-transitions
 //= require popper
 //= require bootstrap
 //= require all

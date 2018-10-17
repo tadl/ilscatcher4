@@ -1,6 +1,5 @@
 $.fancybox.close();
 $.fancybox.open('<div style="max-width: 1200px; width: 100%;"><%= escape_javascript(render 'details', i: @item) %></div>');
-
 var current_id = <%= @item.id %>;
 
 <% if params[:from_slider] %>
@@ -8,6 +7,12 @@ var current_id = <%= @item.id %>;
   var previous_div = $('[data-record_id="'+ current_id+'"]').parent().prev('.owl-item');
   var parent_slider = $('[data-record_id="'+ current_id+'"]').parent('.owl-item').parent('.owl-stage').parent('.owl-stage-outer').parent('.owl-carousel');
   parent_slider.owlCarousel();
+<% elsif params[:from_grid] %>
+  var current_place = <%= @item.result_order %>
+  var next_place = <%= @item.result_order %> + 1
+  var previous_place = <%= @item.result_order %> - 1
+  var previous_div = $('[data-result_order="'+ previous_place +'"]')
+  var next_div = $('[data-result_order="'+ next_place +'"]')
 <% else %>
   var next_div = $('[data-record_id="'+ current_id+'"]').next('.item');
   var previous_div = $('[data-record_id="'+ current_id+'"]').prev('.item');
@@ -24,8 +29,6 @@ function check_for_previous() {
     $('#previous-' + current_id).show();
   }
 }
-check_for_next();
-check_for_previous();
 
 //what to do when next and previous arrows are clicked
 function next_item() {
@@ -49,3 +52,6 @@ function previous_item() {
     <% end %>
   }
 }
+
+check_for_next();
+check_for_previous();

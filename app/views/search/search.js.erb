@@ -1,8 +1,11 @@
+var item = document.createElement('div');
+var grid = document.querySelector('#grid');
 <% @search.results.each do |i| %>
   <% if @view == 'list' %>
     $("#items").append('<%= escape_javascript(render "list_item", i: i , search: @search) %>')
   <% elsif @view == 'grid' %>
-    $("#items").append('<%= escape_javascript(render "grid_item", i: i , search: @search) %>')
+    salvattore['append_elements'](grid, [item]);
+    item.outerHTML = "<%= escape_javascript(render "grid_item", i: i , search: @search) %>";
   <% elsif @view == 'simple' %>
     $("#items").append('<%= escape_javascript(render "simple_item", i: i , search: @search) %>')
   <% end %>

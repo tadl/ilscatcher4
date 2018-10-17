@@ -10,6 +10,11 @@ class Search
   end
 
   def get_results
+    if self.page
+      item_number = (self.page.to_i * 24)
+    else
+      item_number = 0
+    end
     search = elastic_search()
     results = Array.new
     search['hits']['hits'].each do |h|
@@ -17,6 +22,8 @@ class Search
       #this line adds availability to items which is a method as if it was an attribute
       item.instance_variable_set(:@availability, item.check_availability)
       item.instance_variable_set(:@eresource_link, item.check_eresource_link)
+      item.instance_variable_set(:@result_order, item_number)
+      item_number += 1
       results.push(item)
     end 
     if results.size > 24

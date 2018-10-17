@@ -18,10 +18,7 @@ a:hover {
 }
 
 /* position fancybox at top of viewport */
-.fancybox-content {
-  vertical-align: top;
-  margin: 10px !important;
-}
+
 
 /* card deck layout */
 /* unused
@@ -110,4 +107,31 @@ a:hover {
 .img-thumbnail.item_cover {
   max-height: 64px;
   width: auto;
+}
+
+
+
+
+@media screen and (min-width: 1px) and (max-width: 767px){
+    #grid[data-columns]::before {
+        content: '2 .col-6';
+    }
+}
+@media screen and (min-width:768px) and (max-width: 1150px){
+    #grid[data-columns]::before {
+        content: '4 .col-sm-3';
+    }
+}
+@media screen and (min-width:1151px) and (max-width: 9999px){
+    #grid[data-columns]::before {
+        content: '6 .col-md-2';
+    }
+}
+
+@media screen and (min-width: 1px) and (max-width: 320px){
+    #grid[data-columns]::before {
+        content: '1 .col-12';
+    }
+
+
 }

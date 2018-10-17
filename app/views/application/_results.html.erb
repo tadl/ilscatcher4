@@ -1,4 +1,4 @@
-<% if @search.facets %>
+<% if @search.facets && @view != 'grid' %>
   <div class="col-md-3" id="facets">
     <% @search.facets.each do |f| %>
       <%= render 'facet', facet: f, search: @search %>
@@ -12,18 +12,13 @@
     <% end %>
   </div>
 <% elsif @search.results && @view == 'grid' %>
-<div class="col-md-9" id="items">
-<div class="container-fluid">
-<div class="masonry_grid">
-  <div class="grid-sizer col-xs-4"></div>
-  <div class="row">
-    <% @search.results.each do |i| %>
-      <%= render "grid_item", i: i, search: @search %>
-    <% end %>
+  <div class="col-md-12" id="items">
+    <div id="grid" class="row" data-columns>
+      <% @search.results.each do |i| %>
+        <%= render "grid_item", i: i, search: @search %>
+      <% end %>
+    </div>
   </div>
-</div>
-</div>
-</div>
 <% elsif @search.results && @view == 'simple' %>
   <div class="col-md-9">
     <table class="table"><tbody id="items">
@@ -33,19 +28,3 @@
     </tbody></table>
   </div>
 <% end %>
-
-<script>
-
-alert('baseball')
-$(function(){
-
-  $('.masonry_grid').masonry({
-    itemSelector: '.grid-item',
-    columnWidth: '.grid-sizer',
-    percentPosition: true,
-    isRTL: true
-  });
-
-});
-
-</script>

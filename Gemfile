@@ -22,7 +22,6 @@ gem 'font-awesome-sass', '~> 5.3.1'
 gem 'mini_magick'
 gem 'config'
 gem 'rails-assets-OwlCarousel2', source: 'https://rails-assets.org'
-gem 'masonry-rails'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

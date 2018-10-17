@@ -5,16 +5,24 @@ var ready = function(){
       e.preventDefault();
     }
   });
+
+  $.getScript('/assets/salvattore.min.js');
 }
 
 $(document).ready(ready);
 
 
 /* open fancybox with item details */
-function item_details(id, slider) {
+function item_details(id, from, order) {
   var params = {};
-  if (slider == true) {
+  if (from == 'slider') {
     params['from_slider'] = true;
+  }
+  if (from == 'grid') {
+    params['from_grid'] = true;
+  }
+  if (order) {
+    params['order'] = order
   }
   params['id'] = id;
   $.post("/details.js", params);
