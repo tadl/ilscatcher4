@@ -1,23 +1,16 @@
 class ItemController < ApplicationController
   respond_to :html, :json, :js
   def details
-    if request.format == 'js' && params[:from_slider] != 'true'
-      @item = Item.new(allowed_params)
-      if @item.holdings != nil
-        @item.holdings = @item.holdings.values
-      else
-        @item.holdings = []
-      end
-    else
-      search = Search.new(query: params[:id], type: 'record_id')
-      search.get_results
-      @item = search.results[0]
-    end
+    search = Search.new(query: params[:id], type: 'record_id')
+    search.get_results
+    @item = search.results[0]
+
     respond_to do |format|
       format.html
       format.json {render :json => @item}
       format.js
     end
+
   end
 
   private
@@ -32,4 +25,5 @@ class ItemController < ApplicationController
                 genres: [], holdings: {}, subjects: [], availability: {}, abstract_array: [],
                 contents_array: [], author_other: [], title_alt: [])
   end
+
 end

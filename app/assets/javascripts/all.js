@@ -1,5 +1,5 @@
 var ready = function(){
-  //item details links fire onclick when clicked but follow link when opened in new tab
+  /* item details links fire onclick when clicked but follow link when opened in new tab */
   $(document).on('click', '.item_details_link', function(e) {
     if (e.which == 1) {
       e.preventDefault();
@@ -10,12 +10,10 @@ var ready = function(){
 $(document).ready(ready);
 
 
-//open fancybox with item details
-function item_details(item, slider){
-  var params = $.parseJSON(item)
-  if (slider == true) {
-    params['from_slider'] = true;
-  }
+/* open fancybox with item details */
+function item_details(id) {
+  var params = {};
+  params['id'] = id;
   $.post("/details.js", params);
 }
 
