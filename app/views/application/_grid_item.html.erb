@@ -1,0 +1,12 @@
+<div class="item grid-item col-sm-3 mb-3 m-0 p-0" data-record_id="<%= i.id %>">
+  <div class="grid-item-content">
+    <a href="details?id=<%= i.id %>" onclick="item_details('<%= escape_javascript( i.to_json) %>')" class="item_details_link">
+      <div id="item_cover_<%= i.id %>" style="margin: 0 auto; text-align: center;">
+        <img class="card-img-top" src="<%= Settings.cover_url_prefix_lg %><%= i.id %>" id="cover_<%= i.id %>" onerror="missing_cover('<%= i.id %>', '<%= i.type_of_resource %>')" onload="check_blank_cover(this)">
+      </div>
+      <h5 class="card-header<%= if i.is_available(search) then ' bg-success item-available' end %>">
+        <%= icon('fas', item_format_icon(i.type_of_resource)) %> <%= i.title_display %>
+      </h5>
+    </a>
+  </div>
+</div>

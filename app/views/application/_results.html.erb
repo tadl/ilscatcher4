@@ -1,30 +1,29 @@
-<div class="row">
-  <% if @search.facets %>
-    <div class="col-md-3" id="facets">
-      <% @search.facets.each do |f| %>
-        <%= render 'facet', facet: f, search: @search %>
-      <% end %>
-    </div>
-  <% end %>
-  <% if @search.results && @view == 'list' %>
-    <div class="col-md-9" id="items">
+<% if @search.facets %>
+  <div class="col-md-3" id="facets">
+    <% @search.facets.each do |f| %>
+      <%= render 'facet', facet: f, search: @search %>
+    <% end %>
+  </div>
+<% end %>
+<% if @search.results && @view == 'list' %>
+  <div class="col-md-9" id="items">
+    <% @search.results.each do |i| %>
+      <%= render "list_item", i: i , search: @search %>
+    <% end %>
+  </div>
+<% elsif @search.results && @view == 'grid' %>
+  <div class="col-md-9" id="items">
+    <div class="grid-sizer col-sm-3"></div>
+    <% @search.results.each do |i| %>
+      <%= render "grid_item", i: i, search: @search %>
+    <% end %>
+  </div>
+<% elsif @search.results && @view == 'simple' %>
+  <div class="col-md-9">
+    <table class="table"><tbody id="items">
       <% @search.results.each do |i| %>
-        <%= render "list_item", i: i , search: @search %>
+        <%= render "simple_item", i: i, search: @search %>
       <% end %>
-    </div>
-  <% elsif @search.results && @view == 'grid' %>
-    <div class="card-deck col-md-9" id="items">
-      <% @search.results.each do |i| %>
-        <%= render "card_item", i: i, search: @search %>
-      <% end %>
-    </div>
-  <% elsif @search.results && @view == 'simple' %>
-    <div class="col-md-9">
-      <table class="table"><tbody id="items">
-        <% @search.results.each do |i| %>
-          <%= render "simple_item", i: i, search: @search %>
-        <% end %>
-      </tbody></table>
-    </div>
-  <% end %>
-</div>
+    </tbody></table>
+  </div>
+<% end %>

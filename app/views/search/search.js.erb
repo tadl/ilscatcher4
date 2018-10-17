@@ -2,7 +2,7 @@
   <% if @view == 'list' %>
     $("#items").append('<%= escape_javascript(render "list_item", i: i , search: @search) %>')
   <% elsif @view == 'grid' %>
-    $("#items").append('<%= escape_javascript(render "card_item", i: i , search: @search) %>')
+    $("#items").append('<%= escape_javascript(render "grid_item", i: i , search: @search) %>')
   <% elsif @view == 'simple' %>
     $("#items").append('<%= escape_javascript(render "simple_item", i: i , search: @search) %>')
   <% end %>
