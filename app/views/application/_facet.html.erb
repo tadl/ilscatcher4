@@ -3,23 +3,19 @@
     <div class="card-header bg-primary">
       <span style="color: #fff"><%= facet['type'] %></span>
     </div>
-    <ul class="list-group list-group-flush">
+    <div class="list-group list-group-flush">
       <% facet['subfacets'].each do |s| %>
-        <li class="list-group-item">
           <% if active_facet_tester(search, [facet['type_raw'], s]) == true %>
-            <%= s %> 
-            <a href='<%= search_link_builder('remove_facet', search, [facet['type_raw'], s]) %>'>
-              <span style="color: red; font-weight: bold;">
-                X
-              </span>
+            <a href='<%= search_link_builder('remove_facet', search, [facet['type_raw'], s]) %>' class="list-group-item list-group-item-action justify-content-between align-items-center d-flex">
+              <%= s %>
+              <span class="badge badge-danger badge-pill"> X </span>
             </a>
           <% else %>
-            <a href='<%= search_link_builder('add_facet', search, [facet['type_raw'], s]) %>'>
+            <a href='<%= search_link_builder('add_facet', search, [facet['type_raw'], s]) %>' class="list-group-item list-group-item-action justify-content-between align-items-center d-flex">
               <%= s %>
             </a>
           <% end %>
-        </li>
       <% end %>
-    </ul>
+    </div>
   </div>
 <% end %>
