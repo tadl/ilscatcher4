@@ -33,7 +33,7 @@ function next_item() {
     next_div.find('.item_details_link').first().click();
     <% if !params[:from_slider] %>
       $('html, body').animate({
-        scrollTop: (next_div.first().offset().top);
+        scrollTop: (next_div.first().offset().top)
       }, 500);
     <% end %>
   }
@@ -44,7 +44,7 @@ function previous_item() {
     previous_div.find('.item_details_link').first().click();
     <% if !params[:from_slider] %>
       $('html, body').animate({
-        scrollTop: (previous_div.first().offset().top);
+        scrollTop: (previous_div.first().offset().top)
       }, 500);
     <% end %>
   }
