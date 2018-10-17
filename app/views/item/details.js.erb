@@ -1,55 +1,51 @@
-$.fancybox.close()
-$.fancybox.open('<div style="max-width: 1200px; width: 100%;"><%= escape_javascript(render 'details', i: @item) %></div>')
+$.fancybox.close();
+$.fancybox.open('<div style="max-width: 1200px; width: 100%;"><%= escape_javascript(render 'details', i: @item) %></div>');
 
-var current_id = <%= @item.id %>
+var current_id = <%= @item.id %>;
 
 <% if params[:from_slider] %>
-  var next_div = $('[data-record_id="'+ current_id+'"]').parent().next('.owl-item')
-  var previous_div = $('[data-record_id="'+ current_id+'"]').parent().prev('.owl-item')
-  var parent_slider = $('[data-record_id="'+ current_id+'"]').parent('.owl-item').parent('.owl-stage').parent('.owl-stage-outer').parent('.owl-carousel')
-  parent_slider.owlCarousel()
+  var next_div = $('[data-record_id="'+ current_id+'"]').parent().next('.owl-item');
+  var previous_div = $('[data-record_id="'+ current_id+'"]').parent().prev('.owl-item');
+  var parent_slider = $('[data-record_id="'+ current_id+'"]').parent('.owl-item').parent('.owl-stage').parent('.owl-stage-outer').parent('.owl-carousel');
+  parent_slider.owlCarousel();
 <% else %>
-  var next_div = $('[data-record_id="'+ current_id+'"]').next('.item')
-  var previous_div = $('[data-record_id="'+ current_id+'"]').prev('.item')
+  var next_div = $('[data-record_id="'+ current_id+'"]').next('.item');
+  var previous_div = $('[data-record_id="'+ current_id+'"]').prev('.item');
 <% end %>
 
 //only show next and previous arrows if there are next and previous items
-function check_for_next(){
-  if(next_div.length){
-    $('#next-' + current_id).show()
+function check_for_next() {
+  if (next_div.length) {
+    $('#next-' + current_id).show();
   }
 }
-function check_for_previous(){
-  if(previous_div.length){
-    $('#previous-' + current_id).show()
+function check_for_previous() {
+  if (previous_div.length) {
+    $('#previous-' + current_id).show();
   }
 }
-check_for_next()
-check_for_previous()
+check_for_next();
+check_for_previous();
 
 //what to do when next and previous arrows are clicked
-function next_item(){
-  if(next_div.length){
-    next_div.find('.item_details_link').first().click()
-    <% if params[:from_slider] %>
-      parent_slider.trigger('next.owl.carousel');
-    <% else %>
+function next_item() {
+  if (next_div.length) {
+    next_div.find('.item_details_link').first().click();
+    <% if !params[:from_slider] %>
       $('html, body').animate({
-        scrollTop: (next_div.first().offset().top)
-      },500);
+        scrollTop: (next_div.first().offset().top);
+      }, 500);
     <% end %>
   }
 }
 
-function previous_item(){
-  if(previous_div.length){
-    previous_div.find('.item_details_link').first().click()
-    <% if params[:from_slider] %>
-      parent_slider.trigger('prev.owl.carousel');
-    <% else %>
+function previous_item() {
+  if (previous_div.length) {
+    previous_div.find('.item_details_link').first().click();
+    <% if !params[:from_slider] %>
       $('html, body').animate({
-        scrollTop: (previous_div.first().offset().top)
-      },500);
+        scrollTop: (previous_div.first().offset().top);
+      }, 500);
     <% end %>
   }
 }
