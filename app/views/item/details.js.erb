@@ -3,7 +3,7 @@ $.fancybox.open('<div style="max-width: 1200px; width: 100%;"><%= escape_javascr
 
 var current_id = <%= @item.id %>
 
-<% if params[:from_slider ] %>
+<% if params[:from_slider] %>
   var next_div = $('[data-record_id="'+ current_id+'"]').parent().next('.owl-item')
   var previous_div = $('[data-record_id="'+ current_id+'"]').parent().prev('.owl-item')
   var parent_slider = $('[data-record_id="'+ current_id+'"]').parent('.owl-item').parent('.owl-stage').parent('.owl-stage-outer').parent('.owl-carousel')

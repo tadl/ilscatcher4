@@ -11,8 +11,11 @@ $(document).ready(ready);
 
 
 /* open fancybox with item details */
-function item_details(id) {
+function item_details(id, slider) {
   var params = {};
+  if (slider == true) {
+    params['from_slider'] = true;
+  }
   params['id'] = id;
   $.post("/details.js", params);
 }
