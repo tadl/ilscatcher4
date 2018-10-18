@@ -1,17 +1,17 @@
-<% if @search.facets && @view != 'grid' %>
+<% if @search.facets && @search.view != 'grid' %>
   <div class="col-md-3" id="facets">
     <% @search.facets.each do |f| %>
       <%= render 'facet', facet: f, search: @search %>
     <% end %>
   </div>
 <% end %>
-<% if @search.results && @view == 'list' %>
+<% if @search.results && @search.view == 'list' %>
   <div class="col-md-9" id="items">
     <% @search.results.each do |i| %>
       <%= render "list_item", i: i , search: @search %>
     <% end %>
   </div>
-<% elsif @search.results && @view == 'grid' %>
+<% elsif @search.results && @search.view == 'grid' %>
   <div class="col-md-12" id="items">
     <div id="grid" class="row" data-columns>
       <% @search.results.each do |i| %>
@@ -19,7 +19,7 @@
       <% end %>
     </div>
   </div>
-<% elsif @search.results && @view == 'simple' %>
+<% elsif @search.results && @search.view == 'simple' %>
   <div class="col-md-9">
     <table class="table"><tbody id="items">
       <% @search.results.each do |i| %>

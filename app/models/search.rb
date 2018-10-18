@@ -3,7 +3,7 @@ class Search
   include ActiveModel::Model
   attr_accessor :query, :type, :sort, :fmt, :location, :min_score, :page, :subjects, :view,
                 :authors, :genres, :series, :limit_available, :limit_physical, :more_results,
-                :facets, :results
+                :facets, :results, :view
   
   def client
     client = Elasticsearch::Client.new host: ENV['ES_URL']
@@ -23,6 +23,11 @@ class Search
       item.instance_variable_set(:@availability, item.check_availability)
       item.instance_variable_set(:@eresource_link, item.check_eresource_link)
       item.instance_variable_set(:@result_order, item_number)
+      if self.location
+        item.instance_variable_set(:@search_location, self.location)
+      else
+        item.instance_variable_set(:@search_location, Settings.location_default)
+      end
       item_number += 1
       results.push(item)
     end 
