@@ -124,7 +124,7 @@
                 </thead>
                 <tbody>
                   <% i.holdings.each do |copy| %>
-                    <% if copy['status'] == 'Available' %>
+                    <% if copy['status'] == 'Available' || copy['status'] == 'Reshelving' %>
                       <tr>
                         <td><%= copy['circ_lib'] %></td>
                         <td><strong><%= copy['call_number'] %></strong> in <strong><%= copy['location'] %></strong></td>
