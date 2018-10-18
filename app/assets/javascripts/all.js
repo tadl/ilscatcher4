@@ -5,8 +5,29 @@ var ready = function(){
       e.preventDefault();
     }
   });
-
+  
+  // load salvattore
   $.getScript('/assets/salvattore.min.js');
+
+  // left and right arrows to move between items
+  var take_a_break = false
+  $(document).keydown(function(e){
+    if (e.which == 37 && $('.previous_link').is(':visible')){ 
+        if(take_a_break == false){
+          take_a_break = true
+          setTimeout(function() { take_a_break = false }, 500);
+          $('.previous_link').click()
+          
+        }
+    }
+    if (e.which == 39 && $('.next_link').is(':visible')){ 
+      if(take_a_break == false){
+        take_a_break = true
+        setTimeout(function() { take_a_break = false }, 500);
+        $('.next_link').click()
+      }
+    }
+  });
 }
 
 $(document).ready(ready);

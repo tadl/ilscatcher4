@@ -16,10 +16,13 @@ return elementBottom > viewportTop && elementTop < viewportBottom;
 
 
 $(window).on('resize scroll', function() {
-  var is_visible = $('.more_results').isInViewport()
-  if(is_visible == true){
-    $('.more_results').click()
-    $('.more_results').remove()
+  var is_it_there = $('.more_results')
+  if(is_it_there.length){
+    var is_visible = $('.more_results').isInViewport()
+    if(is_visible == true){
+      $('.more_results').click()
+      $('.more_results').remove()
+    }
   }
 });
 </script>

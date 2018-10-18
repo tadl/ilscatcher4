@@ -1,10 +1,10 @@
 <div class="container">
   <div class="row mb-3">
     <div class="col-lg-12">
-      <button id="previous-<%= i.id%>" style="display:none" class="btn btn-sm btn-outline-primary float-left" onclick="previous_item()">
+      <button id="previous-<%= i.id%>" style="display:none" class="btn btn-sm btn-outline-primary float-left previous_link" onclick="previous_item()">
         <%= icon('fas', 'arrow-left') %> Previous
       </button>
-      <button id="next-<%= i.id%>" style="display:none" class="btn btn-sm btn-outline-primary float-right" onclick="next_item()">
+      <button id="next-<%= i.id%>" style="display:none" class="btn btn-sm btn-outline-primary float-right next_link" onclick="next_item()">
         Next <%= icon('fas', 'arrow-right') %>
       </button>
     </div>
