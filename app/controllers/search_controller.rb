@@ -7,7 +7,6 @@ class SearchController < ApplicationController
     if !params[:view]
       params[:view] = 'list'
     end
-    @view = params[:view]
   	@search = Search.new(allowed_params)
     unless params[:new_search] == 'true'
       @search.get_results
