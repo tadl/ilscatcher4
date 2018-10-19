@@ -36,11 +36,8 @@ $(document).ready(ready);
 /* open fancybox with item details */
 function item_details(id, from, order) {
   var params = {};
-  if (from == 'slider') {
-    params['from_slider'] = true;
-  }
-  if (from == 'grid') {
-    params['from_grid'] = true;
+  if (from) {
+    params['from'] = from;
   }
   if (order) {
     params['order'] = order
