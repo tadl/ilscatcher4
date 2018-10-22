@@ -13,14 +13,22 @@
           </a>
         </div>
         <div class="col-sm-12 col-md-9">
-          <h5 class="card-title"><%= i.author %></h5>
+          <h5 class="card-title">
+            <% if i.author.present? %>
+              <% search_loc = i.search_location.present? ? i.search_location : Settings.location_default %>
+              <% search_view = i.search_view.present? ? i.search_view : Settings.view_default %>
+              <a href="/search?query=<%= i.author %>&type=author&location=<%= search_loc %>&view=<%= search_view %>">
+                <%= i.author %>
+              </a>
+            <% end %>
+          </h5>
           <% if !i.abstract.blank? %>
             <p class="card-text"><strong>Summary:</strong> <%= i.abstract.truncate(250) %></p>
           <% end %>
           <% if !i.contents.blank? %>
             <p class="card-text"><strong>Contents:</strong> <%= i.contents.truncate(250) %></p>
           <% end %>
-          <hr>
+          <hr><!-- TODO -->
           <% if i.electronic.to_s == "false" %>
             <% if search.location == Settings.location_default || search.location.nil? %>
               <% if i.availability['copies_all_available'] > 0 %>
@@ -30,7 +38,7 @@
                     <br>
                     <% l['shelving_locations'].each do |sl| %>
                       <strong><%= sl['available_copies'] %></strong> available in <strong><%= sl['shelving_location'] %></strong>, Call number: <strong><%= sl['call_number'] %></strong>  
-                      <hr>
+                      <hr><!-- TODO -->
                     <% end %>
                   <% end %>
                 <% end %>
@@ -45,7 +53,7 @@
                   <% l['shelving_locations'].each do |sl| %>
                     <% if sl['available_copies'] > 0 &&  %>
                       <strong><%= sl['available_copies'] %></strong> available in <strong><%= sl['shelving_location'] %></strong>, Call number: <strong><%= sl['call_number'] %></strong>
-                      <hr>
+                      <hr><!-- TODO -->
                     <% end %>
                   <% end %>
                 <% else %>

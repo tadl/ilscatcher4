@@ -28,6 +28,11 @@ class Search
       else
         item.instance_variable_set(:@search_location, Settings.location_default)
       end
+      if self.view
+        item.instance_variable_set(:@search_view, self.view)
+      else
+        item.instance_variable_set(:@search_view, Settings.view_default)
+      end
       item_number += 1
       results.push(item)
     end 

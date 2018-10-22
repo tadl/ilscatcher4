@@ -5,6 +5,7 @@ evergreen_server: 'mr-v2.catalog.tadl.org'
 logo_icon: "tadl-icon.png"
 location_options: [['Woodmere', '23', 'TADL-WOOD'], ['All Locations', '22', 'TADL-ALL'], ['Interlochen', '24', 'TADL-IPL'], ['Kingsley', '25', 'TADL-KBL'], ['Peninsula', '26', 'TADL-PCL'], ['East Bay', '28', 'TADL-EBB'], ['Fife Lake', '27', 'TADL-FLPL']]
 location_options_minus_all: [['Woodmere', '23', 'TADL-WOOD'], ['Interlochen', '24', 'TADL-IPL'], ['Kingsley', '25', 'TADL-KBL'], ['Peninsula', '26', 'TADL-PCL'], ['East Bay', '28', 'TADL-EBB'], ['Fife Lake', '27', 'TADL-FLPL']]
+view_default: 'list'
 location_default: '22'
 location_single: false
 added_nav_links:

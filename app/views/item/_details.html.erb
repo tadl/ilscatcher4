@@ -19,7 +19,14 @@
     </div>
     <div class="col-md-6 order-md-2 order-3 mb-2">
       <h4><%= icon('fas', item_format_icon(i.type_of_resource)) %> <%= i.title_display %></h4>
-      <h5><%= i.author %></h5>
+      <% if i.author.present? %>
+        <% search_loc = i.search_location.present? ? i.search_location : Settings.location_default %>
+        <h5>
+          <a href="/search?query=<%= i.author %>&type=author&location=<%= search_loc %>">
+            <%= i.author %>
+          </a>
+        </h5>
+      <% end %>
       <% if !i.abstract.blank? %>
         <dl>
           <dt>Summary</dt>
