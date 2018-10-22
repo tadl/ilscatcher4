@@ -3,20 +3,28 @@ class UserController < ApplicationController
   
   def login
     if params[:token] || (params[:username] && (params[:password] || params[:md5password]))
-      @user = User.new(allowed_params)
+      @user = User.new
       @user.login(params)
+      if @user.error == nil
+        @user.get_session_info
+      end
     else
-      @user = {'message'=> 'missing parameters'}
+      @user = {'error'=> 'missing parameters'}
     end
     respond_to do |format|
       format.json {render :json => @user}
     end
   end
 
-  private
-  
-  def allowed_params
-    params.permit(:username)
+  def logout
+    if params[:token]
+      @user = User.new
+      @user.logout(params[:token])
+    else
+      @user = {'error'=> 'missing parameters'}
+    end
+    respond_to do |format|
+      format.json {render :json => @user}
+    end
   end
-
 end
