@@ -6,27 +6,19 @@ class User
 
   def login(params = '' )
     if params[:token]
-      self.message = 'logged in with token'
+      self.token = params[:token]
     elsif params[:password] || params[:md5password]
       login_params = Hash.new
       if username_or_barcode == 'username'
         login_params['username'] = self.username
-        self.message = 'logged in with password and username'
       else
         login_params['barcode'] = self.username
-        self.message = 'logged in with password and barcode'
       end
       if params[:md5password]
-        seed = get_seed
-        puts seed.to_s
-        if seed != 'error'
-          login_params['password'] = Digest::MD5.hexdigest(seed + params[:md5password])
-        else
-          self.message = 'error generating seed'
-          return
-        end
+        login_params['password'] = params[:md5password]
       else
-        login_params['password'] = params[:password]
+        login_params['password'] = Digest::MD5.hexdigest(params[:password])
+        puts login_params['password']
       end
       self.token = authenticate(login_params)
     end
@@ -43,7 +35,7 @@ private
     end
   end
 
-  def get_seed
+  def authenticate(login_params)
     http = Net::HTTP.new(URI.host, URI.port)
     http.use_ssl = true
     request_seed = Net::HTTP::Post.new(URI.request_uri)
@@ -54,13 +46,12 @@ private
     })
     response = http.request(request_seed)
     if response.code == '200'
-      return JSON.parse(response.body)['payload'][0]
+      seed = JSON.parse(response.body)['payload'][0]
     else
-      return 'error'
+      return 'error could not complete auth init request'
     end
-  end
-
-  def authenticate(login_params)
+    login_params['type'] = 'opac'
+    login_params['password'] = Digest::MD5.hexdigest(seed + login_params['password'])
     http = Net::HTTP.new(URI.host, URI.port)
     http.use_ssl = true
     request_complete = Net::HTTP::Post.new(URI.request_uri)
@@ -72,20 +63,15 @@ private
     response = http.request(request_complete)
     if response.code == '200'
       j_content = JSON.parse(response.body)
-      puts  JSON.parse(response.body).to_s
       if j_content['status'] == 200
-        puts 'pasta'
         if j_content['payload'][0]['ilsevent'] == 0
-          puts j_content['payload'][0]['payload']['authtoken']
           return j_content['payload'][0]['payload']['authtoken']
         else
-          return 'error 1'
+          return 'error: bad username or password'
         end
-      else
-        return 'error 2'
       end
     else
-      return 'error 3' 
+      return 'error: could not complete auth complete request' 
     end
   end
 
