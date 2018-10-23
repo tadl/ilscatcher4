@@ -3,7 +3,8 @@ class User
   require 'net/http'
   require 'digest/md5'
   attr_accessor :username, :error, :token, :hold_self_alias, :first_name, :last_name, 
-                :card_number, :email, :message 
+                :card, :cards, :email, :message, :full_name, :checkouts, :holds, :holds_ready,
+                :fine, :pickup_library, :default_search, :overdue 
 
   URI = URI.parse('https://' + Settings.evergreen_server + "/osrf-gateway-v1")
 
@@ -28,7 +29,18 @@ class User
     end
   end
 
-  def get_session_info
+  def TEMP_get_basic_info
+    scraper = Scraper.new
+    user_hash = scraper.user_basic_info(self.token)
+    if user_hash != 'error' && user_hash["error"] == nil
+      user_hash.each {|k, v| self.send("#{k}=", v)} 
+    else
+      self.error = 'error: unable to fetch basic info'
+    end
+  end
+
+  # Not using this right now because it currently doesn't get us all the data we need
+  def get_basic_info
     http = Net::HTTP.new(URI.host, URI.port)
     http.use_ssl = true
     request_seed = Net::HTTP::Post.new(URI.request_uri)

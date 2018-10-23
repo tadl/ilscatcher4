@@ -6,7 +6,7 @@ class UserController < ApplicationController
       @user = User.new
       @user.login(params)
       if @user.error == nil
-        @user.get_session_info
+        @user.TEMP_get_basic_info
       end
     else
       @user = {'error'=> 'missing parameters'}
