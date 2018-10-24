@@ -7,6 +7,9 @@ class ItemController < ApplicationController
     if params[:order]
       @item.result_order = params[:order].to_i
     end
+    if params[:location]
+      @item.search_location = params[:location].to_i
+    end
     respond_to do |format|
       format.html
       format.json {render :json => @item}
