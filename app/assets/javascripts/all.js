@@ -34,13 +34,16 @@ $(document).ready(ready);
 
 
 /* open fancybox with item details */
-function item_details(id, from, order) {
+function item_details(id, from, order, location_id) {
   var params = {};
   if (from) {
-    params['from'] = from;
+    params['from'] = from
   }
   if (order) {
     params['order'] = order
+  }
+  if (location_id) {
+    params['location'] = location_id
   }
   params['id'] = id;
   $.post("/details.js", params);
