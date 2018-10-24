@@ -70,13 +70,23 @@ class User
     end
   end
 
-  def TEMP_get_checkouts(token)
+  def TEMP_get_checkouts
     scraper = Scraper.new
-    checkouts_hash = scraper.user_get_checkouts(token)
+    checkouts_hash = scraper.user_get_checkouts(self.token)
     if checkouts_hash != 'error'
       return checkouts_hash
     else
-      self.error = 'error: unable to fetch checkouts'
+      return {:error => 'unable to fetch checkouts'}
+    end
+  end
+
+  def TEMP_get_holds
+    scraper = Scraper.new
+    holds_hash = scraper.user_get_holds(self.token)
+    if holds_hash != 'error'
+      return holds_hash
+    else
+      return {:error => 'unable to fetch holds'}
     end
   end
 

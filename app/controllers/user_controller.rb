@@ -31,13 +31,30 @@ class UserController < ApplicationController
   def checkouts
     if params[:token]
       @user = User.new
-      @checkouts = @user.TEMP_get_checkouts(params[:token])
+      @user.token = params[:token]
+      @checkouts = @user.TEMP_get_checkouts
+      @user.TEMP_get_basic_info
     else
       @checkouts = {'error'=> 'missing parameters'}
     end
     respond_to do |format|
-      format.json {render :json => @checkouts}
+      format.json {render :json =>{:user => @user, :checkouts => @checkouts}}
     end
   end
+
+  def holds
+    if params[:token]
+      @user = User.new
+      @user.token = params[:token]
+      @holds = @user.TEMP_get_holds
+      @user.TEMP_get_basic_info
+    else
+      @holds = {'error'=> 'missing parameters'}
+    end
+    respond_to do |format|
+      format.json {render :json =>{:user => @user, :holds => @holds}}
+    end
+  end
+
 
 end

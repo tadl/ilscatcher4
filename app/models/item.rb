@@ -7,7 +7,8 @@ class Item
                 :type_of_resource, :sort_year, :publisher, :title_short, :author, :hold_count,
                 :author_other, :record_year, :availability, :attrs, :eresource_link, :result_order,
                 :search_view, :checkout_id, :renew_attempts, :due_date, :iso_due_date, :barcode,
-                :search_location_copies
+                :search_location_copies, :hold_id, :hold_status, :queue_status, :queue_state,
+                :pickup_location
 
   def is_available(search)
     # returns bool if item is available at all or a single location depending on the search location param
