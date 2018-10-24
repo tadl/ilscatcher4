@@ -86,7 +86,7 @@
     <div class="container-fluid">
       <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="pills-tab" role="tablist">
         <% if i.electronic.to_s == "false" %>
-          <% location_specific = ((i.search_location != Settings.location_default) && (Settings.location_single == false)) ? true : false %>
+          <% location_specific = ((i.search_location.to_s != Settings.location_default.to_s) && (Settings.location_single == false)) ? true : false %>
 
           <% if location_specific == true %>
             <% tab_copies_available_active_class = (i.search_location_copies.to_i >= 1) ? ' active' : ' disabled' %>
