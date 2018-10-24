@@ -86,8 +86,20 @@
     <div class="container-fluid">
       <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="pills-tab" role="tablist">
         <% if i.electronic.to_s == "false" %>
-          <% tab_copies_available_active_class = (i.availability['copies_all_available'].to_i >= 1) ? ' active' : ' disabled' %>
-          <% tab_all_copies_active_class = (i.availability['copies_all_available'].to_i == 0) ? ' active' : '' %>
+          <% location_specific = ((i.search_location != Settings.location_default) && (Settings.location_single == false)) ? true : false %>
+
+          <% if location_specific == true %>
+            <% tab_copies_available_active_class = (i.search_location_copies.to_i >= 1) ? ' active' : ' disabled' %>
+            <% tab_all_copies_active_class = (i.search_location_copies.to_i == 0) ? ' active' : '' %>
+            <% content_copies_available_active_class = (i.search_location_copies.to_i >= 1) ? ' show active' : '' %>
+            <% content_all_copies_active_class = (i.search_location_copies.to_i == 0) ? ' show active' : '' %>
+          <% else %>
+            <% tab_copies_available_active_class = (i.availability['copies_all_available'].to_i >= 1) ? ' active' : ' disabled' %>
+            <% tab_all_copies_active_class = (i.availability['copies_all_available'].to_i == 0) ? ' active' : '' %>
+            <% content_copies_available_active_class = (i.availability['copies_all_available'].to_i >= 1) ? ' show active' : '' %>
+            <% content_all_copies_active_class = (i.availability['copies_all_available'].to_i == 0) ? ' show active' : '' %>
+          <% end %>
+
           <li class="nav-item">
             <a class="flex-md-fill text-md-center nav-link<%= tab_copies_available_active_class %>" id="pills-copies_available-tab" data-toggle="pill" href="#pills-copies_available" role="tab" aria-controls="pills-copies_available" aria-selected="true">Copies on Shelf</a>
           </li>
@@ -121,8 +133,6 @@
       </ul>
       <div class="tab-content" id="pills-tabContent">
         <% if i.electronic.to_s == "false" %>
-          <% content_copies_available_active_class = (i.availability['copies_all_available'].to_i >= 1) ? ' show active' : '' %>
-          <% content_all_copies_active_class = (i.availability['copies_all_available'].to_i == 0) ? ' show active' : '' %>
           <div class="tab-pane fade<%= content_copies_available_active_class %>" id="pills-copies_available" role="tabpanel" aria-labelledby="pills-copies_available-tab">
             <div class="table-responsive-sm">
               <table class="table table-hover table-sm">
@@ -135,7 +145,15 @@
                 </thead>
                 <tbody>
                   <% i.holdings.each do |copy| %>
-                    <% if copy['status'] == 'Available' || copy['status'] == 'Reshelving' %>
+                    <% if location_specific == true %>
+                      <% if (copy['status'] == 'Available' || copy['status'] == 'Reshelving') && copy['circ_lib'] == location_map(i.search_location, 'short') %>
+                        <tr>
+                          <td><%= copy['circ_lib'] %></td>
+                          <td><strong><%= copy['call_number'] %></strong> in <strong><%= copy['location'] %></strong></td>
+                          <td><%= copy['status'] %></td>
+                        </tr>
+                      <% end %>
+                    <% else %>
                       <tr>
                         <td><%= copy['circ_lib'] %></td>
                         <td><strong><%= copy['call_number'] %></strong> in <strong><%= copy['location'] %></strong></td>

@@ -1,5 +1,17 @@
 module ApplicationHelper
 
+  def location_map(id, type = 'short') # type can be 'short' (TADL-WOOD) [2] or 'long' (Traverse City) [0]
+    output = ''
+    Settings.location_options.each do |location_array|
+      if location_array[1].to_s == id.to_s
+        output = (type == 'short') ? location_array[2] : location_array[0]
+      end
+
+    end
+
+    return output
+  end
+
   def check_selected(current, option)
     if current == option
       return 'selected'
