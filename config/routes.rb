@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   match 'details', to: 'item#details', as: 'details', via: [:get, :post]
   match 'login', to: 'user#login', as: 'login', via: [:get, :post]
   match 'logout', to: 'user#logout', as: 'logout', via: [:get, :post]
+  match 'checkouts', to: 'user#checkouts', as: 'checkouts', via: [:get, :post]
 
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

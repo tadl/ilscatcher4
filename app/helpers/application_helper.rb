@@ -15,6 +15,7 @@ module ApplicationHelper
     url += '&limit_physical=' + search.limit_physical if search.limit_physical
     url += '&limit_available=' + search.limit_available if search.limit_available
     url += '&view=' + search.view if search.view
+    url += '&size=' + search.size.to_s if search.size
     search.subjects.each do |s|
       url += '&subjects[]=' +   url_encode(s)
     end if search.subjects

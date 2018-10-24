@@ -27,4 +27,17 @@ class UserController < ApplicationController
       format.json {render :json => @user}
     end
   end
+
+  def checkouts
+    if params[:token]
+      @user = User.new
+      @checkouts = @user.TEMP_get_checkouts(params[:token])
+    else
+      @checkouts = {'error'=> 'missing parameters'}
+    end
+    respond_to do |format|
+      format.json {render :json => @checkouts}
+    end
+  end
+
 end

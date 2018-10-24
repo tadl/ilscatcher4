@@ -23,7 +23,6 @@ class User
         login_params['password'] = params[:md5password]
       else
         login_params['password'] = Digest::MD5.hexdigest(params[:password])
-        puts login_params['password']
       end
       authenticate(login_params)
     end
@@ -71,7 +70,17 @@ class User
     end
   end
 
-  def logout(token = '')
+  def TEMP_get_checkouts(token)
+    scraper = Scraper.new
+    checkouts_hash = scraper.user_get_checkouts(token)
+    if checkouts_hash != 'error'
+      return checkouts_hash
+    else
+      self.error = 'error: unable to fetch checkouts'
+    end
+  end
+
+  def logout
     http = Net::HTTP.new(URI.host, URI.port)
     http.use_ssl = true
     request = Net::HTTP::Post.new(URI.request_uri)
@@ -81,7 +90,6 @@ class User
         "param" => '"' + token + '"'
     })
     response = http.request(request)
-    puts response.code.to_s + '  helllllllo'
     if response.code && response.code == '200'
       self.message = "success: Logout success"
     else

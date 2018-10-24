@@ -3,15 +3,20 @@ class Search
   include ActiveModel::Model
   attr_accessor :query, :type, :sort, :fmt, :location, :min_score, :page, :subjects, :view,
                 :authors, :genres, :series, :limit_available, :limit_physical, :more_results,
-                :facets, :results, :view
+                :facets, :results, :view, :size
   
   def client
     client = Elasticsearch::Client.new host: ENV['ES_URL']
   end
 
   def get_results
+    if self.size.nil?
+      self.size = 24
+    else
+      self.size = self.size.to_i
+    end
     if self.page
-      item_number = (self.page.to_i * 24)
+      item_number = (self.page.to_i * self.size)
     else
       item_number = 0
     end
@@ -36,7 +41,7 @@ class Search
       item_number += 1
       results.push(item)
     end 
-    if results.size > 24
+    if results.size > self.size
       more_results = true
     else
       more_results = false
@@ -44,7 +49,7 @@ class Search
     #set more_results, facets, and the search results to be attributes of the search
     self.instance_variable_set(:@more_results, more_results)
     self.instance_variable_set(:@facets, process_facets(results))
-    self.instance_variable_set(:@results, results.first(24))
+    self.instance_variable_set(:@results, results.first(self.size))
   end
 
   def search_type_options
@@ -75,7 +80,7 @@ class Search
 
   def elastic_search()
     if self.page
-      page = (self.page.to_i * 24)
+      page = (self.page.to_i * self.size)
     else
       page = 0
     end
@@ -146,7 +151,7 @@ class Search
           bool: search_scheme,
         },
         sort: sort_strategy,
-        size: 25,
+        size: (self.size + 1),
         from: page,
         min_score: min_score
       }
