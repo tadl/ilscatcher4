@@ -86,12 +86,14 @@
     <div class="container-fluid">
       <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="pills-tab" role="tablist">
         <% if i.electronic.to_s == "false" %>
+          <% tab_copies_available_active_class = (i.availability['copies_all_available'].to_i >= 1) ? ' active' : ' disabled' %>
+          <% tab_all_copies_active_class = (i.availability['copies_all_available'].to_i == 0) ? ' active' : '' %>
           <li class="nav-item">
-            <a class="flex-md-fill text-md-center nav-link<%= if i.availability['copies_all_available'].to_i >= 1 then ' active' else ' disabled' end %>" id="pills-copies_available-tab" data-toggle="pill" href="#pills-copies_available" role="tab" aria-controls="pills-copies_available" aria-selected="true">Copies on Shelf</a>
+            <a class="flex-md-fill text-md-center nav-link<%= tab_copies_available_active_class %>" id="pills-copies_available-tab" data-toggle="pill" href="#pills-copies_available" role="tab" aria-controls="pills-copies_available" aria-selected="true">Copies on Shelf</a>
           </li>
 
           <li class="nav-item">
-            <a class="flex-md-fill text-md-center nav-link<%= if i.availability['copies_all_available'].to_i == 0 then ' active' end %>" id="pills-all_copies-tab" data-toggle="pill" href="#pills-all_copies" role="tab" aria-controls="pills-all_copies" aria-selected="false">All Copies <span class="badge badge-light"><%= i.availability['copies_all'] %></span></a>
+            <a class="flex-md-fill text-md-center nav-link<%= tab_all_copies_active_class %>" id="pills-all_copies-tab" data-toggle="pill" href="#pills-all_copies" role="tab" aria-controls="pills-all_copies" aria-selected="false">All Copies <span class="badge badge-light"><%= i.availability['copies_all'] %></span></a>
           </li>
         <% else %>
           <li class="nav-item">
@@ -119,7 +121,9 @@
       </ul>
       <div class="tab-content" id="pills-tabContent">
         <% if i.electronic.to_s == "false" %>
-          <div class="tab-pane fade<%= if i.availability['copies_all_available'].to_i >= 1 then ' show active' end %>" id="pills-copies_available" role="tabpanel" aria-labelledby="pills-copies_available-tab">
+          <% content_copies_available_active_class = (i.availability['copies_all_available'].to_i >= 1) ? ' show active' : '' %>
+          <% content_all_copies_active_class = (i.availability['copies_all_available'].to_i == 0) ? ' show active' : '' %>
+          <div class="tab-pane fade<%= content_copies_available_active_class %>" id="pills-copies_available" role="tabpanel" aria-labelledby="pills-copies_available-tab">
             <div class="table-responsive-sm">
               <table class="table table-hover table-sm">
                 <thead>
@@ -143,7 +147,7 @@
               </table>
             </div>
           </div>
-          <div class="tab-pane fade<%= if i.availability['copies_all_available'].to_i == 0 then ' show active' end %>" id="pills-all_copies" role="tabpanel" aria-labelledby="pills-all_copies-tab">
+          <div class="tab-pane fade<%= content_all_copies_active_class %>" id="pills-all_copies" role="tabpanel" aria-labelledby="pills-all_copies-tab">
             <div class="table-responsive-sm">
               <table class="table table-hover table-sm">
                 <thead>
