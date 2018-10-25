@@ -31,7 +31,7 @@ var ready = function(){
 
   var windowWidth = $(window).width();
   if (windowWidth <= 768) {
-    $('#search-opts').collapse('hide');
+    $('.collapse').collapse('hide');
   }
 }
 

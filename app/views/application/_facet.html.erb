@@ -1,9 +1,11 @@
 <% if facet['subfacets'].size > 0 %>
   <div class="card mb-2">
     <div class="card-header bg-primary">
-      <span style="color: #fff"><%= facet['type'] %></span>
+      <button type="button" class="btn btn-primary btn-block text-left"  data-toggle="collapse" href="#<%= facet['type'] %>-block" aria-expanded="true" aria-controls="<%= facet['type'] %>-block">
+        <%= facet['type'] %> <i class="fa float-right"></i>
+      </button>
     </div>
-    <div class="list-group list-group-flush">
+    <div class="list-group list-group-flush collapse show" id="<%= facet['type'] %>-block">
       <% facet['subfacets'].each do |s| %>
           <% if active_facet_tester(search, [facet['type_raw'], s]) == true %>
             <a href='<%= search_link_builder('remove_facet', search, [facet['type_raw'], s]) %>' class="list-group-item list-group-item-action justify-content-between align-items-center d-flex">
