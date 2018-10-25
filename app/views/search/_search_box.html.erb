@@ -4,13 +4,10 @@
       <div class="col">
         <div class="form-group">
           <div class="input-group mb-3">
-            <button class="input-group-prepend btn btn-primary" type="button" data-toggle="collapse" data-target="#search-opts" aria-expanded="true" aria-controls="search-addon" title="Search Options"><i class="fa"></i><span class="sr-only">Search Options</span></button>
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="search-addon">Search</span>
-            </div>
-            <input id="search_for" name="query" class="form-control" aria-describedby="search-addon" value="<%= @search.query %>" autocomplete='off' oninput="update_search()">
+            <button class="input-group-prepend btn btn-primary px-3" type="button" data-toggle="collapse" data-target="#search-opts" aria-expanded="true" aria-controls="search-addon" title="Search Options"><i class="fa"></i><span class="sr-only">Search Options</span></button>
+            <input id="search_for" name="query" class="form-control" aria-describedby="search-addon" value="<%= @search.query %>" autocomplete='off' placeholder="Search for books, movies, music &amp; more!" oninput="update_search()">
             <div class="input-group-append">
-              <button id="search_button" class="btn btn-primary" type="submit" form="search_form"><span class="sr-only">Search</span><%= icon('fas', "search") %></button>
+              <button id="search_button" class="btn btn-primary px-lg-5 px-md-4 px-3" type="submit" form="search_form"><span class="sr-only">Search</span><%= icon('fas', "search") %></button>
             </div>
           </div>
         </div>
