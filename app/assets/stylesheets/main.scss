@@ -100,3 +100,15 @@ a:hover {
   width: auto;
 }
 
+/* search options data toggle arrow */
+[data-toggle="collapse"] .fa {
+  //margin-left: 5px;
+  font-size: 20px;
+}
+[data-toggle="collapse"] .fa:before {
+  content: "\f139";
+}
+
+[data-toggle="collapse"].collapsed .fa:before {
+  content: "\f13a";
+}
