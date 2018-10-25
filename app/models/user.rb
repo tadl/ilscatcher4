@@ -38,37 +38,6 @@ class User
     end
   end
 
-  # Not using this right now because it currently doesn't get us all the data we need
-  def get_basic_info
-    http = Net::HTTP.new(URI.host, URI.port)
-    http.use_ssl = true
-    request_seed = Net::HTTP::Post.new(URI.request_uri)
-    request_params = {}
-    request_params['authtoken'] = token
-    request_seed.set_form_data({
-      "service" => "open-ils.auth",
-      "method" => "open-ils.auth.session.retrieve",
-      "param" => '"' + self.token + '"'
-    })
-    response = http.request(request_seed)
-    if response.code == '200'
-      j_content = JSON.parse(response.body)
-      if j_content['payload'][0]["textcode"] != "NO_SESSION"
-        self.username = j_content['payload'][0]['__p'][47]
-        self.hold_self_alias = j_content['payload'][0]['__p'][48]
-        self.card_number = j_content['payload'][0]['__p'][31]
-        self.first_name = j_content['payload'][0]['__p'][26]
-        self.last_name = j_content['payload'][0]['__p'][25]
-        self.email = j_content['payload'][0]['__p'][22]
-      else
-        self.username = ''
-        self.token = ''
-        self.error = 'error: session expired or did not exisit'
-      end
-    else
-      self.error = 'error: could not complete request'
-    end
-  end
 
   def TEMP_get_checkouts
     scraper = Scraper.new
@@ -89,6 +58,50 @@ class User
       return {:error => 'unable to fetch holds'}
     end
   end
+
+  def TEMP_get_preferences
+    scraper = Scraper.new
+    preferences_hash = scraper.user_get_preferences(self.token)
+    if preferences_hash != 'error'
+      return preferences_hash
+    else
+      return {:error => 'unable to fetch preferences'}
+    end
+  end
+
+  # Not using this right now because it currently doesn't get us all the data we need
+  def get_basic_info
+    http = Net::HTTP.new(URI.host, URI.port)
+    http.use_ssl = true
+    request_seed = Net::HTTP::Post.new(URI.request_uri)
+    request_params = {}
+    request_params['authtoken'] = token
+    request_seed.set_form_data({
+      "service" => "open-ils.auth",
+      "method" => "open-ils.auth.session.retrieve",
+      "param" => '"' + self.token + '"'
+    })
+    response = http.request(request_seed)
+    if response.code == '200'
+      j_content = JSON.parse(response.body)
+      if j_content['payload'][0]["textcode"] != "NO_SESSION"
+        self.melcat_id = j_content['payload'][0]['__p'][47]
+        self.username = j_content['payload'][0]['__p'][47]
+        self.hold_self_alias = j_content['payload'][0]['__p'][48]
+        self.card_number = j_content['payload'][0]['__p'][31]
+        self.first_name = j_content['payload'][0]['__p'][26]
+        self.last_name = j_content['payload'][0]['__p'][25]
+        self.email = j_content['payload'][0]['__p'][22]
+      else
+        self.username = ''
+        self.token = ''
+        self.error = 'error: session expired or did not exisit'
+      end
+    else
+      self.error = 'error: could not complete request'
+    end
+  end
+
 
   def logout
     http = Net::HTTP.new(URI.host, URI.port)

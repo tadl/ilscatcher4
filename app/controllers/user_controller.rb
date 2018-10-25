@@ -56,5 +56,19 @@ class UserController < ApplicationController
     end
   end
 
+  def preferences
+    if params[:token]
+      @user = User.new
+      @user.token = params[:token]
+      @preferences = @user.TEMP_get_preferences
+      @user.TEMP_get_basic_info
+    else
+      @holds = {'error'=> 'missing parameters'}
+    end
+    respond_to do |format|
+      format.json {render :json =>{:user => @user, :preferences => @preferences}}
+    end
+  end
+
 
 end

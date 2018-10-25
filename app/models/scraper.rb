@@ -31,6 +31,16 @@ class Scraper
     end
   end
 
+  def user_get_preferences(token)
+    params = '?token=' + token
+    preferences_hash = request('preferences', params)
+    if !preferences_hash['user']['error']
+      return preferences_hash['preferences']
+    else
+      return 'error'
+    end
+  end
+  
   private
 
   def request(path = '', params = '')
