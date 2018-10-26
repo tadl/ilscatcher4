@@ -20,9 +20,11 @@
             <% if i.author.present? %>
               <% search_loc = i.search_location.present? ? i.search_location : Settings.location_default %>
               <% search_view = i.search_view.present? ? i.search_view : Settings.view_default %>
-              <a href="/search?query=<%= i.author %>&type=author&location=<%= search_loc %>&view=<%= search_view %>">
-                <strong><%= i.author %></strong>
-              </a>
+              <h4>
+                <a href="/search?query=<%= i.author %>&type=author&location=<%= search_loc %>&view=<%= search_view %>">
+                  <strong><%= i.author %></strong>
+                </a>
+              </h4>
             <% end %>
           </h5>
           <div class="TODO temporary breakpoint test">
@@ -84,11 +86,11 @@
           <% end %>
         </div>
         <div class="<%= button_column_classes %>">
+          <div class="details-button mb-3">
+            <a class="btn btn-primary btn-block" role="button" href="#">Details</a>
+          </div>
           <div class="hold-button mb-3">
             <a class="btn btn-primary btn-block" role="button" href="#">Place Hold</a>
-          </div>
-          <div class="details-button mb-3">
-            <a class="btn btn-primary btn-block" role="button" href="#">View Details</a>
           </div>
         </div>
       </div>
