@@ -56,6 +56,22 @@ class UserController < ApplicationController
     end
   end
 
+  def place_hold
+    if params[:token] && params[:id]
+      @user = User.new
+      @user.token = params[:token]
+      @item = Item.new
+      @item.id = params[:id]
+      @hold = @item.TEMP_place_hold(@user.token, params[:force])
+      @user.TEMP_get_basic_info
+    else
+      @hold = {:error => 'missing parameters'}
+    end
+    respond_to do |format|
+      format.json {render :json =>{:user => @user, :hold => @hold}}
+    end
+  end
+
   def preferences
     if params[:token]
       @user = User.new
