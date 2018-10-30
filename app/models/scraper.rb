@@ -40,6 +40,23 @@ class Scraper
       return 'error'
     end
   end
+
+  # TODO: test if passing force works as expected. need sample record
+  def item_place_hold(token, force, id)
+    params = '?token=' + token + '&record_id=' + id
+    if force == 'true'
+      params += '&force=true'
+    end
+    hold_confirmation = request('place_hold', params)
+    hold = Hold.new
+    hold.id = hold_confirmation['hold_confirmation'][0]['record_id']
+    if hold_confirmation['hold_confirmation'][0]['error'] == true
+      hold.hold_message = {:error => hold_confirmation['hold_confirmation'][0]['message'] }
+    else
+      hold.hold_message = {:confirmation => hold_confirmation['hold_confirmation'][0]['message'] }
+    end
+    return hold
+  end
   
   private
 

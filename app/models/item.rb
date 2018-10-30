@@ -88,6 +88,17 @@ class Item
     return report
   end
 
+  def TEMP_place_hold(token = '', force = '')
+    scraper = Scraper.new
+    hold_request = scraper.item_place_hold(token, force, self.id)
+    @hold = Hold.new
+    if hold_request != 'error'
+      @hold.hold_message =  hold_request
+    else
+      @hold.hold_message = {:error => 'unable to place hold'}
+    end
+  end
+
 
 
 end
