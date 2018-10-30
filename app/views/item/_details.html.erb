@@ -89,9 +89,16 @@
         <% elsif !@logged_in && i.electronic.to_s == "false" %>
           <button type="button" class="btn btn-success btn-lg">Log in to place hold</button>
         <% elsif i.electronic.to_s == "true" %>
-          <a class="btn btn-success btn-lg" href="<%= i.eresource_link %>">View resource</a>
+          <a class="btn btn-success btn-lg" href="<%= i.eresource_link %>">View Resource</a>
         <% end %>
       </div>
+      <% if i.hold_count.to_i > 0 %>
+        <div class="hold-info font-weight-bold text-center">
+          <% total_copies = i.availability['copies_all'] %>
+          <% copy_noun = total_copies > 1 ? 'copies' : 'copy' %>
+          <%= i.hold_count %> hold<% if i.hold_count.to_i > 1 %>s<% end %> on <%= total_copies %> <%= copy_noun %>
+        </div>
+      <% end %>
     </div>
   </div>
   <div class="row">
