@@ -1,7 +1,7 @@
 <% if @search.facets && @search.view != 'grid' %>
   <div class="col-md-3 mb-2" id="facets">
-    <button type="button" class="btn btn-primary btn-block text-left p-3"  data-toggle="collapse" href="#facet-block" aria-expanded="true" aria-controls="facet-block">
-      Facets<!-- TODO -->
+    <button type="button" class="btn btn-primary btn-block text-left p-3 d-block d-md-none"  data-toggle="collapse" href="#facet-block" aria-expanded="true" aria-controls="facet-block">
+      Toggle Facets
       <i class="fa float-right"></i>
     </button>
     <div class="collapse show" id="facet-block">
