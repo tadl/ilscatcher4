@@ -4,7 +4,10 @@
       <div class="col">
         <div class="form-group">
           <div class="input-group mb-3">
-            <input id="search_for" name="query" class="form-control" aria-describedby="search-addon" value="<%= @search.query %>" autocomplete='off' placeholder="Search for books, movies, music &amp; more!" oninput="update_search()">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="search-addon">Search</span>
+            </div>
+            <input id="search_for" name="query" class="form-control" aria-describedby="search-addon" value="<%= @search.query %>" autocomplete='off' placeholder="Books, movies, music &amp; more!" oninput="update_search()">
             <div class="input-group-append">
               <button id="search_button" class="btn btn-primary px-lg-5 px-md-4 px-3" type="submit" form="search_form"><span class="sr-only">Search</span><%= icon('fas', "search") %></button>
             </div>
