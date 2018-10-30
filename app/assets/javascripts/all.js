@@ -76,13 +76,20 @@ function missing_cover(id, type) {
       icon = value[1];
     }
   });
-  var target_div = '#item_cover_' + id;
-  var target_div_details = target_div + '_details';
-  var icon_base = '<i class="missing-cover fas fa-'+ icon;
-  var icon_html_large = icon_base + ' fa-10x">';
-  var icon_html = icon_base + '"> make me responsive';
-  $(target_div).html(icon_html);
-  $(target_div_details).html(icon_html);
+  var target_div_list = '#item_cover_' + id;
+  var target_div_grid = '#grid_item_cover_' + id;
+  var target_div_details = target_div_list + '_details';
+  var icon_base = '<i class="fas fa-'+ icon;
+  //Use this size of icon for gird and details
+  var icon_html_grid_details = icon_base + ' fa-10x"></i>';
+  //Use a small and large icon for list display and only show right sized based on breakpoint
+  var icon_html_large_list = icon_base + ' fa-10x d-block d-sm-none"></i>';
+  var icon_html_small_list = icon_base + ' fa-7x d-none d-sm-block"></i>';
+  var icon_html_both_list = icon_html_large_list + icon_html_small_list
+  //Put the right html into the right div
+  $(target_div_list).html(icon_html_both_list);
+  $(target_div_details).html(icon_html_grid_details);
+  $(target_div_grid).html(icon_html_grid_details);
 }
 
 function check_blank_cover(image) {
