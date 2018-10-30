@@ -48,14 +48,14 @@ class Scraper
       params += '&force=true'
     end
     hold_confirmation = request('place_hold', params)
-    hold = Hold.new
-    hold.id = hold_confirmation['hold_confirmation'][0]['record_id']
-    if hold_confirmation['hold_confirmation'][0]['error'] == true
-      hold.hold_message = {:error => hold_confirmation['hold_confirmation'][0]['message'] }
-    else
-      hold.hold_message = {:confirmation => hold_confirmation['hold_confirmation'][0]['message'] }
-    end
-    return hold
+    # hold = Hold.new
+    # hold.id = hold_confirmation['hold_confirmation'][0]['record_id']
+    # if hold_confirmation['hold_confirmation'][0]['error'] == true
+    #   hold.hold_message = {:error => hold_confirmation['hold_confirmation'][0]['message'] }
+    # else
+    #   hold.hold_message = {:confirmation => hold_confirmation['hold_confirmation'][0]['message'] }
+    # end
+    # return hold
   end
   
   private

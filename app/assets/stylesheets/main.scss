@@ -99,14 +99,13 @@ a:hover {
   max-height: 64px;
   width: auto;
 }
+
 .info-block {
   border-bottom: 1px solid #ccc;
   padding-bottom: 5px;
   margin-bottom: 5px;
 }
-.missing-cover { /* this doesn't work */
-  font-size: 100%;
-}
+
 
 /* search options data toggle arrow */
 [data-toggle="collapse"] .fa {

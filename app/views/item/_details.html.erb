@@ -12,10 +12,8 @@
 
 
   <div class="row">
-    <div id="item_cover_<%= i.id %>_details" class="col-md-3 order-1 mb-2 item-cover">
-      <div class="text-center">
-        <img src="<%= Settings.cover_url_prefix_lg %><%= i.id %>" class="img-fluid" onerror="missing_cover('<%= i.id %>', '<%= i.type_of_resource %>')" onload="check_blank_cover(this)">
-      </div>
+    <div id="item_cover_<%= i.id %>_details" class="col-md-3 order-1 mb-2 item-cover text-center">
+      <img src="<%= Settings.cover_url_prefix_lg %><%= i.id %>" class="img-fluid" onerror="missing_cover('<%= i.id %>', '<%= i.type_of_resource %>')" onload="check_blank_cover(this)">
     </div>
     <div class="col-md-6 order-md-2 order-3 mb-2">
       <h4><%= icon('fas', item_format_icon(i.type_of_resource)) %> <%= i.title_display %></h4>
@@ -69,18 +67,18 @@
           </dd>
         </dl>
       <% end %>
-      <div class="card-text">
-        <% if i.publisher.present? %>
-          <span class="font-weight-bold">Publisher: </span>
-          <%= i.publisher %>
-        <% end %>
-      </div>
-      <div class="card-text">
-        <% if i.sort_year.present? %>
-          <span class="font-weight-bold">Publication Year: </span>
-          <%= i.sort_year %>
-        <% end %>
-      </div>
+      <% if i.sort_year.present? || i.publisher.present? %>
+        <p class="card-text">
+          <% if i.publisher.present? %>
+            <span class="font-weight-bold">Publisher: </span>
+            <%= i.publisher %>
+          <% end %>
+          <% if i.sort_year.present? %>
+            <span class="font-weight-bold<%= i.publisher.present? ? ' ml-3' : '' %>">Publication Year: </span>
+            <%= i.sort_year %>
+          <% end %>
+        </p>
+      <% end %>
     </div>
     <div class="col-md-3 order-md-3 order-2 mb-2">
       <div class="text-center">
