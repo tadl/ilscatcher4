@@ -3,7 +3,7 @@
 <% button_column_classes = 'col-12 col-sm-12 col-md-3 col-xl-2' %>
 <div class="item card mb-3" data-record_id="<%= i.id %>">
   <a href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)" class="item_details_link">
-    <h5 class="card-header<%= if i.is_available(search) then ' bg-success item-available' end %>">
+    <h5 class="card-header<%= if i.is_available(search) then ' bg-success font-weight-bold item-available' end %>">
       <%= icon('fas', item_format_icon(i.type_of_resource)) %> <%= i.title_display %>
     </h5>
   </a>
@@ -36,11 +36,23 @@
           </div><!-- TODO -->
           <div class="info-block">
             <% coder = HTMLEntities.new %>
-            <% if !i.abstract.blank? %>
-              <p class="card-text"><strong>Summary:</strong> <%= coder.decode(i.abstract.truncate(250)) %></p>
+            <% if i.abstract.present? %>
+              <p class="card-text"><span class="font-weight-bold">Summary:</span> <%= coder.decode(i.abstract.truncate(250)) %></p>
             <% end %>
-            <% if !i.contents.blank? %>
-              <p class="card-text"><strong>Contents:</strong> <%= coder.decode(i.contents.truncate(250)) %></p>
+            <% if i.contents.present? %>
+              <p class="card-text"><span class="font-weight-bold">Contents:</span> <%= coder.decode(i.contents.truncate(250)) %></p>
+            <% end %>
+            <% if i.sort_year.present? || i.publisher.present? %>
+              <p class="card-text">
+                <% if i.publisher.present? %>
+                  <span class="font-weight-bold">Publisher: </span>
+                  <%= i.publisher %>
+                <% end %>
+                <% if i.sort_year.present? %>
+                  <span class="font-weight-bold<%= i.publisher.present? ? ' ml-3' : '' %>">Publication Year: </span>
+                  <%= i.sort_year %>
+                <% end %>
+              </p>
             <% end %>
           </div>
           <% if i.electronic.to_s == "false" %>
