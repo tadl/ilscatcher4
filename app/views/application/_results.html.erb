@@ -4,7 +4,7 @@
       Toggle Facets
       <i class="fa float-right"></i>
     </button>
-    <div class="collapse show" id="facet-block">
+    <div class="toggles show" id="facet-block">
       <% @search.facets.each do |f| %>
         <%= render 'facet', facet: f, search: @search %>
       <% end %>

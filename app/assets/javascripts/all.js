@@ -31,11 +31,19 @@ var ready = function(){
 
   var windowWidth = $(window).width();
   if (windowWidth <= 768) {
-    $('.collapse').collapse('hide');
+    $('.toggles').collapse('hide');
   }
 }
 
 $(document).ready(ready);
+$(window).resize(function() {
+  var windowWidth = $(window).width();
+  if (windowWidth <= 768) {
+    $('.toggles').collapse('hide');
+  } else {
+    $('.toggles').collapse('show');
+  }
+});
 
 
 /* open fancybox with item details */
