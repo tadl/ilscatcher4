@@ -78,10 +78,11 @@ function missing_cover(id, type) {
   });
   var target_div = '#item_cover_' + id;
   var target_div_details = target_div + '_details';
-  var icon_base = '<i class="fas fa-'+ icon;
+  var icon_base = '<i class="missing-cover fas fa-'+ icon;
   var icon_html_large = icon_base + ' fa-10x">';
-  $(target_div).html(icon_html_large);
-  $(target_div_details).html(icon_html_large);
+  var icon_html = icon_base + '"> make me responsive';
+  $(target_div).html(icon_html);
+  $(target_div_details).html(icon_html);
 }
 
 function check_blank_cover(image) {
