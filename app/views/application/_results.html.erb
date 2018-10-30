@@ -1,8 +1,14 @@
 <% if @search.facets && @search.view != 'grid' %>
-  <div class="col-md-3" id="facets">
-    <% @search.facets.each do |f| %>
-      <%= render 'facet', facet: f, search: @search %>
-    <% end %>
+  <div class="col-md-3 mb-2" id="facets">
+    <button type="button" class="btn btn-primary btn-block text-left p-3"  data-toggle="collapse" href="#facet-block" aria-expanded="true" aria-controls="facet-block">
+      Facets<!-- TODO -->
+      <i class="fa float-right"></i>
+    </button>
+    <div class="collapse show" id="facet-block">
+      <% @search.facets.each do |f| %>
+        <%= render 'facet', facet: f, search: @search %>
+      <% end %>
+    </div>
   </div>
 <% end %>
 <% if @search.results && @search.view == 'list' %>
