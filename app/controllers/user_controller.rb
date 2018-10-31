@@ -1,5 +1,6 @@
 class UserController < ApplicationController
   respond_to :html, :json, :js
+  before_action :check_for_token, except: [:login] 
   
   def login
     if params[:token] || (params[:username] && (params[:password] || params[:md5password]))
@@ -7,6 +8,7 @@ class UserController < ApplicationController
       @user.login(params)
       if @user.error == nil
         @user.TEMP_get_basic_info
+        cookies[:login] = @user.token
       end
     else
       @user = {'error'=> 'missing parameters'}
@@ -17,25 +19,27 @@ class UserController < ApplicationController
   end
 
   def logout
-    if params[:token]
-      @user = User.new
-      @user.logout(params[:token])
+    if @user
+      @user.logout
+      if cookies[:login]
+        cookies.delete :login
+      end
+      @message = {:success => 'logged out'}
     else
-      @user = {'error'=> 'missing parameters'}
+      @message = {:error => 'not logged in or invalid token'}
     end
     respond_to do |format|
-      format.json {render :json => @user}
+      format.json {render :json => @message}
     end
   end
 
   def checkouts
-    if params[:token]
-      @user = User.new
-      @user.token = params[:token]
+    if @user
       @checkouts = @user.TEMP_get_checkouts
       @user.TEMP_get_basic_info
     else
-      @checkouts = {'error'=> 'missing parameters'}
+      @user = {:error=> 'not logged in or invalid token'}
+      @checkouts = @user
     end
     respond_to do |format|
       format.json {render :json =>{:user => @user, :checkouts => @checkouts}}
@@ -43,13 +47,12 @@ class UserController < ApplicationController
   end
 
   def holds
-    if params[:token]
-      @user = User.new
-      @user.token = params[:token]
+    if @user
       @holds = @user.TEMP_get_holds
       @user.TEMP_get_basic_info
     else
-      @holds = {'error'=> 'missing parameters'}
+      @user = {:error=> 'not logged in or invalid token'}
+      @holds = @user
     end
     respond_to do |format|
       format.json {render :json =>{:user => @user, :holds => @holds}}
@@ -57,9 +60,7 @@ class UserController < ApplicationController
   end
 
   def place_hold
-    if params[:token] && params[:id]
-      @user = User.new
-      @user.token = params[:token]
+    if @user && params[:id]
       @item = Item.new
       @item.id = params[:id]
       @hold = @item.TEMP_place_hold(@user.token, params[:force])
@@ -73,13 +74,12 @@ class UserController < ApplicationController
   end
 
   def preferences
-    if params[:token]
-      @user = User.new
-      @user.token = params[:token]
+    if @user
       @preferences = @user.TEMP_get_preferences
       @user.TEMP_get_basic_info
     else
-      @holds = {'error'=> 'missing parameters'}
+      @user = {:error=> 'not logged in or invalid token'}
+      @preferences = @user
     end
     respond_to do |format|
       format.json {render :json =>{:user => @user, :preferences => @preferences}}

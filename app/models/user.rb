@@ -110,7 +110,7 @@ class User
     request.set_form_data({
         "service" => "open-ils.auth",
         "method" => "open-ils.auth.session.delete",
-        "param" => '"' + token + '"'
+        "param" => '"' + self.token + '"'
     })
     response = http.request(request)
     if response.code && response.code == '200'
