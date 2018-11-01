@@ -3,12 +3,16 @@ class UserController < ApplicationController
   before_action :check_for_token, except: [:login, :missing_token] 
   
   def login
-    if params[:token] || (params[:username] && (params[:password] || params[:md5password]))
+    if cookies[:login] || params[:token] || (params[:username] && (params[:password] || params[:md5password]))
       @user = User.new
+      if cookies[:login]
+        params[:token] = cookies[:login]
+      end
       @user.login(params)
       if @user.error == nil
-        @user.TEMP_get_basic_info
         cookies[:login] = @user.token
+      else
+        cookies.delete :login
       end
     else
       @user = {'error'=> 'missing parameters'}

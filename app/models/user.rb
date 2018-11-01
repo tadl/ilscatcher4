@@ -26,12 +26,15 @@ class User
       end
       authenticate(login_params)
     end
+    if self.error == nil
+      TEMP_get_basic_info()
+    end
   end
 
   def TEMP_get_basic_info
     scraper = Scraper.new
     user_hash = scraper.user_basic_info(self.token)
-    if user_hash != 'error' && user_hash["error"] == nil
+    if user_hash.to_s != 'error'
       user_hash.each {|k, v| self.send("#{k}=", v)} 
     else
       self.error = 'error: unable to fetch basic info'
@@ -165,6 +168,8 @@ private
           self.token = ""
           self.error = 'error: bad username or password'
         end
+      else
+        self.error = 'bad token'
       end
     else
       self.error = 'error: could not complete auth complete request' 

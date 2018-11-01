@@ -8,7 +8,11 @@ class Scraper
   def user_basic_info(token)
     params = '?token=' + token
     user_hash =  request('login', params)
-    return user_hash
+    if !user_hash.key?('error')
+      return user_hash
+    else
+      return 'error'
+    end
   end
 
   def user_get_checkouts(token)
