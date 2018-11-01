@@ -1,6 +1,6 @@
 class UserController < ApplicationController
   respond_to :html, :json, :js
-  before_action :check_for_token, except: [:login] 
+  before_action :check_for_token, except: [:login, :missing_token] 
   
   def login
     if params[:token] || (params[:username] && (params[:password] || params[:md5password]))
@@ -25,8 +25,6 @@ class UserController < ApplicationController
         cookies.delete :login
       end
       @message = {:success => 'logged out'}
-    else
-      @message = {:error => 'not logged in or invalid token'}
     end
     respond_to do |format|
       format.json {render :json => @message}
@@ -37,9 +35,6 @@ class UserController < ApplicationController
     if @user
       @checkouts = @user.TEMP_get_checkouts
       @user.TEMP_get_basic_info
-    else
-      @user = {:error=> 'not logged in or invalid token'}
-      @checkouts = @user
     end
     respond_to do |format|
       format.json {render :json =>{:user => @user, :checkouts => @checkouts}}
@@ -50,9 +45,6 @@ class UserController < ApplicationController
     if @user
       @holds = @user.TEMP_get_holds
       @user.TEMP_get_basic_info
-    else
-      @user = {:error=> 'not logged in or invalid token'}
-      @holds = @user
     end
     respond_to do |format|
       format.json {render :json =>{:user => @user, :holds => @holds}}
@@ -77,12 +69,16 @@ class UserController < ApplicationController
     if @user
       @preferences = @user.TEMP_get_preferences
       @user.TEMP_get_basic_info
-    else
-      @user = {:error=> 'not logged in or invalid token'}
-      @preferences = @user
     end
     respond_to do |format|
       format.json {render :json =>{:user => @user, :preferences => @preferences}}
+    end
+  end
+
+  def missing_token
+    @message = {:error=> 'not logged in or invalid token'}
+    respond_to do |format|
+      format.json {render :json => @message}
     end
   end
 

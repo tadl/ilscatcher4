@@ -16,8 +16,11 @@ class ApplicationController < ActionController::Base
       puts 'got a token from cookie'
       return @user
     else
-      puts 'got nothin from nowhere'
+      if params[:format] == 'json'
+        redirect_to :controller => 'user', :action => 'missing_token', :format => 'json'
+      else
+        return @message = {:error=> 'not logged in or invalid token'}
+      end
     end
   end
-
 end
