@@ -52,6 +52,16 @@ class User
     end
   end
 
+  def TEMP_renew_checkouts(checkout_ids)
+    scraper = Scraper.new
+    renew_response = scraper.user_renew_checkouts(self. token, checkout_ids)
+    if renew_response != error
+      return renew_response
+    else
+      return renew_response[:message] = {:error => 'unable to renew checkouts'}
+    end
+  end
+
   def TEMP_get_holds
     scraper = Scraper.new
     holds_hash = scraper.user_get_holds(self.token)

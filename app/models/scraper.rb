@@ -25,6 +25,18 @@ class Scraper
     end
   end
 
+  def user_renew_checkouts(token, checkout_ids)
+    #need to pass a record_ids param but it can be whatever (weird ILSCatcher3 stuff..)
+    params = '?token=' + token + '&checkout_ids=' + checkout_ids + '&record_ids=1'
+    renew_response = request('renew_checkouts', params)
+    if !renew_response['user']['error']
+      renew_response['checkouts'] = scraped_checkouts_to_full_checkouts(renew_response['checkouts'])
+      return renew_response
+    else
+      return 'error'
+    end
+  end
+
   def user_get_holds(token)
     params = '?token=' + token
     holds_hash =  request('holds', params)

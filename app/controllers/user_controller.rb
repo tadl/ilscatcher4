@@ -43,6 +43,23 @@ class UserController < ApplicationController
     end
   end
 
+  def renew_checkouts
+    if @user && params[:checkout_ids]
+      renew_request = @user.TEMP_renew_checkouts(params[:checkout_ids])
+      @checkouts = renew_request['checkouts']
+      @message = renew_request['message']
+      @errors = renew_request['errors']
+      @user.TEMP_get_basic_info
+    else
+      @checkouts = {:error => 'missing parameters'}
+    end
+    respond_to do |format|
+      format.json {render :json =>{:user => @user, :message => @message, :errors => @errors, 
+                          :checkouts => @checkouts}}
+    end
+  end
+
+
   def holds
     if @user
       @holds = @user.TEMP_get_holds
