@@ -5,12 +5,12 @@ class UserController < ApplicationController
   def login
     if cookies[:login] || params[:token] || (params[:username] && (params[:password] || params[:md5password]))
       @user = User.new
-      if cookies[:login]
+      if cookies[:login] && (!params[:token] || !params[:username])
         params[:token] = cookies[:login]
       end
       @user.login(params)
       if @user.error == nil
-        cookies[:login] = @user.token
+        cookies[:login] = {:value => @user.token, :expires => 1.hour.from_now.utc}
       else
         cookies.delete :login
       end
@@ -25,9 +25,7 @@ class UserController < ApplicationController
   def logout
     if @user
       @user.logout
-      if cookies[:login]
-        cookies.delete :login
-      end
+      cookies.delete :login
       @message = {:success => 'logged out'}
     end
     respond_to do |format|

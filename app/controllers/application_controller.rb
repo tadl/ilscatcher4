@@ -5,15 +5,10 @@ class ApplicationController < ActionController::Base
 
   #ensure a token has been passed as a param or present as a cookie
   def check_for_token
-    if params[:token]
+    if params[:token] || cookies[:login]
       @user = User.new
-      @user.token = params[:token]
-      puts 'got a token as param'
-      return @user
-    elsif cookies[:login]
-      @user = User.new
-      @user.token = cookies[:login]
-      puts 'got a token from cookie'
+      @user.token = params[:token] || cookies[:login]
+      cookies[:login] = {:value => @user.token, :expires => 1.hour.from_now.utc}
       return @user
     else
       if params[:format] == 'json'
