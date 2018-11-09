@@ -66,6 +66,7 @@ class UserController < ApplicationController
       @user.TEMP_get_basic_info
     end
     respond_to do |format|
+      format.html
       format.json {render :json =>{:user => @user, :holds => @holds}}
     end
   end

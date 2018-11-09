@@ -14,24 +14,24 @@
 
 /* media queries for view=grid */
 /* these should be the same widths as bootstrap classes not arbitrary TODO */
-@media screen and (min-width: 1px) and (max-width: 767px){
+@media screen and (min-width: 1px) and (max-width: 320px) {
+  #grid[data-columns]::before {
+    content: '1 .col-12';
+  }
+}
+@media screen and (min-width: 321px) and (max-width: 767px) {
   #grid[data-columns]::before {
     content: '2 .col-6';
   }
 }
-@media screen and (min-width:768px) and (max-width: 1150px){
+@media screen and (min-width: 768px) and (max-width: 1150px) {
   #grid[data-columns]::before {
     content: '4 .col-sm-3';
   }
 }
-@media screen and (min-width:1151px) and (max-width: 9999px){
+@media screen and (min-width: 1151px) {
   #grid[data-columns]::before {
     content: '6 .col-md-2';
-  }
-}
-@media screen and (min-width: 1px) and (max-width: 320px){
-  #grid[data-columns]::before {
-    content: '1 .col-12';
   }
 }
 
@@ -104,6 +104,10 @@ a:hover {
   border-bottom: 1px solid #ccc;
   padding-bottom: 5px;
   margin-bottom: 5px;
+}
+
+#login-form {
+  min-width: 280px;
 }
 
 
