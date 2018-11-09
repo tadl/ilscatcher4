@@ -47,6 +47,18 @@ class Scraper
     end
   end
 
+  def user_manage_hold(token, hold_id, task)
+    params = '?token=' + token
+    params += '&hold_id=' + hold_id
+    params += '&task=' + task
+    holds_hash =  request('manage_hold', params)
+    if !holds_hash['user']['error']
+      return scraped_holds_to_full_holds(holds_hash['holds'])
+    else
+      return 'error'
+    end
+  end
+
   def user_get_preferences(token)
     params = '?token=' + token
     preferences_hash = request('preferences', params)

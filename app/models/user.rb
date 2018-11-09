@@ -72,6 +72,16 @@ class User
     end
   end
 
+  def TEMP_manage_hold(hold_id, task)
+    scraper = Scraper.new
+    holds_hash = scraper.user_manage_hold(self.token, hold_id, task)
+    if holds_hash != 'error'
+      return holds_hash
+    else
+      return {:error => 'unable to fetch holds'}
+    end
+  end
+
   def TEMP_get_preferences
     scraper = Scraper.new
     preferences_hash = scraper.user_get_preferences(self.token)
