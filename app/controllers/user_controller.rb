@@ -86,6 +86,18 @@ class UserController < ApplicationController
     end
   end
 
+  def manage_hold
+    if @user && params[:hold_id] && params[:task]
+      @holds = @user.TEMP_manage_hold(params[:hold_id], params[:task])
+      @user.TEMP_get_basic_info
+    else
+      @holds = {:error => 'missing parameters'}
+    end
+    respond_to do |format|
+      format.json {render :json =>{:user => @user, :holds => @holds}}
+    end
+  end
+
   def preferences
     if @user
       @preferences = @user.TEMP_get_preferences
