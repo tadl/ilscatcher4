@@ -19,7 +19,6 @@ class UserController < ApplicationController
     end
     respond_to do |format|
       format.json {render :json => @user}
-      format.js
     end
   end
 
@@ -33,6 +32,8 @@ class UserController < ApplicationController
       format.json {render :json => @message}
     end
   end
+
+#CHECKOUTS
 
   def checkouts
     if @user
@@ -60,6 +61,7 @@ class UserController < ApplicationController
     end
   end
 
+#HOLDS
 
   def holds
     if @user
@@ -86,6 +88,7 @@ class UserController < ApplicationController
     end
   end
 
+  #valid task params are activate, suspend and #cancel
   def manage_hold
     if @user && params[:hold_id] && params[:task]
       @holds = @user.TEMP_manage_hold(params[:hold_id], params[:task])
@@ -97,6 +100,29 @@ class UserController < ApplicationController
       format.json {render :json =>{:user => @user, :holds => @holds}}
     end
   end
+
+  def change_hold_pickup
+    if @user && params[:hold_id] && params[:hold_status] && params[:pickup_location] 
+      @hold = @user.TEMP_change_hold_pickup(params[:hold_id], params[:hold_status], params[:pickup_location])
+    else
+      @hold = {:error => 'missing parameters'}
+    end
+    respond_to do |format|
+      format.json {render :json => @hold }
+    end    
+  end
+
+# FINES
+  def fines
+    if @user
+      @fines = @user.TEMP_fines
+    else
+      @fines = {:error => 'missing parameters'}
+    end
+    respond_to do |format|
+      format.json {render :json => @fines}
+    end  
+  end 
 
   def preferences
     if @user
@@ -114,6 +140,5 @@ class UserController < ApplicationController
       format.json {render :json => @message}
     end
   end
-
 
 end
