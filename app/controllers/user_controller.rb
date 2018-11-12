@@ -85,6 +85,7 @@ class UserController < ApplicationController
     end
   end
 
+  #valid task params are activate, suspend and #cancel
   def manage_hold
     if @user && params[:hold_id] && params[:task]
       @holds = @user.TEMP_manage_hold(params[:hold_id], params[:task])
@@ -95,6 +96,18 @@ class UserController < ApplicationController
     respond_to do |format|
       format.json {render :json =>{:user => @user, :holds => @holds}}
     end
+  end
+
+  def change_hold_pickup
+    if @user && params[:hold_id] && params[:hold_status] && params[:pickup_location] 
+      @holds = @user.TEMP_change_hold_pickup(params[:hold_id], params[:hold_status], params[:pickup_location])
+      @user.TEMP_get_basic_info
+    else
+      @holds = {:error => 'missing parameters'}
+    end
+    respond_to do |format|
+      format.json {render :json =>{:user => @user, :holds => @holds}}
+    end    
   end
 
   def preferences
@@ -113,6 +126,5 @@ class UserController < ApplicationController
       format.json {render :json => @message}
     end
   end
-
 
 end

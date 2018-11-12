@@ -59,6 +59,21 @@ class Scraper
     end
   end
 
+  def user_change_hold_pickup(token, hold_id, hold_status, pickup_location)
+    params = '?token=' + token
+    params += '&hold_id=' + hold_id
+    params += '&hold_state=' + hold_status
+    params += '&new_pickup=' + pickup_location
+    holds_hash =  request('update_hold_pickup', params)
+    if !holds_hash['message'] != 'bad login'
+      hold_array = []
+      hold_array.push(holds_hash['message'])
+      return scraped_holds_to_full_holds(hold_array)
+    else
+      return 'error'
+    end
+  end
+
   def user_get_preferences(token)
     params = '?token=' + token
     preferences_hash = request('preferences', params)
