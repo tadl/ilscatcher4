@@ -106,8 +106,19 @@ function check_blank_cover(image) {
   }
 }
 
+function need_login(id) {
+  $('#login-form').dropdown('toggle');
+  $('#hold-record').val(id);
+  console.log('Need to log in to place hold');
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
 
 function login() {
+  var username = $('#username').val();
+  var password = $('#password').val();
+  var hold_record = $('#hold-record').val();
+  if (hold_record != "") placing_hold = true;
 
-  var foo;
+
 }
