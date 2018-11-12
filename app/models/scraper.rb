@@ -62,7 +62,11 @@ class Scraper
   def user_change_hold_pickup(token, hold_id, hold_status, pickup_location)
     params = '?token=' + token
     params += '&hold_id=' + hold_id
-    params += '&hold_state=' + hold_status
+    if hold_status == "Active"
+      params += '&hold_state=t'
+    else
+      params += '&hold_state=f'
+    end
     params += '&new_pickup=' + pickup_location
     holds_hash =  request('update_hold_pickup', params)
     if !holds_hash['message'] != 'bad login'
