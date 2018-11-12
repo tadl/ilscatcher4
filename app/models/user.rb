@@ -102,6 +102,16 @@ class User
     end
   end
 
+  def TEMP_fines
+    scraper = Scraper.new
+    fines_hash = scraper.user_get_fines(self.token)
+    if fines_hash != 'error'
+      return fines_hash
+    else
+      return {:error => 'unable to fetch preferences'}
+    end
+  end
+
   # Not using this right now because it currently doesn't get us all the data we need
   def get_basic_info
     http = Net::HTTP.new(URI.host, URI.port)

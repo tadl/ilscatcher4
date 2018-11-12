@@ -88,6 +88,19 @@ class Scraper
     end
   end
 
+  def user_get_fines(token)
+    params = '?token=' + token
+    fines_hash = request('fines', params)
+    if !fines_hash['user']['error']
+      fines_and_fees = {}
+      fines_and_fees['fines'] = fines_hash['fines']
+      fines_and_fees['fees'] = fines_hash['fees']
+      return fines_and_fees
+    else
+      return 'error'
+    end
+  end
+
   # TODO: test if passing force works as expected. need sample record
   def item_place_hold(token, force, id)
     params = '?token=' + token + '&record_id=' + id

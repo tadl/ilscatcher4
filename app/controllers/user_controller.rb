@@ -103,27 +103,24 @@ class UserController < ApplicationController
 
   def change_hold_pickup
     if @user && params[:hold_id] && params[:hold_status] && params[:pickup_location] 
-      @holds = @user.TEMP_change_hold_pickup(params[:hold_id], params[:hold_status], params[:pickup_location])
-      @user.TEMP_get_basic_info
+      @hold = @user.TEMP_change_hold_pickup(params[:hold_id], params[:hold_status], params[:pickup_location])
     else
-      @holds = {:error => 'missing parameters'}
+      @hold = {:error => 'missing parameters'}
     end
     respond_to do |format|
-      format.json {render :json =>{:user => @user, :holds => @holds}}
+      format.json {render :json => @hold }
     end    
   end
 
 # FINES
-  
   def fines
-    if @user && params[:hold_id] && params[:hold_status] && params[:pickup_location] 
-      @holds = @user.TEMP_change_hold_pickup(params[:hold_id], params[:hold_status], params[:pickup_location])
-      @user.TEMP_get_basic_info
+    if @user
+      @fines = @user.TEMP_fines
     else
-      @holds = {:error => 'missing parameters'}
+      @fines = {:error => 'missing parameters'}
     end
     respond_to do |format|
-      format.json {render :json =>{:user => @user, :holds => @holds}}
+      format.json {render :json => @fines}
     end  
   end 
 
