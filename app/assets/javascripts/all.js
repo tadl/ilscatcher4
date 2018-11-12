@@ -106,3 +106,8 @@ function check_blank_cover(image) {
   }
 }
 
+
+function login() {
+
+  var foo;
+}
