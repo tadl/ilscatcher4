@@ -33,6 +33,8 @@ var ready = function(){
   if (windowWidth <= 768) {
     $('.toggles').collapse('hide');
   }
+
+
 }
 
 $(document).ready(ready);
