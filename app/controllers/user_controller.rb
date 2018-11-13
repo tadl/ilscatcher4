@@ -19,6 +19,7 @@ class UserController < ApplicationController
     end
     respond_to do |format|
       format.json {render :json => @user}
+      format.js
     end
   end
 

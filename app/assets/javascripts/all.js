@@ -106,19 +106,39 @@ function check_blank_cover(image) {
   }
 }
 
-function need_login(id) {
-  $('#login-form').dropdown('toggle');
+function need_login(element, id) {
   $('#hold-record').val(id);
+  $('#login-button').text('Sign in and Place Hold');
+  $(element).addClass('disabled')
   console.log('Need to log in to place hold');
-  document.body.scrollTop = 0;
-  document.documentElement.scrollTop = 0;
+  $('#login-form').dropdown('toggle');
 }
 
-function login() {
+function do_login() {
+
   var username = $('#username').val();
   var password = $('#password').val();
-  var hold_record = $('#hold-record').val();
-  if (hold_record != "") placing_hold = true;
+  var placing_hold = false;
+
+  $('.btn-login-hold').removeClass('disabled');
+
+  if (username != "" && password != "") {
+    var hold_record = $('#hold-record').val();
+
+    if (hold_record != "") {
+      placing_hold = true;
+      $('#hold-record').val('');
+    }
+
+    $.post("login.js", {username: username, password: password});
+
+    $('#login-message').text('');
+  } else {
+    $('#login-message').text('Please specify username and password');
+  }
+
+
+  return false;
 
 
 }

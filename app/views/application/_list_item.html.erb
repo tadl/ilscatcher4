@@ -96,15 +96,15 @@
           </div>
           <% if i.electronic == false && @user.present? %>
             <div class="hold-button mb-3">
-              <button class="btn btn-primary btn-block" role="button" href="#">Place Hold</button>
+              <button class="btn btn-primary btn-block btn-hold" role="button" href="#">Place Hold</button>
             </div>
           <% elsif i.electronic == false && @user.blank? %>
             <div class="login-hold-button mb-3">
-              <button class="btn btn-primary btn-block" role="button" onclick="need_login(<%= i.id %>)">Log in to Place Hold</button>
+              <button class="btn btn-primary btn-block btn-login-hold" role="button" data-toggle="dropdown" onclick="need_login(this,<%= i.id %>)">Log in to Place Hold</button>
             </div>
           <% elsif i.electronic == true %>
             <div class="view-resource-button mb-3">
-              <a class="btn btn-success btn-block" role="button" href="<%= i.eresource_link %>">View</a>
+              <a class="btn btn-success btn-block btn-resource" role="button" href="<%= i.eresource_link %>">View</a>
             </div>
           <% end %>
           <% if i.hold_count.to_i > 0 %>
