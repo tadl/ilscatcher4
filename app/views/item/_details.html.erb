@@ -83,9 +83,10 @@
     </div>
     <div class="col-md-3 order-md-3 order-2 mb-2">
       <div class="text-center">
-        <% if @logged_in && i.electronic.to_s == "false" %>
-          <button type="button" class="btn btn-success btn-lg">Place Hold</button>
-        <% elsif !@logged_in && i.electronic.to_s == "false" %>
+        <% userdetails = JSON.parse(cookies[:user]) %>
+        <% if userdetails['token'].present? && i.electronic.to_s == "false" %>
+          <button type="button" class="btn btn-success btn-lg" onclick="place_hold(<%= i.id %>)">Place Hold</button>
+        <% elsif userdetails['token'].blank? && i.electronic.to_s == "false" %>
           <button type="button" class="btn btn-success btn-lg">Log in to place hold</button>
         <% elsif i.electronic.to_s == "true" %>
           <a class="btn btn-success btn-lg" href="<%= i.eresource_link %>">View Resource</a>

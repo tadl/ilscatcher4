@@ -85,10 +85,13 @@ class UserController < ApplicationController
       @item.id = params[:id]
       @hold = @item.TEMP_place_hold(@user.token, params[:force])
       @user.TEMP_get_basic_info
+      cookies[:login] = {:value => @user.token, :expires => 1.hour.from_now.utc}
+      cookies[:user] = {:value => @user.to_json, :expires => 1.hour.from_now.utc}
     else
       @hold = {:error => 'missing parameters'}
     end
     respond_to do |format|
+      format.js
       format.json {render :json =>{:user => @user, :hold => @hold}}
     end
   end

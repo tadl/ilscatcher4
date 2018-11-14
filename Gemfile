@@ -22,6 +22,7 @@ gem 'font-awesome-sass', '~> 5.3.1'
 gem 'mini_magick'
 gem 'config'
 gem 'rails-assets-OwlCarousel2', source: 'https://rails-assets.org'
+gem 'rails-assets-js-cookie', source: 'https://rails-assets.org'
 gem 'htmlentities'
 
 group :development, :test do

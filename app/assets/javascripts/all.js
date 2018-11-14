@@ -148,3 +148,15 @@ function do_login() {
 function do_logout() {
   $.post("logout.js");
 }
+
+function place_hold(id, force) {
+  var force_hold = (typeof force !== 'undefined') ? 'true' : 'false';
+  var token = Cookies.get('login')
+  if (token == null) {
+    console.log('somehow you are placing a hold when you are not logged in. you should consider not doing that.')
+  } else {
+    $.get("place_hold.js", {id: id, force: force_hold});
+  }
+}
+
+
