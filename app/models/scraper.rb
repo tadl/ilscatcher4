@@ -37,6 +37,17 @@ class Scraper
     end
   end
 
+  def user_checkout_history(token, page)
+    params = '?token=' + token + '&page=' + page.to_s
+    checkout_hash = request('checkout_history', params)
+    if !checkout_hash['user']['error']
+      checkout_hash['checkouts'] = scraped_historical_checkouts_to_full_checkouts(checkout_hash['checkouts']) 
+      return checkout_hash
+    else
+      return 'error'
+    end
+  end
+
   def user_get_holds(token)
     params = '?token=' + token
     holds_hash =  request('holds', params)
@@ -151,6 +162,29 @@ class Scraper
     end
     return checkouts
   end
+
+  def scraped_historical_checkouts_to_full_checkouts(checkouts_hash)
+    query = ''
+    checkouts_hash.each do |c|
+      query += c['record_id'] + ','
+    end
+    search = Search.new({:query => query, :type => 'record_id', :size => 82})
+    search.get_results
+    items = search.results
+    checkouts = []
+    items.each do |i|
+      matching_checkout = checkouts_hash.select {|k| k['record_id'] == i.id.to_s}
+      checkout = Checkout.new
+      copy_instance_variables(i, checkout)
+      checkout.checkout_date = matching_checkout[0]['checkout_date']
+      checkout.due_date = matching_checkout[0]['due_date']
+      checkout.return_date = matching_checkout[0]['return_date']
+      checkout.barcode = matching_checkout[0]['barcode']
+      checkouts.push(checkout)
+    end
+    return checkouts
+  end
+
 
   def scraped_holds_to_full_holds(holds_hash)
     query = ''
