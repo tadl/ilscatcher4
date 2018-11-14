@@ -1,8 +1,7 @@
 <% if !@user.error %>
-  <% puts @user.inspect %>
+  $('#navbar').html("<%= escape_javascript(render partial: 'navbar') %>");
 
 <% else %>
 
-  <% puts "error, damnit" %>
 
 <% end %>

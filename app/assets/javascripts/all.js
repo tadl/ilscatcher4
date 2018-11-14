@@ -132,7 +132,7 @@ function do_login() {
       $('#hold-record').val('');
     }
 
-    $.post("login.js", {username: username, password: password});
+    $.post("login.js", {username: username, password: password, hold: hold_record});
 
     $('#login-message').text('');
   } else {
@@ -143,4 +143,8 @@ function do_login() {
   return false;
 
 
+}
+
+function do_logout() {
+  $.post("logout.js");
 }

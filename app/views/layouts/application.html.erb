@@ -11,7 +11,9 @@
   </head>
 
   <body>
-    <%= render :partial => 'application/navbar' %>
+    <nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+      <%= render :partial => 'application/navbar' %>
+    </nav>
     <div class="container">
       <%= yield %>
     </div>
