@@ -46,6 +46,7 @@ class UserController < ApplicationController
       basic_info_and_cookies(@user)
     end
     respond_to do |format|
+      format.html
       format.json {render :json =>{:user => @user, :checkouts => @checkouts}}
     end
   end

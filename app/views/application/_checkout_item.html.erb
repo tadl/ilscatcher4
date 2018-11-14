@@ -1,0 +1,80 @@
+<% cover_column_classes = 'col-12 col-sm-3 col-md-3 col-lg-3 col-xl-2' %>
+<% details_column_classes = 'col-12 col-sm-9 col-md-9 col-lg-6 col-xl-7' %>
+<% button_column_classes = 'col-12 col-sm-12 col-md-12 col-lg-3 col-xl-3' %>
+<div class="item card mb-3" data-record_id="<%= i.id %>">
+  <a href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)" class="item_details_link">
+    <h5 class="card-header">
+      <%= icon('fas', item_format_icon(i.type_of_resource)) %> <%= i.title_display %>
+    </h5>
+  </a>
+  <div class="card-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div id="item_cover_<%= i.id %>" class="<%= cover_column_classes %> text-center">
+          <a href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)" class="item_details_link">
+            <img id="cover_<%= i.id %>" src="<%= Settings.cover_url_prefix_lg %><%= i.id %>" class="img-fluid item_cover mb-4" onerror="missing_cover('<%= i.id %>', '<%= i.type_of_resource %>')" onload="check_blank_cover(this)">
+          </a>
+        </div>
+        <div class="<%= details_column_classes %>">
+          <h5 class="card-title">
+            <% if i.author.present? %>
+              <% search_loc = i.search_location.present? ? i.search_location : Settings.location_default %>
+              <% search_view = i.search_view.present? ? i.search_view : Settings.view_default %>
+              <h4>
+                <a href="/search?query=<%= i.author %>&type=author&location=<%= search_loc %>&view=<%= search_view %>">
+                  <strong><%= i.author %></strong>
+                </a>
+              </h4>
+            <% end %>
+          </h5>
+          <div class="w-100">
+            <% coder = HTMLEntities.new %>
+            <% if i.abstract.present? %>
+              <p class="card-text"><span class="font-weight-bold">Summary:</span> <%= coder.decode(i.abstract.truncate(250)) %></p>
+            <% end %>
+            <% if i.contents.present? %>
+              <p class="card-text"><span class="font-weight-bold">Contents:</span> <%= coder.decode(i.contents.truncate(250)) %></p>
+            <% end %>
+            <div class="card-text">
+              <% if i.publisher.present? %>
+                <span class="font-weight-bold">Publisher: </span>
+                <%= i.publisher %>
+              <% end %>
+            </div>
+            <div class="card-text">
+              <% if i.sort_year.present? %>
+                <span class="font-weight-bold">Publication Year: </span>
+                <%= i.sort_year %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="<%= button_column_classes %>">
+          <div class="details-button mb-3">
+            <a class="btn btn-primary btn-block item_details_link" role="button" href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)">Details</a>
+          </div>
+          <% if i.electronic == false && @user.present? %>
+            <div class="hold-button mb-3">
+              <button class="btn btn-primary btn-block btn-hold" role="button" href="#">Place Hold</button>
+            </div>
+          <% elsif i.electronic == false && @user.blank? %>
+            <div class="login-hold-button mb-3">
+              <button class="btn btn-primary btn-block btn-login-hold" role="button" data-toggle="dropdown" onclick="need_login(this,<%= i.id %>)">Log in to Place Hold</button>
+            </div>
+          <% elsif i.electronic == true %>
+            <div class="view-resource-button mb-3">
+              <a class="btn btn-success btn-block btn-resource" role="button" href="<%= i.eresource_link %>">View</a>
+            </div>
+          <% end %>
+          <% if i.hold_count.to_i > 0 %>
+            <div class="hold-info font-weight-bold text-center">
+              <% total_copies = i.availability['copies_all'] %>
+              <% copy_noun = total_copies > 1 ? 'copies' : 'copy' %>
+              <%= i.hold_count %> hold<% if i.hold_count.to_i > 1 %>s<% end %> on <%= total_copies %> <%= copy_noun %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
