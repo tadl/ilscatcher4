@@ -48,12 +48,14 @@
                 <input type="password" class="form-control" id="password" placeholder="Password">
               </div>
               <input type="hidden" id="hold-record" value="">
-              <button type="submit" class="btn btn-primary btn-block" id="login-button" onclick="do_login()">Sign in</button>
-              <div class="w-100 text-danger" id="login-message"></div>
             </form>
+            <div class="px-4">
+              <button type="submit" class="btn btn-primary btn-block" id="login-button" onclick="do_login()">Sign in</button>
+            </div>
+            <div class="w-100 text-danger" id="login-message"></div>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">New around here? Sign up</a>
-            <a class="dropdown-item" href="#">Forgot/lost password?</a>
+            <a class="dropdown-item" href="#">Get a Library Card</a>
+            <a class="dropdown-item text-danger" href="#">Forgot/lost password?</a>
           </div>
         </div>
       <% else %>
