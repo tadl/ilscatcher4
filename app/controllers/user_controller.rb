@@ -11,8 +11,10 @@ class UserController < ApplicationController
       @user.login(params)
       if @user.error == nil
         cookies[:login] = {:value => @user.token, :expires => 1.hour.from_now.utc}
+        cookies[:user] = {:value => @user.to_json, :expires => 1.hour.from_now.utc}
       else
         cookies.delete :login
+        cookies.delete :user
       end
     else
       @user = {'error'=> 'missing parameters'}
@@ -27,6 +29,7 @@ class UserController < ApplicationController
     if @user
       @user.logout
       cookies.delete :login
+      cookies.delete :user
       @message = {:success => 'logged out'}
     end
     respond_to do |format|
