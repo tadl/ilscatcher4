@@ -1,3 +1,16 @@
-<% @holds.each do |hold| %>
-  <%= hold.inspect %>
-<% end %>
+<% userdetails = JSON.parse(cookies[:user]) %>
+<div class="row">
+  <div id="account-menu" class="col-12 col-md-3 mt-3">
+    <%= render 'account_menu' %>
+  </div>
+  <div id="account-holds" class="col-12 col-md-9 mt-3">
+    <% if userdetails['holds'].to_i > 0 && userdetails['token'] != "" %>
+      <% @holds.each do |hold| %>
+        <%= render 'hold_item', :i => hold %>
+      <% end %>
+    <% else %>
+      <h1>You currently have no holds.</h1>
+    <% end %>
+  </div>
+</div>
+
