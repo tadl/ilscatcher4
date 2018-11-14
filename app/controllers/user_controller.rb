@@ -43,7 +43,7 @@ class UserController < ApplicationController
   def checkouts
     if @user
       @checkouts = @user.TEMP_get_checkouts
-      @user.TEMP_get_basic_info
+      basic_info_and_cookies(@user)
     end
     respond_to do |format|
       format.json {render :json =>{:user => @user, :checkouts => @checkouts}}
@@ -56,7 +56,7 @@ class UserController < ApplicationController
       @checkouts = renew_request['checkouts']
       @message = renew_request['message']
       @errors = renew_request['errors']
-      @user.TEMP_get_basic_info
+      basic_info_and_cookies(@user)
     else
       @checkouts = {:error => 'missing parameters'}
     end
@@ -71,7 +71,7 @@ class UserController < ApplicationController
   def holds
     if @user
       @holds = @user.TEMP_get_holds
-      @user.TEMP_get_basic_info
+      basic_info_and_cookies(@user)
     end
     respond_to do |format|
       format.html
@@ -84,9 +84,7 @@ class UserController < ApplicationController
       @item = Item.new
       @item.id = params[:id]
       @hold = @item.TEMP_place_hold(@user.token, params[:force])
-      @user.TEMP_get_basic_info
-      cookies[:login] = {:value => @user.token, :expires => 1.hour.from_now.utc}
-      cookies[:user] = {:value => @user.to_json, :expires => 1.hour.from_now.utc}
+      basic_info_and_cookies(@user)
     else
       @hold = {:error => 'missing parameters'}
     end
@@ -100,7 +98,7 @@ class UserController < ApplicationController
   def manage_hold
     if @user && params[:hold_id] && params[:task]
       @holds = @user.TEMP_manage_hold(params[:hold_id], params[:task])
-      @user.TEMP_get_basic_info
+      basic_info_and_cookies(@user)
     else
       @holds = {:error => 'missing parameters'}
     end
@@ -135,10 +133,10 @@ class UserController < ApplicationController
   def preferences
     if @user
       @preferences = @user.TEMP_get_preferences
-      @user.TEMP_get_basic_info
+      basic_info_and_cookies(@user)
     end
     respond_to do |format|
-      format.json {render :json =>{:user => @user, :preferences => @preferences}}
+       format.json {render :json =>{:user => @user, :preferences => @preferences}}
     end
   end
 
@@ -147,6 +145,14 @@ class UserController < ApplicationController
     respond_to do |format|
       format.json {render :json => @message}
     end
+  end
+
+private
+
+  def basic_info_and_cookies(user)
+    user.TEMP_get_basic_info
+    cookies[:login] = {:value => @user.token, :expires => 1.hour.from_now.utc}
+    cookies[:user] = {:value => @user.to_json, :expires => 1.hour.from_now.utc}
   end
 
 end
