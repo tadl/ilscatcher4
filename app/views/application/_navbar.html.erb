@@ -21,7 +21,7 @@
         <% end %>
       <% end %>
     </ul>
-    <% if !cookies[:login].present? %>
+    <% if !cookies[:user].present? %>
       <div class="btn-group navbar-nav ml-auto">
         <button type="button" class="btn btn-primary dropdown-toggle" id="account-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           My Account
@@ -59,17 +59,15 @@
       </div>
     <% else %>
       <ul class="navbar-nav ml-auto">
-        <% if cookies[:user].present? %>
-          <% userdetails = JSON.parse(cookies[:user]) %>
-          <% if userdetails['checkouts'].to_i > 0 %>
-            <li class="nav-item"><a href="/checkouts" class="nav-link">Checkouts <span class="badge badge-primary"><span id="user-checkouts"><%= userdetails['checkouts'] %></span></span></a></li>
-          <% end %>
-          <% if userdetails['holds'].to_i > 0 %>
-            <li class="nav-item"><a href="/holds" class="nav-link">Holds <span class="badge badge-primary"><span id="user-holds"><%= userdetails['holds'] %></span></span></a></li>
-          <% end %>
-          <% if userdetails['holds_ready'].to_i > 0 %>
-            <li class="nav-item"><a href="/holds" class="nav-link">Holds ready for pickup <span class="badge badge-primary"><span id="user-holds-ready"><%= userdetails['holds_ready'] %></span></span></a></li>
-          <% end %>
+        <% userdetails = JSON.parse(cookies[:user]) %>
+        <% if userdetails['checkouts'].to_i > 0 %>
+          <li class="nav-item"><a href="<%= checkouts_path %>" class="nav-link">Checkouts <span class="badge badge-primary"><span id="user-checkouts"><%= userdetails['checkouts'] %></span></span></a></li>
+        <% end %>
+        <% if userdetails['holds'].to_i > 0 %>
+          <li class="nav-item"><a href="<%= holds_path %>" class="nav-link">Holds <span class="badge badge-primary"><span id="user-holds"><%= userdetails['holds'] %></span></span></a></li>
+        <% end %>
+        <% if userdetails['holds_ready'].to_i > 0 %>
+          <li class="nav-item"><a href="<%= holds_pickup_path %>" class="nav-link">Holds ready for pickup <span class="badge badge-primary"><span id="user-holds-ready"><%= userdetails['holds_ready'] %></span></span></a></li>
         <% end %>
         <li class="nav-item pl-3"><a role="button" class="btn btn-primary" href="/preferences">My Account</a></li>
         <li class="nav-item pl-3"><button type="button" class="btn btn-default" id="logout-button" onclick="do_logout()">Log out</button></li>
