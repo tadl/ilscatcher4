@@ -50,22 +50,18 @@
           </div>
         </div>
         <div class="<%= button_column_classes %>">
-          <div class="details-button mb-3">
+          <div class="suspend-button mb-2">
+            <button class="btn btn-success btn-block btn-hold" role="button" href="#">Suspend/Activate</button>
+          </div>
+          <div class="cancel-button mb-2">
+            <button class="btn btn-primary btn-block btn-hold" role="button" href="#">Cancel/Confirm</button>
+          </div>
+          <div class="details-button mb-2">
             <a class="btn btn-primary btn-block item_details_link" role="button" href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)">Details</a>
           </div>
-          <% if i.electronic == false && @user.present? %>
-            <div class="hold-button mb-3">
-              <button class="btn btn-primary btn-block btn-hold" role="button" href="#">Place Hold</button>
-            </div>
-          <% elsif i.electronic == false && @user.blank? %>
-            <div class="login-hold-button mb-3">
-              <button class="btn btn-primary btn-block btn-login-hold" role="button" data-toggle="dropdown" onclick="need_login(this,<%= i.id %>)">Log in to Place Hold</button>
-            </div>
-          <% elsif i.electronic == true %>
-            <div class="view-resource-button mb-3">
-              <a class="btn btn-success btn-block btn-resource" role="button" href="<%= i.eresource_link %>">View</a>
-            </div>
-          <% end %>
+          <div class="select-button mb-2">
+            <button class="btn btn-default btn-block btn-hold" role="button" href="#">Select/Selected</button>
+          </div>
           <% if i.hold_count.to_i > 0 %>
             <div class="hold-info font-weight-bold text-center">
               <% total_copies = i.availability['copies_all'] %>
