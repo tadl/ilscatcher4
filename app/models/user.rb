@@ -62,6 +62,16 @@ class User
     end
   end
 
+  def TEMP_checkout_history(page)
+    scraper = Scraper.new
+    checkouts_hash = scraper.user_checkout_history(self.token, page)
+    if checkouts_hash != 'error'
+      return checkouts_hash
+    else
+      return {:error => 'unable to fetch checkout history'}
+    end
+  end
+
   def TEMP_get_holds
     scraper = Scraper.new
     holds_hash = scraper.user_get_holds(self.token)
@@ -108,7 +118,17 @@ class User
     if fines_hash != 'error'
       return fines_hash
     else
-      return {:error => 'unable to fetch preferences'}
+      return {:error => 'unable to fetch fines'}
+    end
+  end
+
+  def TEMP_payments
+    scraper = Scraper.new
+    payments_hash = scraper.user_get_payments(self.token)
+    if payments_hash != 'error'
+      return payments_hash
+    else
+      return {:error => 'unable to fetch payments'}
     end
   end
 

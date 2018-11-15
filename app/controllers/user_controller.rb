@@ -67,6 +67,26 @@ class UserController < ApplicationController
     end
   end
 
+  def checkout_history
+    if @user 
+      if params[:page]
+        @page = params[:page].to_i
+      else
+        @page = 0
+      end 
+      checkouts_hash = @user.TEMP_checkout_history(@page)
+      @checkouts = checkouts_hash['checkouts']
+      @more_results = checkouts_hash['more_results']
+      basic_info_and_cookies(@user)
+    else
+      @checkouts = {:error => 'missing parameters'}
+    end
+    respond_to do |format|
+      format.json {render :json =>{:user => @user, :checkouts => @checkouts, :page => @page,
+                  :more_results => @more_results}}
+    end
+  end
+
 #HOLDS
 
   def holds
@@ -128,6 +148,17 @@ class UserController < ApplicationController
     end
     respond_to do |format|
       format.json {render :json => @fines}
+    end  
+  end
+
+  def payments
+    if @user
+      @payments = @user.TEMP_payments
+    else
+      @payments = {:error => 'missing parameters'}
+    end
+    respond_to do |format|
+      format.json {render :json => @payments}
     end  
   end 
 
