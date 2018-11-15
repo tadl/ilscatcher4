@@ -72,10 +72,13 @@ class User
     end
   end
 
-  def TEMP_get_holds
+  def TEMP_get_holds(ready)
     scraper = Scraper.new
     holds_hash = scraper.user_get_holds(self.token)
     if holds_hash != 'error'
+      if ready == 'true'
+        holds_hash = holds_hash.select{|h| h.queue_status.include? 'Ready'}
+      end
       return holds_hash
     else
       return {:error => 'unable to fetch holds'}
