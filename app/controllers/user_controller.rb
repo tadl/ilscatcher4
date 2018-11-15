@@ -96,6 +96,7 @@ class UserController < ApplicationController
     end
 
     respond_to do |format|
+      format.html
       format.json {render :json =>{:user => @user, :checkouts => @checkouts, :page => @page,
                   :more_results => @more_results}}
     end
@@ -170,6 +171,7 @@ class UserController < ApplicationController
     end
 
     respond_to do |format|
+      format.html
       format.json {render :json => @fines}
     end
 
