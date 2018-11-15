@@ -13,7 +13,8 @@ class UserController < ApplicationController
       @user.login(params)
 
       if @user.error == nil
-        basic_info_and_cookies(@user)
+        cookies[:login] = {:value => @user.token, :expires => 1.hour.from_now.utc}
+        cookies[:user] = {:value => @user.to_json, :expires => 1.hour.from_now.utc}
       else
         cookies.delete :login
         cookies.delete :user
@@ -104,7 +105,7 @@ class UserController < ApplicationController
 #HOLDS
   def holds
     if @user
-      @holds = @user.TEMP_get_holds
+      @holds = @user.TEMP_get_holds(params[:ready])
       basic_info_and_cookies(@user)
     end
 
