@@ -122,6 +122,21 @@ class Scraper
     end
   end
 
+  def user_get_lists(token)
+    params = '?token=' + token
+    list_hash = request('lists', params)
+    if !list_hash['user']['error']
+      lists = []
+      list_hash['lists'].each do |l|
+        list = List.new(l)
+        lists.push(l)
+      end
+      return lists
+    else
+      return 'error'
+    end
+  end
+
 
   # TODO: test if passing force works as expected. need sample record
   def item_place_hold(token, force, id)
