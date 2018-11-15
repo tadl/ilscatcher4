@@ -118,7 +118,17 @@ class User
     if fines_hash != 'error'
       return fines_hash
     else
-      return {:error => 'unable to fetch preferences'}
+      return {:error => 'unable to fetch fines'}
+    end
+  end
+
+  def TEMP_payments
+    scraper = Scraper.new
+    payments_hash = scraper.user_get_payments(self.token)
+    if payments_hash != 'error'
+      return payments_hash
+    else
+      return {:error => 'unable to fetch payments'}
     end
   end
 

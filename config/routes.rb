@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   match 'change_hold_pickup', to: 'user#change_hold_pickup', as: 'change_hold_pickup', via: [:get, :post]
   match 'preferences', to: 'user#preferences', as: 'preferences', via: [:get, :post]
   match 'fines', to: 'user#fines', as: 'fines', via: [:get, :post]
+  match 'payments', to: 'user#payments', as: 'payments', via: [:get, :post] 
   match 'missing_token', to: 'user#missing_token', as: 'missing_token', via: [:get, :post]
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

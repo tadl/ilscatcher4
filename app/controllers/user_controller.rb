@@ -149,6 +149,17 @@ class UserController < ApplicationController
     respond_to do |format|
       format.json {render :json => @fines}
     end  
+  end
+
+  def payments
+    if @user
+      @payments = @user.TEMP_payments
+    else
+      @payments = {:error => 'missing parameters'}
+    end
+    respond_to do |format|
+      format.json {render :json => @payments}
+    end  
   end 
 
   def preferences

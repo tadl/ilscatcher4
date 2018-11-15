@@ -112,6 +112,17 @@ class Scraper
     end
   end
 
+  def user_get_payments(token)
+    params = '?token=' + token
+    payments_hash = request('payments', params)
+    if !payments_hash['user']['error']
+      return payments_hash['payments']
+    else
+      return 'error'
+    end
+  end
+
+
   # TODO: test if passing force works as expected. need sample record
   def item_place_hold(token, force, id)
     params = '?token=' + token + '&record_id=' + id
