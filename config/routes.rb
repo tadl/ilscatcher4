@@ -9,11 +9,14 @@ Rails.application.routes.draw do
   match 'renew_checkouts', to: 'user#renew_checkouts', as: 'renew_checkouts', via: [:get, :post]
   match 'checkout_history', to: 'user#checkout_history', as: 'checkout_history', via: [:get, :post]
   match 'holds', to: 'user#holds', as: 'holds', via: [:get, :post]
+  match 'holds_pickup', to: 'user#holds', as: 'holds_pickup', via: [:get, :post]
   match 'place_hold', to: 'user#place_hold', as: 'place_hold', via: [:get, :post]
   match 'manage_hold', to: 'user#manage_hold', as: 'manage_hold', via: [:get, :post]
   match 'change_hold_pickup', to: 'user#change_hold_pickup', as: 'change_hold_pickup', via: [:get, :post]
   match 'preferences', to: 'user#preferences', as: 'preferences', via: [:get, :post]
   match 'fines', to: 'user#fines', as: 'fines', via: [:get, :post]
+  match 'payments', to: 'user#fines', as: 'payments', via: [:get, :post]
+  match 'lists', to: 'main#index', as: 'lists', via: [:get, :post]
   match 'missing_token', to: 'user#missing_token', as: 'missing_token', via: [:get, :post]
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

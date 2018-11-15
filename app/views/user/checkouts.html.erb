@@ -1,16 +1,19 @@
-<% userdetails = JSON.parse(cookies[:user]) %>
-<div class="row">
-  <div id="account-menu" class="col-12 col-md-3 mt-3">
-    <%= render 'account_menu' %>
-  </div>
-  <div id="account-checkouts" class="col-12 col-md-9 mt-3">
-    <% if userdetails['checkouts'].to_i > 0 && userdetails['token'] != "" %>
-      <% @checkouts.each do |checkout| %>
-        <%= render 'checkout_item', :i => checkout %>
+<% if cookies[:user].present? %>
+  <% userdetails = JSON.parse(cookies[:user]) %>
+  <div class="row">
+    <div id="account-menu" class="col-12 col-md-3 mt-3">
+      <%= render 'account_menu' %>
+    </div>
+    <div id="account-checkouts" class="col-12 col-md-9 mt-3">
+      <% if userdetails['checkouts'].to_i > 0 && userdetails['token'] != "" %>
+        <% @checkouts.each do |checkout| %>
+          <%= render 'checkout_item', :i => checkout %>
+        <% end %>
+      <% else %>
+        <h1>You currently have no items checked out.</h1>
       <% end %>
-    <% else %>
-      <h1>You currently have no items checked out.</h1>
-    <% end %>
+    </div>
   </div>
-</div>
-
+<% else %>
+  <h1>Not logged in</h1>
+<% end %>
