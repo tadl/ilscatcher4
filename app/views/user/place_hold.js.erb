@@ -1,8 +1,31 @@
 <% if !@user.error %>
   $('#navbar').html("<%= escape_javascript(render partial: 'navbar') %>");
-  $('.hold-button-<%= params[:id] %>').html('Hold successfully placed');
   <% puts @hold.inspect %>
   <% @hold['hold_confirmation'].each do |c| %>
+    <% if !c['error'] %>
+      <% puts "confirmation message " + c['message'].to_s %>
+      <% puts "confirmation id " + c['record_id'].to_s %>
+      <% puts "@hold id " + @hold['record_id'].to_s %>
+      /* hold was placed correctly */
+      $('.hold-button-<%= escape_javascript(c['record_id']) %>').html('Hold successfully placed');
+
+    <% elsif c[:need_to_force] %> /* we're not getting this back from ilscatcher3 so can't test easily yet
+      <% puts "force confirmation message " + c['message'].to_s %>
+      <% puts "force confirmation id " + c['record_id'].to_s %>
+      <% puts "force @hold id " + @hold['record_id'].to_s %>
+      /* need to force hold */
+      /* fancybox to force hold */
+      /* render a partial */
+
+    <% else %>
+      <% puts "else confirmation message " + c['message'].to_s %>
+      <% puts "else confirmation id " + c['record_id'].to_s %>
+      <% puts "else @hold id " + @hold['record_id'].to_s %>
+      /* some kind of error probably */
+
+    <% end %>
+
 
   <% end %>
 <% end %>
+
