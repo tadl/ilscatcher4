@@ -53,11 +53,11 @@
               <% if i.availability['copies_all_available'] > 0 %>
                 <% i.availability['by_location'].each do |l| %>
                   <% if l['copies_available'] > 0 %>
-                    <div class="text-success"><strong>Copies Available at <%= l['name'] %></strong></div>
+                    <div class="text-success"><strong>Available at <%= l['name'] %></strong></div>
                     <div class="info-block">
                       <% l['shelving_locations'].each do |sl| %>
                         <div>
-                          <strong><%= sl['available_copies'] %></strong> available in <strong><%= sl['shelving_location'] %></strong>, Call number: <strong><%= sl['call_number'] %></strong>  
+                          <strong><%= sl['available_copies'] %></strong> <%= (sl['available_copies'] == 1) ? 'copy' : 'copies' %> in <strong><%= sl['shelving_location'] %></strong>, Call number: <strong><%= sl['call_number'] %></strong>
                         </div>
                       <% end %>
                     </div>
@@ -69,12 +69,12 @@
             <% else %>
               <% i.availability['by_location'].select{|h| h["code"] == search.location}.each do |l| %>
                 <% if l['copies_available'] > 0 %>
-                  <div class="text-success"><strong>Copies Available at <%= l['name'] %></strong></div>
+                  <div class="text-success"><strong>Available at <%= l['name'] %></strong></div>
                   <div class="info-block">
                     <% l['shelving_locations'].each do |sl| %>
                       <% if sl['available_copies'] > 0 &&  %>
                         <div>
-                          <strong><%= sl['available_copies'] %></strong> available in <strong><%= sl['shelving_location'] %></strong>, Call number: <strong><%= sl['call_number'] %></strong>
+                          <strong><%= sl['available_copies'] %></strong> <%= (sl['available_copies'] == 1) ? 'copy' : 'copies' %> in <strong><%= sl['shelving_location'] %></strong>, Call number: <strong><%= sl['call_number'] %></strong>
                         </div>
                       <% end %>
                     <% end %>
@@ -95,8 +95,8 @@
             <a class="btn btn-primary btn-block item_details_link" role="button" href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)">Details</a>
           </div>
           <% if i.electronic == false && cookies[:user].present? %>
-            <div class="hold-button mb-3">
-              <button class="btn btn-primary btn-block btn-hold" role="button" href="#">Place Hold</button>
+            <div class="hold-button hold-button-<%= i.id %> mb-3">
+              <button class="btn btn-primary btn-block btn-hold-<%= i.id %>" role="button" onclick="place_hold(<%= i.id %>)">Place Hold</button>
             </div>
           <% elsif i.electronic == false && cookies[:user].blank? %>
             <div class="login-hold-button mb-3">

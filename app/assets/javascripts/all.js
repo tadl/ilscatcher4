@@ -5,23 +5,22 @@ var ready = function(){
       e.preventDefault();
     }
   });
-  
+
   // load salvattore
   $.getScript('/assets/salvattore.min.js');
 
   // left and right arrows to move between items
   var take_a_break = false
   $(document).keydown(function(e){
-    if (e.which == 37 && $('.previous_link').is(':visible')){ 
-        if(take_a_break == false){
+    if (e.which == 37 && $('.previous_link').is(':visible')) {
+        if(take_a_break == false) {
           take_a_break = true
           setTimeout(function() { take_a_break = false }, 500);
           $('.previous_link').click()
-          
         }
     }
-    if (e.which == 39 && $('.next_link').is(':visible')){ 
-      if(take_a_break == false){
+    if (e.which == 39 && $('.next_link').is(':visible')) {
+      if(take_a_break == false) {
         take_a_break = true
         setTimeout(function() { take_a_break = false }, 500);
         $('.next_link').click()
@@ -155,6 +154,7 @@ function place_hold(id, force) {
   if (token == null) {
     console.log('somehow you are placing a hold when you are not logged in. you should consider not doing that.')
   } else {
+    $('.btn-hold-'+id).text('Placing Hold').addClass('disabled progress-bar progress-bar-striped progress-bar-animated');
     $.get("place_hold.js", {id: id, force: force_hold});
   }
 }
