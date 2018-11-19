@@ -25,6 +25,7 @@
           </a>
         </h5>
       <% end %>
+      <div id="goodreads_review"></div>
       <% if !i.abstract.blank? %>
         <dl>
           <dt>Summary</dt>
@@ -67,7 +68,7 @@
           </dd>
         </dl>
       <% end %>
-
+      <div id="trailer_<%= i.id %>"></div>
       <div class="card-text">
         <% if i.publisher.present? %>
           <span class="font-weight-bold">Publisher: </span>
@@ -241,6 +242,43 @@
       </div>
     </div>
   </div>
-
-
 </div>
+
+<script>
+  function load_added_content(record_id, isbn) {
+    if (isbn && isbn != '') {
+      fetch_good_reads(isbn)
+      }
+    fetch_youtube_trailer(record_id)
+  }
+  
+  function fetch_good_reads(isbn) {
+    var clean_isbn = isbn.replace(/\D/g,'')
+    var url = 'https://tadl-toolbox.appstwo.tadl.org/goodreads?isbn=' + clean_isbn
+    $.get(url)
+    .done(function(data) {
+      if (data.gr_id) {
+        var content = '<span class="goodreads-stars"><a href="' + data.gr_link +'">'
+        content = content + data.stars_html + ' on GoodReads.com'
+        content = content + '</a></span>'
+        $('#goodreads_review').html(content)
+      }
+    });
+  }
+  
+
+  function fetch_youtube_trailer(record_id) {
+    var url = 'https://trailer-tank.herokuapp.com/main/get_trailer.json?id=' + record_id
+    $.get(url)
+    .done(function(data) {
+      if (data.message && data.message != 'error') {
+        var content = '<div class="embed-responsive embed-responsive-16by9"><iframe class="embed-reponsive-item" src="/youtube_trailer?id='+ data.message +'"></iframe>'
+        var target_div = '#trailer_' + record_id
+        $(target_div).html(content)
+      }
+    });
+  }
+
+  load_added_content('<%= i.id %>','<%= escape_javascript(i.isbn[0]) %>')
+
+</script>

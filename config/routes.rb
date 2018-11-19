@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   match 'index', to: 'main#index', as: 'index', via: [:get, :post]
   match 'search', to: 'search#search', as: 'search', via: [:get, :post]
   match 'details', to: 'item#details', as: 'details', via: [:get, :post]
+  match 'youtube_trailer', to: 'item#youtube_trailer', as: 'youtube_trailer', via: [:get, :post]
   match 'login', to: 'user#login', as: 'login', via: [:get, :post]
   match 'logout', to: 'user#logout', as: 'logout', via: [:get, :post]
   match 'checkouts', to: 'user#checkouts', as: 'checkouts', via: [:get, :post]
