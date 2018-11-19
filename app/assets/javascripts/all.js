@@ -166,6 +166,15 @@ function bulk_edit_hold() {
 }
 
 function renew(cid) {
+  $.post("renew_checkouts.js", {checkout_ids: cid});
 }
 function bulk_renew() {
+}
+
+function renew_all() {
+  var checkoutIds = "";
+  $('.renew-button').each(function() {
+    checkoutIds += $(this).data('checkout');
+  });
+  alert(checkoutIds);
 }
