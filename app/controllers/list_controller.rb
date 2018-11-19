@@ -5,6 +5,7 @@ class ListController < ApplicationController
   def lists
     if @user
       @lists = @user.TEMP_get_lists
+      cookies[:lists] = {:value => @lists.to_json, :expires => 1.hour.from_now.utc}
     else
       @list = {:error => 'missing parameters'}
     end

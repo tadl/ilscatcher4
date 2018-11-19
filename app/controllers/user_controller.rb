@@ -18,6 +18,7 @@ class UserController < ApplicationController
       else
         cookies.delete :login
         cookies.delete :user
+        cookies.delete :lists
       end
 
     else
