@@ -177,6 +177,19 @@ class Scraper
     # end
     # return hold
   end
+
+  def list_create(token, values)
+    params = '?token=' + token
+    params += '&name=' + values[:name]
+    params += '&description=' + values[:description]
+    params += '&shared=' + values[:shared]
+    list_confirmation = request('create_list', params)
+    if list_confirmation['message'] && list_confirmation['message'] == 'success'
+      return list_confirmation['message']
+    else
+      return 'error'
+    end
+  end
   
   private
 
