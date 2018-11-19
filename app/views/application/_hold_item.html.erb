@@ -36,7 +36,7 @@
             <p class="card-text">
               <span class="font-weight-bold">Pickup Location</span> <%= i.pickup_location %> <% if !i.queue_status.include? "Ready for Pickup" %><button class="btn-sm btn btn-default ml-3">change</button><% end %>
             </p>
-            <p class="card-text">
+            <p class="card-text text-large">
               <span class="font-weight-bold">Hold Status</span> <%= (i.hold_status == "Suspended") ? i.hold_status : i.queue_status %>
             </p>
           </div>

@@ -29,17 +29,19 @@
           </h5>
           <div class="w-100">
             <p class="card-text">
-              <span class="font-weight-bold">Item Barcode</span> barcode
+              <span class="font-weight-bold">Item Barcode</span> <%= i.barcode %>
             </p>
-            <p class="card-text">S
-              <span class="font-weight-bold">Due Date</span> due date
+            <p class="card-text text-large">
+              <span class="font-weight-bold">Due Date</span> <%= i.due_date %>
             </p>
           </div>
         </div>
         <div class="<%= button_column_classes %>">
-          <div class="renew-button mb-3">
-            <button class="btn btn-primary btn-block" type="button" onclick="renew(<%= i.id %>)">Renew</button>
-          </div>
+          <% if i.renew_attempts.to_i > 0 %>
+            <div class="renew-button mb-3">
+              <button class="btn btn-primary btn-block" type="button" onclick="renew(<%= i.id %>)">Renew</button>
+            </div>
+          <% end %>
           <div class="details-button mb-3">
             <a class="btn btn-primary btn-block item_details_link" role="button" href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)">Details</a>
           </div>
