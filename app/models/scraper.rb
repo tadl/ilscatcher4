@@ -137,6 +137,29 @@ class Scraper
     end
   end
 
+  def user_view_list(token, list_id)
+    params = '?list_id=' + list_id
+    if token
+      params += '&token=' + token
+    end
+    list_hash = request('view_list', params)
+    if list_hash['list']['no_items'] == '' && list_hash['list']['name'] != ''
+      list_hash['items'] = list_items_to_full_items(list_hash['list']['items'])
+      list_hash['list'] = list_hash_to_list(list_hash['list'])
+      return list_hash
+    elsif list_hash['list']['no_items'] != '' && list_hash['list']['name'] != ''
+      list_hash['list'] = list_hash_to_list(list_hash['list'])
+      list_hash['list'].no_items = true
+      return list_hash
+    elsif list_hash['list']['no_items'] == '' && list_hash['list']['name'] == ''
+      list_hash['list'] = list_hash_to_list(list_hash['list'])
+      list_hash['list'].no_items = true
+      list_hash['list'].error = 'List does not exisit or is not public'
+      return list_hash
+    else
+      return 'error'
+    end
+  end
 
   # TODO: test if passing force works as expected. need sample record
   def item_place_hold(token, force, id)
@@ -238,6 +261,37 @@ class Scraper
   def copy_instance_variables(parent_class, child_class)
     parent_class.instance_variables.each { |v| 
     child_class.instance_variable_set(v, parent_class.instance_variable_get(v)) }
+  end
+
+  def list_hash_to_list(list_hash)
+    list = List.new
+    list.title = list_hash['name']
+    list.list_id = list_hash['id']
+    list.description = list_hash['description']
+    list.more_results = list_hash['more_results']
+    list.page = list_hash['page']
+    list.no_items = false
+    return list
+  end 
+
+  def list_items_to_full_items(list_item_hash)
+    query = ''
+    list_item_hash.each do |l|
+      query += l['record_id'] + ','
+    end
+    search = Search.new({:query => query, :type => 'record_id', :size => 9000})
+    search.get_results
+    list_items = search.results
+    items = []
+    list_items.each do |i|
+      matching_item = list_item_hash.select {|k| k['record_id'] == i.id.to_s}
+      list_item = ListItem.new
+      copy_instance_variables(i, list_item)
+      list_item.notes = matching_item[0]['notes']
+      list_item.list_item_id = matching_item[0]['list_item_id']
+      items.push(list_item)
+    end
+    return items
   end
 
 end

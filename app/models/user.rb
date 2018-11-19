@@ -145,6 +145,18 @@ class User
     end
   end
 
+  def TEMP_view_list(token, list_id)
+    scraper = Scraper.new
+    list_hash = scraper.user_view_list(token, list_id)
+    if list_hash != 'error'
+      return list_hash
+    else
+      return {:error => 'unable to view list'}
+    end
+  end
+
+
+
   # Not using this right now because it currently doesn't get us all the data we need
   def get_basic_info
     http = Net::HTTP.new(URI.host, URI.port)

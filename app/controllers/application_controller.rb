@@ -7,7 +7,6 @@ class ApplicationController < ActionController::Base
     if params[:token] || cookies[:login]
       @user = User.new
       @user.token = params[:token] || cookies[:login]
-      cookies[:login] = {:value => @user.token, :expires => 1.hour.from_now.utc}
       return @user
     else
       if params[:format] == 'json'
