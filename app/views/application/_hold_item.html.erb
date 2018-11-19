@@ -3,7 +3,7 @@
 <% button_column_classes = 'col-12 col-sm-12 col-md-12 col-lg-3 col-xl-3' %>
 <div class="item card mb-3" data-record_id="<%= i.id %>">
   <a href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)" class="item_details_link">
-    <h5 class="card-header">
+    <h5 class="card-header<%= (i.queue_status.include? "Ready for Pickup") ? ' bg-success item-available' : '' %>">
       <%= icon('fas', item_format_icon(i.type_of_resource)) %> <%= i.title_display %>
     </h5>
   </a>
@@ -28,11 +28,13 @@
             <% end %>
           </h5>
           <div class="w-100">
+            <% if !i.queue_status.include? "Ready for Pickup" %>
+              <p class="card-text">
+                <span class="font-weight-bold">Queue Position</span> <%= i.queue_state[0] %> with <%= i.queue_state[1] %> eligible <%= (i.queue_state[1] == 1) ? 'copy' : 'copies' %>.
+              </p>
+            <% end %>
             <p class="card-text">
-              <span class="font-weight-bold">Queue Position</span> <%= i.queue_state[0] %> with <%= i.queue_state[1] %> eligible <%= (i.queue_state[1] == 1) ? 'copy' : 'copies' %>.
-            </p>
-            <p class="card-text">
-              <span class="font-weight-bold">Pickup Location</span> <%= i.pickup_location %>
+              <span class="font-weight-bold">Pickup Location</span> <%= i.pickup_location %> <% if !i.queue_status.include? "Ready for Pickup" %><button class="btn-sm btn btn-default ml-3">change</button><% end %>
             </p>
             <p class="card-text">
               <span class="font-weight-bold">Hold Status</span> <%= (i.hold_status == "Suspended") ? i.hold_status : i.queue_status %>
@@ -40,9 +42,11 @@
           </div>
         </div>
         <div class="<%= button_column_classes %>">
-          <div class="suspend-button mb-2">
-            <button class="btn btn-success btn-block btn-hold" role="button" onclick=""><%= (i.hold_status == "Active") ? 'Suspend' : 'Activate' %></button>
-          </div>
+          <% if !i.queue_status.include? "Ready for Pickup" %>
+            <div class="suspend-button mb-2">
+              <button class="btn btn-success btn-block btn-hold" role="button" onclick=""><%= (i.hold_status == "Active") ? 'Suspend' : 'Activate' %></button>
+            </div>
+          <% end %>
           <div class="cancel-button mb-2">
             <button class="btn btn-primary btn-block btn-hold" role="button" onclick="">Cancel/Confirm</button>
           </div>
