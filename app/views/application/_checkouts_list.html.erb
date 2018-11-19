@@ -1,8 +1,8 @@
 <% if @userdetails['checkouts'].to_i > 0 && @userdetails['token'] != "" %>
   <div class="mb-3">
-    <button type="button" class="btn btn-light">Select All</button>
-    <button type="button" class="btn btn-light">Renew Selected Items</button>
-    <button type="button" class="btn btn-light">Clear Selection</button>
+    <button type="button" class="btn btn-light" onclick="select_all()">Select All</button>
+    <button type="button" class="btn btn-light" onclick="bulk_renew()">Renew Selected Items</button>
+    <button type="button" class="btn btn-light" onclick="select_clear()">Clear Selection</button>
     <button type="button" class="btn btn-light float-right" onclick="renew_all()">Renew All Items</button>
   </div>
   <% @checkouts.each do |checkout| %>

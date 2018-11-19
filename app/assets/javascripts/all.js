@@ -171,6 +171,11 @@ function renew(cid, element) {
 }
 
 function bulk_renew() {
+  var checkoutIds = [];
+  $('.selected').each(function() {
+    checkoutIds.push($(this).data('checkout'));
+  });
+  $.post("renew_checkouts.js", {checkout_ids: checkoutIds.join()});
 }
 
 function renew_all() {
@@ -178,8 +183,7 @@ function renew_all() {
   $('.renew-button').each(function() {
     checkoutIds.push($(this).data('checkout'));
   });
-
-  alert(checkoutIds);
+  $.post("renew_checkouts.js", {checkout_ids: checkoutIds.join()});
 }
 
 function toggle_select(element) {
@@ -188,4 +192,14 @@ function toggle_select(element) {
   } else {
     $(element).removeClass('selected btn-success').addClass('select btn-light').html('Select');
   }
+}
+function select_all() {
+  $('.select').each(function() {
+    $(this).removeClass('select btn-light').addClass('selected btn-success').html('<i class="fas fa-check"></i> Selected');
+  });
+}
+function select_clear() {
+  $('.selected').each(function() {
+    $(this).removeClass('selected btn-success').addClass('select btn-light').html('Select');
+  });
 }
