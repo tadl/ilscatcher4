@@ -28,44 +28,21 @@
             <% end %>
           </h5>
           <div class="w-100">
-            <% coder = HTMLEntities.new %>
-            <% if i.abstract.present? %>
-              <p class="card-text"><span class="font-weight-bold">Summary:</span> <%= coder.decode(i.abstract.truncate(250)) %></p>
-            <% end %>
-            <% if i.contents.present? %>
-              <p class="card-text"><span class="font-weight-bold">Contents:</span> <%= coder.decode(i.contents.truncate(250)) %></p>
-            <% end %>
-            <div class="card-text">
-              <% if i.publisher.present? %>
-                <span class="font-weight-bold">Publisher: </span>
-                <%= i.publisher %>
-              <% end %>
-            </div>
-            <div class="card-text">
-              <% if i.sort_year.present? %>
-                <span class="font-weight-bold">Publication Year: </span>
-                <%= i.sort_year %>
-              <% end %>
-            </div>
+            <p class="card-text">
+              <span class="font-weight-bold">Item Barcode</span> barcode
+            </p>
+            <p class="card-text">S
+              <span class="font-weight-bold">Due Date</span> due date
+            </p>
           </div>
         </div>
         <div class="<%= button_column_classes %>">
+          <div class="renew-button mb-3">
+            <button class="btn btn-primary btn-block" type="button" onclick="renew(<%= i.id %>)">Renew</button>
+          </div>
           <div class="details-button mb-3">
             <a class="btn btn-primary btn-block item_details_link" role="button" href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)">Details</a>
           </div>
-          <% if i.electronic == false && @user.present? %>
-            <div class="hold-button mb-3">
-              <button class="btn btn-primary btn-block btn-hold" role="button" href="#">Place Hold</button>
-            </div>
-          <% elsif i.electronic == false && @user.blank? %>
-            <div class="login-hold-button mb-3">
-              <button class="btn btn-primary btn-block btn-login-hold" role="button" data-toggle="dropdown" onclick="need_login(this,<%= i.id %>)">Log in to Place Hold</button>
-            </div>
-          <% elsif i.electronic == true %>
-            <div class="view-resource-button mb-3">
-              <a class="btn btn-success btn-block btn-resource" role="button" href="<%= i.eresource_link %>">View</a>
-            </div>
-          <% end %>
           <% if i.hold_count.to_i > 0 %>
             <div class="hold-info font-weight-bold text-center">
               <% total_copies = i.availability['copies_all'] %>
