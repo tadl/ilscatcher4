@@ -10,6 +10,7 @@ class ListController < ApplicationController
       @list = {:error => 'missing parameters'}
     end
     respond_to do |format|
+      format.html
       format.json {render :json => @lists}
     end
   end
@@ -29,6 +30,7 @@ class ListController < ApplicationController
       @items = {:error => 'missing parameters'}
     end
     respond_to do |format|
+      format.html
       format.json {render :json =>{ list: @list, items: @items}}
     end
   end
