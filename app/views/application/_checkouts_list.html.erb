@@ -1,0 +1,13 @@
+<% if @userdetails['checkouts'].to_i > 0 && @userdetails['token'] != "" %>
+  <div class="mb-3">
+    <button type="button" class="btn btn-light">Select All</button>
+    <button type="button" class="btn btn-light">Renew Selected Items</button>
+    <button type="button" class="btn btn-light">Clear Selection</button>
+    <button type="button" class="btn btn-light float-right" onclick="renew_all()">Renew All Items</button>
+  </div>
+  <% @checkouts.each do |checkout| %>
+    <%= render 'checkout_item', :i => checkout %>
+  <% end %>
+<% else %>
+  <h1>You currently have no items checked out.</h1>
+<% end %>

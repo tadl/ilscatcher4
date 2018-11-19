@@ -165,9 +165,11 @@ function edit_hold(hid, id, action) {
 function bulk_edit_hold() {
 }
 
-function renew(cid) {
+function renew(cid, element) {
+  $(element).html('<i class="fas fa-asterisk spin"></i> Renewing').addClass('disabled');
   $.post("renew_checkouts.js", {checkout_ids: cid});
 }
+
 function bulk_renew() {
 }
 
