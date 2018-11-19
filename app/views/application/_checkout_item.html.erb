@@ -46,7 +46,7 @@
         <div class="<%= button_column_classes %>">
           <% if i.renew_attempts.to_i > 0 %>
             <div class="renew-button mb-3">
-              <button class="btn btn-primary btn-block" type="button" onclick="renew(<%= i.id %>)">Renew</button>
+              <button class="btn btn-primary btn-block" type="button" data-checkout="<%= i.checkout_id %>" onclick="renew(<%= i.checkout_id %>)">Renew</button>
             </div>
           <% end %>
           <div class="details-button mb-3">

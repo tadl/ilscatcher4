@@ -159,4 +159,13 @@ function place_hold(id, force) {
   }
 }
 
+function edit_hold(hid, id, action) {
+  /* activate, suspend, cancel */
+}
+function bulk_edit_hold() {
+}
 
+function renew(cid) {
+}
+function bulk_renew() {
+}
