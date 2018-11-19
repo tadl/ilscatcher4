@@ -35,4 +35,19 @@ class ListController < ApplicationController
     end
   end
 
+  def create_list
+    if @user && params[:name] && params[:shared]
+      list = List.new
+      @message = list.create(@user.token, params)
+      @lists = @user.TEMP_get_lists
+      cookies[:lists] = {:value => @lists.to_json, :expires => 1.hour.from_now.utc} 
+    else
+      @message = {:error => 'missing parameters'}
+    end
+    respond_to do |format|
+      format.html
+      format.json {render :json =>{ message: @message, lists: @lists}}
+    end
+  end
+
 end
