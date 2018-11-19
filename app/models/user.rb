@@ -54,7 +54,7 @@ class User
 
   def TEMP_renew_checkouts(checkout_ids)
     scraper = Scraper.new
-    renew_response = scraper.user_renew_checkouts(self. token, checkout_ids)
+    renew_response = scraper.user_renew_checkouts(self.token, checkout_ids)
     if renew_response != error
       return renew_response
     else

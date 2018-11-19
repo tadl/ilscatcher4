@@ -1,11 +1,20 @@
 <% if cookies[:user].present? %>
   <% userdetails = JSON.parse(cookies[:user]) %>
   <div class="row">
+  </div>
+  <div class="row">
     <div id="account-menu" class="col-12 col-md-3 mt-3">
       <%= render 'account_menu' %>
     </div>
     <div id="account-holds" class="col-12 col-md-9 mt-3">
       <% if userdetails['holds'].to_i > 0 && userdetails['token'] != "" %>
+        <div class="mb-3">
+          <button type="button" class="btn btn-light">Select All</button>
+          <button type="button" class="btn btn-light">Suspend Selected</button>
+          <button type="button" class="btn btn-light">Activate Selected</button>
+          <button type="button" class="btn btn-light">Cancel Selected</button>
+          <button type="button" class="btn btn-light">Clear Selection</button>
+        </div>
         <% @holds.each do |hold| %>
           <%= render 'hold_item', :i => hold %>
         <% end %>
