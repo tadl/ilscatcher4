@@ -172,9 +172,10 @@ function bulk_renew() {
 }
 
 function renew_all() {
-  var checkoutIds = "";
+  var checkoutIds = [];
   $('.renew-button').each(function() {
-    checkoutIds += $(this).data('checkout');
+    checkoutIds.push($(this).data('checkout'));
   });
+
   alert(checkoutIds);
 }
