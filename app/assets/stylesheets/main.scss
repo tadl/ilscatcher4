@@ -99,13 +99,19 @@ a:hover {
   max-height: 64px;
   width: auto;
 }
-
 .info-block {
   border-bottom: 1px solid #ccc;
   padding-bottom: 5px;
   margin-bottom: 5px;
 }
+.text-large {
+  font-size: 20px;
+}
+.text-huge {
+  font-size: 26px;
+}
 
+/* login form needs to be wider than default */
 #login-form {
   min-width: 280px;
 }
