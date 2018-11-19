@@ -31,4 +31,11 @@ class ItemController < ApplicationController
 
   end
 
+  def youtube_trailer
+    @id = params[:id]
+    respond_to do |format|
+      format.html {render :layout => 'frame'}
+    end
+  end
+
 end
