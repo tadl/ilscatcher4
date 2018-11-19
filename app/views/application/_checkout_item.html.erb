@@ -29,10 +29,17 @@
           </h5>
           <div class="w-100">
             <p class="card-text">
-              <span class="font-weight-bold">Item Barcode</span> <%= i.barcode %>
+              <span class="font-weight-bold">Item Barcode:</span> <%= i.barcode %>
             </p>
             <p class="card-text text-large">
-              <span class="font-weight-bold">Due Date</span> <%= i.due_date %>
+              <span class="font-weight-bold">Due Date:</span> <%= i.due_date %>
+            </p>
+            <p class="card-text">
+              <% if i.renew_attempts.to_i > 0 %>
+                <span class="font-weight-bold">Renewals remaining if not on hold for other patron:</span> <%= i.renew_attempts %>
+              <% else %>
+                <span class="font-weight-bold">Not available for renewal.</span>
+              <% end %>
             </p>
           </div>
         </div>

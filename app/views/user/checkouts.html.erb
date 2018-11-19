@@ -6,6 +6,11 @@
     </div>
     <div id="account-checkouts" class="col-12 col-md-9 mt-3">
       <% if userdetails['checkouts'].to_i > 0 && userdetails['token'] != "" %>
+        <div class="mb-3">
+          <button type="button" class="btn btn-light">Select All</button>
+          <button type="button" class="btn btn-light">Renew Selected Items</button>
+          <button type="button" class="btn btn-light">Clear Selection</button>
+        </div>
         <% @checkouts.each do |checkout| %>
           <%= render 'checkout_item', :i => checkout %>
         <% end %>
