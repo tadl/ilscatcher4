@@ -16,7 +16,7 @@
           </a>
         </div>
         <div class="<%= details_column_classes %>">
-          <h5 class="card-title">
+          <h4 class="card-title">
             <% if i.author.present? %>
               <% search_loc = i.search_location.present? ? i.search_location : Settings.location_default %>
               <% search_view = i.search_view.present? ? i.search_view : Settings.view_default %>
@@ -24,7 +24,7 @@
                 <strong><%= i.author %></strong>
               </a>
             <% end %>
-          </h5>
+          </h4>
           <div class="w-100">
             <% if !i.queue_status.include? "Ready for Pickup" %>
               <p class="card-text">
