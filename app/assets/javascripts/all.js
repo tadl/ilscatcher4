@@ -181,3 +181,11 @@ function renew_all() {
 
   alert(checkoutIds);
 }
+
+function toggle_select(element) {
+  if ($(element).hasClass('select') == true) {
+    $(element).removeClass('select btn-light').addClass('selected btn-success').html('<i class="fas fa-check"></i> Selected');
+  } else {
+    $(element).removeClass('selected btn-success').addClass('select btn-light').html('Select');
+  }
+}
