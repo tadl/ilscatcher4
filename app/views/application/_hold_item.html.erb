@@ -54,7 +54,7 @@
             <a class="btn btn-primary btn-block item_details_link" role="button" href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)">Details</a>
           </div>
           <div class="select-button mb-2">
-            <button class="btn btn-default btn-block btn-hold" role="button" onclick="">Select/Selected</button>
+            <button class="btn btn-light btn-block select" role="button" onclick="toggle_select(this)">Select</button>
           </div>
           <% if i.hold_count.to_i > 0 %>
             <div class="hold-info font-weight-bold text-center">

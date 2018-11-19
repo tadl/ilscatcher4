@@ -16,17 +16,15 @@
           </a>
         </div>
         <div class="<%= details_column_classes %>">
-          <h5 class="card-title">
+          <h4 class="card-title">
             <% if i.author.present? %>
               <% search_loc = i.search_location.present? ? i.search_location : Settings.location_default %>
               <% search_view = i.search_view.present? ? i.search_view : Settings.view_default %>
-              <h4>
-                <a href="/search?query=<%= i.author %>&type=author&location=<%= search_loc %>&view=<%= search_view %>">
-                  <strong><%= i.author %></strong>
-                </a>
-              </h4>
+              <a href="/search?query=<%= i.author %>&type=author&location=<%= search_loc %>&view=<%= search_view %>">
+                <strong><%= i.author %></strong>
+              </a>
             <% end %>
-          </h5>
+          </h4>
           <div class="w-100">
             <p class="card-text">
               <span class="font-weight-bold">Item Barcode:</span> <%= i.barcode %>
@@ -45,12 +43,15 @@
         </div>
         <div class="<%= button_column_classes %>">
           <% if i.renew_attempts.to_i > 0 %>
-            <div class="renew-button mb-3">
-              <button class="btn btn-primary btn-block renew-button" type="button" data-checkout="<%= i.checkout_id %>" onclick="renew(<%= i.checkout_id %>)">Renew</button>
+            <div class="mb-3">
+              <button class="btn btn-primary btn-block renew-button" type="button" data-checkout="<%= i.checkout_id %>" onclick="renew(<%= i.checkout_id %>, this)">Renew</button>
             </div>
           <% end %>
-          <div class="details-button mb-3">
+          <div class="mb-3">
             <a class="btn btn-primary btn-block item_details_link" role="button" href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)">Details</a>
+          </div>
+          <div class="mb-3">
+            <button class="btn btn-light btn-block select" type="button" data-checkout="<%= i.checkout_id %>" onclick="toggle_select(this)">Select</button>
           </div>
           <% if i.hold_count.to_i > 0 %>
             <div class="hold-info font-weight-bold text-center">

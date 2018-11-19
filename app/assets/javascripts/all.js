@@ -165,16 +165,27 @@ function edit_hold(hid, id, action) {
 function bulk_edit_hold() {
 }
 
-function renew(cid) {
+function renew(cid, element) {
+  $(element).html('<i class="fas fa-asterisk spin"></i> Renewing').addClass('disabled');
   $.post("renew_checkouts.js", {checkout_ids: cid});
 }
+
 function bulk_renew() {
 }
 
 function renew_all() {
-  var checkoutIds = "";
+  var checkoutIds = [];
   $('.renew-button').each(function() {
-    checkoutIds += $(this).data('checkout');
+    checkoutIds.push($(this).data('checkout'));
   });
+
   alert(checkoutIds);
+}
+
+function toggle_select(element) {
+  if ($(element).hasClass('select') == true) {
+    $(element).removeClass('select btn-light').addClass('selected btn-success').html('<i class="fas fa-check"></i> Selected');
+  } else {
+    $(element).removeClass('selected btn-success').addClass('select btn-light').html('Select');
+  }
 }
