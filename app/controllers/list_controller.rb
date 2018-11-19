@@ -13,4 +13,23 @@ class ListController < ApplicationController
     end
   end
 
+  def view_list
+    if params[:list_id]
+      if @user
+        list_hash = @user.TEMP_view_list(@user.token, params[:list_id])
+      else
+        @user = User.new
+        list_hash = @user.TEMP_view_list(nil, params[:list_id])
+      end
+      @list = list_hash['list']
+      @items = list_hash['items']
+    else
+      @list = {:error => 'missing parameters'}
+      @items = {:error => 'missing parameters'}
+    end
+    respond_to do |format|
+      format.json {render :json =>{ list: @list, items: @items}}
+    end
+  end
+
 end

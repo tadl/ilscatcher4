@@ -16,7 +16,8 @@ Rails.application.routes.draw do
   match 'preferences', to: 'user#preferences', as: 'preferences', via: [:get, :post]
   match 'fines', to: 'user#fines', as: 'fines', via: [:get, :post]
   match 'lists', to: 'list#lists', as: 'lists', via: [:get, :post]
+  match 'view_list', to: 'list#view_list', as: 'view_list', via: [:get, :post]
   match 'payments', to: 'user#payments', as: 'payments', via: [:get, :post] 
   match 'missing_token', to: 'user#missing_token', as: 'missing_token', via: [:get, :post]
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  # For details on the DSL available within this file, see http://guides.ruby
 end
