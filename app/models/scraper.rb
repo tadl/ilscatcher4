@@ -190,6 +190,20 @@ class Scraper
       return 'error'
     end
   end
+
+  def list_edit(token, values)
+    params = '?token=' + token
+    params += '&list_id=' + values[:list_id]
+    params += '&name=' + values[:name]
+    params += '&description=' + values[:description]
+    params += '&offset=' + values[:offset]
+    edit_confirmation = request('edit_list', params)
+    if edit_confirmation['message'] && edit_confirmation['message'] == 'success'
+      return edit_confirmation['message']
+    else
+      return 'error'
+    end
+  end
   
   private
 

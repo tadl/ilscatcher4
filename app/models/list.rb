@@ -13,4 +13,14 @@ class List
     end
   end
 
+  def edit(token, params)
+    scraper = Scraper.new
+    edit_list_request = scraper.list_edit(token, params)
+    if edit_list_request != 'error'
+      return edit_list_request
+    else
+      return {:error => 'unable to edit list'}
+    end
+  end
+
 end
