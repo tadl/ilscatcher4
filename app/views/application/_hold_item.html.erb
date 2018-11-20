@@ -47,7 +47,7 @@
             </div>
           <% end %>
           <div class="mb-2">
-            <button class="btn btn-primary btn-block btn-hold" role="button" data-hold="<%= i.hold_id %>" onclick="cancel_confirm(this)">Cancel/Confirm</button>
+            <button class="btn btn-primary btn-block btn-hold" role="button" data-hold="<%= i.hold_id %>" onclick="cancel_confirm(this)">Cancel</button>
           </div>
           <div class="mb-2">
             <a class="btn btn-primary btn-block item_details_link" role="button" href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)">Details</a>
