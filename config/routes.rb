@@ -21,7 +21,10 @@ Rails.application.routes.draw do
   match 'view_list', to: 'list#view_list', as: 'view_list', via: [:get, :post]
   match 'edit_list', to: 'list#edit_list', as: 'edit_list', via: [:get, :post]
   match 'share_list', to: 'list#share_list', as: 'share_list', via: [:get, :post]
+  match 'destroy_list', to: 'list#destroy_list', as: 'destroy_list', via: [:get, :post]
   match 'make_default_list', to: 'list#make_default_list', as: 'make_default_list', via: [:get, :post]
+  match 'add_note_to_list', to: 'list#add_note_to_list', as: 'add_note_to_list', via: [:get, :post]
+  match 'edit_note', to: 'list#edit_note', as: 'edit_note', via: [:get, :post]
   match 'payments', to: 'user#payments', as: 'payments', via: [:get, :post] 
   match 'missing_token', to: 'user#missing_token', as: 'missing_token', via: [:get, :post]
   # For details on the DSL available within this file, see http://guides.ruby

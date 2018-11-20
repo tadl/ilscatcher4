@@ -80,7 +80,7 @@ class ListController < ApplicationController
   def make_default_list
     if @user && params[:list_id]
       list = List.new
-      @message = list.make_default(@user.token, params)
+      @message = list.make_default(@user.token, params[:list_id])
       @lists = get_lists_and_set_cookie(@user)
     else
       @message = {:error => 'missing parameters'}
@@ -88,6 +88,47 @@ class ListController < ApplicationController
     respond_to do |format|
       format.html
       format.json {render :json =>{ message: @message, lists: @lists}}
+    end
+  end
+
+  def destroy_list
+    if @user && params[:list_id]
+      list = List.new
+      @message = list.destroy(@user.token, params[:list_id])
+      @lists = get_lists_and_set_cookie(@user)
+    else
+      @message = {:error => 'missing parameters'}
+    end
+    respond_to do |format|
+      format.html
+      format.json {render :json =>{ message: @message, lists: @lists}}
+    end
+  end
+
+  def add_note_to_list
+    if @user && params[:list_id] && params[:list_item_id] && params[:note]
+      list = List.new
+      @message = list.add_note(@user.token, params)
+    else
+      @message = {:error => 'missing parameters'}
+    end
+    respond_to do |format|
+      format.html
+      format.json {render :json =>{ message: @message}}
+    end
+  end
+
+  # not sending a note param or sending it as a blank string will delete the note
+  def edit_note
+    if @user && params[:list_id] && params[:note_id] 
+      list = List.new
+      @message = list.edit_note(@user.token, params)
+    else
+      @message = {:error => 'missing parameters'}
+    end
+    respond_to do |format|
+      format.html
+      format.json {render :json =>{ message: @message}}
     end
   end
 

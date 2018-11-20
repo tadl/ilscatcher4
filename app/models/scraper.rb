@@ -218,9 +218,9 @@ class Scraper
     end
   end
 
-  def list_make_default(token, values)
+  def list_make_default(token, list_id)
     params = '?token=' + token
-    params += '&list_id=' + values[:list_id]
+    params += '&list_id=' + list_id
     make_default_confirmation = request('make_default_list', params)
     if make_default_confirmation['message'] && make_default_confirmation['message'] == 'success'
       return make_default_confirmation['message']
@@ -228,6 +228,46 @@ class Scraper
       return 'error'
     end
   end
+
+  def list_destroy(token, list_id)
+    params = '?token=' + token
+    params += '&list_id=' + list_id
+    destroy_confirmation = request('destroy_list', params)
+    if destroy_confirmation['message'] && destroy_confirmation['message'] == 'success'
+      return destroy_confirmation['message']
+    else
+      return 'error'
+    end
+  end
+
+  def list_add_note(token, values)
+    params = '?token=' + token
+    params += '&list_id=' + values[:list_id]
+    params += '&list_item_id=' + values[:list_item_id]
+    params += '&note=' + values[:note]
+    add_note_confirmation = request('add_note_to_list', params)
+    if add_note_confirmation['message'] && add_note_confirmation['message'] == 'success'
+      return add_note_confirmation['message']
+    else
+      return 'error'
+    end
+  end
+
+  def list_edit_note(token, values)
+    params = '?token=' + token
+    params += '&list_id=' + values[:list_id]
+    params += '&note_id=' + values[:note_id]
+    if values[:note]
+      params += '&note=' + values[:note]
+    end
+    edit_note_confirmation = request('edit_note', params)
+    if edit_note_confirmation['message'] && edit_note_confirmation['message'] == 'success'
+      return edit_note_confirmation['message']
+    else
+      return 'error'
+    end
+  end
+
   
   private
 
