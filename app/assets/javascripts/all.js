@@ -155,7 +155,7 @@ function place_hold(id, force) {
     console.log('somehow you are placing a hold when you are not logged in. you should consider not doing that.')
   } else {
     $('.btn-hold-'+id).text('Placing Hold').addClass('disabled progress-bar progress-bar-striped progress-bar-animated');
-    $.get("place_hold.js", {id: id, force: force_hold});
+    $.post("place_hold.js", {id: id, force: force_hold});
   }
 }
 
@@ -185,7 +185,6 @@ function renew(cid, element) {
   $(element).html('<i class="fas fa-asterisk spin"></i> Renewing').addClass('disabled').prop('disabled', true);
   $.post("renew_checkouts.js", {checkout_ids: cid});
 }
-
 function bulk_renew() {
   var checkoutIds = [];
   $('.selected').each(function() {
@@ -198,7 +197,6 @@ function bulk_renew() {
     show_alert('warning', 'You must select one or more items to renew.');
   }
 }
-
 function renew_all() {
   var checkoutIds = [];
   $('.renew-button').each(function() {
