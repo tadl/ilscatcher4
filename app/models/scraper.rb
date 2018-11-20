@@ -268,6 +268,30 @@ class Scraper
     end
   end
 
+  def list_add_item(token,values)
+    params = '?token=' + token
+    params += '&record_id=' + values[:record_id]
+    params += '&list_id=' + values[:list_id]
+    add_confirmation = request('add_item_to_list', params)
+    if add_confirmation['message'] && add_confirmation['message'] == 'success'
+      return add_confirmation['message']
+    else
+      return 'error'
+    end
+  end
+
+  def list_remove_item(token, values)
+    params = '?token=' + token
+    params += '&list_item_id=' + values[:list_item_id]
+    params += '&list_id=' + values[:list_id]
+    remove_confirmation = request('remove_item_from_list', params)
+    if remove_confirmation['message'] && remove_confirmation['message'] == 'success'
+      return remove_confirmation['message']
+    else
+      return 'error'
+    end
+  end
+
   
   private
 

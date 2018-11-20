@@ -23,6 +23,8 @@ Rails.application.routes.draw do
   match 'share_list', to: 'list#share_list', as: 'share_list', via: [:get, :post]
   match 'destroy_list', to: 'list#destroy_list', as: 'destroy_list', via: [:get, :post]
   match 'make_default_list', to: 'list#make_default_list', as: 'make_default_list', via: [:get, :post]
+  match 'add_item_to_list', to: 'list#add_item', as: 'add_item_to_list', via: [:get, :post]
+  match 'remove_item_from_list', to: 'list#remove_item', as: 'remove_item_from_list', via: [:get, :post]
   match 'add_note_to_list', to: 'list#add_note_to_list', as: 'add_note_to_list', via: [:get, :post]
   match 'edit_note', to: 'list#edit_note', as: 'edit_note', via: [:get, :post]
   match 'payments', to: 'user#payments', as: 'payments', via: [:get, :post] 

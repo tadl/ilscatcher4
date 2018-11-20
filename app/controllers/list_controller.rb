@@ -132,6 +132,32 @@ class ListController < ApplicationController
     end
   end
 
+  def add_item
+    if @user && params[:list_id] && params[:record_id] 
+      list = List.new
+      @message = list.add_item(@user.token, params)
+    else
+      @message = {:error => 'missing parameters'}
+    end
+    respond_to do |format|
+      format.html
+      format.json {render :json =>{ message: @message}}
+    end
+  end
+
+  def remove_item
+    if @user && params[:list_id] && params[:list_item_id] 
+      list = List.new
+      @message = list.remove_item(@user.token, params)
+    else
+      @message = {:error => 'missing parameters'}
+    end
+    respond_to do |format|
+      format.html
+      format.json {render :json =>{ message: @message}}
+    end
+  end
+
   private
 
   def get_lists_and_set_cookie(user)

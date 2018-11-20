@@ -73,4 +73,24 @@ class List
     end
   end
 
+  def add_item(token, params)
+    scraper = Scraper.new
+    add_item_request = scraper.list_add_item(token, params)
+    if add_item_request != 'error'
+      return add_item_request
+    else
+      return {:error => 'unable to add this item to list'}
+    end
+  end
+
+  def remove_item(token, params)
+    scraper = Scraper.new
+    remove_item_request = scraper.list_remove_item(token, params)
+    if remove_item_request != 'error'
+      return remove_item_request
+    else
+      return {:error => 'unable to remove this item from list'}
+    end
+  end
+
 end
