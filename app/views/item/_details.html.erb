@@ -25,7 +25,7 @@
           </a>
         </h5>
       <% end %>
-      <div id="goodreads_review"></div>
+      <div id="goodreads_review-<%= i.id %>"></div>
       <% if !i.abstract.blank? %>
         <dl>
           <dt>Summary</dt>
@@ -247,12 +247,13 @@
 <script>
   function load_added_content(record_id, isbn) {
     if (isbn && isbn != '') {
-      fetch_good_reads(isbn)
+      fetch_good_reads(isbn, record_id)
       }
     fetch_youtube_trailer(record_id)
   }
   
-  function fetch_good_reads(isbn) {
+  function fetch_good_reads(isbn, record_id) {
+    var target_div = '#goodreads_review-' + record_id
     var clean_isbn = isbn.replace(/\D/g,'')
     var url = 'https://tadl-toolbox.appstwo.tadl.org/goodreads?isbn=' + clean_isbn
     $.get(url)
@@ -261,7 +262,7 @@
         var content = '<span class="goodreads-stars"><a href="' + data.gr_link +'">'
         content = content + data.stars_html + ' on GoodReads.com'
         content = content + '</a></span>'
-        $('#goodreads_review').html(content)
+        $(target_div).html(content)
       }
     });
   }
