@@ -41,17 +41,18 @@
         </div>
         <div class="<%= button_column_classes %>">
           <% if !i.queue_status.include? "Ready for Pickup" %>
-            <div class="suspend-button mb-2">
-              <button class="btn btn-success btn-block btn-hold" role="button" onclick=""><%= (i.hold_status == "Active") ? 'Suspend' : 'Activate' %></button>
+            <div class="mb-2">
+              <% action = (i.hold_status == "Active") ? "Suspend" : "Activate" %>
+              <button class="btn btn-success btn-block btn-hold" role="button" data-hold="<%= i.hold_id %>" onclick="edit_hold(this, '<%= action %>')"><%= action %></button>
             </div>
           <% end %>
-          <div class="cancel-button mb-2">
-            <button class="btn btn-primary btn-block btn-hold" role="button" onclick="">Cancel/Confirm</button>
+          <div class="mb-2">
+            <button class="btn btn-primary btn-block btn-hold" role="button" data-hold="<%= i.hold_id %>" onclick="edit_hold(this, 'Cancel')">Cancel/Confirm</button>
           </div>
-          <div class="details-button mb-2">
+          <div class="mb-2">
             <a class="btn btn-primary btn-block item_details_link" role="button" href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)">Details</a>
           </div>
-          <div class="select-button mb-2">
+          <div class="mb-2">
             <button class="btn btn-light btn-block select" role="button" onclick="toggle_select(this)">Select</button>
           </div>
           <% if i.hold_count.to_i > 0 %>

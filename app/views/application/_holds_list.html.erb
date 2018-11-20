@@ -1,9 +1,9 @@
 <% if @userdetails['holds'].to_i > 0 && @userdetails['token'] != "" %>
   <div class="mb-3">
     <button type="button" class="btn btn-light" onclick="select_all()">Select All</button>
-    <button type="button" class="btn btn-light disabled" onclick="bulk_edit_hold()" disabled="true">Suspend Selected</button>
-    <button type="button" class="btn btn-light disabled" onclick="bulk_edit_hold()" disabled="true">Activate Selected</button>
-    <button type="button" class="btn btn-light disabled" onclick="bulk_edit_hold()" disabled="true">Cancel Selected</button>
+    <button type="button" class="btn btn-light disabled bulk-action" onclick="bulk_edit_hold()" disabled="true">Suspend Selected</button>
+    <button type="button" class="btn btn-light disabled bulk-action" onclick="bulk_edit_hold()" disabled="true">Activate Selected</button>
+    <button type="button" class="btn btn-light disabled bulk-action" onclick="bulk_edit_hold()" disabled="true">Cancel Selected</button>
     <button type="button" class="btn btn-light" onclick="select_clear()">Clear Selection</button>
   </div>
   <% @holds.each do |hold| %>

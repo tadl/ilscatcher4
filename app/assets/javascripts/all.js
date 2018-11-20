@@ -159,7 +159,7 @@ function place_hold(id, force) {
   }
 }
 
-function edit_hold(hid, action) {
+function edit_hold(hid, action, element) {
   /* activate, suspend, cancel */
 }
 function bulk_edit_hold() {
@@ -204,7 +204,7 @@ function toggle_select(element) {
 function select_all() {
   var selectCount = 0;
   $('.select').each(function() {
-    $selectCount++;
+    selectCount++;
     $(this).removeClass('select btn-light').addClass('selected btn-success').html('<i class="fas fa-check"></i> Selected');
   });
   if (selectCount > 0) {
