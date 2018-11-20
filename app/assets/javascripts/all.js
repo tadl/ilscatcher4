@@ -159,10 +159,26 @@ function place_hold(id, force) {
   }
 }
 
-function edit_hold(hid, action, element) {
-  /* activate, suspend, cancel */
+function cancel_confirm(element) {
+  $(element).html('Confirm Cancel').removeClass('btn-primary').addClass('btn-danger').attr('onclick', 'edit_hold(this,"cancel")');
 }
-function bulk_edit_hold() {
+function edit_hold(element, action) {
+  var holdId = $(element).data('hold');
+  $(element).html('<i class="fas fa-asterisk spin"></i> One moment...').addClass('disabled').prop('disabled', true);
+  $.post("manage_hold.js", {hold_id: holdId, task: action.toLowerCase()});
+}
+function bulk_edit_hold(element, action) {
+  var holdIds = []
+  $('.selected').each(function() {
+    holdIds.push($(this).data('hold'));
+  });
+  console.log(holdIds);
+  console.log(holdIds.length);
+  if (holdIds.length > 0) {
+    $('.bulk-action').addClass('disabled').prop('disabled', true);
+    $(element).html('<i class="fas fa-asterisk spin"></i> One moment...');
+    $.post("manage_hold.js", {hold_id: holdIds.join(), task: action});
+  }
 }
 
 function renew(cid, element) {
@@ -172,11 +188,15 @@ function renew(cid, element) {
 
 function bulk_renew() {
   var checkoutIds = [];
-  $('.bulk-action').html('<i class="fas fa-asterisk spin"></i> Renewing selected items').addClass('disabled').prop('disabled', true);
   $('.selected').each(function() {
     checkoutIds.push($(this).data('checkout'));
   });
-  $.post("renew_checkouts.js", {checkout_ids: checkoutIds.join()});
+  if (checkoutIds.length > 0) {
+    $('.bulk-action').html('<i class="fas fa-asterisk spin"></i> Renewing selected items').addClass('disabled').prop('disabled', true);
+    $.post("renew_checkouts.js", {checkout_ids: checkoutIds.join()});
+  } else {
+    show_alert('warning', 'You must select one or more items to renew.');
+  }
 }
 
 function renew_all() {
@@ -184,7 +204,7 @@ function renew_all() {
   $('.renew-button').each(function() {
     checkoutIds.push($(this).data('checkout'));
   });
-  if (checkoutIds.count > 0) {
+  if (checkoutIds.length > 0) {
     $('.all-renew').html('<i class="fas fa-asterisk spin"></i> Renewing all items').addClass('disabled').prop('disabled', true);
     $.post("renew_checkouts.js", {checkout_ids: checkoutIds.join()});
   } else {
