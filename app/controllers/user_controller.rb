@@ -145,6 +145,7 @@ class UserController < ApplicationController
     end
 
     respond_to do |format|
+      format.js
       format.json {render :json =>{:user => @user, :holds => @holds}}
     end
 
@@ -158,6 +159,7 @@ class UserController < ApplicationController
     end
 
     respond_to do |format|
+      format.js
       format.json {render :json => @hold }
     end
 
