@@ -16,17 +16,15 @@
           </a>
         </div>
         <div class="<%= details_column_classes %>">
-          <h5 class="card-title">
+          <h4 class="card-title">
             <% if i.author.present? %>
               <% search_loc = i.search_location.present? ? i.search_location : Settings.location_default %>
               <% search_view = i.search_view.present? ? i.search_view : Settings.view_default %>
-              <h4>
-                <a href="/search?query=<%= i.author %>&type=author&location=<%= search_loc %>&view=<%= search_view %>">
-                  <strong><%= i.author %></strong>
-                </a>
-              </h4>
+              <a href="/search?query=<%= i.author %>&type=author&location=<%= search_loc %>&view=<%= search_view %>">
+                <strong><%= i.author %></strong>
+              </a>
             <% end %>
-          </h5>
+          </h4>
           <div class="w-100">
             <% if !i.queue_status.include? "Ready for Pickup" %>
               <p class="card-text">
@@ -43,17 +41,18 @@
         </div>
         <div class="<%= button_column_classes %>">
           <% if !i.queue_status.include? "Ready for Pickup" %>
-            <div class="suspend-button mb-2">
-              <button class="btn btn-success btn-block btn-hold" role="button" onclick=""><%= (i.hold_status == "Active") ? 'Suspend' : 'Activate' %></button>
+            <div class="mb-2">
+              <% action = (i.hold_status == "Active") ? "Suspend" : "Activate" %>
+              <button class="btn btn-success btn-block btn-hold" role="button" data-hold="<%= i.hold_id %>" onclick="edit_hold(this, '<%= action %>')"><%= action %></button>
             </div>
           <% end %>
-          <div class="cancel-button mb-2">
-            <button class="btn btn-primary btn-block btn-hold" role="button" onclick="">Cancel/Confirm</button>
+          <div class="mb-2">
+            <button class="btn btn-primary btn-block btn-hold" role="button" data-hold="<%= i.hold_id %>" onclick="edit_hold(this, 'Cancel')">Cancel/Confirm</button>
           </div>
-          <div class="details-button mb-2">
+          <div class="mb-2">
             <a class="btn btn-primary btn-block item_details_link" role="button" href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)">Details</a>
           </div>
-          <div class="select-button mb-2">
+          <div class="mb-2">
             <button class="btn btn-light btn-block select" role="button" onclick="toggle_select(this)">Select</button>
           </div>
           <% if i.hold_count.to_i > 0 %>

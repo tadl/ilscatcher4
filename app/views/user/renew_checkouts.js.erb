@@ -2,7 +2,7 @@
 <% if !@user.error %>
   <% @userdetails = JSON.parse(cookies[:user]) %>
   $('#account-checkouts').html("<%= escape_javascript(render partial: 'checkouts_list') %>");
-  $('#alert-box').html("<%= escape_javascript(render partial: 'alert', locals: {alert_type: 'success', alert_text: @message}) %>");
+  $('#alert-box').append("<%= escape_javascript(render partial: 'alert', locals: {alert_type: 'success', alert_text: @message}) %>");
 
 <% else %>
   /* not sure how this would happen */

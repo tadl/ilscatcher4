@@ -159,18 +159,24 @@ function place_hold(id, force) {
   }
 }
 
-function edit_hold(hid, id, action) {
+function edit_hold(hid, action, element) {
   /* activate, suspend, cancel */
 }
 function bulk_edit_hold() {
 }
 
 function renew(cid, element) {
-  $(element).html('<i class="fas fa-asterisk spin"></i> Renewing').addClass('disabled');
+  $(element).html('<i class="fas fa-asterisk spin"></i> Renewing').addClass('disabled').prop('disabled', true);
   $.post("renew_checkouts.js", {checkout_ids: cid});
 }
 
 function bulk_renew() {
+  var checkoutIds = [];
+  $('.bulk-action').html('<i class="fas fa-asterisk spin"></i> Renewing selected items').addClass('disabled').prop('disabled', true);
+  $('.selected').each(function() {
+    checkoutIds.push($(this).data('checkout'));
+  });
+  $.post("renew_checkouts.js", {checkout_ids: checkoutIds.join()});
 }
 
 function renew_all() {
@@ -178,14 +184,48 @@ function renew_all() {
   $('.renew-button').each(function() {
     checkoutIds.push($(this).data('checkout'));
   });
-
-  alert(checkoutIds);
+  if (checkoutIds.count > 0) {
+    $('.all-renew').html('<i class="fas fa-asterisk spin"></i> Renewing all items').addClass('disabled').prop('disabled', true);
+    $.post("renew_checkouts.js", {checkout_ids: checkoutIds.join()});
+  } else {
+    show_alert('warning', 'Sorry, you have no items eligible for renewal.');
+  }
 }
 
 function toggle_select(element) {
   if ($(element).hasClass('select') == true) {
     $(element).removeClass('select btn-light').addClass('selected btn-success').html('<i class="fas fa-check"></i> Selected');
+    $('.bulk-action').removeClass('disabled').prop('disabled', false);
   } else {
     $(element).removeClass('selected btn-success').addClass('select btn-light').html('Select');
+    $('.bulk-action').addClass('disabled').prop('disabled', true);
   }
+}
+function select_all() {
+  var selectCount = 0;
+  $('.select').each(function() {
+    selectCount++;
+    $(this).removeClass('select btn-light').addClass('selected btn-success').html('<i class="fas fa-check"></i> Selected');
+  });
+  if (selectCount > 0) {
+    $('.bulk-action').removeClass('disabled').prop('disabled', false);
+  }
+}
+function select_clear() {
+  $('.bulk-action').addClass('disabled').prop('disabled', true);
+  $('.selected').each(function() {
+    $(this).removeClass('selected btn-success').addClass('select btn-light').html('Select');
+  });
+}
+
+function show_alert(type, message) {
+  alert_div = '#alert-box';
+  var html = '<div class="alert alert-' + type + ' alert-dismissible fade show" role="alert">';
+  html += message;
+  html += '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
+  html += '<span aria-hidden="true">&times;</span>';
+  html += '</button>';
+  html += '</div>';
+  $(alert_div).append(html);
+  console.log(html);
 }
