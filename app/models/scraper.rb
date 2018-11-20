@@ -204,6 +204,30 @@ class Scraper
       return 'error'
     end
   end
+
+  def list_share(token, values)
+    params = '?token=' + token
+    params += '&list_id=' + values[:list_id]
+    params += '&share=' + values[:share]
+    params += '&offset=' + values[:offset]
+    share_confirmation = request('share_list', params)
+    if share_confirmation['message'] && share_confirmation['message'] == 'success'
+      return share_confirmation['message']
+    else
+      return 'error'
+    end
+  end
+
+  def list_make_default(token, values)
+    params = '?token=' + token
+    params += '&list_id=' + values[:list_id]
+    make_default_confirmation = request('make_default_list', params)
+    if make_default_confirmation['message'] && make_default_confirmation['message'] == 'success'
+      return make_default_confirmation['message']
+    else
+      return 'error'
+    end
+  end
   
   private
 

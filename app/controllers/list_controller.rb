@@ -4,8 +4,7 @@ class ListController < ApplicationController
 
   def lists
     if @user
-      @lists = @user.TEMP_get_lists
-      cookies[:lists] = {:value => @lists.to_json, :expires => 1.hour.from_now.utc}
+      @lists = get_lists_and_set_cookie(@user)
     else
       @list = {:error => 'missing parameters'}
     end
@@ -39,8 +38,7 @@ class ListController < ApplicationController
     if @user && params[:name] && params[:shared]
       list = List.new
       @message = list.create(@user.token, params)
-      @lists = @user.TEMP_get_lists
-      cookies[:lists] = {:value => @lists.to_json, :expires => 1.hour.from_now.utc} 
+      @lists = get_lists_and_set_cookie(@user)
     else
       @message = {:error => 'missing parameters'}
     end
@@ -54,8 +52,7 @@ class ListController < ApplicationController
     if @user && params[:list_id] && params[:offset]
       list = List.new
       @message = list.edit(@user.token, params)
-      @lists = @user.TEMP_get_lists
-      cookies[:lists] = {:value => @lists.to_json, :expires => 1.hour.from_now.utc} 
+      @lists = get_lists_and_set_cookie(@user)
     else
       @message = {:error => 'missing parameters'}
     end
@@ -65,5 +62,41 @@ class ListController < ApplicationController
     end
   end
 
+  #share param can equal show or hide
+  def share_list
+    if @user && params[:list_id] && params[:offset] && params[:share]
+      list = List.new
+      @message = list.share(@user.token, params)
+      @lists = get_lists_and_set_cookie(@user)
+    else
+      @message = {:error => 'missing parameters'}
+    end
+    respond_to do |format|
+      format.html
+      format.json {render :json =>{ message: @message, lists: @lists}}
+    end
+  end
+
+  def make_default_list
+    if @user && params[:list_id]
+      list = List.new
+      @message = list.make_default(@user.token, params)
+      @lists = get_lists_and_set_cookie(@user)
+    else
+      @message = {:error => 'missing parameters'}
+    end
+    respond_to do |format|
+      format.html
+      format.json {render :json =>{ message: @message, lists: @lists}}
+    end
+  end
+
+  private
+
+  def get_lists_and_set_cookie(user)
+    lists = @user.TEMP_get_lists
+    cookies[:lists] = {:value => @lists.to_json, :expires => 1.hour.from_now.utc}
+    return lists
+  end
 
 end

@@ -23,4 +23,24 @@ class List
     end
   end
 
+  def share(token, params)
+    scraper = Scraper.new
+    share_list_request = scraper.list_share(token, params)
+    if share_list_request != 'error'
+      return share_list_request
+    else
+      return {:error => 'unable to change privacy settings of this list'}
+    end
+  end
+
+  def make_default(token, params)
+    scraper = Scraper.new
+    make_default_list_request = scraper.list_make_default(token, params)
+    if make_default_list_request != 'error'
+      return make_default_list_request
+    else
+      return {:error => 'unable to change privacy settings of this list'}
+    end
+  end
+
 end
