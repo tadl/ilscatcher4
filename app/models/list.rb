@@ -69,7 +69,7 @@ class List
     if edit_note_request != 'error'
       return edit_note_request
     else
-      return {:error => 'unable to add note to this list'}
+      return {:error => 'unable to edit this note'}
     end
   end
 

@@ -168,14 +168,17 @@ class UserController < ApplicationController
 # FINES
   def fines
     if @user
-      @fines = @user.TEMP_fines
+      request_fines = @user.TEMP_fines
+      @fines = request_fines['fines']
+      @fees = request_fines['fees']
     else
       @fines = {:error => 'missing parameters'}
+      @fees = {:error => 'missing parameters'}
     end
 
     respond_to do |format|
       format.html
-      format.json {render :json => @fines}
+      format.json {render :json =>{:fines => @fines, :fees => @fees}}
     end
 
   end
