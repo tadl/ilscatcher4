@@ -5,12 +5,12 @@
       <%= render 'account_menu' %>
     </div>
     <div id="account-fines" class="col-12 col-md-9 mt-3">
-      <% if (@fines['fines'].length > 0) || (@fines['fees'].length > 0) %>
-        <% if @fines['fines'].length > 0 %>
-          <%= render 'fines_list', fines: @fines['fines'] %>
+      <% if (@fines.length > 0) || (@fees.length > 0) %>
+        <% if @fines.length > 0 %>
+          <%= render 'fines_list', fines: @fines %>
         <% end %>
-        <% if @fines['fees'].length > 0 %>
-          <%= render 'fees_list', fees: @fines['fees'] %>
+        <% if @fees.length > 0 %>
+          <%= render 'fees_list', fees: @fees %>
         <% end %>
       <% else %>
         <h1>No fines on your account. Hooray!</h1>

@@ -171,6 +171,7 @@ class UserController < ApplicationController
       request_fines = @user.TEMP_fines
       @fines = request_fines['fines']
       @fees = request_fines['fees']
+      basic_info_and_cookies(@user)
     else
       @fines = {:error => 'missing parameters'}
       @fees = {:error => 'missing parameters'}
