@@ -6,15 +6,13 @@
     </div>
     <div id="account-lists" class="col-12 col-md-9 mt-3">
       <% @lists.each do |list| %>
-        <div class="card mb-3">
-            <a href="">
-          <h5 class="card-header">
-              <%= list['title'] %>
-          </h5>
-            </a>
+        <div class="card mb-3" id="list-<%= list['list_id'] %>">
+          <%= link_to view_list_path(:list_id => list['list_id']) do %>
+            <%= content_tag :h5, list['title'], :class => "card-header" %>
+          <% end %>
           <div class="card-body">
             <% if list['description'] != "" %>
-              <h5 class="card-title"><%= list['description'] %></h5>
+              <h4 class="card-title"><%= list['description'] %></h4>
             <% end %>
             <% visibility = (list['shared'] == true) ? 'Private' : 'Public' %>
             <button class="btn btn-primary" role="button" onclick="edit_list_details(<%= list['list_id'] %>)">Edit Details</button>
