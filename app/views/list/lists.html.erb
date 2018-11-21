@@ -5,6 +5,30 @@
       <%= render 'account_menu' %>
     </div>
     <div id="account-lists" class="col-12 col-md-9 mt-3">
+      <% @lists.each do |list| %>
+        <div class="card mb-3">
+            <a href="">
+          <h5 class="card-header">
+              <%= list['title'] %>
+          </h5>
+            </a>
+          <div class="card-body">
+            <% if list['description'] != "" %>
+              <h5 class="card-title"><%= list['description'] %></h5>
+            <% end %>
+            <% visibility = (list['shared'] == true) ? 'Private' : 'Public' %>
+            <button class="btn btn-primary" role="button" onclick="edit_list_details(<%= list['list_id'] %>)">Edit Details</button>
+            <button class="btn btn-primary" role="button" onclick="delete_list(this)">Delete</button>
+            <button class="btn btn-primary" role="button" data-listid="<%= list['list_id'] %>" onclick="toggle_list_visibility(this)">Make <%= visibility %></button>
+            <% if list['default'] == true %>
+              <p class="card-text">This is your default list</p>
+            <% else %>
+              <button class="btn btn-primary" role="button" data-listid="<%= list['list_id'] %>" onclick="make_default_list(this)">Make default</button>
+            <% end %>
+
+          </div>
+        </div>
+      <% end %>
     </div>
   </div>
 <% else %>
