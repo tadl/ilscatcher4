@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  before_action :extend_cookie_life
   # dummy var for development
   @logged_in = false
 
@@ -16,4 +17,20 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+
+  def extend_cookie_life
+    if cookies[:login]
+      login = cookies[:login]
+      cookies[:login] = {:value => login, :expires => 1.hour.from_now.utc}
+    end
+    if cookies[:user]
+      user = cookies[:user]
+      cookies[:user] = {:value => user, :expires => 1.hour.from_now.utc}
+    end
+    if cookies[:list]
+      list = cookies[:list]
+      cookies[:list] = {:value => list, :expires => 1.hour.from_now.utc}
+    end
+  end
+
 end
