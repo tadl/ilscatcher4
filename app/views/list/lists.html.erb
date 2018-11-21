@@ -18,14 +18,14 @@
               <label for="list-<%= list['list_id'] %>-description">Description</label>
               <textarea class="form-control" id="list-<%= list['list_id'] %>-description" rows="2"><%= list['description'] %></textarea>
             </div>
-            <button class="btn btn-success" role="button" onclick="save_list_details()">Save</button>
+            <button class="btn btn-success" role="button" onclick="save_list_details(<%= list['list_id'] %>)">Save</button>
             <button class="btn btn-danger" role="button" onclick="cancel_edit_list(<%= list['list_id'] %>)">Cancel</button>
           </div>
         </div>
 
         <div class="card mb-3" id="list-<%= list['list_id'] %>">
           <%= link_to view_list_path(:list_id => list['list_id']) do %>
-            <%= content_tag :h5, list['title'], :class => "card-header" %>
+            <%= content_tag :h5, list['title'], :class => "card-header font-weight-bold" %>
           <% end %>
           <div class="card-body">
             <% if list['description'] != "" %>

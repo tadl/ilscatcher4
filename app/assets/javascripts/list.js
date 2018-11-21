@@ -8,6 +8,9 @@ function cancel_edit_list(id) {
   $('#list-'+id).show();
 }
 
+function save_list_details(id) {
+}
+
 function delete_list(element) {
 }
 
