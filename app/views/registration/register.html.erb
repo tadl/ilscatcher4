@@ -1,0 +1,105 @@
+<div class="container">
+  <div class="row mt-3">
+    <h1>Signing-up for a library card is easy!</h1> 
+  </div>
+  <div class="row mb-3">
+    <h3>Please fill out the form below to get started.</h3>
+  </div>
+  <form>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="first_name">First Name</label>
+          <input type="text" class="form-control" id="first_name" placeholder="First Name">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="middle_name">Middle Name</label>
+          <input type="text" class="form-control" id="middle_name" placeholder="Middle Name">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="last_name">Last Name</label>
+          <input type="text" class="form-control" id="last_name" placeholder="Last Name">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-5">
+        <div class="form-group">
+          <label for="street_address">Street Address</label>
+          <input type="text" class="form-control" id="street_address" placeholder="Street Address">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="city">City</label>
+          <input type="text" class="form-control" id="city" placeholder="City">
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="state">State</label>
+          <select class="form-control" id="state">
+              <%= render 'state_list' %>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="zip_code">Zip Code</label>
+          <input type="text" class="form-control" id="zip_code" placeholder="Zip Code">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="text" class="form-control" id="phone" placeholder="Phone Number">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="email">E-Mail Address</label>
+          <input type="text" class="form-control" id="email" placeholder="E-Mail Address">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="birth_date">Date of Birth</label>
+          <br>
+          <%= select_date Date.today,{prefix: :birth_date, start_year: 1900, end_year: Time.current.year, order: [:month, :day, :year]},{:class => 'date_picker'} %>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" checked>
+          <label class="form-check-label" for="defaultCheck1">
+            Stay Connected! Receive news, events, and other email updates from your library
+          </label>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="row mt-3">
+    <h3>Agreement</h3>
+    <p>I agree to comply with all of the rules of the Traverse Area District Library; to return all materials in a timely fashion and in good condition; to promptly pay all fines levied against me; and to give notice of any change in my name, address or phone number.</p>
+    <p>TADL utilizes Unique Management Services to manage its delinquent accounts.</p>
+    <p>If the applicant is a minor, this agreement must be completed by a parent or guardian responsible for the minor.</p>
+  </div>
+  <div class="row mt-3">
+    <h3>Consent by the parent or guardian of a minor child</h3>
+    <p>I am the parent/guardian of the above named child. I consent to my child obtaining a borrower's card through the Traverse Area District Library, and I accept full responsibility for return of library materials checked out by the above named child, as well as liability for payment for the child's overdue fines and damaged or lost materials. I understand that my child has full access to library materials, programs and services, and that his or her borrowing record is confidential to the extent required by Michigan law.</p>
+    <p>I give consent to release of child's borrowing record to myself and other parents or guardians whose names I provide to library staff in person when completing this registration.</p>
+  </div>
+  <div class="row mb-3">
+    <button type="button" class="btn btn-primary btn-lg btn-block">I agree - Register</button>
+  </div>
+<div>
