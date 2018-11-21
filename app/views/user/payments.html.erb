@@ -1,10 +1,30 @@
 <% if cookies[:user].present? %>
-  <% userdetails = JSON.parse(cookies[:user]) %>
+  <% @userdetails = JSON.parse(cookies[:user]) %>
   <div class="row">
     <div id="account-menu" class="col-12 col-md-3 mt-3">
       <%= render 'account_menu' %>
     </div>
     <div id="account-payments" class="col-12 col-md-9 mt-3">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Payment Date</th>
+              <th scope="col">Description</th>
+              <th scope="col">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @payments.each do |payment| %>
+              <tr>
+                <td><%= payment['payment_date'] %></td>
+                <td><%= payment['payment_for'] %></td>
+                <td><%= payment['amount'] %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 <% else %>
