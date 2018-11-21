@@ -10,6 +10,7 @@ location_default: '22'
 location_single: false
 online_payment: true
 online_payment_url: 'https://www.tadl.org/pay/pay.cgi'
+online_payment_text: 'Pay fines online'
 online_registration: true
 register_newsletter: true
 register_form: '/register'
