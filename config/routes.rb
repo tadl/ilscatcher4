@@ -30,5 +30,6 @@ Rails.application.routes.draw do
   match 'payments', to: 'user#payments', as: 'payments', via: [:get, :post] 
   match 'missing_token', to: 'user#missing_token', as: 'missing_token', via: [:get, :post]
   match 'register', to: 'registration#register', as: 'register', via: [:get, :post]
+  match 'submit_registration', to: 'registration#submit_registration', as: 'submit_registration', via: [:get, :post]
   # For details on the DSL available within this file, see http://guides.ruby
 end
