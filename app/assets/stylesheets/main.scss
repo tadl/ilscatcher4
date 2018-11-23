@@ -116,6 +116,11 @@ a:hover {
   min-width: 280px;
 }
 
+/* hide list edit boxes by default */
+.edit-list {
+  display: none;
+}
+
 /* this is just silly/temporary until I find a better way (maybe statusbar like github) */
 .spin {
   -webkit-animation: spin 2s infinite linear;

@@ -6,9 +6,26 @@
     </div>
     <div id="account-lists" class="col-12 col-md-9 mt-3">
       <% @lists.each do |list| %>
+
+        <div class="card mb-3 edit-list" id="edit-list-<%= list['list_id'] %>">
+          <h5 class="card-header font-weight-bold">Editing list: <%= list['title'] %></h5>
+          <div class="card-body">
+            <div class="form-group">
+              <label for="list-<%= list['list_id'] %>-title">Name</label>
+              <input type="text" class="form-control" id="list-<%= list['list_id'] %>-title"value="<%= list['title'] %>">
+            </div>
+            <div class="form-group">
+              <label for="list-<%= list['list_id'] %>-description">Description</label>
+              <textarea class="form-control" id="list-<%= list['list_id'] %>-description" rows="2"><%= list['description'] %></textarea>
+            </div>
+            <button class="btn btn-success" role="button" onclick="save_list_details(<%= list['list_id'] %>)">Save</button>
+            <button class="btn btn-danger" role="button" onclick="cancel_edit_list(<%= list['list_id'] %>)">Cancel</button>
+          </div>
+        </div>
+
         <div class="card mb-3" id="list-<%= list['list_id'] %>">
           <%= link_to view_list_path(:list_id => list['list_id']) do %>
-            <%= content_tag :h5, list['title'], :class => "card-header" %>
+            <%= content_tag :h5, list['title'], :class => "card-header font-weight-bold" %>
           <% end %>
           <div class="card-body">
             <% if list['description'] != "" %>
@@ -16,15 +33,16 @@
             <% end %>
             <% visibility = (list['shared'] == true) ? 'Private' : 'Public' %>
             <button class="btn btn-primary" role="button" onclick="edit_list_details(<%= list['list_id'] %>)">Edit Details</button>
-            <button class="btn btn-primary" role="button" onclick="delete_list(this)">Delete</button>
-            <button class="btn btn-primary" role="button" data-listid="<%= list['list_id'] %>" onclick="toggle_list_visibility(this)">Make <%= visibility %></button>
+            <button class="btn btn-primary" role="button" data-listid="<%= list['list_id'] %>" onclick="delete_list(this)">Delete</button>
+            <button class="btn btn-primary" role="button" data-listid="<%= list['list_id'] %>" onclick="toggle_list_visibility(this, '<%= visibility %>')">Make <%= visibility %></button>
             <% if list['default'] == true %>
               <p class="card-text float-right">This is your default list</p>
             <% else %>
-              <button class="btn btn-primary" role="button" data-listid="<%= list['list_id'] %>" onclick="make_default_list(this)">Make default</button>
+              <button class="btn btn-primary" role="button" data-listid="<%= list['list_id'] %>" onclick="set_list_default(this)">Make default</button>
             <% end %>
           </div>
         </div>
+
       <% end %>
     </div>
   </div>
