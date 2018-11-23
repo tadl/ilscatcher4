@@ -147,7 +147,8 @@ class Scraper
       list_hash['items'] = list_items_to_full_items(list_hash['list']['items'])
       list_hash['list'] = list_hash_to_list(list_hash['list'])
       return list_hash
-    elsif list_hash['list']['no_items'] != '' && list_hash['list']['name'] != ''
+    elsif list_hash['list']['no_items'] != '' && list_hash['list']['name'] == ''
+      list_hash['list']['name'] = list_hash['list']['no_items']
       list_hash['list'] = list_hash_to_list(list_hash['list'])
       list_hash['list'].no_items = true
       return list_hash
