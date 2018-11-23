@@ -100,7 +100,10 @@
     <p>I give consent to release of child's borrowing record to myself and other parents or guardians whose names I provide to library staff in person when completing this registration.</p>
   </div>
   <div class="row mb-3">
-    <h4 id="error" style="color: red; display: none">Sorry: You did not fill out the required fields or provided invalid data. Please examine the fields in red and try again.</h4>
+    <h4 id="data_error" style="color: red; display: none">Sorry: You did not fill out the required fields or provided invalid data. Please examine the fields in red and try again.</h4>
+  </div>
+  <div class="row mb-3">
+    <h4 id="server_error" style="color: red; display: none">Sorry: There was a server error, please try again later or visit your local library to register.</h4>
   </div>
   <div class="row mb-3">
     <button type="button" class="btn btn-primary btn-lg btn-block" onclick="register()">I agree - Register</button>
@@ -109,7 +112,8 @@
 
 <script>
   function register(){
-    $('#error').css('display', 'none')
+    $('#data_error').css('display', 'none')
+    $('#server_error').css('display', 'none')
     $('#first_name').css('border', '')
     $('#last_name').css('border', '')
     $('#street_address').css('border', '')

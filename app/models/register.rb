@@ -51,8 +51,76 @@ class Register
     if params[:birth_date] == 'invalid'
       validate_hash['birth_date'] = 'invalid'
     end
+    if validate_hash.size == 0
+      if save_registration(params) == 'error'
+        validate_hash['server'] = 'error'
+      end
+    end
     return validate_hash
   end
+
+  #TODO add enews letter registration bit
+  def save_registration(params)
+    random_pass = 4.times.map { (0..9).to_a.sample }.join
+    stgu = Hash.new
+    stgu['__c'] = 'stgu'
+    stgu['__p'] = [
+      nil,
+      nil,
+      nil, 
+      1,
+      params[:email],
+      random_pass,
+      nil,
+      params[:first_name],
+      params[:middle_name],
+      params[:last_name],
+      params[:phone],
+      nil,
+      Settings.register_location,
+      params[:birth_date]
+    ]
+
+    address = [
+      nil,
+      nil,
+      nil,
+      params[:street_address],
+      nil,
+      params[:city],
+      nil,
+      params[:state],
+      'US',
+      params[:zip_code]
+    ]
+
+    stgma = Hash.new
+    stgma['__c'] = 'stgma'
+    stgma['__p'] = address
+
+    stgba = Hash.new
+    stgba['__c'] = 'stgba'
+    stgba['__p'] = address
+
+    stgu_json = stgu.to_json
+    stgma_json = stgma.to_json
+    stgba_json = stgba.to_json
+
+    register_path = 'https://catalog.tadl.org/osrf-gateway-v1?service=open-ils.actor&method=open-ils.actor.user.stage.create&param='
+    register_path << stgu_json.to_s
+    register_path << '&param=' + stgma_json.to_s
+    register_path << '&param=' + stgba_json.to_s
+
+    uri = URI.parse(register_path)
+    response = Net::HTTP.get_response(uri)
+    if response.code == '200'
+      return JSON.parse(response.body)
+    else
+      return 'error'
+    end
+  end
+
+  private
 
   def validate_phone(phone)
     phone = phone.delete('^0-9')
