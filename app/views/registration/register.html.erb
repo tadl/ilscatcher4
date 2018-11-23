@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" id="register">
   <div class="row mt-3">
     <h1>Signing-up for a library card is easy!</h1> 
   </div>
@@ -108,7 +108,38 @@
   <div class="row mb-3">
     <button type="button" class="btn btn-primary btn-lg btn-block" onclick="register()">I agree - Register</button>
   </div>
-<div>
+</div>
+
+
+<div class="container" id="confirmation" style="display: none">
+  <div class="row mt-3">
+    <h1>You have successfully registered for a library card!</h1> 
+  </div>
+  <div class="row mt-3">
+    <h3>Thank you!</h3>
+  </div>
+  <div class="row mt-3">
+    <strong>
+      To validate your account and pick up your library card, you'll need to visit <%= Settings.register_location_name %> in person.</strong>
+  </div>
+  <div class="row mt-3">
+    <p>A photo identification and proof of residency is required for full library privileges and must be presented in order to verify an account. If your photo identification does not include a current address, here are some other examples of acceptable residency documentation:</p>
+  </div>
+  <div class="row mt-3">
+    <ul>
+      <li>Utility bill with your name and address</li>
+      <li>Copy of your lease showing your name and address</li>
+      <li>Tax bill with your name and address</li>
+      <li>Mail delivered by the post office postmarked in the last 2 weeks showing your name and address</li>
+    </ul>
+  </div>
+  <div class="row mt-3">
+    <p>We look forward to seeing you!</p>
+  </div>
+    <div class="row mt-3">
+    <a class="btn btn-default" role="button" href="/">Return to Main Page</a>
+  </div>
+</div>
 
 <script>
   function register(){

@@ -15,11 +15,4 @@ class RegistrationController < ApplicationController
       format.js
     end
   end
-
-  def confirmation
-    respond_to do |format|
-      format.html
-    end
-  end
-
 end

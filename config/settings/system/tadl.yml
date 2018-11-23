@@ -11,3 +11,4 @@ location_single: false
 online_payment: true
 online_payment_url: 'https://www.tadl.org/pay/pay'
 register_location: '23'
+register_location_name: 'any TADL location'
