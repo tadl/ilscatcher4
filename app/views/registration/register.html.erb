@@ -106,7 +106,7 @@
     <h4 id="server_error" style="color: red; display: none">Sorry: There was a server error, please try again later or visit your local library to register.</h4>
   </div>
   <div class="row mb-3">
-    <button type="button" class="btn btn-primary btn-lg btn-block" onclick="register()">I agree - Register</button>
+    <button id="register_button" type="button" class="btn btn-primary btn-lg btn-block" onclick="register()">I agree - Register</button>
   </div>
 </div>
 
@@ -143,6 +143,7 @@
 
 <script>
   function register(){
+    $('#register_button').prop('disabled', true)
     $('#data_error').css('display', 'none')
     $('#server_error').css('display', 'none')
     $('#first_name').css('border', '')
