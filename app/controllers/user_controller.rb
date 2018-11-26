@@ -1,6 +1,6 @@
 class UserController < ApplicationController
   respond_to :html, :json, :js
-  before_action :check_for_token, except: [:login, :missing_token]
+  before_action :check_for_token, except: [:login, :missing_token, :request_password_reset]
 
   def login
     if cookies[:login] || params[:token] || (params[:username] && (params[:password] || params[:md5password]))
@@ -220,6 +220,13 @@ class UserController < ApplicationController
       format.json {render :json => @message}
     end
 
+  end
+
+  def request_password_reset
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 
 private
