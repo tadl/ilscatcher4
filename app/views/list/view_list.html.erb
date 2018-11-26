@@ -1,0 +1,13 @@
+<% if @list.error.present? %>
+  <h1>List does not exist or is not public</h1>
+<% else %>
+  <div class="col-12" id="items">
+    <% @items.each do |i| %>
+      <%= render "list_item", i: i %>
+    <% end %>
+
+    <% if @list.more_results == "true" %>
+      <h1>more results</h1>
+    <% end %>
+  </div>
+<% end %>
