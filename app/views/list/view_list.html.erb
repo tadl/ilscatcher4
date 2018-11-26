@@ -1,0 +1,24 @@
+<% if @list.error.present? %>
+  <h1>List does not exist or is not public</h1>
+<% else %>
+  <% if @list.title.present? %>
+    <h1><%= @list.title %></h1>
+  <% end %>
+  <% if @list.description.present? %>
+    <p class="lead"><%= @list.description %></p>
+  <% end %>
+  <p>Maybe a way to page between lists? next/prev lists? Dropdown jump menu to select other lists? Idk.</p>
+  <div class="col-12" id="items">
+    <% if @list.no_items != true %>
+      <% @items.each do |i| %>
+        <%= render "list_item", i: i %>
+      <% end %>
+    <% else %>
+      <h1>List has no items</h1>
+    <% end %>
+
+    <% if @list.more_results == "true" %>
+      <h1>more results</h1>
+    <% end %>
+  </div>
+<% end %>
