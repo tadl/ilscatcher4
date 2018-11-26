@@ -1,0 +1,9 @@
+<% @items.each do |i| %>
+  $("#items").append('<%= escape_javascript(render "list_item", i: i) %>')
+<% end %>
+<% if @list.more_results.to_s == "true" %>
+  <% next_page = @list.page.to_i + 1 %>
+  $("#more_results").html('<%= render "more_items", list: @list, page: next_page %>')
+<% else %>
+  $("#more_results").html('')
+<% end %>
