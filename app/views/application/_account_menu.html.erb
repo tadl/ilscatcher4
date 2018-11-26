@@ -10,10 +10,18 @@
   <a href="<%= checkout_history_path %>" class="list-group-item list-group-item-action<%= (request.path == checkout_history_path) ? ' active' : '' %>">Checkout History</a>
 </div>
 <% if Settings.melcat_enabled == true && Settings.melcat_id_display == true %>
-  <div class="card">
-    <div class="card-header bg-primary text-white">MeLCat ID</div>
+  <div class="card mb-3">
+    <div class="card-header bg-primary text-white">Your MeLCat ID</div>
     <div class="card-body">
       <p class="card-text"><%= @user.melcat_id %></p>
+    </div>
+  </div>
+<% end %>
+<% if Settings.primary_card_display == true %>
+  <div class="card mb-3">
+    <div class="card-header bg-primary text-white">Your Primary Library Card</div>
+    <div class="card-body">
+      <p class="card-text"><%= @user.card %></p>
     </div>
   </div>
 <% end %>
