@@ -4,7 +4,7 @@ class User
   require 'digest/md5'
   attr_accessor :username, :error, :token, :hold_self_alias, :first_name, :last_name, 
                 :card, :cards, :email, :message, :full_name, :checkouts, :holds, :holds_ready,
-                :fine, :pickup_library, :default_search, :overdue 
+                :fine, :pickup_library, :default_search, :overdue, :melcat_id  
 
   URI = URI.parse('https://' + Settings.evergreen_server + "/osrf-gateway-v1")
 
