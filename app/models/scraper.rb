@@ -155,7 +155,7 @@ class Scraper
     elsif list_hash['list']['no_items'] == '' && list_hash['list']['name'] == ''
       list_hash['list'] = list_hash_to_list(list_hash['list'])
       list_hash['list'].no_items = true
-      list_hash['list'].error = 'List does not exisit or is not public'
+      list_hash['list'].error = 'List does not exist or is not public'
       return list_hash
     else
       return 'error'
