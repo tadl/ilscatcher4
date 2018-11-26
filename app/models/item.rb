@@ -6,14 +6,14 @@ class Item
                 :contents, :holdable, :title_nonfiling, :contents_array, :edit_date, :search_location,
                 :type_of_resource, :sort_year, :publisher, :title_short, :author, :hold_count,
                 :author_other, :record_year, :availability, :attrs, :eresource_link, :result_order,
-                :search_view, :search_location_copies
+                :search_view, :search_location_copies, :search_code
 
-  def is_available(search)
+  def is_available
     # returns bool if item is available at all or a single location depending on the search location param
     available = false
     if self.electronic == true
       available = true
-    elsif search.location.nil? || search.location == Settings.location_default || Settings.location_single == true
+    elsif self.search_location.nil? || self.search_location == Settings.location_default || Settings.location_single == true
       self.holdings.each do |h|
         if h['status'] == "Available" || h['status'] == "Reshelving"
           available = true
@@ -21,7 +21,7 @@ class Item
       end
     else
       self.holdings.each do |h|
-        if (h['status'] == "Available" || h['status'] == "Reshelving") && h['circ_lib'] == search.location_code
+        if (h['status'] == "Available" || h['status'] == "Reshelving") && h['circ_lib'] == self.search_code
            available = true
         end
       end

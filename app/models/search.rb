@@ -30,6 +30,7 @@ class Search
       item.instance_variable_set(:@result_order, item_number)
       if self.location
         item.instance_variable_set(:@search_location, self.location)
+        item.instance_variable_set(:@search_code, self.location_code)
       else
         item.instance_variable_set(:@search_location, Settings.location_default)
       end
