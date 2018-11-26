@@ -137,8 +137,9 @@ class Scraper
     end
   end
 
-  def user_view_list(token, list_id)
+  def user_view_list(token, list_id, page)
     params = '?list_id=' + list_id
+    params += '&page=' + page
     if token
       params += '&token=' + token
     end

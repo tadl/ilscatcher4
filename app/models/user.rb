@@ -145,9 +145,9 @@ class User
     end
   end
 
-  def TEMP_view_list(token, list_id)
+  def TEMP_view_list(token, list_id, page)
     scraper = Scraper.new
-    list_hash = scraper.user_view_list(token, list_id)
+    list_hash = scraper.user_view_list(token, list_id, page)
     if list_hash != 'error'
       return list_hash
     else

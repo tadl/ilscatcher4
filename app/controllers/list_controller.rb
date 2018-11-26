@@ -16,11 +16,16 @@ class ListController < ApplicationController
 
   def view_list
     if params[:list_id]
+      if params[:page]
+        page = params[:page]
+      else
+        page = 0
+      end
       if @user
-        list_hash = @user.TEMP_view_list(@user.token, params[:list_id])
+        list_hash = @user.TEMP_view_list(@user.token, params[:list_id], page)
       else
         @user = User.new
-        list_hash = @user.TEMP_view_list(nil, params[:list_id])
+        list_hash = @user.TEMP_view_list(nil, params[:list_id], page)
       end
       @list = list_hash['list']
       @items = list_hash['items']
