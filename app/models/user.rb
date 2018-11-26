@@ -183,7 +183,7 @@ class User
       else
         self.username = ''
         self.token = ''
-        self.error = 'error: session expired or did not exisit'
+        self.error = 'error: session expired or did not exist'
       end
     else
       self.error = 'error: could not complete request'

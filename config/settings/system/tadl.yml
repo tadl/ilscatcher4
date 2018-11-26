@@ -8,6 +8,10 @@ location_options_minus_all: [['Woodmere', '23', 'TADL-WOOD'], ['Interlochen', '2
 view_default: 'list'
 location_default: '22'
 location_single: false
+melcat_enabled: true
+melcat_link: 'http://elibrary.mel.org/search/a?searchtype=X&SORT=D&searchharg='
+melcat_id_display: true
+primary_card_display: true
 online_payment: true
 online_payment_url: 'https://www.tadl.org/pay/pay.cgi'
 online_payment_text: 'Pay fines online'
