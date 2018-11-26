@@ -148,6 +148,10 @@ function do_logout() {
   $.post("logout.js");
 }
 
+function request_password_reset(){
+  $.post("request_password_reset.js?fancybox=true");
+}
+
 function place_hold(id, force) {
   var force_hold = (typeof force !== 'undefined') ? 'true' : 'false';
   var token = Cookies.get('login')

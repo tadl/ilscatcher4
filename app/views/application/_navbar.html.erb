@@ -56,7 +56,7 @@
           <% if Settings.online_registration == true && Settings.register_link_show == true %>
             <a class="dropdown-item" href="<%= Settings.register_link %>"><%= Settings.register_link_text %></a>
           <% end %>
-          <a class="dropdown-item text-danger" href="#"><%= Settings.forgot_password_text %></a>
+          <a class="dropdown-item text-danger" href="#" onclick="request_password_reset()"><%= Settings.forgot_password_text %></a>
         </div>
       </div>
     <% else %>
