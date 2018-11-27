@@ -208,6 +208,16 @@ class User
     end
   end
 
+  def submit_password_reset(user)
+    scraper = Scraper.new
+    reset_hash = scraper.user_password_reset(user)
+    if reset_hash != 'error'
+      return reset_hash
+    else
+      return {:error => 'unable to reset password'}
+    end
+  end
+
 private
   def username_or_barcode
     if (self.username =~ /^TADL\d{7,8}$|^90\d{5}$|^91111\d{9}$|^[a-zA-Z]\d{10}/)

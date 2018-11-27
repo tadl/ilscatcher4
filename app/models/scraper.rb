@@ -163,6 +163,16 @@ class Scraper
     end
   end
 
+  def user_password_reset(user)
+    params = '?username=' + user
+    reset_hash = request('reset_password_request', params)
+    if reset_hash['message'] == 'complete'
+      return reset_hash['message']
+    else
+      return 'error'
+    end
+  end
+
   # TODO: test if passing force works as expected. need sample record
   def item_place_hold(token, force, id)
     params = '?token=' + token + '&record_id=' + id
