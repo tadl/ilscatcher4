@@ -36,6 +36,7 @@ class ListController < ApplicationController
     respond_to do |format|
       format.html
       format.json {render :json =>{ list: @list, items: @items}}
+      format.js
     end
   end
 
