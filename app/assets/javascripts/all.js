@@ -115,24 +115,14 @@ function need_login(element, id) {
   $('#login-form').dropdown('toggle');
 }
 
-function do_login() {
+function do_login(f) {
 
-  var username = $('#username').val();
-  var password = $('#password').val();
-  var placing_hold = false;
-
-  $('.btn-login-hold').removeClass('disabled');
+  var username = f.username.value
+  var password = f.password.value
 
   if (username != "" && password != "") {
-    var hold_record = $('#hold-record').val();
 
-    if (hold_record != "") {
-      placing_hold = true;
-      $('#hold-record').val('');
-    }
-
-    $.post("login.js", {username: username, password: password, hold: hold_record});
-
+    $.post("login.js", {username: username, password: password});
     $('#login-message').text('');
   } else {
     $('#login-message').text('Please specify username and password');

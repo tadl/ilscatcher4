@@ -18,5 +18,24 @@
       <div id="alert-box" class="w-100"></div>
       <%= yield %>
     </div>
+    <div id="hidden_login" style="display: none">
+      <%= render "login_form" %>
+    </div>
+    <script>
+      function show_login_form(){
+        var form = $('#hidden_login').html()
+        $('#hidden_login').html('')
+        $.fancybox.open({
+          src  : '<div id="login_container" style="max-width: 400px; width: 100%;">'+ form +'</div>',
+          type : 'inline',
+          opts : {
+            beforeClose : function( instance, current ) {
+              var form = $('#login_container').html()
+              $('#hidden_login').html(form)
+            }
+          }
+        });
+      }
+    </script>
   </body>
 </html>

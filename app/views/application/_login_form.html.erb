@@ -1,0 +1,42 @@
+<div id="login-form">
+  <div class="row mb-3">
+    <h2>Sign in to your account</h2>
+  </div>
+  <form action='login.js' onSubmit="return do_login(this)">
+    <div class="row">
+      <div class="form-group input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            <i class="fas fa-user"></i>
+          </span>
+        </div>
+        <label class="sr-only" for="username">Username or Card Number</label>
+        <input type="username" class="form-control" id="username" placeholder="Username or Card #">
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            <i class="fas fa-lock"></i>
+          </span>
+        </div>
+        <label class="sr-only" for="password">Password</label>
+        <input type="password" class="form-control" id="password" placeholder="Password">
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col">
+        <button type="submit" class="btn btn-primary btn-block" id="login-button" onclick="do_login()">Sign in!</button>
+      </div>
+    </div>
+  </form>
+  <div class="row">
+    <span class="w-100 text-danger" id="login-message"></span>
+  </div>
+  <div class="row">    
+    <a class="text-danger" href="#" onclick="request_password_reset()">
+      <%= Settings.forgot_password_text %>
+    </a>
+  </div>
+</div>

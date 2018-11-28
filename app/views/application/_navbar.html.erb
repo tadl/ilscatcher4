@@ -23,41 +23,18 @@
     </ul>
     <% if !cookies[:user].present? %>
       <div class="btn-group navbar-nav ml-auto">
-        <button type="button" class="btn btn-primary dropdown-toggle" id="account-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          My Account
-        </button>
-        <div class="dropdown-menu dropdown-menu-right w-auto" id="login-form">
-          <form class="px-4 py-3">
-            <div class="form-group input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  <i class="fas fa-user"></i>
-                </span>
-              </div>
-              <label class="sr-only" for="username">Username or Card Number</label>
-              <input type="username" class="form-control" id="username" placeholder="Username or Card #">
-            </div>
-            <div class="form-group input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  <i class="fas fa-lock"></i>
-                </span>
-              </div>
-              <label class="sr-only" for="password">Password</label>
-              <input type="password" class="form-control" id="password" placeholder="Password">
-            </div>
-            <input type="hidden" id="hold-record" value="">
-          </form>
-          <div class="px-4">
-            <button type="submit" class="btn btn-primary btn-block" id="login-button" onclick="do_login()">Sign in</button>
-          </div>
-          <div class="w-100 text-danger" id="login-message"></div>
-          <div class="dropdown-divider"></div>
-          <% if Settings.online_registration == true && Settings.register_link_show == true %>
-            <a class="dropdown-item" href="<%= Settings.register_link %>"><%= Settings.register_link_text %></a>
-          <% end %>
-          <a class="dropdown-item text-danger" href="#" onclick="request_password_reset()"><%= Settings.forgot_password_text %></a>
-        </div>
+        <a onclick="show_login_form()">
+          <button type="button" class="btn btn-primary mr-1" id="account-button">
+            Sign in
+          </button>
+        </a>
+        <% if Settings.online_registration == true && Settings.register_link_show == true %>
+          <a href="<%= Settings.register_link %>">
+            <button type="button" class="btn btn-primary" id="register-button">
+              <%= Settings.register_link_text %>
+            </button>
+          </a>
+        <% end %>
       </div>
     <% else %>
       <ul class="navbar-nav ml-auto">

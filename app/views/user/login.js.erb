@@ -1,7 +1,7 @@
 <% if !@user.error %>
   $('#navbar').html("<%= escape_javascript(render partial: 'navbar') %>");
-
+  $.fancybox.close();
 <% else %>
-
+  $('#login-message').html("<p>Error: The username or password provided was not valid. Passwords are case-sensitive. Check your Caps-Lock key and try again or contact your local library.</p>");
 
 <% end %>
