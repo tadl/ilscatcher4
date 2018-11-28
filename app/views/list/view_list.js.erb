@@ -3,7 +3,7 @@
 <% end %>
 <% if @list.more_results.to_s == "true" %>
   <% next_page = @list.page.to_i + 1 %>
-  $("#more_results").html('<%= render "more_items", list: @list, page: next_page %>')
+  $("#more-items").html('<%= escape_javascript(render "more_items", list: @list, page: next_page) %>')
 <% else %>
-  $("#more_results").html('')
+  $("#more-items").html('<h2>No more items in list.</h2>')
 <% end %>
