@@ -48,18 +48,18 @@
             <% if i.contents.present? %>
               <p class="card-text"><span class="font-weight-bold">Contents:</span> <%= coder.decode(i.contents.truncate(250)) %></p>
             <% end %>
-            <div class="card-text">
-              <% if i.publisher.present? %>
+            <% if i.publisher.present? %>
+              <div class="card-text">
                 <span class="font-weight-bold">Publisher: </span>
                 <%= i.publisher %>
-              <% end %>
-            </div>
-            <div class="card-text">
-              <% if i.sort_year.present? %>
+              </div>
+            <% end %>
+            <% if i.sort_year.present? %>
+              <div class="card-text">
                 <span class="font-weight-bold">Publication Year: </span>
                 <%= i.sort_year %>
-              <% end %>
-            </div>
+              </div>
+            <% end %>
             <% if i.hold_count.to_i > 0 %>
               <div class="hold-info font-weight-bold">
                 <% total_copies = i.availability['copies_all'] %>
@@ -68,49 +68,62 @@
               </div>
             <% end %>
           </div>
-            <% if i.electronic.to_s == "false" %>
-              <% if i.search_location == Settings.location_default || i.search_location.nil? %>
-                <% if i.availability['copies_all_available'] > 0 %>
-                  <% i.availability['by_location'].each do |l| %>
-                    <% if l['copies_available'] > 0 %>
-                      <div class="text-success"><strong>Available at <%= l['name'] %></strong></div>
-                      <div class="info-block">
-                        <% l['shelving_locations'].each do |sl| %>
-                          <div>
-                            <strong><%= sl['available_copies'] %></strong> <%= (sl['available_copies'] == 1) ? 'copy' : 'copies' %> in <strong><%= sl['shelving_location'] %></strong>, Call number: <strong><%= sl['call_number'] %></strong>
-                          </div>
-                        <% end %>
-                      </div>
-                    <% end %>
-                  <% end %>
-                <% else %>
-                  No copies available please place a hold
-                <% end %>
-              <% else %>
-              <% i.availability['by_location'].select{|h| h["code"] == i.search_location}.each do |l| %>
-                <% if l['copies_available'] > 0 %>
-                  <div class="text-success"><strong>Available at <%= l['name'] %></strong></div>
-                  <div class="info-block">
-                    <% l['shelving_locations'].each do |sl| %>
-                      <% if sl['available_copies'] > 0 &&  %>
+          <% if i.electronic.to_s == "false" %>
+            <% if i.search_location == Settings.location_default || i.search_location.nil? %>
+              <% if i.availability['copies_all_available'] > 0 %>
+                <% i.availability['by_location'].each do |l| %>
+                  <% if l['copies_available'] > 0 %>
+                    <div class="text-success"><strong>Available at <%= l['name'] %></strong></div>
+                    <div class="info-block">
+                      <% l['shelving_locations'].each do |sl| %>
                         <div>
                           <strong><%= sl['available_copies'] %></strong> <%= (sl['available_copies'] == 1) ? 'copy' : 'copies' %> in <strong><%= sl['shelving_location'] %></strong>, Call number: <strong><%= sl['call_number'] %></strong>
                         </div>
                       <% end %>
-                    <% end %>
-                  </div>
-                <% else %>
-                  <% if i.availability['copies_all_available'] > 0 %>
-                    No copies available at this location. <strong><%= i.availability['copies_all_available'] %></strong> available elsewhere in the district. See more or place hold.
-                  <% else %>
-                    No copies available please place a hold
+                    </div>
                   <% end %>
                 <% end %>
+              <% else %>
+                No copies available please place a hold
               <% end %>
+            <% else %>
+            <% i.availability['by_location'].select{|h| h["code"] == i.search_location}.each do |l| %>
+              <% if l['copies_available'] > 0 %>
+                <div class="text-success"><strong>Available at <%= l['name'] %></strong></div>
+                <div class="info-block">
+                  <% l['shelving_locations'].each do |sl| %>
+                    <% if sl['available_copies'] > 0 &&  %>
+                      <div>
+                        <strong><%= sl['available_copies'] %></strong> <%= (sl['available_copies'] == 1) ? 'copy' : 'copies' %> in <strong><%= sl['shelving_location'] %></strong>, Call number: <strong><%= sl['call_number'] %></strong>
+                      </div>
+                    <% end %>
+                  <% end %>
+                </div>
+              <% else %>
+                <% if i.availability['copies_all_available'] > 0 %>
+                  No copies available at this location. <strong><%= i.availability['copies_all_available'] %></strong> available elsewhere in the district. See more or place hold.
+                <% else %>
+                  No copies available please place a hold
+                <% end %>
               <% end %>
             <% end %>
-          </div>
+            <% end %>
+          <% end %>
+          <% if defined?(i.list_item_id) %>
+            <% if i.notes.present? %>
+              <div class="card-text"><span class="font-weight-bold">List Notes:</span></div>
+              <% i.notes.each do |note| %>
+                <p class="card-text"><%= coder.decode(note['note']) %> <button class="btn btn-primary btn-sm" data-itemid="<%= i.list_item_id %>" data-noteid="<%= note['note_id'] %>">Edit</button></p>
+              <% end %>
+            <% end %>
+            <div class="card-text w-100 row">
+              <p class="w-100">Edit buttons on notes and buttons in this section need to be conditional based on if the user logged in is the owner of the list or not</p>
+              <div class="col mb-3"><button role="button" class="btn btn-primary btn-block btn-list-note">Add note to item</button></div>
+              <div class="col mb-3"><button role="button" class="btn btn-primary btn-block btn-remove-item">Remove from list</button></div>
+            </div>
+          <% end %>
         </div>
       </div>
+    </div>
   </div>
 </div>
