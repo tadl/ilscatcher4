@@ -5,9 +5,10 @@
       <%= render 'account_menu' %>
     </div>
     <div id="account-lists" class="col-12 col-md-9 mt-3">
+      <button class="btn btn-primary mb-3 float-right" role="button" onclick="create_list()"><i class="fas fa-plus"></i> New List</button>
       <% @lists.each do |list| %>
 
-        <div class="card mb-3 edit-list" id="edit-list-<%= list['list_id'] %>">
+        <div class="card mb-3 edit-list w-100" id="edit-list-<%= list['list_id'] %>">
           <h5 class="card-header font-weight-bold">Editing list: <%= list['title'] %></h5>
           <div class="card-body">
             <div class="form-group">
@@ -23,7 +24,7 @@
           </div>
         </div>
 
-        <div class="card mb-3 list-info" id="list-<%= list['list_id'] %>">
+        <div class="card mb-3 list-info w-100" id="list-<%= list['list_id'] %>">
           <%= link_to view_list_path(:list_id => list['list_id']) do %>
             <%= content_tag :h5, list['title'], :class => "card-header font-weight-bold" %>
           <% end %>
