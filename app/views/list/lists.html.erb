@@ -7,23 +7,22 @@
     <div id="account-lists" class="col-12 col-md-9 mt-3">
       <button class="btn btn-primary mb-3 float-right" role="button" onclick="create_list()"><i class="fas fa-plus"></i> New List</button>
       <% @lists.each do |list| %>
-
         <div class="card mb-3 edit-list w-100" id="edit-list-<%= list['list_id'] %>">
           <h5 class="card-header font-weight-bold">Editing list: <%= list['title'] %></h5>
           <div class="card-body">
             <div class="form-group">
               <label for="list-<%= list['list_id'] %>-title">Name</label>
-              <input type="text" class="form-control" id="list-<%= list['list_id'] %>-title"value="<%= list['title'] %>">
+              <input type="text" class="form-control" id="list-<%= list['list_id'] %>-title" value="<%= list['title'] %>">
             </div>
             <div class="form-group">
               <label for="list-<%= list['list_id'] %>-description">Description</label>
               <textarea class="form-control" id="list-<%= list['list_id'] %>-description" rows="2"><%= list['description'] %></textarea>
             </div>
-            <button class="btn btn-success" role="button" onclick="save_list_details(<%= list['list_id'] %>)">Save</button>
-            <button class="btn btn-danger" role="button" onclick="cancel_edit_list(<%= list['list_id'] %>)">Cancel</button>
+            <div class="w-100 alert alert-danger list-error" id="list-error-<%= list['list_id'] %>" role="alert" style="display: none;"></div>
+            <button class="btn btn-success" id="save-list-<%= list['list_id'] %>" role="button" onclick="save_list_details(<%= list['list_id'] %>, <%= list['offset'] %>)">Save</button>
+            <button class="btn btn-danger" id="cancel-list-<%= list['list_id'] %>" role="button" onclick="cancel_edit_list(<%= list['list_id'] %>)">Cancel</button>
           </div>
         </div>
-
         <div class="card mb-3 list-info w-100" id="list-<%= list['list_id'] %>">
           <%= link_to view_list_path(:list_id => list['list_id']) do %>
             <%= content_tag :h5, list['title'], :class => "card-header font-weight-bold" %>
@@ -43,7 +42,6 @@
             <% end %>
           </div>
         </div>
-
       <% end %>
     </div>
   </div>
