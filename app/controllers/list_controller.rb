@@ -6,7 +6,7 @@ class ListController < ApplicationController
     if @user
       @lists = get_lists_and_set_cookie(@user)
     else
-      @list = {:error => 'missing parameters'}
+      @lists = {:error => 'missing parameters'}
     end
     respond_to do |format|
       format.html
@@ -176,8 +176,8 @@ class ListController < ApplicationController
   private
 
   def get_lists_and_set_cookie(user)
-    lists = @user.TEMP_get_lists
-    cookies[:lists] = {:value => @lists.to_json, :expires => 1.hour.from_now.utc}
+    lists = user.TEMP_get_lists
+    cookies[:lists] = {:value => lists.to_json, :expires => 1.hour.from_now.utc}
     return lists
   end
 
