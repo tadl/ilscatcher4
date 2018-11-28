@@ -48,18 +48,18 @@
             <% if i.contents.present? %>
               <p class="card-text"><span class="font-weight-bold">Contents:</span> <%= coder.decode(i.contents.truncate(250)) %></p>
             <% end %>
-            <div class="card-text">
-              <% if i.publisher.present? %>
+            <% if i.publisher.present? %>
+              <div class="card-text">
                 <span class="font-weight-bold">Publisher: </span>
                 <%= i.publisher %>
-              <% end %>
-            </div>
-            <div class="card-text">
-              <% if i.sort_year.present? %>
+              </div>
+            <% end %>
+            <% if i.sort_year.present? %>
+              <div class="card-text">
                 <span class="font-weight-bold">Publication Year: </span>
                 <%= i.sort_year %>
-              <% end %>
-            </div>
+              </div>
+            <% end %>
             <% if i.hold_count.to_i > 0 %>
               <div class="hold-info font-weight-bold">
                 <% total_copies = i.availability['copies_all'] %>
