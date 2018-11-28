@@ -1,6 +1,6 @@
 class UserController < ApplicationController
   respond_to :html, :json, :js
-  before_action :check_for_token, except: [:login, :missing_token, :request_password_reset]
+  before_action :check_for_token, except: [:login, :missing_token, :request_password_reset, :submit_password_reset]
 
   def login
     if cookies[:login] || params[:token] || (params[:username] && (params[:password] || params[:md5password]))
@@ -222,10 +222,26 @@ class UserController < ApplicationController
 
   end
 
+#RESET PASSWORD
+
   def request_password_reset
     respond_to do |format|
       format.js
       format.html
+    end
+  end
+
+  #user could be a username or card number
+  def submit_password_reset
+    if !params[:user].blank?
+      user = User.new
+      @message = user.submit_password_reset(params[:user])
+    else
+      @message = {:error=> 'did not pass a username or card #'}
+    end
+    respond_to do |format|
+      format.json {render :json => @message}
+      format.js
     end
   end
 
