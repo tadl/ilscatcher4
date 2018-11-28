@@ -1,0 +1,116 @@
+<% cover_column_classes = 'col-12 col-sm-3 col-md-3' %>
+<% details_column_classes = 'col-12 col-sm-9 col-md-9' %>
+<div class="item card mb-3" data-record_id="<%= i.id %>">
+  <a href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)" class="item_details_link">
+    <h5 class="card-header<%= if i.is_available then ' bg-success font-weight-bold item-available' end %>">
+      <%= icon('fas', item_format_icon(i.type_of_resource)) %> <%= i.title_display %>
+    </h5>
+  </a>
+  <div class="card-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div id="item_cover_<%= i.id %>" class="<%= cover_column_classes %> text-center">
+          <a href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)" class="item_details_link">
+            <img id="cover_<%= i.id %>" src="<%= Settings.cover_url_prefix_lg %><%= i.id %>" class="img-fluid item_cover mb-4" onerror="missing_cover('<%= i.id %>', '<%= i.type_of_resource %>')" onload="check_blank_cover(this)">
+          </a>
+        </div>
+        <div class="<%= details_column_classes %>">
+          <h4 class="card-title">
+            <% if i.author.present? %>
+              <a href="/search?query=<%= i.author %>&type=author&location=<%= i.search_location %>&view=<%= i.search_view %>">
+                <strong><%= i.author %></strong>
+              </a>
+            <% end %>
+          </h4>
+          <div class="row mb-3">
+              <div class="col details-button">
+                <a class="btn btn-primary btn-block item_details_link" role="button" href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)">Details</a>
+              </div>
+              <% if i.electronic == false && cookies[:user].present? %>
+                <div class="hold-button hold-button-<%= i.id %> col">
+                  <button class="btn btn-primary btn-block btn-hold-<%= i.id %>" role="button" onclick="place_hold(<%= i.id %>)">Place Hold</button>
+                </div>
+              <% elsif i.electronic == false && cookies[:user].blank? %>
+                <div class="login-hold-button col">
+                  <button class="btn btn-primary btn-block btn-login-hold" role="button" data-toggle="dropdown" onclick="need_login(this,<%= i.id %>)">Log in to Place Hold</button>
+              </div>
+              <% elsif i.electronic == true %>
+                <div class="view-resource-button col">
+                  <a class="btn btn-success btn-block btn-resource" role="button" href="<%= i.eresource_link %>">View</a>
+                </div>
+              <% end %>      
+            </div>
+          <div class="info-block">
+            <% coder = HTMLEntities.new %>
+            <% if i.abstract.present? %>
+              <p class="card-text"><span class="font-weight-bold">Summary:</span> <%= coder.decode(i.abstract.truncate(250)) %></p>
+            <% end %>
+            <% if i.contents.present? %>
+              <p class="card-text"><span class="font-weight-bold">Contents:</span> <%= coder.decode(i.contents.truncate(250)) %></p>
+            <% end %>
+            <div class="card-text">
+              <% if i.publisher.present? %>
+                <span class="font-weight-bold">Publisher: </span>
+                <%= i.publisher %>
+              <% end %>
+            </div>
+            <div class="card-text">
+              <% if i.sort_year.present? %>
+                <span class="font-weight-bold">Publication Year: </span>
+                <%= i.sort_year %>
+              <% end %>
+            </div>
+            <% if i.hold_count.to_i > 0 %>
+              <div class="hold-info font-weight-bold">
+                <% total_copies = i.availability['copies_all'] %>
+                <% copy_noun = total_copies > 1 ? 'copies' : 'copy' %>
+                <%= i.hold_count %> hold<% if i.hold_count.to_i > 1 %>s<% end %> on <%= total_copies %> <%= copy_noun %>
+              </div>
+            <% end %>
+          </div>
+            <% if i.electronic.to_s == "false" %>
+              <% if i.search_location == Settings.location_default || i.search_location.nil? %>
+                <% if i.availability['copies_all_available'] > 0 %>
+                  <% i.availability['by_location'].each do |l| %>
+                    <% if l['copies_available'] > 0 %>
+                      <div class="text-success"><strong>Available at <%= l['name'] %></strong></div>
+                      <div class="info-block">
+                        <% l['shelving_locations'].each do |sl| %>
+                          <div>
+                            <strong><%= sl['available_copies'] %></strong> <%= (sl['available_copies'] == 1) ? 'copy' : 'copies' %> in <strong><%= sl['shelving_location'] %></strong>, Call number: <strong><%= sl['call_number'] %></strong>
+                          </div>
+                        <% end %>
+                      </div>
+                    <% end %>
+                  <% end %>
+                <% else %>
+                  No copies available please place a hold
+                <% end %>
+              <% else %>
+              <% i.availability['by_location'].select{|h| h["code"] == i.search_location}.each do |l| %>
+                <% if l['copies_available'] > 0 %>
+                  <div class="text-success"><strong>Available at <%= l['name'] %></strong></div>
+                  <div class="info-block">
+                    <% l['shelving_locations'].each do |sl| %>
+                      <% if sl['available_copies'] > 0 &&  %>
+                        <div>
+                          <strong><%= sl['available_copies'] %></strong> <%= (sl['available_copies'] == 1) ? 'copy' : 'copies' %> in <strong><%= sl['shelving_location'] %></strong>, Call number: <strong><%= sl['call_number'] %></strong>
+                        </div>
+                      <% end %>
+                    <% end %>
+                  </div>
+                <% else %>
+                  <% if i.availability['copies_all_available'] > 0 %>
+                    No copies available at this location. <strong><%= i.availability['copies_all_available'] %></strong> available elsewhere in the district. See more or place hold.
+                  <% else %>
+                    No copies available please place a hold
+                  <% end %>
+                <% end %>
+              <% end %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
