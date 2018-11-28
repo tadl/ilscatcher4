@@ -16,7 +16,8 @@
     <% else %>
       <h1>List has no items</h1>
     <% end %>
-
+  </div>
+  <div id="more-items">
     <% if @list.more_results.to_s == "true" %>
       <% next_page = @list.page.to_i + 1 %>
       <%= render "more_items", list: @list, page: next_page %>
