@@ -107,22 +107,29 @@ function check_blank_cover(image) {
   }
 }
 
-function need_login(element, id) {
-  $('#hold-record').val(id);
-  $('#login-button').text('Sign in and Place Hold');
-  $(element).addClass('disabled')
-  console.log('Need to log in to place hold');
-  $('#login-form').dropdown('toggle');
+function show_login_form(){
+  var form = $('#hidden_login').html()
+  $('#hidden_login').html('')
+  $.fancybox.open({
+    src  : '<div id="login_container" style="max-width: 400px; width: 100%;">'+ form +'</div>',
+    type : 'inline',
+    opts : {
+      beforeClose : function( instance, current ) {
+        $('#hidden_login').html(form)
+      }
+    }
+  });
 }
 
 function do_login(f) {
 
   var username = f.username.value
   var password = f.password.value
+  var from_action = f.from_action.value
+  var target_hold = f.target_hold.value
 
   if (username != "" && password != "") {
-
-    $.post("login.js", {username: username, password: password});
+    $.post("login.js", {username: username, password: password, from_action: from_action, target_hold: target_hold});
     $('#login-message').text('');
   } else {
     $('#login-message').text('Please specify username and password');
@@ -134,6 +141,10 @@ function do_login(f) {
 
 }
 
+function login_and_place_hold(id, from_action){
+  $.post("login_and_place_hold.js",{target_hold: id, from_action: from_action});
+}
+
 function do_logout() {
   $.post("logout.js");
 }
@@ -142,11 +153,12 @@ function request_password_reset(){
   $.post("request_password_reset.js?fancybox=true");
 }
 
-function place_hold(id, force) {
+function place_hold(id, force, from_action) {
   var force_hold = (typeof force !== 'undefined') ? 'true' : 'false';
   var token = Cookies.get('login')
   if (token == null) {
-    console.log('somehow you are placing a hold when you are not logged in. you should consider not doing that.')
+    login_and_place_hold(id, from_action)
+    return
   } else {
     $('.btn-hold-'+id).text('Placing Hold').addClass('disabled progress-bar progress-bar-striped progress-bar-animated');
     $.post("place_hold.js", {id: id, force: force_hold});

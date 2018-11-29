@@ -1,6 +1,6 @@
 class UserController < ApplicationController
   respond_to :html, :json, :js
-  before_action :check_for_token, except: [:login, :missing_token, :request_password_reset, :submit_password_reset]
+  before_action :check_for_token, except: [:login, :login_and_place_hold, :missing_token, :request_password_reset, :submit_password_reset]
 
   def login
     if cookies[:login] || params[:token] || (params[:username] && (params[:password] || params[:md5password]))
@@ -15,6 +15,8 @@ class UserController < ApplicationController
       if @user.error == nil
         cookies[:login] = {:value => @user.token, :expires => 1.hour.from_now.utc}
         cookies[:user] = {:value => @user.to_json, :expires => 1.hour.from_now.utc}
+        @from_action = params[:from_action]
+        @target_hold = params[:target_hold]
       else
         cookies.delete :login
         cookies.delete :user
@@ -31,6 +33,15 @@ class UserController < ApplicationController
     end
 
   end
+
+  def login_and_place_hold
+    @target_hold = params[:target_hold]
+    @from_action = params[:from_action]
+    respond_to do |format|
+      format.js
+    end
+  end
+
 
   def logout
     if @user

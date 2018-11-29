@@ -26,19 +26,16 @@
               <div class="col details-button">
                 <a class="btn btn-primary btn-block item_details_link" role="button" href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)">Details</a>
               </div>
-              <% if i.electronic == false && cookies[:user].present? %>
+              <% if i.electronic == false && i.holdable == true %>
                 <div class="hold-button hold-button-<%= i.id %> col">
-                  <button class="btn btn-primary btn-block btn-hold-<%= i.id %>" role="button" onclick="place_hold(<%= i.id %>)">Place Hold</button>
+                  <button class="btn btn-primary btn-block btn-hold-<%= i.id %>" role="button" onclick="place_hold(<%= i.id %>,'', 'list_of_results')">Place Hold</button>
                 </div>
-              <% elsif i.electronic == false && cookies[:user].blank? %>
-                <div class="login-hold-button col">
-                  <button class="btn btn-primary btn-block btn-login-hold" role="button" data-toggle="dropdown" onclick="need_login(this,<%= i.id %>)">Log in to Place Hold</button>
-              </div>
               <% elsif i.electronic == true %>
                 <div class="view-resource-button col">
                   <a class="btn btn-success btn-block btn-resource" role="button" href="<%= i.eresource_link %>">View</a>
                 </div>
-              <% end %>      
+              <% end %>
+              <div class="list_hold_message_<%= i.id %>"></div>
             </div>
           <div class="info-block">
             <% coder = HTMLEntities.new %>
