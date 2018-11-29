@@ -8,19 +8,29 @@
     <p class="lead"><%= @list.description %></p>
   <% end %>
   <p>Maybe a way to page between lists? next/prev lists? Dropdown jump menu to select other lists? Idk.</p>
-  <div class="col-12" id="items">
-    <% if @list.no_items != true %>
-      <% @items.each do |i| %>
-        <%= render "list_item_2", i: i %>
-      <% end %>
-    <% else %>
-      <h1>List has no items</h1>
+  <div class="row">
+    <% content_classes = (@my_list == true) ? 'col-12 col-md-9' : 'col-12' %>
+    <% if @my_list == true %>
+      <div class="col-12 col-md-3">
+        List list
+      </div>
     <% end %>
-  </div>
-  <div id="more-items">
-    <% if @list.more_results.to_s == "true" %>
-      <% next_page = @list.page.to_i + 1 %>
-      <%= render "more_items", list: @list, page: next_page %>
-    <% end %>
+    <div class="<%= content_classes %>">
+      <div id="items">
+        <% if @list.no_items != true %>
+          <% @items.each do |i| %>
+            <%= render "list_item_2", i: i %>
+          <% end %>
+        <% else %>
+          <h1>List has no items</h1>
+        <% end %>
+      </div>
+      <div id="more-items">
+        <% if @list.more_results.to_s == "true" %>
+          <% next_page = @list.page.to_i + 1 %>
+          <%= render "more_items", list: @list, page: next_page %>
+        <% end %>
+      </div>
+    </div>
   </div>
 <% end %>

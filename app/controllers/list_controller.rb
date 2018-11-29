@@ -21,14 +21,27 @@ class ListController < ApplicationController
       else
         page = 0
       end
+
       if @user
         list_hash = @user.TEMP_view_list(@user.token, params[:list_id], page)
       else
         @user = User.new
         list_hash = @user.TEMP_view_list(nil, params[:list_id], page)
       end
+
       @list = list_hash['list']
       @items = list_hash['items']
+
+      if cookies[:lists]
+        @mylists = JSON.parse(cookies[:lists])
+        puts @mylists.inspect
+        @mylists.each do |l|
+          if l['list_id'] == params[:list_id]
+            @my_list = true
+          end
+        end
+      end
+
     else
       @list = {:error => 'missing parameters'}
       @items = {:error => 'missing parameters'}
