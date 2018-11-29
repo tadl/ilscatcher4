@@ -14,12 +14,12 @@ function cancel_edit_list(id) {
 }
 
 function save_list_details(id, offset) {
-  var name = $('#list-'+id+'-title').val();
+  var name = encodeURIComponent($('#list-'+id+'-title').val());
   if (name == "") {
     $('#list-error-'+id).html('Your list must have a name.').show();
     return;
   }
-  var description = $('#list-'+id+'-description').val();
+  var description = encodeURIComponent($('#list-'+id+'-description').val());
   console.log('name: '+name+', id: '+id+', offset: '+offset+', description: '+description);
   $('#cancel-list-'+id).prop('disabled', true).addClass('disabled');
   $('#save-list-'+id).html('<i class="fas fa-asterisk spin"></i> Saving...').prop('disabled', true).addClass('disabled');
@@ -52,7 +52,7 @@ function toggle_list_visibility(element, visibility) {
   var share = (visibility == 'Public') ? 'show' : 'hide';
   $.post('/share_list.json', {list_id: listid, offset: offset, share: share})
     .done(function(data) {
-      if (!data.error) {
+      if (data.message == 'success') {
         location.reload()
       } else {
         show_alert('danger', 'Something went wrong. Please try again.');
