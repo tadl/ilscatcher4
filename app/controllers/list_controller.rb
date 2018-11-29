@@ -34,7 +34,6 @@ class ListController < ApplicationController
 
       if cookies[:lists]
         @mylists = JSON.parse(cookies[:lists])
-        puts @mylists.inspect
         @mylists.each do |l|
           if l['list_id'] == params[:list_id]
             @my_list = true

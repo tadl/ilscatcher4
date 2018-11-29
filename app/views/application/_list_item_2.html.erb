@@ -110,14 +110,16 @@
             <% if i.notes.present? %>
               <div class="card-text"><span class="font-weight-bold">List Notes:</span></div>
               <% i.notes.each do |note| %>
-                <p class="card-text"><%= coder.decode(note['note']) %> <button class="btn btn-primary btn-sm" data-itemid="<%= i.list_item_id %>" data-noteid="<%= note['note_id'] %>">Edit</button></p>
+                <p class="card-text"><%= coder.decode(note['note']) %><% if @my_list == true %> <button class="btn btn-primary btn-sm" data-itemid="<%= i.list_item_id %>" data-noteid="<%= note['note_id'] %>">Edit</button><% end %></p>
               <% end %>
             <% end %>
-            <div class="card-text w-100 row">
-              <p class="w-100">Edit buttons on notes and buttons in this section need to be conditional based on if the user logged in is the owner of the list or not</p>
-              <div class="col mb-3"><button role="button" class="btn btn-primary btn-block btn-list-note">Add note to item</button></div>
-              <div class="col mb-3"><button role="button" class="btn btn-primary btn-block btn-remove-item">Remove from list</button></div>
-            </div>
+            <% if @my_list == true %>
+              <div class="card-text w-100 row">
+                <p class="w-100">Edit buttons on notes and buttons in this section need to be conditional based on if the user logged in is the owner of the list or not</p>
+                <div class="col mb-3"><button role="button" class="btn btn-primary btn-block btn-list-note">Add note to item</button></div>
+                <div class="col mb-3"><button role="button" class="btn btn-primary btn-block btn-remove-item">Remove from list</button></div>
+              </div>
+            <% end %>
           <% end %>
         </div>
       </div>

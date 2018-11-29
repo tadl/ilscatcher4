@@ -7,12 +7,20 @@
   <% if @list.description.present? %>
     <p class="lead"><%= @list.description %></p>
   <% end %>
-  <p>Maybe a way to page between lists? next/prev lists? Dropdown jump menu to select other lists? Idk.</p>
   <div class="row">
     <% content_classes = (@my_list == true) ? 'col-12 col-md-9' : 'col-12' %>
     <% if @my_list == true %>
       <div class="col-12 col-md-3">
-        List list
+        <div class="card mb-2">
+          <div class="card-header bg-primary text-light">
+            <span class="font-weight-bold">My Lists</span>
+          </div>
+          <div class="list-group list-group-flush">
+            <% @mylists.each do |l| %>
+              <a href="/view_list?list_id=<%= l['list_id'] %>" class="list-group-item list-group-item-action justify-content-between align-items-center d-flex<%= (l['list_id'] == @list.list_id) ? ' active' : '' %>"><%= l['title'] %></a>
+            <% end %>
+          </div>
+        </div>
       </div>
     <% end %>
     <div class="<%= content_classes %>">
