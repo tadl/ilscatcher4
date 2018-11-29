@@ -34,7 +34,7 @@
             <% visibility = (list['shared'] == true) ? 'Private' : 'Public' %>
             <button class="btn btn-primary" role="button" onclick="edit_list_details(<%= list['list_id'] %>)">Edit Details</button>
             <button class="btn btn-primary" role="button" data-listid="<%= list['list_id'] %>" onclick="delete_list(this)">Delete</button>
-            <button class="btn btn-primary" role="button" data-listid="<%= list['list_id'] %>" onclick="toggle_list_visibility(this, '<%= visibility %>')">Make <%= visibility %></button>
+            <button class="btn btn-primary" role="button" data-listid="<%= list['list_id'] %>" data-offset="<%= list['offset'] %>" onclick="toggle_list_visibility(this, '<%= visibility %>')">Make <%= visibility %></button>
             <% if list['default'] == true %>
               <p class="card-text float-right">This is your default list</p>
             <% else %>
