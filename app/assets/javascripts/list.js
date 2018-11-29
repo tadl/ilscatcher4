@@ -23,7 +23,15 @@ function save_list_details(id, offset) {
   console.log('name: '+name+', id: '+id+', offset: '+offset+', description: '+description);
   $('#cancel-list-'+id).prop('disabled', true).addClass('disabled');
   $('#save-list-'+id).html('<i class="fas fa-asterisk spin"></i> Saving...').prop('disabled', true).addClass('disabled');
-  $.post('/edit_list.js', {list_id: id, offset: offset, name: name, description: description});
+  $.post('/edit_list.json', {list_id: id, offset: offset, name: name, description: description})
+    .done(function(data) {
+      if (data.message == 'success') {
+        location.reload();
+      } else {
+        /* something went horribly wrong, alert the user */
+        show_alert('danger', 'Something went wrong. Please try again.');
+      }
+    });
 }
 
 function delete_list(element) {
