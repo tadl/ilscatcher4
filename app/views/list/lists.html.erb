@@ -24,9 +24,15 @@
           </div>
         </div>
         <div class="card mb-3 list-info w-100" id="list-<%= list['list_id'] %>">
-          <%= link_to view_list_path(:list_id => list['list_id']) do %>
-            <%= content_tag :h5, list['title'], :class => "card-header font-weight-bold" %>
-          <% end %>
+          <a href="/view_list?list_id=<%= list['list_id'] %>">
+            <h5 class="card-header font-weight-bold">
+              <%= list['title'] %>
+              <% if list['default'] == true %>
+                <i class="fas fa-check float-right text-success"></i>
+                <span class="sr-only">This is your default list</span>
+              <% end %>
+            </h5>
+          </a>
           <div class="card-body">
             <% if list['description'] != "" %>
               <h5 class="card-title"><%= list['description'] %></h5>
@@ -35,9 +41,7 @@
             <button class="btn btn-primary" role="button" onclick="edit_list_details(<%= list['list_id'] %>)">Edit Details</button>
             <button class="btn btn-primary" role="button" data-listid="<%= list['list_id'] %>" onclick="delete_list(this)">Delete</button>
             <button class="btn btn-primary" role="button" data-listid="<%= list['list_id'] %>" data-offset="<%= list['offset'] %>" onclick="toggle_list_visibility(this, '<%= visibility %>')">Make <%= visibility %></button>
-            <% if list['default'] == true %>
-              <p class="card-text float-right">This is your default list</p>
-            <% else %>
+            <% if list['default'] != true %>
               <button class="btn btn-primary" role="button" data-listid="<%= list['list_id'] %>" onclick="set_list_default(this)">Make default</button>
             <% end %>
           </div>
