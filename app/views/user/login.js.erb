@@ -1,12 +1,14 @@
 <% if !@user.error %>
   $('#navbar').html("<%= escape_javascript(render partial: 'navbar') %>");
   $.fancybox.close();
-  <% !@from_action.blank? %>
+  $.get('/lists.json');
+  <% if !@from_action.blank? %>
     <% if !@target_hold.blank? %>
       place_hold('<%= @target_hold %>', '', '<%= @from_action %>')
     <% else %>
       window.location = "/<%= @from_action %>"
     <% end %>
+  <% end %>
 <% else %>
   $('#login-message').html("<p>Error: The username or password provided was not valid. Passwords are case-sensitive. Check your Caps-Lock key and try again or contact your local library.</p>");
 <% end %>
