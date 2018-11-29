@@ -1,0 +1,7 @@
+<div class="login_container mx-auto mt-3" style="max-width: 600px">
+  <%= render "login_form", from: @from_action, target_hold: @target_hold %>
+</div>
+<script>
+  $('#hidden_login').html('')
+  $('#account-button').remove()
+</script>

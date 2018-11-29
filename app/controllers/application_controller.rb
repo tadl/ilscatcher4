@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
       if params[:format] == 'json'
         redirect_to :controller => 'user', :action => 'missing_token', :format => 'json'
       else
-        return @message = {:error=> 'not logged in or invalid token'}
+        redirect_to :controller => 'user', :action => 'sign_in', :from_action => params[:action]  
       end
     end
   end

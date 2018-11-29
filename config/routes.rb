@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   match 'details', to: 'item#details', as: 'details', via: [:get, :post]
   match 'youtube_trailer', to: 'item#youtube_trailer', as: 'youtube_trailer', via: [:get, :post]
   match 'login', to: 'user#login', as: 'login', via: [:get, :post]
+  match 'sign_in', to: 'user#sign_in', as: 'sign_in', via: [:get, :post]
   match 'login_and_place_hold', to: 'user#login_and_place_hold', as: 'login_and_place_hold', via: [:get, :post]
   match 'logout', to: 'user#logout', as: 'logout', via: [:get, :post]
   match 'checkouts', to: 'user#checkouts', as: 'checkouts', via: [:get, :post]

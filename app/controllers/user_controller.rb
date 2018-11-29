@@ -1,6 +1,6 @@
 class UserController < ApplicationController
   respond_to :html, :json, :js
-  before_action :check_for_token, except: [:login, :login_and_place_hold, :missing_token, :request_password_reset, :submit_password_reset]
+  before_action :check_for_token, except: [:login, :login_and_place_hold, :sign_in, :missing_token, :request_password_reset, :submit_password_reset]
 
   def login
     if cookies[:login] || params[:token] || (params[:username] && (params[:password] || params[:md5password]))
@@ -39,6 +39,14 @@ class UserController < ApplicationController
     @from_action = params[:from_action]
     respond_to do |format|
       format.js
+    end
+  end
+
+  def sign_in
+    @from_action = params[:from_action]
+    @message = ' to view your ' + params[:from_action]
+    respond_to do |format|
+      format.html
     end
   end
 
