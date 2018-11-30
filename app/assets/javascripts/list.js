@@ -142,7 +142,6 @@ function delete_list_item_note(element) {
   var listid = $(element).data('listid');
   var noteid = $(element).data('noteid');
   $(element).attr('onclick', 'actually_delete_list_item_note(this)').removeClass('btn-primary').addClass('btn-danger').html('Confirm');
-
 }
 
 function actually_delete_list_item_note(element) {
@@ -186,7 +185,19 @@ function save_new_list_item_note(element) {
 }
 
 function remove_item_from_list(element) {
+  $(element).attr('onclick', 'actually_remove_item_from_list(this)').removeClass('btn-primary').addClass('btn-danger').html('Confirm');
 }
 
 function actually_remove_item_from_list(element) {
+  $(element).html('<i class="fas fa-asterisk spin"></i> Removing item...').attr('disabled', true).addClass('disabled');
+  var listid = $(element).data('listid');
+  var listitemid = $(element).data('listitemid');
+  $.post('/remove_item_from_list.json', {list_id: listid, list_item_id: listitemid})
+    .done(function(data) {
+      if (data.message == 'success') {
+        location.reload();
+      } else {
+        show_alert('danger', 'Something went wrong. Please try again.');
+      }
+    });
 }

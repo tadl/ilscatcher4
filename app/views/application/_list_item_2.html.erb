@@ -131,7 +131,7 @@
                   <button role="button" class="btn btn-danger btn-list-note-cancel" data-listitemid="<%= i.list_item_id %>" onclick="cancel_new_list_item_note(this)">Cancel</button>
                 </div>
                 <div class="col mb-3"><button role="button" class="btn btn-primary btn-block btn-list-note" data-listitemid="<%= i.list_item_id %>" onclick="new_list_item_note(this)">Add note to item</button></div>
-                <div class="col mb-3"><button role="button" class="btn btn-primary btn-block btn-remove-item" onclick="remove_item_from_list(thhis)">Remove from list</button></div>
+                <div class="col mb-3"><button role="button" class="btn btn-primary btn-block btn-remove-item" data-listitemid="<%= i.list_item_id %>" data-listid="<%= @list.list_id %>" onclick="remove_item_from_list(this)">Remove from list</button></div>
               </div>
             <% end %>
           <% end %>
