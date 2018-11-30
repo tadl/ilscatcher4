@@ -62,3 +62,22 @@ function toggle_list_visibility(element, visibility) {
 
 function set_list_default(element) {
 }
+
+function edit_list_item_note(element) {
+}
+
+function save_edit_list_item_note(element) {
+}
+
+function new_list_item_note(element) {
+}
+
+function save_new_list_item_note(element) {
+}
+
+function remove_item_from_list(element) {
+}
+
+function actually_remove_item_from_list(element) {
+}
+
