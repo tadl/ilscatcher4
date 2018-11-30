@@ -43,6 +43,20 @@ function actually_delete_list(element) {
   var listid = $(element).data('listid');
   console.log(listid);
   $(element).html('<i class="fas fa-asterisk spin"></i> Deleting...').attr('disabled', true).addClass('disabled');
+  $.post('/destroy_list.json', {list_id: listid})
+    .done(function(data) {
+      if (data.message == 'success') {
+        location.reload();
+      } else {
+        show_alert('danger', 'Something went wrong. Please try again.');
+      }
+    });
+}
+
+function new_list() {
+}
+
+function save_new_list() {
 }
 
 function toggle_list_visibility(element, visibility) {
@@ -53,7 +67,7 @@ function toggle_list_visibility(element, visibility) {
   $.post('/share_list.json', {list_id: listid, offset: offset, share: share})
     .done(function(data) {
       if (data.message == 'success') {
-        location.reload()
+        location.reload();
       } else {
         show_alert('danger', 'Something went wrong. Please try again.');
       }
@@ -61,6 +75,16 @@ function toggle_list_visibility(element, visibility) {
 }
 
 function set_list_default(element) {
+  $(element).html('<i class="fas fa-asterisk spin"></i> Setting default list...').attr('disabled', true).addClass('disabled');
+  var listid = $(element).data('listid');
+  $.post('/make_default_list.json', {list_id: listid})
+    .done(function(data) {
+      if (data.message == 'success') {
+        location.reload();
+      } else {
+        show_alert('danger', 'Something went wrong. Please try again.');
+      }
+    });
 }
 
 function edit_list_item_note(element) {
