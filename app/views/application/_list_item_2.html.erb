@@ -97,11 +97,13 @@
                   <% end %>
                 </div>
               <% else %>
-                <% if i.availability['copies_all_available'] > 0 %>
-                  No copies available at this location. <strong><%= i.availability['copies_all_available'] %></strong> available elsewhere in the district. See more or place hold.
-                <% else %>
-                  No copies available please place a hold
-                <% end %>
+                <div class="info-block">
+                  <% if i.availability['copies_all_available'] > 0 %>
+                    No copies available at this location. <strong><%= i.availability['copies_all_available'] %></strong> available elsewhere in the district. See more or place hold.
+                  <% else %>
+                    No copies available please place a hold
+                  <% end %>
+                </div>
               <% end %>
             <% end %>
             <% end %>
@@ -109,8 +111,15 @@
           <% if defined?(i.list_item_id) %>
             <% if i.notes.present? %>
               <div class="card-text"><span class="font-weight-bold">List Notes:</span></div>
+              <% i.notes.sort_by! { |k| k['note_id'] } %>
               <% i.notes.each do |note| %>
-                <p class="card-text"><%= coder.decode(note['note']) %><% if @my_list == true %> <button class="btn btn-primary btn-sm" data-itemid="<%= i.list_item_id %>" data-noteid="<%= note['note_id'] %>">Edit</button><% end %></p>
+                <p class="card-text" id="note-<%= note['note_id'] %>-<%= i.list_item_id %>"><span id="note-content-<%= note['note_id'] %>-<%= i.list_item_id %>"><%= coder.decode(note['note']) %></span><% if @my_list == true %> <button class="btn btn-primary btn-sm btn-list-note-edit" data-listid="<%= @list.list_id %>" data-listitemid="<%= i.list_item_id %>" data-noteid="<%= note['note_id'] %>" onclick="edit_list_item_note(this)">Edit</button><% end %></p>
+                <div class="card-text w-100 edit-note mb-3" id="edit-note-<%= note['note_id'] %>-<%= i.list_item_id %>">
+                  <textarea class="form-control mb-3 w-100" id="edit-note-content-<%= note['note_id'] %>-<%= i.list_item_id %>"></textarea>
+                  <button role="button" class="btn btn-success btn-list-note-edit-save mb-3" data-listitemid="<%= i.list_item_id %>" data-noteid="<%= note['note_id'] %>" data-listid="<%= @list.list_id %>" onclick="save_edit_list_item_note(this)">Save</button>
+                  <button role="button" class="btn btn-primary btn-list-note-delete-confirm mb-3" data-noteid="<%= note['note_id'] %>" data-listid="<%= @list.list_id %>" onclick="delete_list_item_note(this)">Delete</button>
+                  <button role="button" class="btn btn-danger btn-list-note-edit-cancel mb-3" data-listitemid="<%= i.list_item_id %>" data-noteid="<%= note['note_id'] %>" onclick="cancel_edit_list_item_note(this)">Cancel</button>
+                </div>
               <% end %>
             <% end %>
             <% if @my_list == true %>

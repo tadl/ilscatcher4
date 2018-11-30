@@ -106,18 +106,63 @@ function set_list_default(element) {
 }
 
 function edit_list_item_note(element) {
+  var noteid = $(element).data('noteid');
+  var listitemid = $(element).data('listitemid');
+  $('#edit-note-content-'+noteid+'-'+listitemid).val($('#note-content-'+noteid+'-'+listitemid).text());
+  $('#note-'+noteid+'-'+listitemid).hide();
+  $('#edit-note-'+noteid+'-'+listitemid).show();
+  $('.btn-list-note-edit').attr('disabled', true).addClass('disabled');
 }
 
 function cancel_edit_list_item_note(element) {
+  var noteid = $(element).data('noteid');
+  var listitemid = $(element).data('listitemid');
+  $('#note-'+noteid+'-'+listitemid).show();
+  $('#edit-note-'+noteid+'-'+listitemid).hide();
+  $('.btn-list-note-edit').attr('disabled', false).removeClass('disabled');
 }
 
 function save_edit_list_item_note(element) {
+  $(element).html('<i class="fas fa-asterisk spin"></i> Updating note...').attr('disabled', true).addClass('disabled');
+  var noteid = $(element).data('noteid');
+  var listid = $(element).data('listid');
+  var listitemid = $(element).data('listitemid');
+  var note = encodeURIComponent($('#edit-note-content-'+noteid+'-'+listitemid).val());
+  $.post('/edit_note.json', {list_id: listid, note_id: noteid, note: note})
+    .done(function(data) {
+      if (data.message == 'success') {
+        location.reload();
+      } else {
+        show_alert('danger', 'Something went wrong. Please try again.');
+      }
+    });
+}
+
+function delete_list_item_note(element) {
+  var listid = $(element).data('listid');
+  var noteid = $(element).data('noteid');
+  $(element).attr('onclick', 'actually_delete_list_item_note(this)').removeClass('btn-primary').addClass('btn-danger').html('Confirm');
+
+}
+
+function actually_delete_list_item_note(element) {
+  $(element).html('<i class="fas fa-asterisk spin"></i> Deleting note...').attr('disabled', true).addClass('disabled');
+  var noteid = $(element).data('noteid');
+  var listid = $(element).data('listid');
+  var note = '';
+  $.post('/edit_note.json', {list_id: listid, note_id: noteid, note: note})
+    .done(function(data) {
+      if (data.message == 'success') {
+        location.reload();
+      } else {
+        show_alert('danger', 'Something went wrong. Please try again.');
+      }
+    });
 }
 
 function new_list_item_note(element) {
   var listitemid = $(element).data('listitemid');
   $('#new-note-'+listitemid).show();
-
 }
 
 function cancel_new_list_item_note(element) {
@@ -145,4 +190,3 @@ function remove_item_from_list(element) {
 
 function actually_remove_item_from_list(element) {
 }
-

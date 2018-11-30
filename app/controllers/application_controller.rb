@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
       if params[:format] == 'json'
         redirect_to :controller => 'user', :action => 'missing_token', :format => 'json'
       else
-        redirect_to :controller => 'user', :action => 'sign_in', :from_action => params[:action]  
+        redirect_to :controller => 'user', :action => 'sign_in', :from_action => params[:action]
       end
     end
   end
@@ -25,9 +25,9 @@ class ApplicationController < ActionController::Base
     if cookies[:user]
       cookies[:user] = {:value => cookies[:user], :expires => 1.hour.from_now.utc}
     end
-    if cookies[:list]
-      cookies[:list] = {:value => cookies[:list], :expires => 1.hour.from_now.utc}
+    if cookies[:lists]
+      cookies[:lists] = {:value => cookies[:lists], :expires => 1.hour.from_now.utc}
     end
   end
 
-end   
+end

@@ -132,6 +132,7 @@ class ListController < ApplicationController
   end
 
   # not sending a note param or sending it as a blank string will delete the note
+  # not sending the param is apparently an error.
   def edit_note
     if @user && params[:list_id] && params[:note_id] 
       list = List.new
