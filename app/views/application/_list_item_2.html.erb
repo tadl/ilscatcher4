@@ -115,8 +115,14 @@
             <% end %>
             <% if @my_list == true %>
               <div class="card-text w-100 row">
-                <div class="col mb-3"><button role="button" class="btn btn-primary btn-block btn-list-note">Add note to item</button></div>
-                <div class="col mb-3"><button role="button" class="btn btn-primary btn-block btn-remove-item">Remove from list</button></div>
+                <div class="new-note mb-3 w-100" id="new-note-<%= i.list_item_id %>">
+                  <label for="new-note-content-<%= i.list_item_id %>" class="font-weight-bold">Add a new note to this item</label>
+                  <textarea class="form-control mb-3 w-100" id="new-note-content-<%= i.list_item_id %>" rows="2"></textarea>
+                  <button role="button" class="btn btn-success btn-list-note-save" data-listitemid="<%= i.list_item_id %>" data-listid="<%= @list.list_id %>" onclick="save_new_list_item_note(this)">Save</button>
+                  <button role="button" class="btn btn-danger btn-list-note-cancel" data-listitemid="<%= i.list_item_id %>" onclick="cancel_new_list_item_note(this)">Cancel</button>
+                </div>
+                <div class="col mb-3"><button role="button" class="btn btn-primary btn-block btn-list-note" data-listitemid="<%= i.list_item_id %>" onclick="new_list_item_note(this)">Add note to item</button></div>
+                <div class="col mb-3"><button role="button" class="btn btn-primary btn-block btn-remove-item" onclick="remove_item_from_list(thhis)">Remove from list</button></div>
               </div>
             <% end %>
           <% end %>

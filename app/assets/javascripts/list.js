@@ -108,13 +108,36 @@ function set_list_default(element) {
 function edit_list_item_note(element) {
 }
 
+function cancel_edit_list_item_note(element) {
+}
+
 function save_edit_list_item_note(element) {
 }
 
 function new_list_item_note(element) {
+  var listitemid = $(element).data('listitemid');
+  $('#new-note-'+listitemid).show();
+
+}
+
+function cancel_new_list_item_note(element) {
+  var listitemid = $(element).data('listitemid');
+  $('#new-note-'+listitemid).hide();
 }
 
 function save_new_list_item_note(element) {
+  $(element).html('<i class="fas fa-asterisk spin"></i> Saving note...').attr('disabled', true).addClass('disabled');
+  var listitemid = $(element).data('listitemid');
+  var listid = $(element).data('listid');
+  var notecontent = encodeURIComponent($('#new-note-content-'+listitemid).val());
+  $.post('/add_note_to_list.json', {list_id: listid, list_item_id: listitemid, note: notecontent})
+    .done(function(data) {
+      if (data.message == 'success') {
+        location.reload();
+      } else {
+        show_alert('danger', 'Something went wrong. Please try again.');
+      }
+    });
 }
 
 function remove_item_from_list(element) {
