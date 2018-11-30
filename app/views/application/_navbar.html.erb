@@ -23,16 +23,12 @@
     </ul>
     <% if !cookies[:user].present? %>
       <div class="btn-group navbar-nav ml-auto">
-        <a onclick="show_login_form()">
-          <button type="button" class="btn btn-primary mr-1" id="account-button">
-            Sign in
-          </button>
-        </a>
+        <button type="button" class="btn btn-primary mr-lg-3 mt-2" id="account-button" onclick="show_login_form()">
+          Sign in
+        </button>
         <% if Settings.online_registration == true && Settings.register_link_show == true %>
-          <a href="<%= Settings.register_link %>">
-            <button type="button" class="btn btn-primary" id="register-button">
-              <%= Settings.register_link_text %>
-            </button>
+          <a href="<%= Settings.register_link %>" role="button" class="btn btn-primary mt-2" id="register-button">
+            <%= Settings.register_link_text %>
           </a>
         <% end %>
       </div>
@@ -51,8 +47,10 @@
         <% if userdetails['fine'].to_f > 0 %>
           <li class="nav-item<%= (request.path == fines_path) ? ' active' : '' %>"><a href="<%= fines_path %>" class="nav-link">Fines <span class="badge badge-primary"><span id="user-fines"><%= userdetails['fine'] %></span></span></a></li>
         <% end %>
-        <li class="nav-item pl-3"><a role="button" class="btn btn-primary" href="/preferences">My Account</a></li>
-        <li class="nav-item pl-3"><button type="button" class="btn btn-default" id="logout-button" onclick="do_logout()">Log out</button></li>
+        <li class="btn-group nav-item ml-lg-2 mt-lg-1">
+          <a role="button" class="btn btn-primary btn-block-md" href="/preferences">My Account</a>
+          <button type="button" class="btn btn-light btn-block-md ml-lg-2" id="logout-button" onclick="do_logout()">Log out</button>
+        </li>
       </ul>
     <% end %>
   </div>

@@ -14,6 +14,14 @@
 
 /* media queries for view=grid */
 /* these should be the same widths as bootstrap classes not arbitrary TODO */
+/* xs: < 576px
+   sm: > 576px < 768px
+   md: > 768px < 992px
+   lg: > 992px < 1200px
+   xl: > 1200px
+ (still TODO, but these are the correct values for bootstrap content breakpoints)
+ 
+ */
 @media screen and (min-width: 1px) and (max-width: 320px) {
   #grid[data-columns]::before {
     content: '1 .col-12';
@@ -179,3 +187,7 @@ a:hover {
   content: "\f13a";
 }
 
+/* block buttons on mobile */
+@media all and (max-width: 991px) {
+  .btn-block-md { width: 100%; display: block; }
+}
