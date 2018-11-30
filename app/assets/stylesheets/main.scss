@@ -117,11 +117,12 @@ a:hover {
 }
 
 /* hide list edit boxes by default */
+.new-list,
 .edit-list {
   display: none;
 }
 
-/* this is just silly/temporary until I find a better way (maybe statusbar like github) */
+/* spin class for ajax indicators */
 .spin {
   -webkit-animation: spin 2s infinite linear;
   -moz-animation: spin 2s infinite linear;
@@ -162,7 +163,6 @@ a:hover {
     transform: rotate(359deg);
   }
 }
-/* end sillyness */
 
 /* search options data toggle arrow */
 [data-toggle="collapse"] .fa {

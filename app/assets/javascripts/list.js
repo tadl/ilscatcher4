@@ -20,7 +20,6 @@ function save_list_details(id, offset) {
     return;
   }
   var description = encodeURIComponent($('#list-'+id+'-description').val());
-  console.log('name: '+name+', id: '+id+', offset: '+offset+', description: '+description);
   $('#cancel-list-'+id).prop('disabled', true).addClass('disabled');
   $('#save-list-'+id).html('<i class="fas fa-asterisk spin"></i> Saving...').prop('disabled', true).addClass('disabled');
   $.post('/edit_list.json', {list_id: id, offset: offset, name: name, description: description})
@@ -41,7 +40,6 @@ function delete_list(element) {
 
 function actually_delete_list(element) {
   var listid = $(element).data('listid');
-  console.log(listid);
   $(element).html('<i class="fas fa-asterisk spin"></i> Deleting...').attr('disabled', true).addClass('disabled');
   $.post('/destroy_list.json', {list_id: listid})
     .done(function(data) {
@@ -54,9 +52,29 @@ function actually_delete_list(element) {
 }
 
 function new_list() {
+  $('.new-list').show();
+  $('.list-info').hide();
 }
 
-function save_new_list() {
+function cancel_new_list() {
+  $('.list-info').show();
+  $('.new-list').hide();
+}
+
+function save_new_list(element) {
+  $(element).html('<i class="fas fa-asterisk spin"></i> Creating new list...').attr('disabled', true).addClass('disabled');
+  var name = encodeURIComponent($('#new-list-title').val());
+  var description = encodeURIComponent($('#new-list-description').val());
+  var sharedTemp = $('#new-list-shared').prop('checked');
+  var shared = (sharedTemp == true) ? 'yes' : 'no';
+  $.post('/create_list.json', {name: name, description: description, shared: shared})
+    .done(function(data) {
+      if (data.message == 'success') {
+        location.reload();
+      } else {
+        show_alert('danger', 'Something went wrong. Please try again.');
+      }
+    });
 }
 
 function toggle_list_visibility(element, visibility) {

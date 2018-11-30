@@ -52,6 +52,7 @@ class ListController < ApplicationController
     end
   end
 
+  # shared param can be no or yes
   def create_list
     if @user && params[:name] && params[:shared]
       list = List.new
@@ -61,9 +62,7 @@ class ListController < ApplicationController
       @message = {:error => 'missing parameters'}
     end
     respond_to do |format|
-      format.html
       format.json {render :json =>{ message: @message, lists: @lists}}
-      format.js
     end
   end
 
@@ -80,7 +79,7 @@ class ListController < ApplicationController
     end
   end
 
-  #share param can equal show or hide
+  # share param can be show or hide
   def share_list
     if @user && params[:list_id] && params[:offset] && params[:share]
       list = List.new
