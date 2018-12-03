@@ -26,6 +26,7 @@ register_newsletter: true
 register_listapi_url: 'https://www.tadl.org/listapi/tadl/'
 forgot_password_text: 'Forgot/lost password?'
 search_placeholder: 'Books, movies, music & more!'
+account_info: true
 added_nav_links:
   - name: "Website"
     url: "https://www.tadl.org/"
