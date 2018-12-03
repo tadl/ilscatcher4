@@ -1,24 +1,10 @@
 <% if !@user.error %>
   $('#navbar').html("<%= escape_javascript(render partial: 'navbar') %>");
-  <% puts @hold.inspect %>
-  $('.hold-button-<%= escape_javascript(@c['record_id']) %>').html('Hold successfully placed');
-  <% @hold['hold_confirmation'].each do |c| %>
-    <% if !c['error'] %>
-      /* hold was placed correctly */
-
-      $('.hold-button-<%= escape_javascript(@c['record_id']) %>').html('Hold successfully placed');
-    <% elsif c[:need_to_force] %> /* we're not getting this back from ilscatcher3 so can't test easily yet
-      /* need to force hold */
-      /* fancybox to force hold? actually, no. Maybe just change the button text/color? "Confirm to Force Hold" or so? */
-
-      $('.hold-button-<%= escape_javascript(@c['record_id']) %>').html('Hold successfully placed');
-    <% else %>
-      /* some kind of error probably */
-
-      $('.hold-button-<%= escape_javascript(@c['record_id']) %>').html('Hold successfully placed');
+    <% if !@hold.error %>
+      var message = 'Hold successfully placed for pickup at '
+      message += '<%= escape_javascript(location_map(@user.pickup_library, "long")) %>'
+      message += ' <a onclick="change_pickup()">(change pick up location)</a>'
+      $('.hold-button-<%= escape_javascript(@hold.id) %>').html(message);
     <% end %>
-
-
-  <% end %>
 <% end %>
 

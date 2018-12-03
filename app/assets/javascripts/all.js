@@ -154,14 +154,14 @@ function request_password_reset(){
 }
 
 function place_hold(id, force, from_action) {
-  var force_hold = (typeof force !== 'undefined') ? 'true' : 'false';
+  var force_hold = (typeof force !== 'undefined') ? 'false' : 'true';
   var token = Cookies.get('login')
   if (token == null) {
     login_and_place_hold(id, from_action)
     return
   } else {
     $('.btn-hold-'+id).text('Placing Hold').addClass('disabled progress-bar progress-bar-striped progress-bar-animated');
-    $.post("place_hold.js", {id: id, force: force_hold});
+    $.post("place_hold.js", {id: id, force: force_hold, from_action: from_action});
   }
 }
 

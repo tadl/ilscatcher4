@@ -139,15 +139,14 @@ class UserController < ApplicationController
   end
 
   def place_hold
+    @hold = Hold.new
     if @user && params[:id]
-      @item = Item.new
-      @item.id = params[:id]
-      @hold = @item.TEMP_place_hold(@user.token, params[:force])
+      @hold.id = params[:id]
+      @hold = @hold.TEMP_place_hold(@user.token, params[:force])
       basic_info_and_cookies(@user)
     else
-      @hold = {:error => 'missing parameters'}
+      @hold.error = 'missing parameters'
     end
-
     respond_to do |format|
       format.js
       format.json {render :json =>{:user => @user, :hold => @hold}}

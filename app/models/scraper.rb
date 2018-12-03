@@ -180,14 +180,16 @@ class Scraper
       params += '&force=true'
     end
     hold_confirmation = request('place_hold', params)
-    # hold = Hold.new
-    # hold.id = hold_confirmation['hold_confirmation'][0]['record_id']
-    # if hold_confirmation['hold_confirmation'][0]['error'] == true
-    #   hold.hold_message = {:error => hold_confirmation['hold_confirmation'][0]['message'] }
-    # else
-    #   hold.hold_message = {:confirmation => hold_confirmation['hold_confirmation'][0]['message'] }
-    # end
-    # return hold
+    hold = Hold.new
+    hold.id = id
+    if !hold_confirmation == 'error' && hold_confirmation['hold_confirmation'][0]['error'] == true
+      hold.error = hold_confirmation['hold_confirmation'][0]['message']
+    elsif hold_confirmation == 'error'
+      hold.error = 'Server Error. Please try again later'
+    else
+      hold.confirmation = hold_confirmation['hold_confirmation'][0]['message']
+    end
+    return hold
   end
 
   def list_create(token, values)
@@ -344,18 +346,18 @@ class Scraper
     checkouts_hash.each do |c|
       query += c['record_id'] + ','
     end
-    search = Search.new({:query => query, :type => 'record_id', :size => 82})
+    search = Search.new({:query => query, :type => 'record_id', :size => 500})
     search.get_results
     items = search.results
     checkouts = []
-    items.each do |i|
-      matching_checkout = checkouts_hash.select {|k| k['record_id'] == i.id.to_s}
+    checkouts_hash.each do |c|
+      matching_item = items.select{|i| i.id.to_s == c['record_id']}
       checkout = Checkout.new
-      copy_instance_variables(i, checkout)
-      checkout.checkout_date = matching_checkout[0]['checkout_date']
-      checkout.due_date = matching_checkout[0]['due_date']
-      checkout.return_date = matching_checkout[0]['return_date']
-      checkout.barcode = matching_checkout[0]['barcode']
+      copy_instance_variables(matching_item[0], checkout)
+      checkout.checkout_date = c['checkout_date']
+      checkout.due_date = c['due_date']
+      checkout.return_date = c['return_date']
+      checkout.barcode = c['barcode']
       checkouts.push(checkout)
     end
     return checkouts
