@@ -1,0 +1,9 @@
+<% @checkouts.each do |i| %>
+  $("#items").append('<%= escape_javascript(render "list_item_2", i: i) %>')
+<% end %>
+<% if @checkouts.more_results.to_s == "true" %>
+  <% next_page = @checkouts.page.to_i + 1 %>
+  $("#more-items").html('<%= escape_javascript(render "more_checkouts", checkouts: @checkouts, page: next_page) %>')
+<% else %>
+  $("#more-items").html('<h2>No more items.</h2>')
+<% end %>
