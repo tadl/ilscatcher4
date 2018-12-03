@@ -38,6 +38,17 @@
               <div class="list_hold_message_<%= i.id %>"></div>
             </div>
           <div class="info-block">
+            <% if defined?(i.checkout_date) %>
+              <div class="card-text border-left pl-2 mb-2"><span class="font-weight-bold">Checkout Details:</span>
+                <div class="row">
+                  <div class="col">Borrowed: <%= i.checkout_date %></div>
+                  <div class="col<% if i.return_date == "*" %> font-weight-bold<% end %>">Due: <%= i.due_date %></div>
+                  <% if i.return_date != "*" %>
+                    <div class="col">Returned: <%= i.return_date %></div>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
             <% coder = HTMLEntities.new %>
             <% if i.abstract.present? %>
               <p class="card-text"><span class="font-weight-bold">Summary:</span> <%= coder.decode(i.abstract.truncate(250)) %></p>

@@ -1,0 +1,24 @@
+<a role="button" class="btn btn-block btn-primary mb-2 more-items" data-remote="true" data-method="get" href="/view_list?list_id=<%= @list.list_id %>&page=<%= page %>&format=js">More items</a>
+
+<script>
+$.fn.isInViewport = function() {
+  var elementTop = $(this).offset().top - 1000;
+  var elementBottom = elementTop + $(this).outerHeight();
+  var viewportTop = $(window).scrollTop();
+  var viewportBottom = viewportTop + $(window).height();
+  return elementBottom > viewportTop && elementTop < viewportBottom;
+};
+
+$(window).on('resize scroll', function() {
+  var element = '.more-items';
+  var is_it_there = $(element);
+  if (is_it_there.length) {
+    var is_visible = $(element).isInViewport();
+    if (is_visible == true) {
+      $(element).click();
+      $(element).remove();
+      $('#more-items').html('<h4 class="text-center"><i class="fas fa-asterisk spin"></i> Loading more items...</h4>');
+    }
+  }
+});
+</script>

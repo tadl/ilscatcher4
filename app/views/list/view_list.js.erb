@@ -1,5 +1,5 @@
 <% @items.each do |i| %>
-  $("#items").append('<%= escape_javascript(render "list_item", i: i) %>')
+  $("#items").append('<%= escape_javascript(render "list_item_2", i: i) %>')
 <% end %>
 <% if @list.more_results.to_s == "true" %>
   <% next_page = @list.page.to_i + 1 %>
