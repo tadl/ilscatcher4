@@ -358,7 +358,9 @@ class Scraper
       checkout.due_date = c['due_date']
       checkout.return_date = c['return_date']
       checkout.barcode = c['barcode']
-      checkouts.push(checkout)
+      if !checkout.id.nil?
+        checkouts.push(checkout)
+      end
     end
     return checkouts
   end
