@@ -1,6 +1,7 @@
 /* render partial to update screen */
 <% if !@user.error %>
   <% @userdetails = JSON.parse(cookies[:user]) %>
+  $('#navbar').html("<%= escape_javascript(render partial: 'navbar') %>");
   $('#account-holds').html("<%= escape_javascript(render partial: 'holds_list') %>");
 <% else %>
   /* not sure how this would happen */
