@@ -165,6 +165,25 @@ function place_hold(self, id, force, from_action) {
   }
 }
 
+function show_change_pickup(self, record_id, from_action, hold_id, hold_state){
+  $(self).text('Loading pickup locations...').addClass('disabled progress-bar progress-bar-striped progress-bar-animated');
+  if(hold_id == ''){
+    $.get('/holds.json').done(function(data) {
+      if (data['holds']) {
+        $.each(data['holds'], function(i, hold) {
+          if(hold.id == record_id){
+            var hold_id = hold.hold_id
+            alert(hold_id)           
+          }
+        });
+      }
+    });
+  }else{
+    var hold_id = hold_id
+    alert(hold_id)
+  }
+}
+
 function cancel_confirm(element) {
   $(element).html('Confirm Cancel').removeClass('btn-primary').addClass('btn-danger').attr('onclick', 'edit_hold(this,"cancel")');
 }
