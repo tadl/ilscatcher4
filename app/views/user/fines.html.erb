@@ -1,27 +1,22 @@
-<% if cookies[:user].present? %>
-  <% @userdetails = JSON.parse(cookies[:user]) %>
-  <div class="row">
-    <div id="account-menu" class="col-12 col-md-3 mt-3">
-      <%= render 'account_menu' %>
-      <% if (@userdetails['fine'].to_f > 0) && (Settings.online_payment == true) %>
-        <div class="mt-4">
-          <a role="button" class="btn btn-success btn-block btn-lg" href="<%= Settings.online_payment_url %>"><%= Settings.online_payment_text %></a>
-        </div>
-      <% end %>
-    </div>
-    <div id="account-fines" class="col-12 col-md-9 mt-3">
-      <% if (@fines.length > 0) || (@fees.length > 0) %>
-        <% if @fines.length > 0 %>
-          <%= render 'fines_list', fines: @fines %>
-        <% end %>
-        <% if @fees.length > 0 %>
-          <%= render 'fees_list', fees: @fees %>
-        <% end %>
-      <% else %>
-        <h1>No fines on your account. Hooray!</h1>
-      <% end %>
-    </div>
+<div class="row">
+  <div id="account-menu" class="col-12 col-md-3 mt-3">
+    <%= render 'account_menu' %>
+    <% if (@user.fine.to_f > 0) && (Settings.online_payment == true) %>
+      <div class="mt-4">
+        <a role="button" class="btn btn-success btn-block btn-lg" href="<%= Settings.online_payment_url %>"><%= Settings.online_payment_text %></a>
+      </div>
+    <% end %>
   </div>
-<% else %>
-  <h1>Not logged in</h1>
-<% end %>
+  <div id="account-fines" class="col-12 col-md-9 mt-3">
+    <% if (@fines.length > 0) || (@fees.length > 0) %>
+      <% if @fines.length > 0 %>
+        <%= render 'fines_list', fines: @fines %>
+      <% end %>
+      <% if @fees.length > 0 %>
+        <%= render 'fees_list', fees: @fees %>
+      <% end %>
+    <% else %>
+      <h1>No fines on your account. Hooray!</h1>
+    <% end %>
+  </div>
+</div>

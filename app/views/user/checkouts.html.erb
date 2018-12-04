@@ -1,13 +1,8 @@
-<% if cookies[:user].present? %>
-  <% @userdetails = JSON.parse(cookies[:user]) %>
-  <div class="row">
-    <div id="account-menu" class="col-12 col-md-3 mt-3">
-      <%= render 'account_menu' %>
-    </div>
-    <div class="col-12 col-md-9 mt-3" id="account-checkouts">
-      <%= render 'checkouts_list' %>
-    </div>
+<div class="row">
+  <div id="account-menu" class="col-12 col-md-3 mt-3">
+    <%= render 'account_menu' %>
   </div>
-<% else %>
-  <h1>Not logged in</h1>
-<% end %>
+  <div class="col-12 col-md-9 mt-3" id="account-checkouts">
+    <%= render 'checkouts_list' %>
+  </div>
+</div>
