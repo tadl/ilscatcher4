@@ -120,6 +120,7 @@ class UserController < ApplicationController
       format.html
       format.json {render :json =>{:user => @user, :checkouts => @checkouts, :page => @page,
                   :more_results => @more_results}}
+      format.js
     end
 
   end
