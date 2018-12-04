@@ -1,12 +1,92 @@
-<% if cookies[:user].present? %>
-  <% userdetails = JSON.parse(cookies[:user]) %>
-  <div class="row">
-    <div id="account-menu" class="col-12 col-md-3 mt-3">
-      <%= render 'account_menu' %>
-    </div>
-    <div id="account-preferences" class="col-12 col-md-9 mt-3">
-    </div>
+<div class="row">
+  <div id="account-menu" class="col-12 col-md-3 mt-3">
+    <%= render 'account_menu' %>
   </div>
-<% else %>
-  <h1>Not logged in</h1>
-<% end %>
+
+  <div id="account-preferences" class="col-12 col-md-9 mt-3">
+    <div class="card">
+      <h4 class="card-header bg-primary text-light">
+        Account Preferences
+        <button role="button" class="btn btn-sm btn-light float-right">Edit</button>
+      </h4>
+
+      <div class="card-body">
+        <h5 class="font-weight-bold card-title">Circulation Preferences</h5>
+        <table class="table">
+          <tbody>
+            <tr class="d-flex">
+              <td class="col-6" scope="row">Pickup Library</td>
+              <td class="col-6"><%= @preferences['pickup_library'] %></td>
+            </tr>
+            <tr class="d-flex">
+              <td class="col-6" scope="row">Keep Circulation History</td>
+              <td class="col-6"><%= @preferences['keep_circ_history'] %></td>
+            </tr>
+            <tr class="d-flex">
+              <td class="col-6" scope="row">Keep Hold History</td>
+              <td class="col-6"><%= @preferences['keep_hold_history'] %></td>
+            </tr>
+            <tr class="d-flex">
+              <td class="col-6" scope="row">Default Search Location</td>
+              <td class="col-6"><%= @preferences['default_search'] %></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h5 class="font-weight-bold card-title">User Preferences</h5>
+        <table class="table">
+          <tbody>
+            <tr class="d-flex">
+              <td class="col-6" scope="row">Username</td>
+              <td class="col-6"><%= @preferences['username'] %></td>
+            </tr>
+            <tr class="d-flex">
+              <td class="col-6" scope="row">Holdshelf Alias</td>
+              <td class="col-6"><%= @preferences['hold_shelf_alias'] %></td>
+            </tr>
+            <tr class="d-flex">
+              <td class="col-6" scope="row">Email Address</td>
+              <td class="col-6"><%= @preferences['email'] %></td>
+            </tr>
+            <tr class="d-flex">
+              <td class="col-6" scope="row">Password</td>
+              <td class="col-6">(hidden)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h5 class="font-weight-bold card-title">Notification Preferences</h5>
+        <table class="table">
+          <tbody>
+            <tr class="d-flex">
+              <td class="col-6" scope="row">Phone</td>
+              <td class="col-6"><%= @preferences['day_phone'] %></td>
+            </tr>
+            <tr class="d-flex">
+              <td class="col-6" scope="row">Phone Notify Number</td>
+              <td class="col-6"><%= @preferences['phone_notify_number'] %></td>
+            </tr>
+            <tr class="d-flex">
+              <td class="col-6" scope="row">Text Notify Number</td>
+              <td class="col-6"><%= @preferences['text_notify_number'] %></td>
+            </tr>
+            <tr class="d-flex">
+              <td class="col-6" scope="row">Email Notify</td>
+              <td class="col-6"><%= @preferences['email_notify'] %></td>
+            </tr>
+            <tr class="d-flex">
+              <td class="col-6" scope="row">Phone Notify</td>
+              <td class="col-6"><%= @preferences['phone_notify'] %></td>
+            </tr>
+            <tr class="d-flex">
+              <td class="col-6" scope="row">Text Notify</td>
+              <td class="col-6"><%= @preferences['text_notify'] %></td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div><!-- .card-body -->
+
+    </div><!-- .card -->
+  </div><!-- #account-preferences -->
+</div><!-- .row -->
