@@ -44,7 +44,7 @@
                   <div class="col">Borrowed: <%= i.checkout_date %></div>
                   <div class="col<% if i.return_date == "*" %> font-weight-bold<% end %>">Due: <%= i.due_date %></div>
                   <% if i.return_date != "*" %>
-                    <div class="col">Returned: <%= i.return_date %></div>
+                    <div class="col font-weight-bold">Returned: <%= i.return_date %></div>
                   <% end %>
                 </div>
               </div>

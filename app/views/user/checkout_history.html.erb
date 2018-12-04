@@ -4,10 +4,18 @@
     <div id="account-menu" class="col-12 col-md-3 mt-3">
       <%= render 'account_menu' %>
     </div>
-    <div id="checkout-history" class="col-12 col-md-9 mt-3">
-      <% @checkouts.each do |i| %>
-        <%= render "list_item_2", i: i %>
-      <% end %>
+    <div class="col-12 col-md-9 mt-3">
+      <div id="checkout-history">
+        <% @checkouts.each do |i| %>
+          <%= render "list_item_2", i: i %>
+        <% end %>
+      </div>
+      <div id="more-checkouts">
+        <% if @more_results.to_s == "true" %>
+          <% next_page = @page.to_i + 1 %>
+          <%= render "more_checkouts", checkouts: @checkouts, page: next_page %>
+        <% end %>
+      </div>
     </div>
   </div>
 <% else %>
