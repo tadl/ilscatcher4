@@ -132,6 +132,11 @@ a:hover {
   display: none;
 }
 
+/* hide prefs edit panel by default */
+#edit-prefs-panel {
+  display: none;
+}
+
 /* spin class for ajax indicators */
 .spin {
   -webkit-animation: spin 2s infinite linear;
