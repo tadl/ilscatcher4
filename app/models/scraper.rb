@@ -182,8 +182,8 @@ class Scraper
     hold_confirmation = request('place_hold', params)
     hold = Hold.new
     hold.id = id
-    if !hold_confirmation == 'error' && hold_confirmation['hold_confirmation'][0]['error'] == true
-      hold.error = hold_confirmation['hold_confirmation'][0]['message']
+    if hold_confirmation['hold_confirmation'][0]['error'] == true
+      hold.error = hold_confirmation['hold_confirmation'][0]['message'].split('placed')[1]
     elsif hold_confirmation == 'error'
       hold.error = 'Server Error. Please try again later'
     else

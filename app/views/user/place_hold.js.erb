@@ -1,10 +1,19 @@
 <% if !@user.error %>
+  <% @userdetails = JSON.parse(cookies[:user]) %>
   $('#navbar').html("<%= escape_javascript(render partial: 'navbar') %>");
-    <% if !@hold.error %>
-      var message = 'Hold successfully placed for pickup at '
-      message += '<%= escape_javascript(location_map(@user.pickup_library, "long")) %>'
-      message += ' <a onclick="change_pickup()">(change pick up location)</a>'
-      $('.hold-button-<%= escape_javascript(@hold.id) %>').html(message);
-    <% end %>
+  <% if params[:from_action] == 'list_of_results'%>
+    var traget_div = '.list-hold-button-<%= escape_javascript(@hold.id) %>'
+  <% else %>
+    var traget_div = '.details-hold-button-<%= escape_javascript(@hold.id) %>'
+  <% end %>
+  <% if !@hold.error %>
+    var message = '<div class="text-success">Hold successfully placed for pickup at '
+    message += '<%= escape_javascript(location_map(@user.pickup_library, "long")) %></div>'
+    message += ' <a onclick="change_pickup()">(change pick up location)</a>'
+  <% else %>
+    var message = '<div class="text-danger">Hold was not successfully placed. '
+    message += '<%= escape_javascript(@hold.error) %></div>'
+  <% end %>
+  $(traget_div).html(message);
 <% end %>
 

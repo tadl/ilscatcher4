@@ -153,14 +153,14 @@ function request_password_reset(){
   $.post("request_password_reset.js?fancybox=true");
 }
 
-function place_hold(id, force, from_action) {
+function place_hold(self, id, force, from_action) {
   var force_hold = (typeof force !== 'undefined') ? 'false' : 'true';
   var token = Cookies.get('login')
   if (token == null) {
     login_and_place_hold(id, from_action)
     return
   } else {
-    $('.btn-hold-'+id).text('Placing Hold').addClass('disabled progress-bar progress-bar-striped progress-bar-animated');
+    $(self).text('Placing Hold').addClass('disabled progress-bar progress-bar-striped progress-bar-animated');
     $.post("place_hold.js", {id: id, force: force_hold, from_action: from_action});
   }
 }

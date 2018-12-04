@@ -86,18 +86,22 @@
       <div class="text-center">
         <% userdetails = (cookies[:user].present?) ? JSON.parse(cookies[:user]) : "" %>
         <% if i.holdable == true && i.electronic == false %>
-          <button type="button" class="btn btn-success btn-lg" onclick="place_hold('<%= i.id %>', '', 'from_details')">Place Hold</button>
+          <div class="hold-button details-hold-button-<%= i.id %> col">
+            <button type="button" class="btn btn-success btn-lg" onclick="place_hold(this, '<%= i.id %>', '', 'from_details')">
+              Place Hold
+            </button>
+            <% if i.hold_count.to_i > 0 %>
+              <div class="hold-info font-weight-bold text-center">
+                <% total_copies = i.availability['copies_all'] %>
+                <% copy_noun = total_copies > 1 ? 'copies' : 'copy' %>
+                <%= i.hold_count %> hold<% if i.hold_count.to_i > 1 %>s<% end %> on <%= total_copies %> <%= copy_noun %>
+              </div>
+            <% end %>
+          </div>
         <% elsif i.electronic.to_s == "true" %>
           <a class="btn btn-success btn-lg" href="<%= i.eresource_link %>">View Resource</a>
         <% end %>
       </div>
-      <% if i.hold_count.to_i > 0 %>
-        <div class="hold-info font-weight-bold text-center">
-          <% total_copies = i.availability['copies_all'] %>
-          <% copy_noun = total_copies > 1 ? 'copies' : 'copy' %>
-          <%= i.hold_count %> hold<% if i.hold_count.to_i > 1 %>s<% end %> on <%= total_copies %> <%= copy_noun %>
-        </div>
-      <% end %>
     </div>
   </div>
   <div class="row">

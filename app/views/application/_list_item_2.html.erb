@@ -27,28 +27,16 @@
                 <a class="btn btn-primary btn-block item_details_link" role="button" href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)">Details</a>
               </div>
               <% if i.electronic == false && i.holdable == true %>
-                <div class="hold-button hold-button-<%= i.id %> col">
-                  <button class="btn btn-primary btn-block btn-hold-<%= i.id %>" role="button" onclick="place_hold(<%= i.id %>,'', 'list_of_results')">Place Hold</button>
+                <div class="hold-button list-hold-button-<%= i.id %> col">
+                  <button class="btn btn-primary btn-block btn-hold-<%= i.id %>" role="button" onclick="place_hold(this, <%= i.id %>,'', 'list_of_results')">Place Hold</button>
                 </div>
               <% elsif i.electronic == true %>
                 <div class="view-resource-button col">
                   <a class="btn btn-success btn-block btn-resource" role="button" href="<%= i.eresource_link %>">View</a>
                 </div>
               <% end %>
-              <div class="list_hold_message_<%= i.id %>"></div>
             </div>
           <div class="info-block">
-            <% if defined?(i.checkout_date) %>
-              <div class="card-text border-left pl-2 mb-2"><span class="font-weight-bold">Checkout Details:</span>
-                <div class="row">
-                  <div class="col">Borrowed: <%= i.checkout_date %></div>
-                  <div class="col<% if i.return_date == "*" %> font-weight-bold<% end %>">Due: <%= i.due_date %></div>
-                  <% if i.return_date != "*" %>
-                    <div class="col">Returned: <%= i.return_date %></div>
-                  <% end %>
-                </div>
-              </div>
-            <% end %>
             <% coder = HTMLEntities.new %>
             <% if i.abstract.present? %>
               <p class="card-text"><span class="font-weight-bold">Summary:</span> <%= coder.decode(i.abstract.truncate(250)) %></p>
