@@ -97,7 +97,7 @@
         <div class="form-group row">
           <label class="col-form-label col-12 col-md-4" for="edit-pref-pickup-library">Pickup Library</label>
           <div class="col-12 col-md-8">
-            <select class="form-control" id="edit-pref-pickup-library">
+            <select class="form-control pref circ" id="edit-pref-pickup-library">
               <% Settings.location_options_minus_all.each do |location| %>
                 <option value="<%= location[1] %>"<% if location[1] == @preferences['pickup_library'] %> selected="selected"<% end %>><%= location[0] %></option>
               <% end %>
@@ -108,7 +108,7 @@
         <div class="form-group row">
           <label class="col-form-label col-12 col-md-4" for="edit-pref-default-search">Default Search Location</label>
           <div class="col-12 col-md-8">
-            <select class="form-control" id="edit-pref-default-search">
+            <select class="form-control pref circ" id="edit-pref-default-search">
               <% Settings.location_options.each do |location| %>
                 <option value="<%= location[1] %>"<% if location[1] == @preferences['default_search'] %> selected="selected"<% end %>><%= location[0] %></option>
               <% end %>
@@ -121,13 +121,13 @@
             <legend class="col-form-label col-12 col-md-4 pt-0">Keep History</legend>
             <div class="col-12 col-md-8">
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" value="" id="edit-pref-keep-circ-history"<% if @preferences['keep_circ_history'].to_s == "true" %> checked<% end %>>
+                <input class="form-check-input pref circ" type="checkbox" value="" id="edit-pref-keep-circ-history"<% if @preferences['keep_circ_history'].to_s == "true" %> checked<% end %>>
                 <label class="form-check-label" for="edit-pref-keep-circ-history">
                   Circulations
                 </label>
               </div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" value="" id="edit-pref-keep-hold-history"<% if @preferences['keep_hold_history'].to_s == "true" %> checked<% end %>>
+                <input class="form-check-input pref circ" type="checkbox" value="" id="edit-pref-keep-hold-history"<% if @preferences['keep_hold_history'].to_s == "true" %> checked<% end %>>
                 <label class="form-check-label" for="edit-pref-keep-hold-history">
                   Holds
                 </label>
@@ -141,28 +141,28 @@
         <div class="form-group row">
           <label class="col-form-label col-12 col-md-4" for="edit-pref-username">Username</label>
           <div class="col-12 col-md-8">
-            <input type="text" class="form-control" id="edit-pref-username" placeholder="Username" value="<%= @preferences['username'] %>">
+            <input type="text" class="form-control pref user" id="edit-pref-username" placeholder="Username" value="<%= @preferences['username'] %>">
           </div>
         </div>
 
         <div class="form-group row">
           <label class="col-form-label col-12 col-md-4" for="edit-pref-holdshelf-alias">Holdshelf Alias</label>
           <div class="col-12 col-md-8">
-            <input type="text" class="form-control" id="edit-pref-holdshelf-alias" placeholder="Holdshelf Alias" value="<%= @preferences['hold_shelf_alias'] %>">
+            <input type="text" class="form-control pref user" id="edit-pref-holdshelf-alias" placeholder="Holdshelf Alias" value="<%= @preferences['hold_shelf_alias'] %>">
           </div>
         </div>
 
         <div class="form-group row">
           <label class="col-form-label col-12 col-md-4" for="edit-pref-email-address">Email Address</label>
           <div class="col-12 col-md-8">
-            <input type="email" class="form-control" id="edit-pref-email-address" placeholder="Email Address" value="<%= @preferences['email'] %>">
+            <input type="email" class="form-control pref user" id="edit-pref-email-address" placeholder="Email Address" value="<%= @preferences['email'] %>">
           </div>
         </div>
 
         <div class="form-group row">
           <label class="col-form-label col-12 col-md-4" for="edit-pref-new-password">Change Password</label>
           <div class="col-12 col-md-8">
-            <input type="password" class="form-control" id="edit-pref-new-password" placeholder="New Password">
+            <input type="password" class="form-control pref user" id="edit-pref-new-password" placeholder="New Password">
             <input type="password" class="form-control" id="edit-pref-new-password2" placeholder="New Password Again">
           </div>
         </div>
@@ -180,14 +180,14 @@
         <div class="form-group row">
           <label class="col-form-label col-12 col-md-4" for="edit-pref-phone-notify-number">Phone Notify Number</label>
           <div class="col-12 col-md-8">
-            <input type="text" class="form-control" id="edit-pref-phone-notify-number" placeholder="Phone Notify Number" value="<%= @preferences['phone_notify_number'] %>">
+            <input type="text" class="form-control pref notify" id="edit-pref-phone-notify-number" placeholder="Phone Notify Number" value="<%= @preferences['phone_notify_number'] %>">
           </div>
         </div>
 
         <div class="form-group row">
           <label class="col-form-label col-12 col-md-4" for="edit-pref-phone-notify-number">Text Notify Number</label>
           <div class="col-12 col-md-8">
-            <input type="text" class="form-control" id="edit-pref-phone-notify-number" placeholder="Text Notify Number" value="<%= @preferences['text_notify_number'] %>">
+            <input type="text" class="form-control pref notify" id="edit-pref-phone-notify-number" placeholder="Text Notify Number" value="<%= @preferences['text_notify_number'] %>">
           </div>
         </div>
 
@@ -196,15 +196,15 @@
             <legend class="col-form-label col-12 col-md-4 pt=0">Notification Methods</legend>
             <div class="col-12 col-md-8">
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="edit-pref-notify-method-email" value=""<% if @preferences['email_notify'].to_s == "true" %> checked<% end %>>
+                <input class="form-check-input pref notify" type="checkbox" id="edit-pref-notify-method-email" value=""<% if @preferences['email_notify'].to_s == "true" %> checked<% end %>>
                 <label class="form-check-label" for="edit-pref-notify-method-email">Email</label>
               </div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="edit-pref-notify-method-phone" value=""<% if @preferences['phone_notify'].to_s == "true" %> checked<% end %>>
+                <input class="form-check-input pref notify" type="checkbox" id="edit-pref-notify-method-phone" value=""<% if @preferences['phone_notify'].to_s == "true" %> checked<% end %>>
                 <label class="form-check-label" for="edit-pref-notify-method-phone">Phone</label>
               </div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="edit-pref-notify-method-text" value=""<% if @preferences['text_notify'].to_s == "true" %> checked<% end %>>
+                <input class="form-check-input pref notify" type="checkbox" id="edit-pref-notify-method-text" value=""<% if @preferences['text_notify'].to_s == "true" %> checked<% end %>>
                 <label class="form-check-label" for="edit-pref-notify-method-text">Text</label>
               </div>
             </div>
