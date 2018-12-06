@@ -173,16 +173,45 @@ function show_change_pickup(self, record_id, from_action, hold_id, hold_state){
         $.each(data['holds'], function(i, hold) {
           if(hold.id == record_id){
             var hold_id = hold.hold_id
-            alert(hold_id)           
+            load_form(hold_id)         
           }
         });
       }
     });
   }else{
     var hold_id = hold_id
-    alert(hold_id)
+    load_form(hold_id)  
+  }
+
+  function load_form(hold_id){
+     $('.change_pickup_button').text('Select New Pickup Location').removeClass('disabled progress-bar progress-bar-striped progress-bar-animated');
+    if(from_action == 'from_details' ){  
+      var hide_div = '.details-hold-button-' + record_id
+      var target_div = '#details-change-pickup-' + record_id
+    }else{
+      var hide_div = '.list-hold-button-' + record_id
+      var target_div = '#list-change-pickup-' + record_id
+    }
+    $('.change_pick_up_hold_id').html(hold_id)
+    $('.change_pick_up_record_id').html(record_id)
+    $('.change_pick_up_state').html(hold_state)
+    $('.change_pick_up_from_action').html(from_action)
+    var form = $('#hidden_change_pickup').html()
+    $(hide_div).hide()
+    $(target_div).html(form)
+    $(target_div).show()
   }
 }
+
+function change_pickup_location(new_pickup){
+  $('.change_pickup_button').text('Changing pickup location...').addClass('disabled progress-bar progress-bar-striped progress-bar-animated');
+  var hold_status = $('.change_pick_up_state').html()
+  var pickup_location = new_pickup
+  var from_action = $('.change_pick_up_from_action').html()
+  var hold_id = $('.change_pick_up_hold_id').html()
+  $.post("change_hold_pickup.js", {hold_id: hold_id, hold_status: hold_status, pickup_location: pickup_location, from_action: from_action });
+}
+
 
 function cancel_confirm(element) {
   $(element).html('Confirm Cancel').removeClass('btn-primary').addClass('btn-danger').attr('onclick', 'edit_hold(this,"cancel")');

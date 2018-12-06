@@ -173,6 +173,10 @@ class UserController < ApplicationController
 
   def change_hold_pickup
     if @user && params[:hold_id] && params[:hold_status] && params[:pickup_location]
+      if params[:hold_status].blank?
+        params[:hold_status] = 'Activate'
+      end 
+      puts params[:hold_status]
       @hold = @user.TEMP_change_hold_pickup(params[:hold_id], params[:hold_status], params[:pickup_location])
     else
       @hold = {:error => 'missing parameters'}
