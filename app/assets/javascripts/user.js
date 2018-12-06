@@ -38,12 +38,22 @@ function save_preferences(element) {
   var keep_circ_history = $('#edit-pref-keep-circ-history').prop('checked');
   var keep_hold_history = $('#edit-pref-keep-hold-history').prop('checked');
 
+  var pickup_library_orig = $('#edit-pref-pickup-library').data('orig');
+  var default_search_orig = $('#edit-pref-default-search').data('orig');
+  var keep_circ_history_orig = $('#edit-pref-keep-circ-history').data('orig');
+  var keep_hold_history_orig = $('#edit-pref-keep-hold-history').data('orig');
+
   /* user prefs = all changed as individual requests. requires current password be valid
      if anything changes, or new password supplied (with matching repeated) do the thing
      for each thing that changes */
   var username = encodeURIComponent($('#edit-pref-username').val());
   var hold_shelf_alias = encodeURIComponent($('#edit-pref-holdshelf-alias').val());
   var email = encodeURIComponent($('#edit-pref-email-address').val());
+
+  var username_orig = encodeURIComponent($('#edit-pref-username').data('orig'));
+  var hold_shelf_alias_orig = encodeURIComponent($('#edit-pref-holdshelf-alias').data('orig'));
+  var email_orig = encodeURIComponent($('#edit-pref-email-address').data('orig'));
+
   var new_password = $('#edit-pref-new-password').val();
   var new_password2 = $('#edit-pref-new-password2').val();
   var current_password = $('#edit-pref-current-password').val();
@@ -55,6 +65,12 @@ function save_preferences(element) {
   var email_notify = $('#edit-pref-notify-method-email').prop('checked');
   var phone_notify = $('#edit-pref-notify-method-phone').prop('checked');
   var text_notify = $('#edit-pref-notify-method-text').prop('checked');
+
+  var phone_notify_number_orig = encodeURIComponent($('#edit-pref-phone-notify-number').data('orig'));
+  var text_notify_number_orig = encodeURIComponent($('#edit-pref-text-notify-number').data('orig'));
+  var email_notify_orig = $('#edit-pref-notify-method-email').data('orig');
+  var phone_notify_orig = $('#edit-pref-notify-method-phone').data('orig');
+  var text_notify_orig = $('#edit-pref-notify-method-text').data('orig');
 
 
 
