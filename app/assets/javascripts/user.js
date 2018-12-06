@@ -14,10 +14,8 @@ function save_preferences(element) {
 
 function validate_sms(element) {
   var TADL_LAST_NUMBER;
-  var digits_trimmed;
-  var original = element.value;
   var digits = element.value.replace(/\D/g, '');
-  digits_trimmed = digits.replace(/^1/, '');
+  var digits_trimmed = digits.replace(/^1/, '');
   if (digits_trimmed.length == 10) {
     if (TADL_LAST_NUMBER !== digits_trimmed) {
       TADL_LAST_NUMBER = digits_trimmed;

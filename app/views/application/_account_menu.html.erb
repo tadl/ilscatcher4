@@ -13,7 +13,7 @@
   <a href="<%= checkout_history_path %>" class="list-group-item list-group-item-action<%= (request.path == checkout_history_path) ? ' active' : '' %>">Checkout History</a>
 </div>
 <% if Settings.account_info == true %>
-  <div class="card mb-3 border-primary">
+  <div class="card mb-3">
     <div class="card-header bg-light">Account Info</div>
     <div class="card-body">
       <% if Settings.melcat_enabled == true && Settings.melcat_id_display == true %>
