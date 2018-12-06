@@ -48,8 +48,23 @@
           <li class="nav-item<%= (request.path == fines_path) ? ' active' : '' %>"><a href="<%= fines_path %>" class="nav-link">Fines <span class="badge badge-primary"><span id="user-fines"><%= userdetails['fine'] %></span></span></a></li>
         <% end %>
         <li class="btn-group nav-item ml-lg-2 mt-lg-1">
-          <a role="button" class="btn btn-primary btn-block-md" href="/preferences">My Account</a>
-          <button type="button" class="btn btn-light btn-block-md ml-lg-2" id="logout-button" onclick="do_logout()">Log out</button>
+          <div class="btn-group">
+            <a role="button" class="btn btn-primary" href="<%= preferences_path %>">My Account</a>
+            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="<%= preferences_path %>">Account Preferences</a>
+              <a class="dropdown-item" href="<%= checkouts_path %>">Checked Out Items</a>
+              <a class="dropdown-item" href="<%= holds_path %>">All Items on Hold</a>
+              <a class="dropdown-item" href="<%= holds_pickup_path %>">Holds Ready for Pickup</a>
+              <a class="dropdown-item" href="<%= lists_path %>">My Lists</a>
+              <a class="dropdown-item" href="<%= fines_path %>">Current Fines</a>
+              <a class="dropdown-item" href="<%= payments_path %>">Past Payments</a>
+              <a class="dropdown-item" href="<%= checkout_history_path %>">Checkout History</a>
+            </div>
+          </div>
+          <button type="button" class="btn btn-light btn-block-md ml-lg-2" id="logout-button" onclick="do_logout()">Log out</button> 
         </li>
       </ul>
     <% end %>
