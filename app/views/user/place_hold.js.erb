@@ -2,9 +2,9 @@
   <% @userdetails = JSON.parse(cookies[:user]) %>
   $('#navbar').html("<%= escape_javascript(render partial: 'navbar') %>");
   <% if params[:from_action] == 'list_of_results'%>
-    var traget_div = '.list-hold-button-<%= escape_javascript(@hold.id) %>'
+    var target_div = '.list-hold-button-<%= escape_javascript(@hold.id) %>'
   <% else %>
-    var traget_div = '.details-hold-button-<%= escape_javascript(@hold.id) %>'
+    var target_div = '.details-hold-button-<%= escape_javascript(@hold.id) %>'
   <% end %>
   <% if !@hold.error %>
     var message = '<div class="text-success">Hold successfully placed for pickup at '
@@ -14,5 +14,5 @@
     var message = '<div class="text-danger">Hold was not successfully placed. '
     message += '<%= escape_javascript(@hold.error) %></div>'
   <% end %>
-  $(traget_div).html(message);
+  $(target_div).html(message);
 <% end %>

@@ -5,11 +5,11 @@
   <% if !@from_action.blank? %>
     <% if !@target_hold.blank? %>
       <% if @from_action == 'from_details' %>
-        var traget_div = '.details-hold-button-<%= escape_javascript(@target_hold) %>'
+        var target_div = '.details-hold-button-<%= escape_javascript(@target_hold) %>'
       <% else %>
-        var traget_div = '.list-hold-button-<%= escape_javascript(@target_hold) %>'
+        var target_div = '.list-hold-button-<%= escape_javascript(@target_hold) %>'
       <% end %>
-        $(traget_div).find(".btn").click()
+        $(target_div).find(".btn").click()
     <% else %>
       window.location = "/<%= @from_action %>"
     <% end %>
