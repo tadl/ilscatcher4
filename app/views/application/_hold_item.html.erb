@@ -31,8 +31,16 @@
                 <span class="font-weight-bold">Queue Position</span> <%= i.queue_state[0] %> with <%= i.queue_state[1] %> eligible <%= (i.queue_state[1] == 1) ? 'copy' : 'copies' %>.
               </p>
             <% end %>
-            <p class="card-text">
-              <span class="font-weight-bold">Pickup Location</span> <%= i.pickup_location %> <% if !i.queue_status.include? "Ready for Pickup" %><button class="btn-sm btn btn-default ml-3">change</button><% end %>
+            <p class="card-text list-hold-button-<%= i.id %>">
+              <span class="font-weight-bold">Pickup Location</span> 
+              <%= i.pickup_location %>
+              <% if !i.queue_status.include? "Ready for Pickup" %>
+                <button class="btn-sm btn btn-default ml-3" onclick="show_change_pickup(this, '<%= i.id %>', 'list_of_results', '<%= i.hold_id %>', '<%= i.hold_status %>' )">
+                  change
+                </button>
+              <% end %>
+            </p>
+            <p id="list-change-pickup-<%= i.id %>" style="display: none">
             </p>
             <p class="card-text text-large">
               <span class="font-weight-bold">Hold Status</span> <%= (i.hold_status == "Suspended") ? i.hold_status : i.queue_status %>

@@ -7,9 +7,9 @@
     var hide_div = '#details-change-pickup-<%= escape_javascript(@hold.id.to_s) %>'
   <% end %>
   <% if !@hold.error %>
-    var message = '<div class="text-success">Hold successfully placed for pickup at '
+    var message = '<div class="text-success">Hold pickup location changed to '
     message += '<%= @hold.pickup_location %></div>'
-    message += ' <button class="btn btn-primary btn-sm" onclick="show_change_pickup(this, \'<%= escape_javascript(@hold.id.to_s) %>\', \'<%= escape_javascript(params[:from_action]) %>\', <%= @hold.hold_id %>, \'<%= @hold.hold_status %>\' )">Change pickup location</button>'
+    message += ' <button class="btn btn-primary btn-sm change_pickup_button" onclick="show_change_pickup(this, \'<%= escape_javascript(@hold.id.to_s) %>\', \'<%= escape_javascript(params[:from_action]) %>\', <%= @hold.hold_id %>, \'<%= @hold.hold_status %>\' )">Change pickup location</button>'
   <% else %>
     var message = '<div class="text-danger">Hold was not successfully placed. '
     message += '<%= escape_javascript(@hold.error) %></div>'
