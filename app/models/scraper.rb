@@ -83,7 +83,7 @@ class Scraper
     if !holds_hash['message'] != 'bad login'
       hold_array = []
       hold_array.push(holds_hash['message'])
-      return scraped_holds_to_full_holds(hold_array)
+      return scraped_holds_to_full_holds(hold_array)[0]
     else
       return 'error'
     end

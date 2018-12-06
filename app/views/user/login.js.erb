@@ -4,7 +4,12 @@
   $.get('/lists.json');
   <% if !@from_action.blank? %>
     <% if !@target_hold.blank? %>
-      place_hold('<%= @target_hold %>', '', '<%= @from_action %>')
+      <% if @from_action == 'from_details' %>
+        var traget_div = '.details-hold-button-<%= escape_javascript(@target_hold) %>'
+      <% else %>
+        var traget_div = '.list-hold-button-<%= escape_javascript(@target_hold) %>'
+      <% end %>
+        $(traget_div).find(".btn").click()
     <% else %>
       window.location = "/<%= @from_action %>"
     <% end %>

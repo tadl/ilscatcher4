@@ -1,0 +1,19 @@
+<% if !@user.error %>
+  <% if params[:from_action] == 'list_of_results'%>
+    var traget_div = '.list-hold-button-<%= escape_javascript(@hold.id.to_s) %>'
+    var hide_div = '#list-change-pickup-<%= escape_javascript(@hold.id.to_s) %>'
+  <% else %>
+    var traget_div = '.details-hold-button-<%= escape_javascript(@hold.id.to_s) %>'
+    var hide_div = '#details-change-pickup-<%= escape_javascript(@hold.id.to_s) %>'
+  <% end %>
+  <% if !@hold.error %>
+    var message = '<div class="text-success">Hold successfully placed for pickup at '
+    message += '<%= @hold.pickup_location %></div>'
+    message += ' <button class="btn btn-primary btn-sm" onclick="show_change_pickup(this, \'<%= escape_javascript(@hold.id.to_s) %>\', \'<%= escape_javascript(params[:from_action]) %>\', <%= @hold.hold_id %>, \'<%= @hold.hold_status %>\' )">Change pickup location</button>'
+  <% else %>
+    var message = '<div class="text-danger">Hold was not successfully placed. '
+    message += '<%= escape_javascript(@hold.error) %></div>'
+  <% end %>
+  $(hide_div).hide()
+  $(traget_div).html(message).show();
+<% end %>
