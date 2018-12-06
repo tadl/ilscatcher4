@@ -87,7 +87,7 @@
         <% userdetails = (cookies[:user].present?) ? JSON.parse(cookies[:user]) : "" %>
         <% if i.holdable == true && i.electronic == false %>
           <div class="hold-button details-hold-button-<%= i.id %> col">
-            <button type="button" class="btn btn-success btn-lg" onclick="place_hold(this, '<%= i.id %>', '', 'from_details')">
+            <button type="button" class="btn btn-primary btn-lg" onclick="place_hold(this, '<%= i.id %>', '', 'from_details')">
               Place Hold
             </button>
             <% if i.hold_count.to_i > 0 %>
