@@ -27,10 +27,10 @@
   </div>
 <% elsif @search.results && @search.view == 'simple' %>
   <div class="col-md-9">
-    <table class="table"><tbody id="items">
+    <div id="items">
       <% @search.results.each do |i| %>
         <%= render "simple_item", i: i, search: @search %>
       <% end %>
-    </tbody></table>
+    </div>
   </div>
 <% end %>

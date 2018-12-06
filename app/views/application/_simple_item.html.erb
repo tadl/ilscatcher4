@@ -1,13 +1,10 @@
-<tr class="item" data-record_id="<%= i.id %>">
-  <td>
-    <%= icon('fas', item_format_icon(i.type_of_resource)) %>
-  </td>
-  <td>
+<div class="row item mb-1 pb-1 border-bottom" data-record_id="<%= i.id %>">
+  <div class="col-12 col-md-6">
     <a href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>)" class="item_details_link">
-      <%= i.title %>
+      <%= icon('fas', item_format_icon(i.type_of_resource)) %> <%= i.title %>
     </a>
-  </td>
-  <td>
+  </div>
+  <div class="col-12 col-md-3">
     <% if i.author.present? %>
       <% search_loc = i.search_location.present? ? i.search_location : Settings.location_default %>
       <% search_view = i.search_view.present? ? i.search_view : Settings.view_default %>
@@ -15,18 +12,21 @@
         <%= i.author %>
       </a>
     <% end %>
-  </td>
-  <td>
+  </div>
+  <div class="col-6 d-md-none my-auto">
+    <button type="button" class="btn btn-block btn-primary btn-sm d-md-none" onclick="item_details(<%= i.id %>)">Details</button>
+  </div>
+  <div class="col-6 col-md-3 my-auto">
     <% if i.electronic == false && i.holdable == true %>
-      <div class="hold-button list-hold-button-<%= i.id %> col">
+      <div class="hold-button list-hold-button-<%= i.id %>">
         <button class="btn btn-primary btn-block btn-sm btn-hold-<%= i.id %>" role="button" onclick="place_hold(this, <%= i.id %>,'', 'list_of_results')">Place Hold</button>
       </div>
       <div id="list-change-pickup-<%= i.id %>">
       </div>
     <% elsif i.electronic == true %>
-      <div class="view-resource-button col">
-        <a class="btn btn-primary btn-block btn-sm btn-resource" role="button" href="<%= i.eresource_link %>">View</a>
+      <div class="view-resource-button">
+        <a class="btn btn-primary btn-block btn-sm btn-resource" role="button" href="<%= i.eresource_link %>">View Online</a>
       </div>
     <% end %>
-  </td>
-</tr>
+  </div>
+</div>
