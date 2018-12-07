@@ -31,3 +31,6 @@
     </div>
   </div>
 <% end %>
+<% if Settings.online_payment == true && @userdetails['fine'].to_f > 0 %>
+  <a role="button" class="btn btn-block btn-success mb-3" href="<%= Settings.online_payment_url %>"><%= Settings.online_payment_text %></a>
+<% end %>
