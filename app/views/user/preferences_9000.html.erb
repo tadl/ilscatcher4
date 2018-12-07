@@ -162,24 +162,15 @@
         <div class="form-group row">
           <label class="col-form-label col-12 col-md-4" for="edit-pref-new-password">Change Password</label>
           <div class="col-12 col-md-8">
-            <div class="input-group">
-              <input type="password" class="form-control pref user" id="edit-pref-new-password" placeholder="New Password">
-              <div class="input-group-append">
-                <button type="button" class="btn btn-light" data-element="#edit-pref-new-password" onclick="toggle_password_visible(this)"><i class="fas fa-eye-slash"></i><span class="sr-only">toggle password visibility</span></button>
-              </div>
-            </div>
+            <input type="password" class="form-control pref user" id="edit-pref-new-password" placeholder="New Password">
+            <input type="password" class="form-control" id="edit-pref-new-password2" placeholder="New Password Again">
           </div>
         </div>
 
         <div class="form-group row">
           <label class="col-form-label col-12 col-md-4" for="edit-pref-current-password">Current Password</label>
           <div class="col-12 col-md-8">
-            <div class="input-group">
-              <input type="password" class="form-control" id="edit-pref-current-password" placeholder="Enter your current password">
-              <div class="input-group-append">
-                <button type="button" class="btn btn-light" data-element="#edit-pref-current-password" onclick="toggle_password_visible(this)"><i class="fas fa-eye-slash"></i><span class="sr-only">toggle password visibility</span></button>
-              </div>
-            </div>
+            <input type="password" class="form-control" id="edit-pref-current-password" placeholder="Enter your current password">
             <small id="password-note" class="form-text text-danger">Required only if changing User Preferences.</small>
           </div>
         </div>
@@ -195,9 +186,8 @@
 
         <div class="form-group row">
           <label class="col-form-label col-12 col-md-4" for="edit-pref-text-notify-number">Text Notify Number</label>
-          <div class="col-12 col-md-8 with-feedback">
+          <div class="col-12 col-md-8">
             <input type="text" class="form-control pref notify" id="edit-pref-text-notify-number" placeholder="Text Notify Number" data-orig="<%= @preferences['text_notify_number'] %>" value="<%= @preferences['text_notify_number'] %>">
-            <i class="fas fa-check text-success" id="text-notify-feedback" aria-hidden="true"></i>
           </div>
         </div>
 
@@ -228,22 +218,3 @@
     </div>
   </div><!-- #account-preferences -->
 </div><!-- .row -->
-<script>
-  var last_number;
-  var digits_trimmed;
-  var element = '#edit-pref-text-notify-number';
-  $(element).keyup(function(event) {
-    if (event.which !== 0) {
-      let test_number = $(element).val();
-      let digits = test_number.replace(/\D/g, '');
-      digits_trimmed = digits.replace(/^1/, '');
-      if (digits_trimmed.length == 10) {
-        if (last_number != digits_trimmed) {
-          last_number = digits_trimmed;
-          $('#text-notify-feedback').removeClass().addClass('fas fa-spinner text-muted spin').show()
-          validate_sms(digits_trimmed);
-        }
-      }
-    }
-  });
-</script>

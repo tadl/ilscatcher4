@@ -27,21 +27,12 @@ function save_preferences(element) {
   #edit-pref-notify-method-email    email_notify            email notification method
   #edit-pref-notify-method-phone    phone_notify            phone notification method
   #edit-pref-notify-method-text     text_notify             text notification method
-
  */
 
-  var circ_prefs_changed = false;
+  $(element).html('<i class="fas fa-asterisk spin"></i> Saving...').addClass('disabled').prop('disabled', true);
 
-  var user_prefs_changed = false;
-  var username_changed = false;
-  var hold_shelf_alias_changed = false;
-  var email_changed = false;
-  var password_changed = false;
+  var parameters = {};
 
-  var notify_prefs_changed = false;
-
-  /* circ prefs = all changed in one request, requires all values 
-     if anything changes, do the thing. */
   var pickup_library = $('#edit-pref-pickup-library').val();
   var default_search = $('#edit-pref-default-search').val();
   var keep_circ_history = $('#edit-pref-keep-circ-history').prop('checked');
@@ -58,16 +49,13 @@ function save_preferences(element) {
     (keep_circ_history != keep_circ_history_orig) ||
     (keep_hold_history != keep_hold_history_orig)
   ) {
-    circ_prefs_changed = true;
-    console.log('circ prefs changed');
-  } else {
-    console.log('circ prefs did not change');
+    parameters.pickup_library = pickup_library;
+    parameters.default_search = default_search;
+    parameters.keep_circ_history = keep_circ_history;
+    parameters.keep_hold_history = keep_hold_history;
+    parameters.circ_prefs_changed = true;
   }
 
-
-/* user prefs = all changed as individual requests. requires current password be valid
-     if anything changes, or new password supplied (with matching repeated) do the thing
-     for each thing that changes */
   var username = encodeURIComponent($('#edit-pref-username').val());
   var hold_shelf_alias = encodeURIComponent($('#edit-pref-holdshelf-alias').val());
   var email = encodeURIComponent($('#edit-pref-email-address').val());
@@ -81,42 +69,31 @@ function save_preferences(element) {
   var current_password = $('#edit-pref-current-password').val();
 
   if (username != username_orig) {
-    username_changed = true;
-    user_prefs_changed = true;
-    console.log('username changed');
-  } else {
-    console.log('username did not change');
+    parameters.user_prefs_changed = true;
+    parameters.username_changed = true;
+    parameters.username = username;
+    parameters.current_password = current_password;
   }
   if (hold_shelf_alias != hold_shelf_alias_orig) {
-    hold_shelf_alias_changed = true;
-    user_prefs_changed = true;
-    console.log('holdshelf alias changed');
-  } else {
-    console.log('holdshelf alias did not change');
+    parameters.user_prefs_changed = true;
+    parameters.hold_shelf_alias_changed = true;
+    parameters.hold_shelf_alias = hold_shelf_alias;
+    parameters.current_password = current_password;
   }
   if (email != email_orig) {
-    email_changed = true;
-    user_prefs_changed = true;
-    console.log('email changed');
-  } else {
-    console.log('email did not change');
+    parameters.user_prefs_changed = true;
+    parameters.email_changed = true;
+    parameters.email = email;
+    parameters.current_password = current_password;
   }
-
   if (new_password != "") {
-    console.log('password changed');
-  } else {
-    console.log('password did not change');
-  }
-
-  if ((user_prefs_changed == true) && (current_password == "")) {
-    $('#edit-pref-current-password').addClass('border-danger');
-    // probably include some help text, too
-    console.log('a user pref changed but current password was blank');
+    parameters.user_prefs_changed = true;
+    parameters.password_changed = true;
+    parameters.new_password = new_password;
+    parameters.current_password = current_password;
   }
 
 
-  /* notify prefs = all changed in one request, requires all values
-     if anything changes, do the thing. */
   var phone_notify_number = encodeURIComponent($('#edit-pref-phone-notify-number').val());
   var text_notify_number = encodeURIComponent($('#edit-pref-text-notify-number').val());
   var email_notify = $('#edit-pref-notify-method-email').prop('checked');
@@ -136,40 +113,54 @@ function save_preferences(element) {
     (phone_notify != phone_notify_orig) ||
     (text_notify != text_notify_orig)
   ) {
-    notify_prefs_changed = true;
-    console.log('notify prefs changed');
-  } else {
-    console.log('notify prefs did not change');
+    parameters.notify_prefs_changed = true;
+    parameters.phone_notify_number = phone_notify_number;
+    parameters.text_notify_number = text_notify_number;
+    parameters.email_notify = email_notify;
+    parameters.phone_notify = phone_notify;
+    parameters.text_notify = text_notify;
   }
 
+  if ((parameters.user_prefs_changed == true) && (current_password == "")) {
+    $('#edit-pref-current-password').addClass('border-danger');
+    $('#password-note').html('This field is required when making changes to User Preferences.');
+    // probably include some help text, too
+    $(element).html('Save').removeClass('disabled').prop('disabled', false);
+  }
+
+  console.log(parameters);
 
 }
 
-function validate_sms(element) {
-  var TADL_LAST_NUMBER;
-  var digits = element.value.replace(/\D/g, '');
-  var digits_trimmed = digits.replace(/^1/, '');
-  if (digits_trimmed.length == 10) {
-    if (TADL_LAST_NUMBER !== digits_trimmed) {
-      TADL_LAST_NUMBER = digits_trimmed;
-      $.ajax({
-        url: 'https://util-ext.catalog.tadl.org/api/v1/lookup/' + digits_trimmed,
-        dataType: 'json',
-        xhrFields: {
-          withCredentials: true,
-        },
-      })
-      .done(function(data) {
-        if (data.result) {
-          $('#sms_check_result').text("<span class='glyphicon glyphicon-flag text-danger'> We can't determine if this number is capable of receiving text messages.");
-        } else {
-          if (data.carrier.type === 'mobile') {
-            $('#sms_check_result').text("<span class='glyphicon glyphicon-ok text-success'></span> This number appears capable of receiving text messages.");
-          } else {
-            $('#sms_check_result').text("<span class='glyphicon glyphicon-remove text-danger'></span> This number might not be able to receive text messages.");
-          }
-        }
-      });
-    }
+function toggle_password_visible(element) {
+  var target = $(element).data('element');
+  if ($(target).attr('type') == "text") {
+    $(target).attr('type', 'password').addClass('fa-eye-slash').removeClass('fa-eye');
+  } else {
+    $(target).attr('type', 'text').addClass('fa-eye').removeClass('fa-eye-slash');
   }
+}
+
+function validate_sms(number) {
+  $.ajax({
+    url: 'https://util-ext.catalog.tadl.org/api/v1/lookup/' + number,
+    dataType: 'json',
+    xhrFields: {
+      withCredentials: true,
+    },
+  })
+  .done(function(data) {
+    if (data.result) {
+      //$('#text-notify-feedback').html("<span class='glyphicon glyphicon-flag text-danger'> We can't determine if this number is capable of receiving text messages.");
+      $('#text-notify-feedback').removeClass().addClass('fas fa-flag text-warning');
+    } else {
+      if (data.carrier.type == 'mobile') {
+        //$('#sms-check-result').text("<span class='glyphicon glyphicon-ok text-success'></span> This number appears capable of receiving text messages.");
+        $('#text-notify-feedback').removeClass().addClass('fas fa-check text-success');
+      } else {
+        //$('#sms-check-result').text("<span class='glyphicon glyphicon-remove text-danger'></span> This number might not be able to receive text messages.");
+        $('#text-notify-feedback').removeClass().addClass('fas fa-times text-danger');
+      }
+    }
+  });
 }

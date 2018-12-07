@@ -196,3 +196,14 @@ a:hover {
 @media all and (max-width: 991px) {
   .btn-block-md { width: 100%; display: block; }
 }
+
+/* form feedback trickery */
+.with-feedback {
+  position: relative;
+}
+#text-notify-feedback {
+  position: absolute;
+  top: 10px;
+  right: 25px;
+  display: none;
+}
