@@ -99,6 +99,16 @@ class Item
     end
   end
 
+  def marc_format
+    scraper = Scraper.new
+    marc_request = scraper.item_marc_format(self.id)
+    if marc_request != 'error'
+     return marc_request
+    else
+      return "Error: Something went wrong. Please try again later."
+    end 
+  end
+
 
 
 end

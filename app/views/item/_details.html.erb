@@ -81,6 +81,16 @@
           <%= i.sort_year %>
         <% end %>
       </div>
+      <div class="mt-3">
+        <button id="marc_button" type="button" class="btn btn-outline-primary btn-sm" onclick="show_marc(this, '<%= i.id %>')">
+          <i class="far fa-file-alt"></i> Show MARC Record
+        </button>
+        <a href="details?id=<%= i.id %>" target="_blank">
+          <button type="button" class="btn btn-outline-primary btn-sm">
+            <i class="fas fa-link"></i> Permalink
+          </button>
+        </a>
+      </div>
     </div>
     <div class="col-md-3 order-md-3 order-2 mb-2">
       <div class="text-center">

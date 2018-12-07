@@ -1,0 +1,2 @@
+$('#marc_button').html('<i class="far fa-file-alt"></i> Show MARC Record').removeClass('disabled progress-bar progress-bar-striped progress-bar-animated');
+$.fancybox.open('<div style="max-width: 1200px; width: 100%;"><%= escape_javascript(render 'marc_record') %></div>');

@@ -8,6 +8,7 @@ location_options_minus_all: [['Traverse City', '23', 'TADL-WOOD'], ['Interlochen
 view_default: 'list'
 location_default: '22'
 location_single: false
+machine_readable: 'https://mr-v2.catalog.tadl.org/'
 melcat_enabled: true
 melcat_link: 'http://elibrary.mel.org/search/a?searchtype=X&SORT=D&searchharg='
 melcat_id_display: true

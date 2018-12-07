@@ -7,7 +7,7 @@ class Scraper
 
   def user_basic_info(token)
     params = '?token=' + token
-    user_hash =  request('login', params)
+    user_hash =  json_request('login', params)
     if !user_hash.key?('error')
       return user_hash
     else
@@ -17,7 +17,7 @@ class Scraper
 
   def user_get_checkouts(token)
     params = '?token=' + token
-    checkouts_hash =  request('checkouts', params)
+    checkouts_hash =  json_request('checkouts', params)
     if !checkouts_hash['user']['error']
       return scraped_checkouts_to_full_checkouts(checkouts_hash['checkouts'])
     else
@@ -28,7 +28,7 @@ class Scraper
   def user_renew_checkouts(token, checkout_ids)
     #need to pass a record_ids param but it can be whatever (weird ILSCatcher3 stuff..)
     params = '?token=' + token + '&checkout_ids=' + checkout_ids + '&record_ids=1'
-    renew_response = request('renew_checkouts', params)
+    renew_response = json_request('renew_checkouts', params)
     if !renew_response['user']['error']
       renew_response['checkouts'] = scraped_checkouts_to_full_checkouts(renew_response['checkouts'])
       return renew_response
@@ -39,7 +39,7 @@ class Scraper
 
   def user_checkout_history(token, page)
     params = '?token=' + token + '&page=' + page.to_s
-    checkout_hash = request('checkout_history', params)
+    checkout_hash = json_request('checkout_history', params)
     if !checkout_hash['user']['error']
       checkout_hash['checkouts'] = scraped_historical_checkouts_to_full_checkouts(checkout_hash['checkouts']) 
       return checkout_hash
@@ -50,7 +50,7 @@ class Scraper
 
   def user_get_holds(token)
     params = '?token=' + token
-    holds_hash =  request('holds', params)
+    holds_hash =  json_request('holds', params)
     if !holds_hash['user']['error']
       return scraped_holds_to_full_holds(holds_hash['holds'])
     else
@@ -62,7 +62,7 @@ class Scraper
     params = '?token=' + token
     params += '&hold_id=' + hold_id
     params += '&task=' + task
-    holds_hash =  request('manage_hold', params)
+    holds_hash =  json_request('manage_hold', params)
     if !holds_hash['user']['error']
       return scraped_holds_to_full_holds(holds_hash['holds'])
     else
@@ -79,7 +79,7 @@ class Scraper
       params += '&hold_state=f'
     end
     params += '&new_pickup=' + pickup_location
-    holds_hash =  request('update_hold_pickup', params)
+    holds_hash =  json_request('update_hold_pickup', params)
     if !holds_hash['message'] != 'bad login'
       hold_array = []
       hold_array.push(holds_hash['message'])
@@ -91,7 +91,7 @@ class Scraper
 
   def user_get_preferences(token)
     params = '?token=' + token
-    preferences_hash = request('preferences', params)
+    preferences_hash = json_request('preferences', params)
     if !preferences_hash['user']['error']
       return preferences_hash['preferences']
     else
@@ -101,7 +101,7 @@ class Scraper
 
   def user_get_fines(token)
     params = '?token=' + token
-    fines_hash = request('fines', params)
+    fines_hash = json_request('fines', params)
     if !fines_hash['user']['error']
       fines_and_fees = {}
       fines_and_fees['fines'] = fines_hash['fines']
@@ -114,7 +114,7 @@ class Scraper
 
   def user_get_payments(token)
     params = '?token=' + token
-    payments_hash = request('payments', params)
+    payments_hash = json_request('payments', params)
     if !payments_hash['user']['error']
       return payments_hash['payments']
     else
@@ -124,7 +124,7 @@ class Scraper
 
   def user_get_lists(token)
     params = '?token=' + token
-    list_hash = request('lists', params)
+    list_hash = json_request('lists', params)
     if !list_hash['user']['error']
       lists = []
       list_hash['lists'].each do |l|
@@ -143,7 +143,7 @@ class Scraper
     if token
       params += '&token=' + token
     end
-    list_hash = request('view_list', params)
+    list_hash = json_request('view_list', params)
     if list_hash['list']['no_items'] == '' && list_hash['list']['name'] != ''
       list_hash['items'] = list_items_to_full_items(list_hash['list']['items'])
       list_hash['list'] = list_hash_to_list(list_hash['list'])
@@ -165,7 +165,7 @@ class Scraper
 
   def user_password_reset(user)
     params = '?username=' + user
-    reset_hash = request('reset_password_request', params)
+    reset_hash = json_request('reset_password_json_request', params)
     if reset_hash['message'] == 'complete'
       return reset_hash['message']
     else
@@ -179,7 +179,7 @@ class Scraper
     if force == 'true'
       params += '&force=true'
     end
-    hold_confirmation = request('place_hold', params)
+    hold_confirmation = json_request('place_hold', params)
     hold = Hold.new
     hold.id = id
     if hold_confirmation['hold_confirmation'][0]['error'] == true
@@ -192,12 +192,19 @@ class Scraper
     return hold
   end
 
+  def item_marc_format(id)
+    url = Settings.machine_readable + 'eg/opac/record/' + id + '?expand=marchtml#marchtml'
+    page = scrape_request(url)
+    marc = page.parser.at_css('.marc_table').to_s.gsub(/\n/,'').gsub(/\t/,'') rescue 'error'
+    return marc
+  end
+
   def list_create(token, values)
     params = '?token=' + token
     params += '&name=' + values[:name]
     params += '&description=' + values[:description]
     params += '&shared=' + values[:shared]
-    list_confirmation = request('create_list', params)
+    list_confirmation = json_request('create_list', params)
     if list_confirmation['message'] && list_confirmation['message'] == 'success'
       return list_confirmation['message']
     else
@@ -211,7 +218,7 @@ class Scraper
     params += '&name=' + values[:name]
     params += '&description=' + values[:description]
     params += '&offset=' + values[:offset]
-    edit_confirmation = request('edit_list', params)
+    edit_confirmation = json_request('edit_list', params)
     if edit_confirmation['message'] && edit_confirmation['message'] == 'success'
       return edit_confirmation['message']
     else
@@ -224,7 +231,7 @@ class Scraper
     params += '&list_id=' + values[:list_id]
     params += '&share=' + values[:share]
     params += '&offset=' + values[:offset]
-    share_confirmation = request('share_list', params)
+    share_confirmation = json_request('share_list', params)
     if share_confirmation['message'] && share_confirmation['message'] == 'success'
       return share_confirmation['message']
     else
@@ -235,7 +242,7 @@ class Scraper
   def list_make_default(token, list_id)
     params = '?token=' + token
     params += '&list_id=' + list_id
-    make_default_confirmation = request('make_default_list', params)
+    make_default_confirmation = json_request('make_default_list', params)
     if make_default_confirmation['message'] && make_default_confirmation['message'] == 'success'
       return make_default_confirmation['message']
     else
@@ -246,7 +253,7 @@ class Scraper
   def list_destroy(token, list_id)
     params = '?token=' + token
     params += '&list_id=' + list_id
-    destroy_confirmation = request('destroy_list', params)
+    destroy_confirmation = json_request('destroy_list', params)
     if destroy_confirmation['message'] && destroy_confirmation['message'] == 'success'
       return destroy_confirmation['message']
     else
@@ -259,7 +266,7 @@ class Scraper
     params += '&list_id=' + values[:list_id]
     params += '&list_item_id=' + values[:list_item_id]
     params += '&note=' + values[:note]
-    add_note_confirmation = request('add_note_to_list', params)
+    add_note_confirmation = json_request('add_note_to_list', params)
     if add_note_confirmation['message'] && add_note_confirmation['message'] == 'success'
       return add_note_confirmation['message']
     else
@@ -274,7 +281,7 @@ class Scraper
     if values[:note]
       params += '&note=' + values[:note]
     end
-    edit_note_confirmation = request('edit_note', params)
+    edit_note_confirmation = json_request('edit_note', params)
     if edit_note_confirmation['message'] && edit_note_confirmation['message'] == 'success'
       return edit_note_confirmation['message']
     else
@@ -286,7 +293,7 @@ class Scraper
     params = '?token=' + token
     params += '&record_id=' + values[:record_id]
     params += '&list_id=' + values[:list_id]
-    add_confirmation = request('add_item_to_list', params)
+    add_confirmation = json_request('add_item_to_list', params)
     if add_confirmation['message'] && add_confirmation['message'] == 'success'
       return add_confirmation['message']
     else
@@ -298,7 +305,7 @@ class Scraper
     params = '?token=' + token
     params += '&list_item_id=' + values[:list_item_id]
     params += '&list_id=' + values[:list_id]
-    remove_confirmation = request('remove_item_from_list', params)
+    remove_confirmation = json_request('remove_item_from_list', params)
     if remove_confirmation['message'] && remove_confirmation['message'] == 'success'
       return remove_confirmation['message']
     else
@@ -309,7 +316,7 @@ class Scraper
   
   private
 
-  def request(path = '', params = '')
+  def json_request(path = '', params = '')
     uri = URI.parse(BASE_URL + path + '.json' + params)
     response = Net::HTTP.get_response(uri)
     if response.code == '200'
@@ -317,6 +324,12 @@ class Scraper
     else
       return 'error'
     end
+  end
+
+  def scrape_request(url = '', cookie = '')
+    agent = Mechanize.new
+    page = agent.get(url)
+    return page 
   end
 
   def scraped_checkouts_to_full_checkouts(checkouts_hash)

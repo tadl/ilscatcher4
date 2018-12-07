@@ -31,6 +31,16 @@ class ItemController < ApplicationController
 
   end
 
+  def marc_record
+    item = Item.new
+    item.id = params[:id]
+    @marc = item.marc_format
+    respond_to do |format|
+      format.json {render :json => @marc}
+      format.js
+    end
+  end
+
   def youtube_trailer
     @id = params[:id]
     respond_to do |format|
