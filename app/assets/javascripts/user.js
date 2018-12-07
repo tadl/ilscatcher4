@@ -30,15 +30,7 @@ function save_preferences(element) {
 
  */
 
-  var circ_prefs_changed = false;
-
-  var user_prefs_changed = false;
-  var username_changed = false;
-  var hold_shelf_alias_changed = false;
-  var email_changed = false;
-  var password_changed = false;
-
-  var notify_prefs_changed = false;
+  var parameters = {};
 
   /* circ prefs = all changed in one request, requires all values 
      if anything changes, do the thing. */
@@ -58,14 +50,14 @@ function save_preferences(element) {
     (keep_circ_history != keep_circ_history_orig) ||
     (keep_hold_history != keep_hold_history_orig)
   ) {
-    circ_prefs_changed = true;
-    console.log('circ prefs changed');
-  } else {
-    console.log('circ prefs did not change');
+    parameters.pickup_library = pickup_library;
+    parameters.default_search = default_search;
+    parameters.keep_circ_history = keep_circ_history;
+    parameters.keep_hold_history = keep_hold_history;
+    parameters.circ_prefs_changed = true;
   }
 
-
-/* user prefs = all changed as individual requests. requires current password be valid
+  /* user prefs = all changed as individual requests. requires current password be valid
      if anything changes, or new password supplied (with matching repeated) do the thing
      for each thing that changes */
   var username = encodeURIComponent($('#edit-pref-username').val());
@@ -81,37 +73,28 @@ function save_preferences(element) {
   var current_password = $('#edit-pref-current-password').val();
 
   if (username != username_orig) {
-    username_changed = true;
-    user_prefs_changed = true;
-    console.log('username changed');
-  } else {
-    console.log('username did not change');
+    parameters.user_prefs_changed = true;
+    parameters.username_changed = true;
+    parameters.username = username;
+    parameters.current_password = current_password;
   }
   if (hold_shelf_alias != hold_shelf_alias_orig) {
-    hold_shelf_alias_changed = true;
-    user_prefs_changed = true;
-    console.log('holdshelf alias changed');
-  } else {
-    console.log('holdshelf alias did not change');
+    parameters.user_prefs_changed = true;
+    parameters.hold_shelf_alias_changed = true;
+    parameters.hold_shelf_alias = hold_shelf_alias;
+    parameters.current_password = current_password;
   }
   if (email != email_orig) {
-    email_changed = true;
-    user_prefs_changed = true;
-    console.log('email changed');
-  } else {
-    console.log('email did not change');
+    parameters.user_prefs_changed = true;
+    parameters.email_changed = true;
+    parameters.email = email;
+    parameters.current_password = current_password;
   }
-
   if (new_password != "") {
-    console.log('password changed');
-  } else {
-    console.log('password did not change');
-  }
-
-  if ((user_prefs_changed == true) && (current_password == "")) {
-    $('#edit-pref-current-password').addClass('border-danger');
-    // probably include some help text, too
-    console.log('a user pref changed but current password was blank');
+    parameters.user_prefs_changed = true;
+    parameters.password_changed = true;
+    parameters.new_password = new_password;
+    parameters.current_password = current_password;
   }
 
 
@@ -136,12 +119,21 @@ function save_preferences(element) {
     (phone_notify != phone_notify_orig) ||
     (text_notify != text_notify_orig)
   ) {
-    notify_prefs_changed = true;
-    console.log('notify prefs changed');
-  } else {
-    console.log('notify prefs did not change');
+    parameters.notify_prefs_changed = true;
+    parameters.phone_notify_number = phone_notify_number;
+    parameters.text_notify_number = text_notify_number;
+    parameters.email_notify = email_notify;
+    parameters.phone_notify = phone_notify;
+    parameters.text_notify = text_notify;
   }
 
+
+  if ((parameters.user_prefs_changed == true) && (current_password == "")) {
+    $('#edit-pref-current-password').addClass('border-danger');
+    // probably include some help text, too
+  }
+
+  console.log(parameters);
 
 }
 
