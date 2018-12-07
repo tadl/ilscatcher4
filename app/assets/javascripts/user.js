@@ -27,13 +27,12 @@ function save_preferences(element) {
   #edit-pref-notify-method-email    email_notify            email notification method
   #edit-pref-notify-method-phone    phone_notify            phone notification method
   #edit-pref-notify-method-text     text_notify             text notification method
-
  */
+
+  $(element).html('<i class="fas fa-asterisk spin"></i> Saving...').addClass('disabled').prop('disabled', true);
 
   var parameters = {};
 
-  /* circ prefs = all changed in one request, requires all values 
-     if anything changes, do the thing. */
   var pickup_library = $('#edit-pref-pickup-library').val();
   var default_search = $('#edit-pref-default-search').val();
   var keep_circ_history = $('#edit-pref-keep-circ-history').prop('checked');
@@ -57,9 +56,6 @@ function save_preferences(element) {
     parameters.circ_prefs_changed = true;
   }
 
-  /* user prefs = all changed as individual requests. requires current password be valid
-     if anything changes, or new password supplied (with matching repeated) do the thing
-     for each thing that changes */
   var username = encodeURIComponent($('#edit-pref-username').val());
   var hold_shelf_alias = encodeURIComponent($('#edit-pref-holdshelf-alias').val());
   var email = encodeURIComponent($('#edit-pref-email-address').val());
@@ -98,8 +94,6 @@ function save_preferences(element) {
   }
 
 
-  /* notify prefs = all changed in one request, requires all values
-     if anything changes, do the thing. */
   var phone_notify_number = encodeURIComponent($('#edit-pref-phone-notify-number').val());
   var text_notify_number = encodeURIComponent($('#edit-pref-text-notify-number').val());
   var email_notify = $('#edit-pref-notify-method-email').prop('checked');
@@ -127,41 +121,46 @@ function save_preferences(element) {
     parameters.text_notify = text_notify;
   }
 
-
   if ((parameters.user_prefs_changed == true) && (current_password == "")) {
     $('#edit-pref-current-password').addClass('border-danger');
+    $('#password-note').html('This field is required when making changes to User Preferences.');
     // probably include some help text, too
+    $(element).html('Save').removeClass('disabled').prop('disabled', false);
   }
 
   console.log(parameters);
 
 }
 
-function validate_sms(element) {
-  var TADL_LAST_NUMBER;
-  var digits = element.value.replace(/\D/g, '');
-  var digits_trimmed = digits.replace(/^1/, '');
-  if (digits_trimmed.length == 10) {
-    if (TADL_LAST_NUMBER !== digits_trimmed) {
-      TADL_LAST_NUMBER = digits_trimmed;
-      $.ajax({
-        url: 'https://util-ext.catalog.tadl.org/api/v1/lookup/' + digits_trimmed,
-        dataType: 'json',
-        xhrFields: {
-          withCredentials: true,
-        },
-      })
-      .done(function(data) {
-        if (data.result) {
-          $('#sms_check_result').text("<span class='glyphicon glyphicon-flag text-danger'> We can't determine if this number is capable of receiving text messages.");
-        } else {
-          if (data.carrier.type === 'mobile') {
-            $('#sms_check_result').text("<span class='glyphicon glyphicon-ok text-success'></span> This number appears capable of receiving text messages.");
-          } else {
-            $('#sms_check_result').text("<span class='glyphicon glyphicon-remove text-danger'></span> This number might not be able to receive text messages.");
-          }
-        }
-      });
-    }
+function toggle_password_visible(element) {
+  var target = $(element).data('element');
+  if ($(target).attr('type') == "text") {
+    $(target).attr('type', 'password').addClass('fa-eye-slash').removeClass('fa-eye');
+  } else {
+    $(target).attr('type', 'text').addClass('fa-eye').removeClass('fa-eye-slash');
   }
+}
+
+function validate_sms(number) {
+  $.ajax({
+    url: 'https://util-ext.catalog.tadl.org/api/v1/lookup/' + number,
+    dataType: 'json',
+    xhrFields: {
+      withCredentials: true,
+    },
+  })
+  .done(function(data) {
+    if (data.result) {
+      //$('#text-notify-feedback').html("<span class='glyphicon glyphicon-flag text-danger'> We can't determine if this number is capable of receiving text messages.");
+      $('#text-notify-feedback').removeClass().addClass('fas fa-flag text-warning');
+    } else {
+      if (data.carrier.type == 'mobile') {
+        //$('#sms-check-result').text("<span class='glyphicon glyphicon-ok text-success'></span> This number appears capable of receiving text messages.");
+        $('#text-notify-feedback').removeClass().addClass('fas fa-check text-success');
+      } else {
+        //$('#sms-check-result').text("<span class='glyphicon glyphicon-remove text-danger'></span> This number might not be able to receive text messages.");
+        $('#text-notify-feedback').removeClass().addClass('fas fa-times text-danger');
+      }
+    }
+  });
 }
