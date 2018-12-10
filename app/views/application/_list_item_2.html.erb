@@ -23,18 +23,36 @@
               </a>
             <% end %>
           </h4>
-          <div class="row mb-3">
-              <div class="col details-button">
+          <div class="row">
+              <div class="col-12 col-md-4 details-button mb-3 px-1">
                 <a class="btn btn-primary btn-block item_details_link" role="button" href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)">Details</a>
               </div>
+              <% if cookies[:lists] %>
+                <% @mylists = JSON.parse(cookies[:lists]) %>
+              <% end %>
+              <% if @mylists %>
+                <div class="col-12 col-md-4 list-button mb-3 px-1">
+                  <div class="btn-group w-100">
+                    <button type="button" class="btn btn-primary btn-block" data-item_id="<%= i.id %>" onclick="add_to_default_list(this)">Add to list</button>
+                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu">
+                      <% @mylists.each do |list| %>
+                        <a class="dropdown-item" data-listid="<%= list['list_id'] %>" data-item_id="<%= i.id %>"  onclick="add_to_list(this)"><%= list['title'] %></a>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
               <% if i.electronic == false && i.holdable == true %>
-                <div class="hold-button list-hold-button-<%= i.id %> col">
+                <div class="hold-button list-hold-button-<%= i.id %> col-12 col-md-4 mb-3 px-1">
                   <button class="btn btn-primary btn-block btn-hold-<%= i.id %>" role="button" onclick="place_hold(this, <%= i.id %>,'', 'list_of_results')">Place Hold</button>
                 </div>
                 <div id="list-change-pickup-<%= i.id %>">
                 </div>
               <% elsif i.electronic == true %>
-                <div class="view-resource-button col">
+                <div class="view-resource-button col-12 col-md-4 mb-3 px-1">
                   <a class="btn btn-primary btn-block btn-resource" role="button" href="<%= i.eresource_link %>">View</a>
                 </div>
               <% end %>
