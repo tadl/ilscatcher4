@@ -10,24 +10,6 @@ function cancel_edit_preferences() {
 }
 
 function save_preferences(element) {
-/*
-  element id                        preference              what it is
-  #edit-pref-pickup-library         pickup_library          pickup library
-  #edit-pref-default-search         default_search          default search location
-  #edit-pref-keep-circ-history      keep_circ_history       keep search history option
-  #edit-pref-keep-hold-history      keep_hold_history       keep hold history option (deprecated/hide?)
-  #edit-pref-username               username                username
-  #edit-pref-holdshelf-alias        hold_shelf_alias        holdshelf alias
-  #edit-pref-email-address          email                   email address
-  #edit-pref-new-password           *                       new password
-  #edit-pref-new-password2          *                       new password again
-  #edit-pref-current-password       *                       current password
-  #edit-pref-phone-notify-number    phone_notify_number     phone notify number
-  #edit-pref-text-notify-number     text_notify_number      text notify number
-  #edit-pref-notify-method-email    email_notify            email notification method
-  #edit-pref-notify-method-phone    phone_notify            phone notification method
-  #edit-pref-notify-method-text     text_notify             text notification method
- */
 
   $(element).html('<i class="fas fa-asterisk spin"></i> Saving...').addClass('disabled').prop('disabled', true);
 
@@ -93,7 +75,6 @@ function save_preferences(element) {
     parameters.current_password = current_password;
   }
 
-
   var phone_notify_number = encodeURIComponent($('#edit-pref-phone-notify-number').val());
   var text_notify_number = encodeURIComponent($('#edit-pref-text-notify-number').val());
   var email_notify = $('#edit-pref-notify-method-email').prop('checked');
@@ -129,6 +110,15 @@ function save_preferences(element) {
   }
 
   console.log(parameters);
+  $.post('/save_account_preferences.json', parameters)
+  .done(function(data) {
+    if (data.message == 'success') {
+      location.reload();
+    } else {
+      show_alert('danger', 'An error occurred while saving your preferences. Please reload the page and try again later.');
+    }
+
+  });
 
 }
 
