@@ -31,15 +31,20 @@
                 <% @mylists = JSON.parse(cookies[:lists]) %>
               <% end %>
               <% if @mylists %>
+                <% @mylists.each do |list| %>
+                  <% if list['default'].to_s == "true" %>
+                    <% @default_list = list['list_id'] %>
+                  <% end %>
+                <% end %>
                 <div class="col-12 col-md-4 list-button mb-3 px-1">
-                  <div class="btn-group w-100">
-                    <button type="button" class="btn btn-primary btn-block" data-item_id="<%= i.id %>" onclick="add_to_default_list(this)">Add to list</button>
-                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <div class="btn-group w-100" id="list-div-<%= i.id %>">
+                    <button type="button" class="btn btn-primary btn-block" id="list-button-<%= i.id %>" data-list_id="<%= @default_list %>" data-record_id="<%= i.id %>" onclick="add_to_list(this)">Add to list</button>
+                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" id="list-dropdown-<%= i.id %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <span class="sr-only">Toggle Dropdown</span>
                     </button>
                     <div class="dropdown-menu">
                       <% @mylists.each do |list| %>
-                        <a class="dropdown-item" data-listid="<%= list['list_id'] %>" data-item_id="<%= i.id %>"  onclick="add_to_list(this)"><%= list['title'] %></a>
+                        <a class="dropdown-item" data-list_id="<%= list['list_id'] %>" data-record_id="<%= i.id %>" onclick="add_to_list(this)"><%= list['title'].truncate(40) %></a>
                       <% end %>
                     </div>
                   </div>

@@ -319,3 +319,21 @@ function show_alert(type, message) {
   $(alert_div).append(html);
   console.log(html);
 }
+
+function add_to_list(element) {
+  var list_id = $(element).data('list_id');
+  var record_id = $(element).data('record_id');
+  var button = '#list-button-'+record_id;
+  var dropdown = '#list-dropdown-'+record_id;
+  $(button).attr('disabled', true).addClass('disabled').html('<i class="fas fa-asterisk spin"></i> Adding...');
+  $(dropdown).attr('disabled', true).addClass('disabled');
+  $.post('/add_item_to_list.json', {list_id: list_id, record_id: record_id})
+  .done(function(data) {
+    if (data.message == 'success') {
+      $(button).html("Added");
+    } else {
+      $(button).html('Error');
+    }
+  });
+}
+

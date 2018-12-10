@@ -113,7 +113,7 @@
           </div>
         </div>
       </div>
-      <% if Settings.melcat_enabled == true %><!-- this should be blocked behind "few or no good results found" -->
+      <% if Settings.melcat_enabled == true %>
         <div class="col-12 col-md-6 col-lg-3">
           <a role="button" class="btn btn-sm btn-light btn-block" href="<%= Settings.melcat_link + url_encode(@search.query) %>">Search with <%= image_tag("mel-logo.png", alt: "MeLCat", height: '24', class: 'mb-2') %></a>
         </div>

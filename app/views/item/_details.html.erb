@@ -93,26 +93,47 @@
       </div>
     </div>
     <div class="col-md-3 order-md-3 order-2 mb-2">
-      <div class="text-center">
-        <% userdetails = (cookies[:user].present?) ? JSON.parse(cookies[:user]) : "" %>
-        <% if i.holdable == true && i.electronic == false %>
-          <div class="hold-button details-hold-button-<%= i.id %> col">
-            <button type="button" class="btn btn-primary btn-lg" onclick="place_hold(this, '<%= i.id %>', '', 'from_details')">
-              Place Hold
-            </button>
-            <% if i.hold_count.to_i > 0 %>
-              <div class="hold-info font-weight-bold text-center">
-                <% total_copies = i.availability['copies_all'] %>
-                <% copy_noun = total_copies > 1 ? 'copies' : 'copy' %>
-                <%= i.hold_count %> hold<% if i.hold_count.to_i > 1 %>s<% end %> on <%= total_copies %> <%= copy_noun %>
-              </div>
-            <% end %>
+      <% userdetails = (cookies[:user].present?) ? JSON.parse(cookies[:user]) : "" %>
+      <% if i.holdable == true && i.electronic == false %>
+        <div class="hold-button details-hold-button-<%= i.id %> mb-3">
+          <button type="button" class="btn btn-primary btn-block btn-lg" onclick="place_hold(this, '<%= i.id %>', '', 'from_details')">
+            Place Hold
+          </button>
+        </div>
+        <% if i.hold_count.to_i > 0 %>
+          <div class="hold-info font-weight-bold text-center mb-3">
+            <% total_copies = i.availability['copies_all'] %>
+            <% copy_noun = total_copies > 1 ? 'copies' : 'copy' %>
+            <%= i.hold_count %> hold<% if i.hold_count.to_i > 1 %>s<% end %> on <%= total_copies %> <%= copy_noun %>
           </div>
-          <div id="details-change-pickup-<%= i.id %>"></div>
-        <% elsif i.electronic.to_s == "true" %>
-          <a class="btn btn-primary btn-lg" href="<%= i.eresource_link %>">View Resource</a>
         <% end %>
-      </div>
+        <div id="details-change-pickup-<%= i.id %>" class="mb-3"></div>
+      <% elsif i.electronic.to_s == "true" %>
+        <a class="btn btn-primary btn-lg btn-block mb-3" role="button" href="<%= i.eresource_link %>">View Resource</a>
+      <% end %>
+      <% if cookies[:lists] %>
+        <% @mylists = JSON.parse(cookies[:lists]) %>
+      <% end %>
+      <% if @mylists %>
+        <% @mylists.each do |list| %>
+          <% if list['default'].to_s == "true" %>
+            <% @default_list = list['list_id'] %>
+          <% end %>
+        <% end %>
+        <div class="list-button mb-3">
+          <div class="btn-group w-100" id="list-div-<%= i.id %>">
+            <button type="button" class="btn btn-primary btn-block" id="list-button-<%= i.id %>" data-list_id="<%= @default_list %>" data-record_id="<%= i.id %>" onclick="add_to_list(this)">Add to list</button>
+            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" id="list-dropdown-<%= i.id %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu">
+              <% @mylists.each do |list| %>
+                <a class="dropdown-item" data-list_id="<%= list['list_id'] %>" data-record_id="<%= i.id %>" onclick="add_to_list(this)"><%= list['title'].truncate(40) %></a>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
     </div>
   </div>
   <div class="row">
