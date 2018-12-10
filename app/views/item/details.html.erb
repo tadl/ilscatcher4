@@ -1,5 +1,11 @@
-<%= render 'search_box_mini' %>
-
+<div class="row">
+  <div class="col-12 col-md-3">
+    <%= image_tag("tadl-logo.jpg", class: "w-100") %>
+  </div>
+  <div class="col-12 col-md-9">
+    <%= render 'search_box_mini' %>
+  </div>
+</div>
 <div class="mt-3">
   <%= render 'details', i: @item %>
 </div>
