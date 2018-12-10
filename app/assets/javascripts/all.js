@@ -165,69 +165,68 @@ function place_hold(self, id, force, from_action) {
   }
 }
 
-function show_change_pickup(self, record_id, from_action, hold_id, hold_state){
-  $(self).text('Loading pickup locations...').addClass('disabled progress-bar progress-bar-striped progress-bar-animated');
-  if(hold_id == ''){
-    $.get('/holds.json').done(function(data) {
+function show_change_pickup(self, record_id, from_action, hold_id, hold_state) {
+  if (hold_id == '') {
+    $(self).html('<i class="fas fa-asterisk spin"></i> Loading pickup locations...').addClass('disabled').attr('disabled', true);
+    $.get('/holds.json')
+    .done(function(data) {
       if (data['holds']) {
         $.each(data['holds'], function(i, hold) {
-          if(hold.id == record_id){
-            var hold_id = hold.hold_id
-            load_form(hold_id)         
+          if (hold.id == record_id) {
+            var hold_id = hold.hold_id;
+            load_form(hold_id);
           }
         });
       }
     });
-  }else{
-    var hold_id = hold_id
-    alert("got an id")
-    load_form(hold_id)  
+  } else {
+    load_form(hold_id);
   }
 
-  function load_form(hold_id){
-    $('.cancel_change_pickup').removeClass('disabled')
-    $('.change_pickup_button').text('Select New Pickup Location').removeClass('disabled progress-bar progress-bar-striped progress-bar-animated');
-    if(from_action == 'from_details' ){  
-      var hide_div = '.details-hold-button-' + record_id
-      var target_div = '#details-change-pickup-' + record_id
-    }else{
-      var hide_div = '.list-hold-button-' + record_id
-      var target_div = '#list-change-pickup-' + record_id
+  function load_form(hold_id) {
+    $('.cancel_change_pickup').removeClass('disabled').attr('disabled', false);
+    $('.change_pickup_button').html('Select New Pickup Location').removeClass('disabled').attr('disabled', false);
+    if (from_action == 'from_details') {
+      var hide_div = '.details-hold-button-' + record_id;
+      var target_div = '#details-change-pickup-' + record_id;
+    } else {
+      var hide_div = '.list-hold-button-' + record_id;
+      var target_div = '#list-change-pickup-' + record_id;
     }
-    $('.change_pick_up_hold_id').html(hold_id)
-    $('.change_pick_up_record_id').html(record_id)
-    $('.change_pick_up_state').html(hold_state)
-    $('.change_pick_up_from_action').html(from_action)
-    var form = $('#hidden_change_pickup').html()
-    $(hide_div).hide()
-    $(target_div).html(form)
-    $(target_div).show()
+    $('.change_pick_up_hold_id').html(hold_id);
+    $('.change_pick_up_record_id').html(record_id);
+    $('.change_pick_up_state').html(hold_state);
+    $('.change_pick_up_from_action').html(from_action);
+    var form = $('#hidden_change_pickup').html();
+    $(hide_div).hide();
+    $(target_div).html(form);
+    $(target_div).show();
   }
 }
 
-function change_pickup_location(new_pickup){
-  $('.cancel_change_pickup').addClass('disabled')
-  $('.change_pickup_button').text('Changing pickup location...').addClass('disabled progress-bar progress-bar-striped progress-bar-animated');
-  var hold_status = $('.change_pick_up_state').html()
-  var pickup_location = new_pickup
-  var from_action = $('.change_pick_up_from_action').html()
-  var hold_id = $('.change_pick_up_hold_id').html()
+function change_pickup_location(new_pickup) {
+  $('.cancel_change_pickup').addClass('disabled').attr('disabled', true);
+  $('.change_pickup_button').html('<i class="fas fa-asterisk spin"></i> Changing pickup location...').addClass('disabled').attr('disabled', true);
+  var hold_status = $('.change_pick_up_state').html();
+  var pickup_location = new_pickup;
+  var from_action = $('.change_pick_up_from_action').html();
+  var hold_id = $('.change_pick_up_hold_id').html();
   $.post("change_hold_pickup.js", {hold_id: hold_id, hold_status: hold_status, pickup_location: pickup_location, from_action: from_action });
 }
 
-function cancel_change_pickup(){
-  var record_id = $('.change_pick_up_record_id').html()
-  var from_action = $('.change_pick_up_from_action').html()
-  if(from_action == 'from_details' ){  
-    var target_div = '.details-hold-button-' + record_id
-    var hide_div = '#details-change-pickup-' + record_id
-  }else{
-    var target_div = '.list-hold-button-' + record_id
-    var hide_div = '#list-change-pickup-' + record_id
+function cancel_change_pickup() {
+  var record_id = $('.change_pick_up_record_id').html();
+  var from_action = $('.change_pick_up_from_action').html();
+  if (from_action == 'from_details') {
+    var target_div = '.details-hold-button-' + record_id;
+    var hide_div = '#details-change-pickup-' + record_id;
+  } else {
+    var target_div = '.list-hold-button-' + record_id;
+    var hide_div = '#list-change-pickup-' + record_id;
   }
-  $('.change_pickup_button').text('Change pickup location').removeClass('disabled progress-bar progress-bar-striped progress-bar-animated');
-  $(hide_div).hide()
-  $(target_div).show()
+  $('.change_pickup_button').html('Change pickup location').removeClass('disabled').attr('disabled', false);
+  $(hide_div).hide();
+  $(target_div).show();
 }
 
 
