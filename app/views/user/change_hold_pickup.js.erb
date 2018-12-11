@@ -9,7 +9,7 @@
   <% if !@hold.error %>
     var message = '<div class="text-success">Hold pickup location changed to '
     message += '<%= @hold.pickup_location %></div>'
-    message += ' <button class="btn btn-primary btn-sm change_pickup_button" onclick="show_change_pickup(this, \'<%= escape_javascript(@hold.id.to_s) %>\', \'<%= escape_javascript(params[:from_action]) %>\', <%= @hold.hold_id %>, \'<%= @hold.hold_status %>\' )">Change pickup location</button>'
+    message += ' <button class="btn btn-primary btn-sm change_pickup_button" data-record_id="<%= escape_javascript(@hold.id.to_s) %>" data-hold_id="<%= escape_javascript(@hold.hold_id) %>" data-hold_status="<%= escape_javascript(@hold.hold_status) %>" data-from_action="<%= escape_javascript(params[:from_action]) %>" onclick="show_change_pickup(this)">Change pickup location</button>'
   <% else %>
     var message = '<div class="text-danger">Hold was not successfully placed. '
     message += '<%= escape_javascript(@hold.error) %></div>'

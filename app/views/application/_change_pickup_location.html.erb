@@ -1,20 +1,16 @@
-<div class="col">
-  <div class="row">  
-    <a class="btn btn-primary dropdown-toggle change_pickup_button" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Select New Pickup Location
-    </a>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+<div class="row mt-3">
+  <div class="col">  
+    <button type="button" class="btn btn-primary dropdown-toggle change_pickup_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Select New Pickup Location
+    </button>
+    <div class="dropdown-menu">
       <% Settings.location_options_minus_all.each do |l| %>
-        <a class="dropdown-item" onclick="change_pickup_location('<%= l[1] %>')"><%= l[0] %></a>
+        <a class="dropdown-item change-pickup-link" data-pickup_location="<%= l[1] %>" onclick="change_pickup_location(this)"><%= l[0] %></a>
       <% end %>
     </div>
-    <div class="change_pick_up_hold_id" style="display: none"></div>
-    <div class="change_pick_up_record_id" style="display: none"></div>
-    <div class="change_pick_up_state" style="display: none"></div>
-    <div class="change_pick_up_from_action" style="display: none"></div>
   </div>
-  <div class="row mt-3">
-    <button class="btn btn-danger cancel_change_pickup" onclick="cancel_change_pickup()">Cancel</button>
+  <div class="col">
+    <button class="btn btn-danger cancel_change_pickup" onclick="cancel_change_pickup(this)">Cancel</button>
   </div>
 </div>
 
