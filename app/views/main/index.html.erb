@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row mb-5 mt-2">
   <div class="col-12 col-md-3">
     <%= image_tag("tadl-logo.jpg", class: "w-100") %>
   </div>
@@ -7,7 +7,7 @@
   </div>
 </div>
 <% Settings.lists.each do |lists| %>
-  <h1><%= lists['group'] %></h1>
+  <!-- <h1><%= lists['group'] %></h1> -->
   <ul class="nav nav-tabs" id="<%= lists['group'] %>" role="tablist">
     <% lists['searches'].each_with_index do |search, index| %>
       <li class="nav-item">

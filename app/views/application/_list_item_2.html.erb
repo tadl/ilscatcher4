@@ -24,44 +24,43 @@
             <% end %>
           </h4>
           <div class="row">
-              <div class="col-12 col-md-4 details-button mb-3 px-1">
-                <a class="btn btn-primary btn-block item_details_link" role="button" href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)">Details</a>
-              </div>
-              <% if cookies[:lists] %>
-                <% @mylists = JSON.parse(cookies[:lists]) %>
-              <% end %>
-              <% if @mylists %>
-                <% @mylists.each do |list| %>
-                  <% if list['default'].to_s == "true" %>
-                    <% @default_list = list['list_id'] %>
-                  <% end %>
+            <div class="col-12 col-md-4 details-button mb-3 px-1">
+              <a class="btn btn-primary btn-block item_details_link" role="button" href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)">Details</a>
+            </div>
+            <% if cookies[:lists] %>
+              <% @mylists = JSON.parse(cookies[:lists]) %>
+            <% end %>
+            <% if @mylists %>
+              <% @mylists.each do |list| %>
+                <% if list['default'].to_s == "true" %>
+                  <% @default_list = list['list_id'] %>
                 <% end %>
-                <div class="col-12 col-md-4 list-button mb-3 px-1">
-                  <div class="btn-group w-100" id="list-div-<%= i.id %>">
-                    <button type="button" class="btn btn-primary btn-block" id="list-button-<%= i.id %>" data-list_id="<%= @default_list %>" data-record_id="<%= i.id %>" onclick="add_to_list(this)">Add to list</button>
-                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" id="list-dropdown-<%= i.id %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu">
-                      <% @mylists.each do |list| %>
-                        <a class="dropdown-item" data-list_id="<%= list['list_id'] %>" data-record_id="<%= i.id %>" onclick="add_to_list(this)"><%= list['title'].truncate(40) %></a>
-                      <% end %>
-                    </div>
+              <% end %>
+              <div class="col-12 col-md-4 list-button mb-3 px-1">
+                <div class="btn-group w-100" id="list-div-<%= i.id %>">
+                  <button type="button" class="btn btn-primary btn-block" id="list-button-<%= i.id %>" data-list_id="<%= @default_list %>" data-record_id="<%= i.id %>" onclick="add_to_list(this)">Add to list</button>
+                  <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" id="list-dropdown-<%= i.id %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <div class="dropdown-menu">
+                    <% @mylists.each do |list| %>
+                      <a class="dropdown-item" data-list_id="<%= list['list_id'] %>" data-record_id="<%= i.id %>" onclick="add_to_list(this)"><%= list['title'].truncate(40) %></a>
+                    <% end %>
                   </div>
                 </div>
-              <% end %>
-              <% if i.electronic == false && i.holdable == true %>
-                <div class="hold-button list-hold-button-<%= i.id %> col-12 col-md-4 mb-3 px-1">
-                  <button class="btn btn-primary btn-block btn-hold-<%= i.id %>" role="button" onclick="place_hold(this, <%= i.id %>,'', 'list_of_results')">Place Hold</button>
-                </div>
-                <div id="list-change-pickup-<%= i.id %>">
-                </div>
-              <% elsif i.electronic == true %>
-                <div class="view-resource-button col-12 col-md-4 mb-3 px-1">
-                  <a class="btn btn-primary btn-block btn-resource" role="button" href="<%= i.eresource_link %>">View</a>
-                </div>
-              <% end %>
-            </div>
+              </div>
+            <% end %>
+            <% if i.electronic == false && i.holdable == true %>
+              <div class="hold-button list-hold-button-<%= i.id %> col-12 col-md-4 mb-3 px-1">
+                <button class="btn btn-primary btn-block btn-hold-<%= i.id %>" role="button" onclick="place_hold(this, <%= i.id %>,'', 'list_of_results')">Place Hold</button>
+              </div>
+            <% elsif i.electronic == true %>
+              <div class="view-resource-button col-12 col-md-4 mb-3 px-1">
+                <a class="btn btn-primary btn-block btn-resource" role="button" href="<%= i.eresource_link %>">View</a>
+              </div>
+            <% end %>
+          </div>
+          <div id="list-change-pickup-<%= i.id %>"></div>
           <div class="info-block">
             <% if defined?(i.checkout_date) %>
               <div class="card-text border-left pl-2 mb-2"><span class="font-weight-bold">Checkout Details:</span>
