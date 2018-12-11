@@ -35,7 +35,7 @@
               <span class="font-weight-bold">Pickup Location</span> 
               <%= i.pickup_location %>
               <% if !i.queue_status.include? "Ready for Pickup" %>
-                <button class="btn-sm btn btn-default ml-3" onclick="show_change_pickup(this, '<%= i.id %>', 'list_of_results', '<%= i.hold_id %>', '<%= i.hold_status %>' )">
+                <button class="btn-sm btn btn-default ml-3" data-record_id="<%= i.id %>" data-from_action="list_of_results" data-hold_id="<%= i.hold_id %>" data-hold_status="<%= i.hold_status %>" onclick="show_change_pickup(this)">
                   Change
                 </button>
               <% end %>
