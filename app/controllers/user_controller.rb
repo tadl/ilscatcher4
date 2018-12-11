@@ -71,7 +71,6 @@ class UserController < ApplicationController
   def checkouts
     if @user
       @checkouts = @user.TEMP_get_checkouts
-      basic_info_and_cookies(@user)
     end
 
     respond_to do |format|
@@ -87,7 +86,6 @@ class UserController < ApplicationController
       @checkouts = renew_request['checkouts']
       @message = renew_request['message']
       @errors = renew_request['errors']
-      basic_info_and_cookies(@user)
     else
       @checkouts = {:error => 'missing parameters'}
     end
@@ -111,7 +109,6 @@ class UserController < ApplicationController
       checkouts_hash = @user.TEMP_checkout_history(@page)
       @checkouts = checkouts_hash['checkouts']
       @more_results = checkouts_hash['more_results']
-      basic_info_and_cookies(@user)
     else
       @checkouts = {:error => 'missing parameters'}
     end
@@ -129,7 +126,6 @@ class UserController < ApplicationController
   def holds
     if @user
       @holds = @user.TEMP_get_holds(params[:ready])
-      basic_info_and_cookies(@user)
     end
 
     respond_to do |format|
@@ -199,7 +195,6 @@ class UserController < ApplicationController
       request_fines = @user.TEMP_fines
       @fines = request_fines['fines']
       @fees = request_fines['fees']
-      basic_info_and_cookies(@user)
     else
       @fines = {:error => 'missing parameters'}
       @fees = {:error => 'missing parameters'}
@@ -215,7 +210,6 @@ class UserController < ApplicationController
   def payments
     if @user
       @payments = @user.TEMP_payments
-      basic_info_and_cookies(@user)
     else
       @payments = {:error => 'missing parameters'}
     end
@@ -232,7 +226,6 @@ class UserController < ApplicationController
       @preferences = @user.TEMP_get_preferences
       basic_info_and_cookies(@user)
     end
-
     respond_to do |format|
       format.html
       format.json {render :json =>{:user => @user, :preferences => @preferences}}
@@ -271,6 +264,19 @@ class UserController < ApplicationController
       format.js
     end
   end
+
+  def save_account_preferences
+    if @user
+      @preferences = @user.TEMP_get_preferences
+      basic_info_and_cookies(@user)
+    end
+    respond_to do |format|
+      format.json {render :json => @message}
+      format.js
+    end
+  end 
+
+
 
 private
 

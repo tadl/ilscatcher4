@@ -386,7 +386,6 @@ class Search
     record_ids.each do |r|
       record_id_array.push(:term => {"id" => r})
     end
-    puts record_id_array.to_s
     {
       should:[
         record_id_array

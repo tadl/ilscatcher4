@@ -25,6 +25,7 @@ gem 'rails-assets-OwlCarousel2', source: 'https://rails-assets.org'
 gem 'rails-assets-js-cookie', source: 'https://rails-assets.org'
 gem 'htmlentities'
 gem 'mechanize'
+gem 'parallel'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
