@@ -113,7 +113,7 @@
           </div>
         </div>
       </div>
-      <% if Settings.melcat_enabled == true %>
+      <% if Settings.melcat_enabled == true && params[:new_search].to_s != "true" %>
         <div class="col-12 col-md-6 col-lg-3">
           <a role="button" class="btn btn-sm btn-light btn-block" href="<%= Settings.melcat_link + url_encode(@search.query) %>">Search MeLCat</a>
         </div>
