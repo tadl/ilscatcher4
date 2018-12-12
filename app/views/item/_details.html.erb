@@ -10,7 +10,7 @@
     </div>
   </div>
 
-  <% cover_col_classes = 'col-12 col-md-4 order-1 item-cover text-center' %>
+  <% cover_col_classes = 'col-12 col-md-4 order-1 item-cover text-center mb-3' %>
   <% body_col_classes = 'col-12 col-md-8 order-2' %>
 
   <div class="row mb-2">
@@ -47,7 +47,7 @@
             <% end %>
             <div class="list-button mb-3">
               <div class="btn-group w-100" id="list-div-<%= i.id %>">
-                <button type="button" class="btn btn-primary btn-block" id="list-button-<%= i.id %>" data-list_id="<%= @default_list %>" data-record_id="<%= i.id %>" onclick="add_to_list(this)">Add to list</button>
+                <button type="button" class="btn btn-primary btn-block" id="list-button-<%= i.id %>" data-button_id="#list-button-<%= i.id %>" data-dropdown_id="#list-dropdown-<%= i.id %>" data-list_id="<%= @default_list %>" data-record_id="<%= i.id %>" onclick="add_to_list(this)">Add to list</button>
                 <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" id="list-dropdown-<%= i.id %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <span class="sr-only">Toggle Dropdown</span>
                 </button>
