@@ -18,14 +18,14 @@
     <div class="card-body">
       <% if Settings.melcat_enabled == true && Settings.melcat_id_display == true %>
         <div class="row mb-2">
-          <div class="card-text col">MeLCat ID</div>
-          <div class="card-text col"><%= @userdetails['melcat_id'] %></div>
+          <div class="card-text col-12 col-xl-6 font-weight-bold">MeLCat ID</div>
+          <div class="card-text col-12 col-xl-6"><%= @userdetails['melcat_id'] %></div>
         </div>
       <% end %>
       <% if Settings.primary_card_display == true %>
         <div class="row mb-2">
-          <div class="card-text col">Primary Card</div>
-          <div class="card-text col"><%= @userdetails['card'] %></div>
+          <div class="card-text col-12 col-xl-6 font-weight-bold">Primary Card</div>
+          <div class="card-text col-12 col-xl-6"><%= @userdetails['card'] %></div>
         </div>
       <% end %>
     </div>
