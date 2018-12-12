@@ -99,6 +99,24 @@ class Scraper
     end
   end
 
+  def user_change_username(token, params)
+  end
+
+  def user_change_password(token, params)
+  end
+
+  def user_change_email(token, params)
+  end
+
+  def user_change_alias(token, params)
+  end
+
+  def user_change_notify_preferences(token, params)
+  end
+
+  def user_change_circ_history_preference(token, params)
+  end
+  
   def user_get_fines(token)
     params = '?token=' + token
     fines_hash = json_request('fines', params)
@@ -165,7 +183,7 @@ class Scraper
 
   def user_password_reset(user)
     params = '?username=' + user
-    reset_hash = json_request('reset_password_json_request', params)
+    reset_hash = json_request('reset_password_request', params)
     if reset_hash['message'] == 'complete'
       return reset_hash['message']
     else
@@ -326,8 +344,14 @@ class Scraper
     end
   end
 
-  def scrape_request(url = '', cookie = '')
+  def scrape_request(url = '', token = '')
     agent = Mechanize.new
+    if !token.blank?
+      cookie = Mechanize::Cookie.new('ses', token)
+      cookie.domain = Settings.machine_readable
+      cookie.path = '/'
+      agent.cookie_jar.add!(cookie)
+    end
     page = agent.get(url)
     return page 
   end
