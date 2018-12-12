@@ -2,7 +2,7 @@ var item = document.createElement('div');
 var grid = document.querySelector('#grid');
 <% @search.results.each do |i| %>
   <% if @search.view == 'list' %>
-    $("#items").append('<%= escape_javascript(render "list_item_2", i: i , search: @search) %>')
+    $("#items").append('<%= escape_javascript(render "list_item", i: i , search: @search) %>')
   <% elsif @search.view == 'grid' %>
     salvattore['append_elements'](grid, [item]);
     item.outerHTML = "<%= escape_javascript(render "grid_item", i: i , search: @search) %>";

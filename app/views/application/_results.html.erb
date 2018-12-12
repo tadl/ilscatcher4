@@ -14,7 +14,7 @@
 <% if @search.results && @search.view == 'list' %>
   <div class="col-md-9" id="items">
     <% @search.results.each do |i| %>
-      <%= render "list_item_2", i: i %>
+      <%= render "list_item", i: i %>
     <% end %>
   </div>
 <% elsif @search.results && @search.view == 'grid' %>

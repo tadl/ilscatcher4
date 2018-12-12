@@ -1,5 +1,5 @@
 <% @checkouts.each do |i| %>
-  $("#checkout-history").append('<%= escape_javascript(render "list_item_2", i: i) %>')
+  $("#checkout-history").append('<%= escape_javascript(render "list_item", i: i) %>')
 <% end %>
 <% if @more_results.to_s == "true" %>
   <% next_page = @page.to_i + 1 %>
