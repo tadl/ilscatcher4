@@ -33,6 +33,9 @@ var ready = function(){
     $('.toggles').collapse('hide');
   }
 
+  $('.autoload').on('change', function() {
+    $('#search_button').click();
+  });
 
 }
 

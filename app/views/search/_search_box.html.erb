@@ -21,7 +21,7 @@
         <div class="input-group input-group-sm mb-2">
           <div class="input-group-prepend" style="width: 100%">
             <span class="input-group-text">Type</span>
-            <select class="form-control form-control-sm" id="type" name="type">
+            <select class="form-control form-control-sm<%= (params[:new_search].to_s != 'true') ? ' autoload' : '' %>" id="type" name="type">
               <% @search.search_type_options.each do |s| %>
                 <option value="<%= s[1] %>"  <%= check_selected(@search.type, s[1]) %>>
                   <%= s[0] %>
@@ -35,7 +35,7 @@
         <div class="input-group input-group-sm mb-2">
           <div class="input-group-prepend" style="width: 100%">
             <span class="input-group-text">Format</span>
-            <select class="form-control form-control-sm" id="formats" name="fmt">
+            <select class="form-control form-control-sm<%= (params[:new_search].to_s != 'true') ? ' autoload' : '' %>" id="formats" name="fmt">
               <% @search.format_options.each do |s| %>
                 <option value="<%= s[0] %>"  <%= check_selected(@search.fmt, s[0]) %>>
                   <%= s[0] %>
@@ -49,7 +49,7 @@
         <div class="input-group input-group-sm mb-2">
           <div class="input-group-prepend" style="width: 100%">
             <span class="input-group-text">Sort By</span>
-            <select class="form-control form-control-sm" id="sorts" name="sort">
+            <select class="form-control form-control-sm<%= (params[:new_search].to_s != 'true') ? ' autoload' : '' %>" id="sorts" name="sort">
               <% @search.sort_options.each do |s| %>
                 <option value="<%= s[1] %>" <%= check_selected(@search.sort, s[1]) %>>
                   <%= s[0] %>
@@ -64,7 +64,7 @@
           <div class="input-group input-group-sm mb-2">
             <div class="input-group-prepend" style="width: 100%">
               <span class="input-group-text">Location</span>
-              <select class="form-control form-control-sm" id="locations" name="location">
+              <select class="form-control form-control-sm<%= (params[:new_search].to_s != 'true') ? ' autoload' : '' %>" id="locations" name="location">
                 <% @search.location_options.each do |s| %>
                   <option value="<%= s[1] %>"  <%= check_selected(@search.location, s[1]) %>>
                     <%= s[0] %>
@@ -79,7 +79,7 @@
         <div class="input-group input-group-sm mb-2">
           <div class="input-group-prepend" style="width: 100%">
             <span class="input-group-text">Display as</span>
-            <select class="form-control form-control-sm" id="view" name="view">
+            <select class="form-control form-control-sm<%= (params[:new_search].to_s != 'true') ? ' autoload' : '' %>" id="view" name="view">
               <option value="list" <%= check_selected(@search.view, 'list') %>>
                 List
               </option>
@@ -96,7 +96,7 @@
       <div class="col-sm-12 col-md-6 col-lg-3">
         <div class="input-group input-group-sm mt-1">
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="true" id="limit_available" name="limit_available" <%= if_true_checked(@search.limit_available) %>>
+            <input class="form-check-input<%= (params[:new_search].to_s != 'true') ? ' autoload' : '' %>" type="checkbox" value="true" id="limit_available" name="limit_available" <%= if_true_checked(@search.limit_available) %>>
             <label class="form-check-label" for="limit_available">
               Available Only
             </label>
@@ -106,7 +106,7 @@
       <div class="col-sm-12 col-md-6 col-lg-3">
         <div class="input-group input-group-sm mt-1">
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="true" id="limit_physical" name="limit_physical" <%= if_true_checked(@search.limit_physical) %>>
+            <input class="form-check-input<%= (params[:new_search].to_s != 'true') ? ' autoload' : '' %>" type="checkbox" value="true" id="limit_physical" name="limit_physical" <%= if_true_checked(@search.limit_physical) %>>
             <label class="form-check-label" for="limit_physical">
               Physical Items Only
             </label>
