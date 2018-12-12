@@ -3,8 +3,9 @@
 <% button_column_classes = 'col-12 col-sm-12 col-md-12 col-lg-3 col-xl-3' %>
 <div class="item card mb-3" data-record_id="<%= i.id %>">
   <a href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)" class="item_details_link">
-    <h5 class="card-header<%= (i.queue_status.include? "Ready for Pickup") ? ' bg-success item-available' : '' %>">
+    <h5 class="card-header<%= (i.queue_status.include? "Ready for Pickup") ? ' bg-success item-available font-weight-bold' : '' %>">
       <%= icon('fas', item_format_icon(i.type_of_resource)) %> <%= i.title_display %>
+      <small class="float-right item-available font-weight-bold">Ready for pickup</small>
     </h5>
   </a>
   <div class="card-body">
