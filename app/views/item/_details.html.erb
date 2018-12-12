@@ -10,12 +10,14 @@
     </div>
   </div>
 
-
-  <div class="row">
-    <div id="item_cover_<%= i.id %>_details" class="col-md-3 order-1 mb-2 item-cover text-center">
-      <img src="<%= Settings.cover_url_prefix_lg %><%= i.id %>" class="img-fluid" onerror="missing_cover('<%= i.id %>', '<%= i.type_of_resource %>')" onload="check_blank_cover(this)">
+  <% cover_col_classes = 'col-12 col-md-3 order-1 item-cover text-center' %>
+  <% body_col_classes = 'col-12 col-md-6 col-lg-7 order-3 order-md-2' %>
+  <% buttons_col_classes = 'col-12 col-md-3 col-lg-2 order-2 order-md-3' %>
+  <div class="row mb-2">
+    <div id="item_cover_<%= i.id %>_details" class="<%= cover_col_classes %>">
+      <img src="<%= Settings.cover_url_prefix_lg %><%= i.id %>" class="img-fluid mb-3" onerror="missing_cover('<%= i.id %>', '<%= i.type_of_resource %>')" onload="check_blank_cover(this)">
     </div>
-    <div class="col-md-6 order-md-2 order-3 mb-2">
+    <div class="<%= body_col_classes %>">
       <h4><%= icon('fas', item_format_icon(i.type_of_resource)) %> <%= i.title_display %></h4>
       <% if i.author.present? %>
         <% search_loc = i.search_location.present? ? i.search_location : Settings.location_default %>
@@ -92,11 +94,11 @@
         </a>
       </div>
     </div>
-    <div class="col-md-3 order-md-3 order-2 mb-2">
+    <div class="<%= buttons_col_classes %>">
       <% userdetails = (cookies[:user].present?) ? JSON.parse(cookies[:user]) : "" %>
       <% if i.holdable == true && i.electronic == false %>
         <div class="hold-button details-hold-button-<%= i.id %> mb-3">
-          <button type="button" class="btn btn-primary btn-block btn-lg" onclick="place_hold(this, '<%= i.id %>', '', 'from_details')">
+          <button type="button" class="btn btn-primary btn-block" onclick="place_hold(this, '<%= i.id %>', '', 'from_details')">
             Place Hold
           </button>
         </div>
