@@ -16,6 +16,13 @@
   <div class="row mb-2">
     <div id="item_cover_<%= i.id %>_details" class="<%= cover_col_classes %>">
       <img src="<%= Settings.cover_url_prefix_lg %><%= i.id %>" class="img-fluid mb-3" onerror="missing_cover('<%= i.id %>', '<%= i.type_of_resource %>')" onload="check_blank_cover(this)">
+      <% if i.hold_count.to_i > 0 %>
+        <div class="hold-info font-weight-bold text-center mb-3 w-100">
+          <% total_copies = i.availability['copies_all'] %>
+          <% copy_noun = total_copies > 1 ? 'copies' : 'copy' %>
+          <%= i.hold_count %> hold<% if i.hold_count.to_i > 1 %>s<% end %> on <%= total_copies %> <%= copy_noun %>
+        </div>
+      <% end %>
     </div>
     <div class="<%= body_col_classes %>">
       <div class="row">
@@ -50,13 +57,6 @@
                 Place Hold
               </button>
             </div>
-            <% if i.hold_count.to_i > 0 %>
-              <div class="hold-info font-weight-bold text-center mb-3">
-                <% total_copies = i.availability['copies_all'] %>
-                <% copy_noun = total_copies > 1 ? 'copies' : 'copy' %>
-                <%= i.hold_count %> hold<% if i.hold_count.to_i > 1 %>s<% end %> on <%= total_copies %> <%= copy_noun %>
-              </div>
-            <% end %>
             <div id="details-change-pickup-<%= i.id %>" class="mb-3"></div>
           <% elsif i.electronic.to_s == "true" %>
             <a class="btn btn-primary btn-block mb-3" role="button" href="<%= i.eresource_link %>">View Resource</a>
