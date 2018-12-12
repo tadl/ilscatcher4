@@ -34,22 +34,23 @@
       </div>
     <% else %>
       <ul class="navbar-nav ml-auto">
-        <% userdetails = JSON.parse(cookies[:user]) %>
-        <% if userdetails['checkouts'].to_i > 0 %>
-          <li class="nav-item<%= (request.path == checkouts_path) ? ' active' : '' %>"><a href="<%= checkouts_path %>" class="nav-link">Checkouts <span class="badge badge-primary"><span id="user-checkouts"><%= userdetails['checkouts'] %></span></span></a></li>
+        <% @userdetails = JSON.parse(cookies[:user]) %>
+        <% if @userdetails['checkouts'].to_i > 0 %>
+          <li class="d-lg-inline-flex d-none nav-item<%= (request.path == checkouts_path) ? ' active' : '' %>"><a href="<%= checkouts_path %>" class="nav-link">Checkouts <span class="badge badge-primary"><span id="user-checkouts"><%= @userdetails['checkouts'] %></span></span></a></li>
         <% end %>
-        <% if userdetails['holds'].to_i > 0 %>
-          <li class="nav-item<%= (request.path == holds_path) ? ' active' : '' %>"><a href="<%= holds_path %>" class="nav-link">Holds <span class="badge badge-primary"><span id="user-holds"><%= userdetails['holds'] %></span></span></a></li>
+        <% if @userdetails['holds'].to_i > 0 %>
+          <li class="d-lg-inline-flex d-none nav-item<%= (request.path == holds_path) ? ' active' : '' %>"><a href="<%= holds_path %>" class="nav-link">Holds <span class="badge badge-primary"><span id="user-holds"><%= @userdetails['holds'] %></span></span></a></li>
         <% end %>
-        <% if userdetails['holds_ready'].to_i > 0 %>
-          <li class="nav-item<%= (request.path == holds_pickup_path) ? ' active' : '' %>"><a href="<%= holds_pickup_path %>" class="nav-link">Ready for Pickup <span class="badge badge-primary"><span id="user-holds-ready"><%= userdetails['holds_ready'] %></span></span></a></li>
+        <% if @userdetails['holds_ready'].to_i > 0 %>
+          <li class="d-lg-inline-flex d-none nav-item<%= (request.path == holds_pickup_path) ? ' active' : '' %>"><a href="<%= holds_pickup_path %>" class="nav-link">Ready <span class="d-xl-inline-flex d-none">for Pickup</span> <span class="badge badge-primary"><span id="user-holds-ready"><%= @userdetails['holds_ready'] %></span></span></a></li>
         <% end %>
-        <% if userdetails['fine'].to_f > 0 %>
-          <li class="nav-item<%= (request.path == fines_path) ? ' active' : '' %>"><a href="<%= fines_path %>" class="nav-link">Fines <span class="badge badge-primary"><span id="user-fines"><%= userdetails['fine'] %></span></span></a></li>
+        <% if @userdetails['fine'].to_f > 0 %>
+          <li class="d-lg-inline-flex d-none nav-item<%= (request.path == fines_path) ? ' active' : '' %>"><a href="<%= fines_path %>" class="nav-link">Fines <span class="badge badge-primary"><span id="user-fines"><%= @userdetails['fine'] %></span></span></a></li>
         <% end %>
         <li class="btn-group nav-item ml-lg-2 mt-lg-1">
-          <div class="btn-group">
-            <a role="button" class="btn btn-primary" href="<%= preferences_path %>">My Account</a>
+          <a role="button" class="btn btn-block btn-primary d-block d-lg-none mb-2" href="<%= preferences_path %>">My Account</a>
+          <div class="btn-group d-lg-inline-flex d-none">
+            <a role="button" class="btn btn-block btn-primary" href="<%= preferences_path %>">My Account</a>
             <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="sr-only">Toggle Dropdown</span>
             </button>
@@ -64,7 +65,9 @@
               <a class="dropdown-item" href="<%= checkout_history_path %>">Checkout History</a>
             </div>
           </div>
-          <button type="button" class="btn btn-light btn-block-md ml-lg-2" id="logout-button" onclick="do_logout()">Log out</button> 
+        </li>
+        <li class="nav-item ml-lg-2 mt-lg-1">
+          <button type="button" class="btn btn-block btn-light" id="logout-button" onclick="do_logout()">Log out</button> 
         </li>
       </ul>
     <% end %>
