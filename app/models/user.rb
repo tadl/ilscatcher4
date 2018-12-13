@@ -115,6 +115,39 @@ class User
     end
   end
 
+  def update_preferences(params)
+    tasks = []
+    params[:token] = self.token
+    if params[:username_changed] == 'true'
+      tasks.push('user_change_username')
+    end
+    if params[:notify_prefs_changed] == 'true'
+      tasks.push('user_change_notify_preferences')
+    end
+    if params[:location_prefs_changed] == 'true'
+      tasks.push('user_change_location_preferences')
+    end
+    if params[:hold_shelf_alias_changed] == 'true'
+      tasks.push('user_change_alias')
+    end
+    if params[:email_changed] == 'true'
+      tasks.push('user_change_email')
+    end
+    if params[:password_changed] == 'true'
+      tasks.push('user_change_password')
+    end
+    if params[:circ_history_changed] == 'true'
+      tasks.push('user_change_circ_history_preference')
+    end
+    messages = []
+    scraper = Scraper.new
+    tasks. each do |task|
+      response = scraper.send(task, params)
+      messages.push(response)
+    end
+    return messages
+  end
+
   def TEMP_fines
     scraper = Scraper.new
     fines_hash = scraper.user_get_fines(self.token)

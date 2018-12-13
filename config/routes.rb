@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   match 'manage_hold', to: 'user#manage_hold', as: 'manage_hold', via: [:get, :post]
   match 'change_hold_pickup', to: 'user#change_hold_pickup', as: 'change_hold_pickup', via: [:get, :post]
   match 'preferences', to: 'user#preferences', as: 'preferences', via: [:get, :post]
+  match 'update_preferences', to: 'user#update_preferences', as: 'update_preferences', via: [:get, :post]
   match 'fines', to: 'user#fines', as: 'fines', via: [:get, :post]
   match 'lists', to: 'list#lists', as: 'lists', via: [:get, :post]
   match 'create_list', to: 'list#create_list', as: 'create_list', via: [:get, :post]

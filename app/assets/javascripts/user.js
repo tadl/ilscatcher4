@@ -27,15 +27,20 @@ function save_preferences(element) {
 
   if (
     (pickup_library != pickup_library_orig) ||
-    (default_search != default_search_orig) ||
-    (keep_circ_history != keep_circ_history_orig) ||
-    (keep_hold_history != keep_hold_history_orig)
+    (default_search != default_search_orig)
   ) {
     parameters.pickup_library = pickup_library;
     parameters.default_search = default_search;
+    parameters.location_prefs_changed = true;
+  }
+
+  if (
+    (keep_circ_history != keep_circ_history_orig) ||
+    (keep_hold_history != keep_hold_history_orig)
+  ){
     parameters.keep_circ_history = keep_circ_history;
     parameters.keep_hold_history = keep_hold_history;
-    parameters.circ_prefs_changed = true;
+    parameters.circ_history_changed = true;
   }
 
   var username = encodeURIComponent($('#edit-pref-username').val());
@@ -110,7 +115,7 @@ function save_preferences(element) {
   }
 
   console.log(parameters);
-  $.post('/save_account_preferences.json', parameters)
+  $.post('/update_preferences.json', parameters)
   .done(function(data) {
     if (data.message == 'success') {
       location.reload();
@@ -119,6 +124,7 @@ function save_preferences(element) {
     }
 
   });
+  $(element).html('<i class="fas fa-asterisk spin"></i> Saving...').removeClass('disabled').prop('disabled', false);
 
 }
 

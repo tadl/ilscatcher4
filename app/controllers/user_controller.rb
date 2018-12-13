@@ -224,7 +224,6 @@ class UserController < ApplicationController
   def preferences
     if @user
       @preferences = @user.TEMP_get_preferences
-      basic_info_and_cookies(@user)
     end
     respond_to do |format|
       format.html
@@ -232,6 +231,19 @@ class UserController < ApplicationController
     end
 
   end
+
+  def update_preferences
+    if @user
+      @update_preferences = @user.update_preferences(params)
+      # basic_info_and_cookies(@user)
+    end
+    respond_to do |format|
+      format.html
+      format.json {render :json =>{:user => @user, :preferences => @update_preferences}}
+    end
+  end
+
+
 
   def missing_token
     @message = {:error=> 'not logged in or invalid token'}

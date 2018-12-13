@@ -99,22 +99,91 @@ class Scraper
     end
   end
 
-  def user_change_username(token, params)
+  def user_change_username(params)
+    if params[:current_password].blank?
+      return {type: 'username', error: "Current password is required to make this change"}
+    end 
+    url = Settings.machine_readable + 'eg/opac/myopac/update_username'
+    request_params = [["current_pw", params[:current_password]], ["username", params[:username]]]
+    page = scrape_request(url, params[:token], request_params)
+    if test_for_logged_in(page) == false
+      return {type: 'username', error: "Invalid password"}
+    end
+    test_for_in_use = page.at_css('div:contains("Please try a different username")').text rescue nil
+    if test_for_in_use
+      return {type: 'username', error: "Username is in use by another patron"}
+    else
+      return {type: 'username', success: "Username was sucessfully changed"}
+    end
   end
 
-  def user_change_password(token, params)
+  def user_change_password(params)
+    if params[:current_password].blank?
+      return {type: 'password', error: "Current password is required to make this change"}
+    end 
+    url = Settings.machine_readable + 'eg/opac/myopac/update_password'
+    request_params = [["current_pw", params[:current_password]], ["new_pw", params[:new_password]], ["new_pw2", params[:new_password]] ]
+    page = scrape_request(url, params[:token], request_params)
+    if test_for_logged_in(page) == false
+      return {type: 'password', error: "Invalid current password"}
+    end
+    test_for_invalid_new_password = page.at_css('div:contains("New password is invalid")').text rescue nil
+    test_for_bad_old_password = page.at_css('div:contains("Your current password was not correct.")').text rescue nil
+    if test_for_bad_old_password
+      return {type: 'password', error: "Invalid current password"}
+    elsif test_for_invalid_new_password
+      return {type: 'password', error: "Password does not meet requirements"}
+    else
+      return {type: 'password', success: "Password was sucessfully changed"}
+    end
   end
 
-  def user_change_email(token, params)
+  def user_change_email(params)
+    if params[:current_password].blank?
+      return {type: 'email', error: "Current password is required to make this change"}
+    end 
+    url = Settings.machine_readable + 'eg/opac/myopac/update_email'
+    request_params = [["current_pw", params[:current_password]], ["email",  CGI.unescape(params[:email])]]
+    page = scrape_request(url, params[:token], request_params)
+    if test_for_logged_in(page) == false
+      return {type: 'email', error: "Invalid password"}
+    end
+    test_for_bad_email = page.at_css('div:contains("Please try a different email address")').text rescue nil
+    if test_for_bad_email
+      return {type: 'email', error: "Invalid email"}
+    else
+      return {type: 'email', success: "Email was sucessfully changed"}
+    end
   end
 
-  def user_change_alias(token, params)
+  def user_change_alias(params)
+    if params[:current_password].blank?
+      return {type: 'alias', error: "Current password is required to make this change"}
+    end 
+    url = Settings.machine_readable + 'eg/opac/myopac/update_alias'
+    request_params = [["current_pw", params[:current_password]], ["alias", params[:hold_shelf_alias]]]
+    page = scrape_request(url, params[:token], request_params)
+    if test_for_logged_in(page) == false
+      return {type: 'alias', error: "Invalid password"}
+    end
+    test_for_in_use = page.at_css('div:contains("Please try a different alias")').text rescue nil
+    if test_for_in_use
+      return {type: 'alias', error: "Alias is in use by another patron"}
+    else
+      return {type: 'alias', success: "Alias was sucessfully changed"}
+    end
   end
 
-  def user_change_notify_preferences(token, params)
+  def user_change_notify_preferences(params)
+    return 'changed notify'
   end
 
-  def user_change_circ_history_preference(token, params)
+  def user_change_location_preferences(params)
+    return 'changed location'
+  end
+
+  def user_change_circ_history_preference(params)
+    return 'changed history'
   end
   
   def user_get_fines(token)
@@ -344,16 +413,30 @@ class Scraper
     end
   end
 
-  def scrape_request(url = '', token = '')
+  def scrape_request(url = '', token = '', params = '')
     agent = Mechanize.new
     if !token.blank?
+      puts 'no blank toke ' + token
       cookie = Mechanize::Cookie.new('ses', token)
-      cookie.domain = Settings.machine_readable
+      cookie.domain = '.tadl.org'
       cookie.path = '/'
       agent.cookie_jar.add!(cookie)
     end
-    page = agent.get(url)
+    if !params.blank?
+      page = agent.post(url, params)
+    else
+      page = agent.get(url)
+    end
+    puts url
     return page 
+  end
+
+  def test_for_logged_in(page)
+    if page.at_css('.login-help-box')
+      return false
+    else
+      return true
+    end
   end
 
   def scraped_checkouts_to_full_checkouts(checkouts_hash)
