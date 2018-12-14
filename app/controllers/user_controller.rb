@@ -71,6 +71,7 @@ class UserController < ApplicationController
   def checkouts
     if @user
       @checkouts = @user.TEMP_get_checkouts
+      basic_info_and_cookies(@user)
     end
 
     respond_to do |format|
@@ -126,6 +127,7 @@ class UserController < ApplicationController
   def holds
     if @user
       @holds = @user.TEMP_get_holds(params[:ready])
+      basic_info_and_cookies(@user)
     end
 
     respond_to do |format|
@@ -224,6 +226,7 @@ class UserController < ApplicationController
   def preferences
     if @user
       @preferences = @user.TEMP_get_preferences
+      basic_info_and_cookies(@user)
     end
     respond_to do |format|
       format.html
@@ -235,7 +238,7 @@ class UserController < ApplicationController
   def update_preferences
     if @user
       @update_preferences = @user.update_preferences(params)
-      # basic_info_and_cookies(@user)
+      basic_info_and_cookies(@user)
     end
     respond_to do |format|
       format.html

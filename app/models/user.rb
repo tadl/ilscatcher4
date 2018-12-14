@@ -35,7 +35,7 @@ class User
     scraper = Scraper.new
     user_hash = scraper.user_basic_info(self.token)
     if user_hash.to_s != 'error'
-      user_hash.each {|k, v| self.send("#{k}=", v)} 
+      user_hash.map {|k, v| self.send("#{k}=", v)} 
     else
       self.error = 'error: unable to fetch basic info'
     end
@@ -44,7 +44,7 @@ class User
 
   def TEMP_get_checkouts
     scraper = Scraper.new
-    checkouts_hash = scraper.user_get_checkouts(self.token)
+    checkouts_hash = scraper.user_get_checkouts_2(self.token)
     if checkouts_hash != 'error'
       return checkouts_hash
     else

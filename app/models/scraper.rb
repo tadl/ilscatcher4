@@ -6,12 +6,31 @@ class Scraper
   BASE_URL = 'https://catalog.tadl.org/'
 
   def user_basic_info(token)
-    params = '?token=' + token
-    user_hash =  json_request('login', params)
-    if !user_hash.key?('error')
-      return user_hash
-    else
+    url = Settings.machine_readable + 'eg/opac/myopac/prefs_notify'
+    page = scrape_request(url, token)
+    if test_for_logged_in(page) == false
       return 'error'
+    else
+      basic_info = Hash.new
+      page.parser.css('body').each do |p|
+        basic_info['full_name'] = p.css('span#dash_user').try(:text).strip rescue nil
+        basic_info['checkouts'] =  p.css('#dash_checked').try(:text).strip rescue nil
+        basic_info['holds'] =  p.css('span#dash_holds').try(:text).strip rescue nil
+        basic_info['holds_ready'] = p.css('span#dash_pickup').try(:text).strip rescue nil
+        basic_info['fine'] = p.css('span#dash_fines').try(:text).strip.gsub(/\$/, '') rescue nil
+        basic_info['card'] = p.at('td:contains("Active Barcode")').try(:next_element).try(:text) rescue nil
+        basic_info['default_search'] = p.css('select[@name="opac.default_search_location"] option[@selected="selected"]').attr('value').text rescue nil
+        basic_info['pickup_library'] = p.css('select[@name="opac.default_pickup_location"] option[@selected="selected"]').attr('value').text rescue nil
+        basic_info['username'] = p.at('td:contains("Username")').next.next.text rescue nil
+        basic_info['overdue'] = p.at('#dash_overdue').try(:text).strip rescue nil
+        basic_info["email"] = p.at('td:contains("Email Address")').next.next.text rescue nil
+        basic_info ["melcat_id"] = p.at('td:contains("MeLCat ID")').next.next.text rescue nil
+        basic_info['cards'] = Array.new
+        p.css('#card_list').css('.card').each do |c|
+          basic_info['cards'].push(c.try(:text).strip)
+        end
+      end
+      return basic_info
     end
   end
 
@@ -23,6 +42,27 @@ class Scraper
     else
       return 'error'
     end
+  end
+
+  def user_get_checkouts_2(token)
+    url = Settings.machine_readable + 'eg/opac/myopac/circs'
+    page = scrape_request(url, token)
+    if test_for_logged_in(page) == false
+      return {error: 'not logged in'}
+    else
+      checkouts_div = page.parser.css('table#acct_checked_main_header').css('tr').drop(1).reject{|r| r.search('span[@class="failure-text"]').present?}
+      raw_checkouts = checkouts_div.map do |c|
+        {
+          :record_id => clean_record_id(c.search('td[@name="author"]').css('a')[0].try(:attr, "href")),
+          :checkout_id => c.search('input[@name="circ"]').try(:attr, "value").to_s,
+          :renew_attempts => c.search('td[@name="renewals"]').text.to_s.try(:gsub!, /\n/," ").try(:squeeze, " ").try(:strip),
+          :due_date => c.search('td[@name="due_date"]').text.to_s.try(:gsub!, /\n/," ").try(:squeeze, " ").try(:strip),
+          :iso_due_date => Date.strptime(c.search('td[@name="due_date"]').text.to_s.try(:gsub!, /\n/," ").try(:squeeze, " ").try(:strip),'%m/%d/%Y').to_s,
+          :barcode => c.search('td[@name="barcode"]').text.to_s.try(:gsub!, /\n/," ").try(:squeeze, " ").try(:strip),
+        }
+      end
+      return scraped_checkouts_to_full_checkouts_2(raw_checkouts)
+    end 
   end
   
   def user_renew_checkouts(token, checkout_ids)
@@ -487,6 +527,29 @@ class Scraper
     return checkouts
   end
 
+  def scraped_checkouts_to_full_checkouts_2(checkouts_hash)
+    query = ''
+    checkouts_hash.each do |c|
+      query += c[:record_id] + ','
+    end
+    search = Search.new({:query => query, :type => 'record_id', :size => 82})
+    search.get_results
+    items = search.results
+    checkouts = []
+    items.each do |i|
+      matching_checkout = checkouts_hash.select {|k| k[:record_id] == i.id.to_s}
+      checkout = Checkout.new
+      copy_instance_variables(i, checkout)
+      checkout.due_date = matching_checkout[0][:due_date]
+      checkout.renew_attempts = matching_checkout[0][:renew_attempts]
+      checkout.checkout_id = matching_checkout[0][:checkout_id]
+      checkout.barcode = matching_checkout[0][:barcode]
+      checkouts.push(checkout)
+    end
+    return checkouts
+  end
+
+
   def scraped_historical_checkouts_to_full_checkouts(checkouts_hash)
     query = ''
     checkouts_hash.each do |c|
@@ -582,5 +645,13 @@ class Scraper
       processed_params[k] = v
     end
     return processed_params
+  end
+
+  def clean_record_id(string)
+    record_id = string.split('?') rescue '-1'
+    if record_id != '-1'
+     record_id = record_id[0].gsub('/eg/opac/record/','') 
+    end
+    return record_id
   end
 end

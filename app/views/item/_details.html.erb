@@ -10,69 +10,12 @@
     </div>
   </div>
 
-  <% cover_col_classes = 'col-12 col-md-4 order-1 item-cover text-center mb-3' %>
-  <% body_col_classes = 'col-12 col-md-8 order-2' %>
 
-  <div class="row mb-2">
-    <div id="item_cover_<%= i.id %>_details" class="<%= cover_col_classes %>">
-      <img src="<%= Settings.cover_url_prefix_lg %><%= i.id %>" class="img-fluid mb-3" onerror="missing_cover('<%= i.id %>', '<%= i.type_of_resource %>')" onload="check_blank_cover(this)">
-      <% if i.hold_count.to_i > 0 %>
-        <div class="hold-info font-weight-bold text-center mb-3 w-100">
-          <% total_copies = i.availability['copies_all'] %>
-          <% copy_noun = total_copies > 1 ? 'copies' : 'copy' %>
-          <%= i.hold_count %> hold<% if i.hold_count.to_i > 1 %>s<% end %> on <%= total_copies %> <%= copy_noun %>
-        </div>
-      <% end %>
-      <div class="mt-3">
-        <button id="marc_button" type="button" class="btn btn-outline-primary btn-sm" onclick="show_marc(this, '<%= i.id %>')">
-          <i class="far fa-file-alt"></i> MARC
-        </button>
-        <a href="details?id=<%= i.id %>" target="_blank">
-          <button type="button" class="btn btn-outline-primary btn-sm">
-            <i class="fas fa-link"></i> Permalink
-          </button>
-        </a>
-      </div>
+  <div class="row">
+    <div id="item_cover_<%= i.id %>_details" class="col-md-3 order-1 mb-2 item-cover text-center">
+      <img src="<%= Settings.cover_url_prefix_lg %><%= i.id %>" class="img-fluid" onerror="missing_cover('<%= i.id %>', '<%= i.type_of_resource %>')" onload="check_blank_cover(this)">
     </div>
-    <div class="<%= body_col_classes %>">
-      <div class="row">
-        <% @userdetails = (cookies[:user].present?) ? JSON.parse(cookies[:user]) : "" %>
-        <div class="col-12 col-md-6 order-2 order-md-1">
-          <% if cookies[:lists].present? %>
-            <% @mylists = JSON.parse(cookies[:lists]) %>
-            <% @mylists.each do |list| %>
-              <% if list['default'].to_s == "true" %>
-                <% @default_list = list['list_id'] %>
-              <% end %>
-            <% end %>
-            <div class="list-button mb-3">
-              <div class="btn-group w-100" id="list-div-<%= i.id %>">
-                <button type="button" class="btn btn-primary btn-block" id="list-button-<%= i.id %>" data-button_id="#list-button-<%= i.id %>" data-dropdown_id="#list-dropdown-<%= i.id %>" data-list_id="<%= @default_list %>" data-record_id="<%= i.id %>" onclick="add_to_list(this)">Add to list</button>
-                <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" id="list-dropdown-<%= i.id %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span class="sr-only">Toggle Dropdown</span>
-                </button>
-                <div class="dropdown-menu">
-                  <% @mylists.each do |list| %>
-                    <a class="dropdown-item" data-list_id="<%= list['list_id'] %>" data-record_id="<%= i.id %>" onclick="add_to_list(this)"><%= list['title'].truncate(40) %></a>
-                  <% end %>
-                </div>
-              </div>
-            </div>
-          <% end %>
-        </div>
-        <div class="col-12 col-md-6 order-1 order-md-2">
-          <% if i.holdable == true && i.electronic == false %>
-            <div class="hold-button details-hold-button-<%= i.id %> mb-3">
-              <button type="button" class="btn btn-primary btn-block" onclick="place_hold(this, '<%= i.id %>', '', 'from_details')">
-                Place Hold
-              </button>
-            </div>
-            <div id="details-change-pickup-<%= i.id %>" class="mb-3"></div>
-          <% elsif i.electronic.to_s == "true" %>
-            <a class="btn btn-primary btn-block mb-3" role="button" href="<%= i.eresource_link %>">View Resource</a>
-          <% end %>
-        </div>
-      </div>
+    <div class="col-md-6 order-md-2 order-3 mb-2">
       <h4><%= icon('fas', item_format_icon(i.type_of_resource)) %> <%= i.title_display %></h4>
       <% if i.author.present? %>
         <% search_loc = i.search_location.present? ? i.search_location : Settings.location_default %>
@@ -87,9 +30,9 @@
         <dl>
           <dt>Summary</dt>
           <dd>
-            <% if i.abstract_array.map { |str| "#{str}"}.join().length > 275 %>
-              <%= truncate(i.abstract, length: 250) %>
-              <a href="" class="read-more-<%= i.id %>-abstract">Read&nbsp;more</a>
+            <% if i.abstract_array.map { |str| "#{str}"}.join().length > 600 %>
+              <%= truncate(i.abstract, length: 500) %>
+              <%= link_to 'Read more', '', class: "read-more-#{i.id}-abstract" %>
               <script>
                 $('.read-more-<%= i.id %>-abstract').on('click', function(e) {
                   e.preventDefault();
@@ -110,7 +53,7 @@
           <dd>
             <% if i.contents_array.map { |str| "#{str}"}.join().length > 275 %>
               <%= truncate(i.contents, length: 250) %>
-              <a href="" class="read-more-<%= i.id %>-contents">Read&nbsp;more</a>
+              <%= link_to 'Read more', '', class: "read-more-#{i.id}-contents" %>
               <script>
                 $('.read-more-<%= i.id %>-contents').on('click', function(e) {
                   e.preventDefault();
@@ -125,6 +68,7 @@
           </dd>
         </dl>
       <% end %>
+      <div id="trailer_<%= i.id %>"></div>
       <div class="card-text">
         <% if i.publisher.present? %>
           <span class="font-weight-bold">Publisher: </span>
@@ -137,7 +81,59 @@
           <%= i.sort_year %>
         <% end %>
       </div>
-      <div id="trailer_<%= i.id %>" class="mt-3"></div>
+      <div class="mt-3">
+        <button id="marc_button" type="button" class="btn btn-outline-primary btn-sm" onclick="show_marc(this, '<%= i.id %>')">
+          <i class="far fa-file-alt"></i> Show MARC Record
+        </button>
+        <a href="details?id=<%= i.id %>" target="_blank">
+          <button type="button" class="btn btn-outline-primary btn-sm">
+            <i class="fas fa-link"></i> Permalink
+          </button>
+        </a>
+      </div>
+    </div>
+    <div class="col-md-3 order-md-3 order-2 mb-2">
+      <% userdetails = (cookies[:user].present?) ? JSON.parse(cookies[:user]) : "" %>
+      <% if i.holdable == true && i.electronic == false %>
+        <div class="hold-button details-hold-button-<%= i.id %> mb-3">
+          <button type="button" class="btn btn-primary btn-block btn-lg" onclick="place_hold(this, '<%= i.id %>', '', 'from_details')">
+            Place Hold
+          </button>
+        </div>
+        <% if i.hold_count.to_i > 0 %>
+          <div class="hold-info font-weight-bold text-center mb-3">
+            <% total_copies = i.availability['copies_all'] %>
+            <% copy_noun = total_copies > 1 ? 'copies' : 'copy' %>
+            <%= i.hold_count %> hold<% if i.hold_count.to_i > 1 %>s<% end %> on <%= total_copies %> <%= copy_noun %>
+          </div>
+        <% end %>
+        <div id="details-change-pickup-<%= i.id %>" class="mb-3"></div>
+      <% elsif i.electronic.to_s == "true" %>
+        <a class="btn btn-primary btn-lg btn-block mb-3" role="button" href="<%= i.eresource_link %>">View Resource</a>
+      <% end %>
+      <% if cookies[:lists] %>
+        <% @mylists = JSON.parse(cookies[:lists]) %>
+      <% end %>
+      <% if @mylists %>
+        <% @mylists.each do |list| %>
+          <% if list['default'].to_s == "true" %>
+            <% @default_list = list['list_id'] %>
+          <% end %>
+        <% end %>
+        <div class="list-button mb-3">
+          <div class="btn-group w-100" id="list-div-<%= i.id %>">
+            <button type="button" class="btn btn-primary btn-block" id="list-button-<%= i.id %>" data-list_id="<%= @default_list %>" data-record_id="<%= i.id %>" onclick="add_to_list(this)">Add to list</button>
+            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" id="list-dropdown-<%= i.id %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu">
+              <% @mylists.each do |list| %>
+                <a class="dropdown-item" data-list_id="<%= list['list_id'] %>" data-record_id="<%= i.id %>" onclick="add_to_list(this)"><%= list['title'].truncate(40) %></a>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
     </div>
   </div>
   <div class="row">
@@ -285,11 +281,11 @@
 <script>
   function load_added_content(record_id, isbn) {
     if (isbn && isbn != '') {
-      fetch_good_reads(isbn, record_id);
-    }
-    fetch_youtube_trailer(record_id);
+      fetch_good_reads(isbn, record_id)
+      }
+    fetch_youtube_trailer(record_id)
   }
-
+  
   function fetch_good_reads(isbn, record_id) {
     var target_div = '#goodreads_review-' + record_id
     var clean_isbn = isbn.replace(/\D/g,'')
@@ -304,19 +300,20 @@
       }
     });
   }
+  
 
   function fetch_youtube_trailer(record_id) {
-    var url = 'https://trailer-tank.herokuapp.com/main/get_trailer.json?id=' + record_id;
+    var url = 'https://trailer-tank.herokuapp.com/main/get_trailer.json?id=' + record_id
     $.get(url)
     .done(function(data) {
       if (data.message && data.message != 'error') {
-        var content = '<div class="embed-responsive embed-responsive-16by9"><iframe width="100%" class="embed-responsive-item" src="/youtube_trailer?id='+ data.message +'"></iframe></div>';
-        var target_div = '#trailer_' + record_id;
-        $(target_div).html(content);
+        var content = '<div class="embed-responsive embed-responsive-16by9"><iframe class="embed-reponsive-item" src="/youtube_trailer?id='+ data.message +'"></iframe>'
+        var target_div = '#trailer_' + record_id
+        $(target_div).html(content)
       }
     });
   }
 
-  load_added_content('<%= i.id %>','<%= escape_javascript(i.isbn[0]) %>');
+  load_added_content('<%= i.id %>','<%= escape_javascript(i.isbn[0]) %>')
 
 </script>
