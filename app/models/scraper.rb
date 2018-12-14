@@ -24,7 +24,7 @@ class Scraper
       return 'error'
     end
   end
-
+  
   def user_renew_checkouts(token, checkout_ids)
     #need to pass a record_ids param but it can be whatever (weird ILSCatcher3 stuff..)
     params = '?token=' + token + '&checkout_ids=' + checkout_ids + '&record_ids=1'
@@ -52,7 +52,11 @@ class Scraper
     params = '?token=' + token
     holds_hash =  json_request('holds', params)
     if !holds_hash['user']['error']
-      return scraped_holds_to_full_holds(holds_hash['holds'])
+      if !holds_hash['holds'].any?
+        return []
+      else
+        return scraped_holds_to_full_holds(holds_hash['holds'])
+      end
     else
       return 'error'
     end
@@ -174,16 +178,40 @@ class Scraper
     end
   end
 
+  def user_change_circ_preferences(params)
+    params = true_false_to_on_off(params)
+    url = Settings.machine_readable + 'eg/opac/myopac/prefs_settings'
+    request_params = []
+    request_params.push(["opac.default_search_location", params['default_search']])
+    request_params.push(["opac.default_pickup_location", params['pickup_library']])
+    request_params.push(["history.circ.retention_start", params['keep_circ_history']])
+    request_params.push(["history.hold.retention_start", params['keep_hold_history']])
+    request_params.push(["history_delete_confirmed", 1])
+    request_params.push(["opac.hits_per_page", '10'])
+    page = scrape_request(url, params['token'], request_params)
+    if test_for_logged_in(page) == false
+      return {type: 'circ_prefs', error: "Invalid password"}
+    else
+      return {type: 'circ_prefs', success: "Circ preferences were sucessfully changed"}
+    end
+  end
+
   def user_change_notify_preferences(params)
-    return 'changed notify'
-  end
-
-  def user_change_location_preferences(params)
-    return 'changed location'
-  end
-
-  def user_change_circ_history_preference(params)
-    return 'changed history'
+    params = true_false_to_on_off(params)
+    url = Settings.machine_readable + 'eg/opac/myopac/prefs_notify'
+    request_params = []
+    request_params.push(["opac.hold_notify.email", params['email_notify']])
+    request_params.push(["opac.hold_notify.phone", params['phone_notify']])
+    request_params.push(["opac.hold_notify.sms", params['text_notify']])
+    request_params.push(["opac.default_phone", params['phone_notify_number']])
+    request_params.push(["opac.default_sms_notify", params['text_notify_number']])
+    page = scrape_request(url, params['token'], request_params)
+    if test_for_logged_in(page) == false
+      return {type: 'notify_prefs', error: "Invalid password"}
+    else
+      return {type: 'notify_prefs', success: "Notification preferences were sucessfully changed"}
+    end
+    
   end
   
   def user_get_fines(token)
@@ -416,7 +444,6 @@ class Scraper
   def scrape_request(url = '', token = '', params = '')
     agent = Mechanize.new
     if !token.blank?
-      puts 'no blank toke ' + token
       cookie = Mechanize::Cookie.new('ses', token)
       cookie.domain = '.tadl.org'
       cookie.path = '/'
@@ -427,7 +454,6 @@ class Scraper
     else
       page = agent.get(url)
     end
-    puts url
     return page 
   end
 
@@ -545,4 +571,16 @@ class Scraper
     return items
   end
 
+  def true_false_to_on_off(params)
+    processed_params = {}
+    params.each do |k,v|
+      if v == 'true'
+        v = 'on'
+      elsif v == 'false'
+        v = 'off'
+      end
+      processed_params[k] = v
+    end
+    return processed_params
+  end
 end

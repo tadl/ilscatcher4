@@ -124,8 +124,8 @@ class User
     if params[:notify_prefs_changed] == 'true'
       tasks.push('user_change_notify_preferences')
     end
-    if params[:location_prefs_changed] == 'true'
-      tasks.push('user_change_location_preferences')
+    if params[:circ_prefs_changed] == 'true'
+      tasks.push('user_change_circ_preferences')
     end
     if params[:hold_shelf_alias_changed] == 'true'
       tasks.push('user_change_alias')
@@ -135,9 +135,6 @@ class User
     end
     if params[:password_changed] == 'true'
       tasks.push('user_change_password')
-    end
-    if params[:circ_history_changed] == 'true'
-      tasks.push('user_change_circ_history_preference')
     end
     messages = []
     scraper = Scraper.new

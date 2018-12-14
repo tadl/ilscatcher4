@@ -27,20 +27,15 @@ function save_preferences(element) {
 
   if (
     (pickup_library != pickup_library_orig) ||
-    (default_search != default_search_orig)
+    (default_search != default_search_orig) || 
+    (keep_circ_history != keep_circ_history_orig) ||
+    (keep_hold_history != keep_hold_history_orig)
   ) {
     parameters.pickup_library = pickup_library;
     parameters.default_search = default_search;
-    parameters.location_prefs_changed = true;
-  }
-
-  if (
-    (keep_circ_history != keep_circ_history_orig) ||
-    (keep_hold_history != keep_hold_history_orig)
-  ){
     parameters.keep_circ_history = keep_circ_history;
     parameters.keep_hold_history = keep_hold_history;
-    parameters.circ_history_changed = true;
+    parameters.circ_prefs_changed = true;
   }
 
   var username = encodeURIComponent($('#edit-pref-username').val());
