@@ -67,6 +67,32 @@ class UserController < ApplicationController
 
   end
 
+  def all_account
+    #invoking this class before calling on it again in parallel avoids weird crashes with no performance impact
+    if @user
+    prep_job = Scraper.new
+    prep_search = Search.new
+    prep_hold = Hold.new
+    prep_checkout = Checkout.new
+      Parallel.each([1,2,3,4], in_threads: 4){|task|
+        case task
+          when 1
+            @preferences = @user.TEMP_get_preferences
+          when 2
+            @checkouts = @user.TEMP_get_checkouts
+          when 3
+            @holds = @user.TEMP_get_holds(false)
+          when 4
+            basic_info_and_cookies(@user)
+          else
+        end
+      }
+    end 
+    respond_to do |format|
+      format.json {render :json =>{:user => @user, :checkouts => @checkouts, :preferences => @preferences, :holds => @holds}}
+    end
+  end
+
 #CHECKOUTS
   def checkouts
     if @user
@@ -224,8 +250,17 @@ class UserController < ApplicationController
 
   def preferences
     if @user
-      @preferences = @user.TEMP_get_preferences
-      basic_info_and_cookies(@user)
+      #invoking this class before calling on it again in parallel avoids weird crashes with no performance impact
+      prep_job = Scraper.new
+      Parallel.each([1,2], in_threads: 2){|task|
+        case task
+          when 1
+            @preferences = @user.TEMP_get_preferences
+          when 2
+            basic_info_and_cookies(@user)
+          else
+        end
+      } 
     end
     respond_to do |format|
       format.html
@@ -237,8 +272,15 @@ class UserController < ApplicationController
   def update_preferences
     if @user
       @update_preferences = @user.update_preferences(params)
-      @preferences = @user.TEMP_get_preferences
-      basic_info_and_cookies(@user)
+      Parallel.each([1,2], in_threads: 2){|task|
+        case task
+          when 1
+            @preferences = @user.TEMP_get_preferences
+          when 2
+            basic_info_and_cookies(@user)
+          else
+        end
+      }  
     end
     respond_to do |format|
       format.json {render :json =>{:user => @user, :messages => @update_preferences, :preferences => @preferences}}

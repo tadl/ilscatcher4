@@ -272,7 +272,7 @@ private
     else
      self.error = 'error could not complete auth init request'
     end
-    login_params['type'] = 'opac'
+    login_params['type'] = 'persist'
     login_params['password'] = Digest::MD5.hexdigest(seed + login_params['password'])
     http = Net::HTTP.new(URI.host, URI.port)
     http.use_ssl = true

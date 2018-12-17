@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   match 'sign_in', to: 'user#sign_in', as: 'sign_in', via: [:get, :post]
   match 'login_and_place_hold', to: 'user#login_and_place_hold', as: 'login_and_place_hold', via: [:get, :post]
   match 'logout', to: 'user#logout', as: 'logout', via: [:get, :post]
+  match 'all_account', to: 'user#all_account', as: 'all_account', via: [:get, :post]
   match 'checkouts', to: 'user#checkouts', as: 'checkouts', via: [:get, :post]
   match 'renew_checkouts', to: 'user#renew_checkouts', as: 'renew_checkouts', via: [:get, :post]
   match 'checkout_history', to: 'user#checkout_history', as: 'checkout_history', via: [:get, :post]
