@@ -148,7 +148,7 @@ class Scraper
       return {type: 'username', error: "Current password is required to make this change"}
     end 
     url = Settings.machine_readable + 'eg/opac/myopac/update_username'
-    request_params = [["current_pw", params[:current_password]], ["username", params[:username]]]
+    request_params = [["current_pw",   CGI.unescape(params[:current_password])], ["username",  CGI.unescape(params[:username])]]
     page = scrape_request(url, params[:token], request_params)
     if test_for_logged_in(page) == false
       return {type: 'username', error: "Invalid password"}
@@ -166,7 +166,7 @@ class Scraper
       return {type: 'password', error: "Current password is required to make this change"}
     end 
     url = Settings.machine_readable + 'eg/opac/myopac/update_password'
-    request_params = [["current_pw", params[:current_password]], ["new_pw", params[:new_password]], ["new_pw2", params[:new_password]] ]
+    request_params = [["current_pw",  CGI.unescape(params[:current_password])], ["new_pw",  CGI.unescape(params[:new_password])], ["new_pw2",  CGI.unescape(params[:new_password])]]
     page = scrape_request(url, params[:token], request_params)
     if test_for_logged_in(page) == false
       return {type: 'password', error: "Invalid current password"}
@@ -187,7 +187,7 @@ class Scraper
       return {type: 'email', error: "Current password is required to make this change"}
     end 
     url = Settings.machine_readable + 'eg/opac/myopac/update_email'
-    request_params = [["current_pw", params[:current_password]], ["email",  CGI.unescape(params[:email])]]
+    request_params = [["current_pw",  CGI.unescape(params[:current_password])], ["email",  CGI.unescape(params[:email])]]
     page = scrape_request(url, params[:token], request_params)
     if test_for_logged_in(page) == false
       return {type: 'email', error: "Invalid password"}
@@ -205,7 +205,7 @@ class Scraper
       return {type: 'alias', error: "Current password is required to make this change"}
     end 
     url = Settings.machine_readable + 'eg/opac/myopac/update_alias'
-    request_params = [["current_pw", params[:current_password]], ["alias", params[:hold_shelf_alias]]]
+    request_params = [["current_pw",  CGI.unescape(params[:current_password])], ["alias",  CGI.unescape(params[:hold_shelf_alias])]]
     page = scrape_request(url, params[:token], request_params)
     if test_for_logged_in(page) == false
       return {type: 'alias', error: "Invalid password"}

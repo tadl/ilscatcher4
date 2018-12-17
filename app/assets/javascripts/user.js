@@ -46,9 +46,9 @@ function save_preferences(element) {
   var hold_shelf_alias_orig = encodeURIComponent($('#edit-pref-holdshelf-alias').data('orig'));
   var email_orig = encodeURIComponent($('#edit-pref-email-address').data('orig'));
 
-  var new_password = $('#edit-pref-new-password').val();
-  var new_password2 = $('#edit-pref-new-password2').val();
-  var current_password = $('#edit-pref-current-password').val();
+  var new_password = encodeURIComponent($('#edit-pref-new-password').val());
+  var new_password2 = encodeURIComponent($('#edit-pref-new-password2').val());
+  var current_password = encodeURIComponent($('#edit-pref-current-password').val());
 
   if (username != username_orig) {
     parameters.user_prefs_changed = true;
