@@ -239,10 +239,12 @@ class UserController < ApplicationController
     if @user
       @update_preferences = @user.update_preferences(params)
       basic_info_and_cookies(@user)
+      puts @update_preferences.to_s
     end
     respond_to do |format|
       format.html
       format.json {render :json =>{:user => @user, :preferences => @update_preferences}}
+      format.js
     end
   end
 
