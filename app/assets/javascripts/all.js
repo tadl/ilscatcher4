@@ -174,7 +174,6 @@ function show_change_pickup(element) {
   var from_action = $(element).data('from_action');
   var hold_status = $(element).data('hold_status');
   if (!hold_id) {
-    console.log('no hold id');
     $(element).html('<i class="fas fa-asterisk spin"></i> Loading pickup locations...').addClass('disabled').attr('disabled', true);
     $.get('/holds.json')
     .done(function(data) {
@@ -189,7 +188,6 @@ function show_change_pickup(element) {
       }
     });
   } else {
-    console.log('hold id');
     load_form(hold_id, record_id, from_action, hold_status);
   }
 }
@@ -246,8 +244,6 @@ function bulk_edit_hold(element, action) {
   $('.selected').each(function() {
     holdIds.push($(this).data('hold'));
   });
-  console.log(holdIds);
-  console.log(holdIds.length);
   if (holdIds.length > 0) {
     $('.bulk-action').addClass('disabled').prop('disabled', true);
     $(element).html('<i class="fas fa-asterisk spin"></i> One moment...');
@@ -319,7 +315,6 @@ function show_alert(type, message) {
   html += '</button>';
   html += '</div>';
   $(alert_div).append(html);
-  console.log(html);
 }
 
 function add_to_list(element) {

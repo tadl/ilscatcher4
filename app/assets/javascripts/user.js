@@ -109,7 +109,6 @@ function save_preferences(element) {
     $(element).html('Save').removeClass('disabled').prop('disabled', false);
   }
 
-  console.log(parameters);
   $.post('/update_preferences.js', parameters)
 
 }
