@@ -138,7 +138,7 @@ class User
     end
     messages = []
     scraper = Scraper.new
-    tasks. each do |task|
+    tasks.each do |task|
       response = scraper.send(task, params)
       messages.push(response)
     end
