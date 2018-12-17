@@ -242,7 +242,6 @@ class UserController < ApplicationController
       puts @update_preferences.to_s
     end
     respond_to do |format|
-      format.html
       format.json {render :json =>{:user => @user, :preferences => @update_preferences}}
       format.js
     end

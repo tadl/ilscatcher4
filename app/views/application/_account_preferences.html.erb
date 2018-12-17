@@ -1,0 +1,222 @@
+<div class="card" id="prefs-panel">
+  <h4 class="card-header bg-primary text-light">
+    Account Preferences
+    <button role="button" class="btn btn-sm btn-light float-right" onclick="edit_preferences()">Edit</button>
+  </h4>
+
+  <div class="card-body">
+    <h5 class="font-weight-bold card-title">Circulation Preferences</h5>
+    <table class="table">
+      <tbody>
+        <tr class="d-flex">
+          <td class="col-6" scope="row">Pickup Library</td>
+          <td class="col-6"><%= location_map(@preferences['pickup_library'], "long") %></td>
+        </tr>
+        <tr class="d-flex">
+          <td class="col-6" scope="row">Default Search Location</td>
+          <td class="col-6"><%= location_map(@preferences['default_search'], "long") %></td>
+        </tr>
+        <tr class="d-flex">
+          <td class="col-6" scope="row">Keep Circulation History</td>
+          <td class="col-6"><%= @preferences['keep_circ_history'] %></td>
+        </tr>
+        <tr class="d-flex">
+          <td class="col-6" scope="row">Keep Hold History</td>
+          <td class="col-6"><%= @preferences['keep_hold_history'] %></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h5 class="font-weight-bold card-title">User Preferences</h5>
+    <table class="table">
+      <tbody>
+        <tr class="d-flex">
+          <td class="col-6" scope="row">Username</td>
+          <td class="col-6"><%= @preferences['username'] %></td>
+        </tr>
+        <tr class="d-flex">
+          <td class="col-6" scope="row">Holdshelf Alias</td>
+          <td class="col-6"><%= @preferences['hold_shelf_alias'] %></td>
+        </tr>
+        <tr class="d-flex">
+          <td class="col-6" scope="row">Email Address</td>
+          <td class="col-6"><%= @preferences['email'] %></td>
+        </tr>
+        <tr class="d-flex">
+          <td class="col-6" scope="row">Password</td>
+          <td class="col-6">(hidden)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h5 class="font-weight-bold card-title">Notification Preferences</h5>
+    <table class="table">
+      <tbody>
+        <tr class="d-flex">
+          <td class="col-6" scope="row">Phone</td>
+          <td class="col-6"><%= @preferences['day_phone'] %></td>
+        </tr>
+        <tr class="d-flex">
+          <td class="col-6" scope="row">Phone Notify Number</td>
+          <td class="col-6"><%= @preferences['phone_notify_number'] %></td>
+        </tr>
+        <tr class="d-flex">
+          <td class="col-6" scope="row">Text Notify Number</td>
+          <td class="col-6"><%= @preferences['text_notify_number'] %></td>
+        </tr>
+        <tr class="d-flex">
+          <td class="col-6" scope="row">Email Notify</td>
+          <td class="col-6"><%= @preferences['email_notify'] %></td>
+        </tr>
+        <tr class="d-flex">
+          <td class="col-6" scope="row">Phone Notify</td>
+          <td class="col-6"><%= @preferences['phone_notify'] %></td>
+        </tr>
+        <tr class="d-flex">
+          <td class="col-6" scope="row">Text Notify</td>
+          <td class="col-6"><%= @preferences['text_notify'] %></td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div><!-- .card-body -->
+
+</div><!-- #prefs-panel .card -->
+<div class="card" id="edit-prefs-panel">
+  <h4 class="card-header bg-primary text-light">Edit Account Preferences</h4>
+  <div class="card-body">
+
+    <h5 class="font-weight-bold card-title">Circulation Preferences</h5>
+
+    <div class="form-group row">
+      <label class="col-form-label col-12 col-md-4" for="edit-pref-pickup-library">Pickup Library</label>
+      <div class="col-12 col-md-8">
+        <select class="form-control pref circ" id="edit-pref-pickup-library" data-orig="<%= @preferences['pickup_library'] %>">
+          <% Settings.location_options_minus_all.each do |location| %>
+            <option value="<%= location[1] %>"<% if location[1] == @preferences['pickup_library'] %> selected="selected"<% end %>><%= location[0] %></option>
+          <% end %>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-form-label col-12 col-md-4" for="edit-pref-default-search">Default Search Location</label>
+      <div class="col-12 col-md-8">
+        <select class="form-control pref circ" id="edit-pref-default-search" data-orig="<%= @preferences['default_search'] %>">
+          <% Settings.location_options.each do |location| %>
+            <option value="<%= location[1] %>"<% if location[1] == @preferences['default_search'] %> selected="selected"<% end %>><%= location[0] %></option>
+          <% end %>
+        </select>
+      </div>
+    </div>
+
+    <fieldset class="form-group">
+      <div class="row">
+        <legend class="col-form-label col-12 col-md-4 pt-0">Keep History</legend>
+        <div class="col-12 col-md-8">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input pref circ" type="checkbox" value="" data-orig="<%= @preferences['keep_circ_history'] %>" id="edit-pref-keep-circ-history"<% if @preferences['keep_circ_history'].to_s == "true" %> checked<% end %>>
+            <label class="form-check-label" for="edit-pref-keep-circ-history">
+              Circulations
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input pref circ" type="checkbox" value="" data-orig="<%= @preferences['keep_hold_history'] %>" id="edit-pref-keep-hold-history"<% if @preferences['keep_hold_history'].to_s == "true" %> checked<% end %>>
+            <label class="form-check-label" for="edit-pref-keep-hold-history">
+              Holds
+            </label>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <h5 class="font-weight-bold card-title mt-4">User Preferences</h5>
+
+    <div class="form-group row">
+      <label class="col-form-label col-12 col-md-4" for="edit-pref-username">Username</label>
+      <div class="col-12 col-md-8">
+        <input type="text" class="form-control pref user" id="edit-pref-username" placeholder="Username" data-orig="<%= @preferences['username'] %>" value="<%= @preferences['username'] %>">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-form-label col-12 col-md-4" for="edit-pref-holdshelf-alias">Holdshelf Alias</label>
+      <div class="col-12 col-md-8">
+        <input type="text" class="form-control pref user" id="edit-pref-holdshelf-alias" placeholder="Holdshelf Alias" data-orig="<%= @preferences['hold_shelf_alias'] %>" value="<%= @preferences['hold_shelf_alias'] %>">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-form-label col-12 col-md-4" for="edit-pref-email-address">Email Address</label>
+      <div class="col-12 col-md-8">
+        <input type="email" class="form-control pref user" id="edit-pref-email-address" placeholder="Email Address" data-orig="<%= @preferences['email'] %>" value="<%= @preferences['email'] %>">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-form-label col-12 col-md-4" for="edit-pref-new-password">Change Password</label>
+      <div class="col-12 col-md-8">
+        <div class="input-group">
+          <input type="password" class="form-control pref user" id="edit-pref-new-password" placeholder="New Password">
+          <div class="input-group-append">
+            <button type="button" class="btn btn-light" data-element="#edit-pref-new-password" onclick="toggle_password_visible(this)"><i class="fas fa-eye-slash"></i><span class="sr-only">toggle password visibility</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-form-label col-12 col-md-4" for="edit-pref-current-password">Current Password</label>
+      <div class="col-12 col-md-8">
+        <div class="input-group">
+          <input type="password" class="form-control" id="edit-pref-current-password" placeholder="Enter your current password">
+          <div class="input-group-append">
+            <button type="button" class="btn btn-light" data-element="#edit-pref-current-password" onclick="toggle_password_visible(this)"><i class="fas fa-eye-slash"></i><span class="sr-only">toggle password visibility</span></button>
+          </div>
+        </div>
+        <small id="password-note" class="form-text text-danger">Required only if changing User Preferences.</small>
+      </div>
+    </div>
+
+    <h5 class="font-weight-bold card-title mt-4">Notification Preferences</h5>
+
+    <div class="form-group row">
+      <label class="col-form-label col-12 col-md-4" for="edit-pref-phone-notify-number">Phone Notify Number</label>
+      <div class="col-12 col-md-8">
+        <input type="text" class="form-control pref notify" id="edit-pref-phone-notify-number" placeholder="Phone Notify Number" data-orig="<%= @preferences['phone_notify_number'] %>" value="<%= @preferences['phone_notify_number'] %>">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-form-label col-12 col-md-4" for="edit-pref-text-notify-number">Text Notify Number</label>
+      <div class="col-12 col-md-8 with-feedback">
+        <input type="text" class="form-control pref notify" id="edit-pref-text-notify-number" placeholder="Text Notify Number" data-orig="<%= @preferences['text_notify_number'] %>" value="<%= @preferences['text_notify_number'] %>">
+        <i class="fas fa-check text-success" id="text-notify-feedback" aria-hidden="true"></i>
+      </div>
+    </div>
+
+    <fieldset class="form-group">
+      <div class="row">
+        <legend class="col-form-label col-12 col-md-4 pt=0">Notification Methods</legend>
+        <div class="col-12 col-md-8">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input pref notify" type="checkbox" id="edit-pref-notify-method-email" data-orig="<%= @preferences['email_notify'] %>" value=""<% if @preferences['email_notify'].to_s == "true" %> checked<% end %>>
+            <label class="form-check-label" for="edit-pref-notify-method-email">Email</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input pref notify" type="checkbox" id="edit-pref-notify-method-phone" data-orig="<%= @preferences['phone_notify'] %>" value=""<% if @preferences['phone_notify'].to_s == "true" %> checked<% end %>>
+            <label class="form-check-label" for="edit-pref-notify-method-phone">Phone</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input pref notify" type="checkbox" id="edit-pref-notify-method-text" data-orig="<%= @preferences['text_notify'] %>" value=""<% if @preferences['text_notify'].to_s == "true" %> checked<% end %>>
+            <label class="form-check-label" for="edit-pref-notify-method-text">Text</label>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+  <div class="card-footer">
+    <button role="button" class="btn btn-success" onclick="save_preferences(this)">Save</button>
+    <button role="button" class="btn btn-danger" onclick="cancel_edit_preferences()">Cancel</button>
+  </div>
+</div>
