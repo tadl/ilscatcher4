@@ -40,10 +40,15 @@
         <div class="col-12 col-md-6 order-2 order-md-1">
           <% if cookies[:lists].present? %>
             <% @mylists = JSON.parse(cookies[:lists]) %>
+            <% @list_ids = [] %>
             <% @mylists.each do |list| %>
+              <% @list_ids.push(list['list_id']) %>
               <% if list['default'].to_s == "true" %>
                 <% @default_list = list['list_id'] %>
               <% end %>
+            <% end %>
+            <% if @default_list.blank? %>
+              <% @default_list = @list_ids.reverse[0] %>
             <% end %>
             <div class="list-button mb-3">
               <div class="btn-group w-100" id="list-div-<%= i.id %>">

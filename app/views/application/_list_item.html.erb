@@ -28,14 +28,18 @@
             <div class="col-12 col-md-4 details-button mb-3 px-1">
               <a class="btn btn-primary btn-block item_details_link" role="button" href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)">Details</a>
             </div>
-            <% if cookies[:lists] %>
+            <% if cookies[:lists].present? %>
               <% @mylists = JSON.parse(cookies[:lists]) %>
-            <% end %>
-            <% if @mylists %>
+              <% @list_ids = [] %>
               <% @mylists.each do |list| %>
+                <% @list_ids.push(list['list_id']) %>
                 <% if list['default'].to_s == "true" %>
                   <% @default_list = list['list_id'] %>
                 <% end %>
+              <% end %>
+              <% @list_ids.sort! %>
+              <% if @default_list.blank? %>
+                <% @default_list = @list_ids.reverse[0] %>
               <% end %>
               <div class="col-12 col-md-4 list-button mb-3 px-1">
                 <div class="btn-group w-100" id="list-div-<%= i.id %>">
