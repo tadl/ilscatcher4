@@ -240,6 +240,10 @@ function edit_hold(element, action) {
   $.post("manage_hold.js", {hold_id: holdId, task: action.toLowerCase()});
 }
 function bulk_edit_hold(element, action) {
+  if (action == "confirm") {
+    $(element).html('Confirm Cancel Selected').removeClass('btn-light').addClass('btn-danger').attr('onclick', "bulk_edit_hold(this, 'cancel')");
+    return;
+  }
   var holdIds = []
   $('.selected').each(function() {
     holdIds.push($(this).data('hold'));
@@ -304,6 +308,7 @@ function select_clear() {
   $('.selected').each(function() {
     $(this).removeClass('selected btn-success').addClass('select btn-light').html('Select');
   });
+  $('#bulk-hold-cancel').html('Cancel Selected').removeClass('btn-danger').addClass('btn-light').attr('onclick', "bulk_edit_hold(this, 'confirm')");
 }
 
 function show_alert(type, message) {

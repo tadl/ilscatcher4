@@ -10,20 +10,22 @@
     </div>
   </div>
 
-  <% cover_col_classes = 'col-12 col-md-4 order-1 item-cover text-center mb-3' %>
+  <% cover_col_classes = 'col-12 col-md-4 order-1' %>
   <% body_col_classes = 'col-12 col-md-8 order-2' %>
 
   <div class="row mb-2">
-    <div id="item_cover_<%= i.id %>_details" class="<%= cover_col_classes %>">
-      <img src="<%= Settings.cover_url_prefix_lg %><%= i.id %>" class="img-fluid mb-3" onerror="missing_cover('<%= i.id %>', '<%= i.type_of_resource %>')" onload="check_blank_cover(this)">
-      <% if i.hold_count.to_i > 0 %>
-        <div class="hold-info font-weight-bold text-center mb-3 w-100">
-          <% total_copies = i.availability['copies_all'] %>
-          <% copy_noun = total_copies > 1 ? 'copies' : 'copy' %>
-          <%= i.hold_count %> hold<% if i.hold_count.to_i > 1 %>s<% end %> on <%= total_copies %> <%= copy_noun %>
-        </div>
-      <% end %>
-      <div class="mt-3">
+    <div class="<%= cover_col_classes %>">
+      <div id="item_cover_<%= i.id %>_details" class="w-100 text-center mb-3 item-cover">
+        <img src="<%= Settings.cover_url_prefix_lg %><%= i.id %>" class="img-fluid mb-3" onerror="missing_cover('<%= i.id %>', '<%= i.type_of_resource %>')" onload="check_blank_cover(this)">
+        <% if i.hold_count.to_i > 0 %>
+          <div class="hold-info font-weight-bold text-center mb-3 w-100">
+            <% total_copies = i.availability['copies_all'] %>
+            <% copy_noun = total_copies > 1 ? 'copies' : 'copy' %>
+            <%= i.hold_count %> hold<% if i.hold_count.to_i > 1 %>s<% end %> on <%= total_copies %> <%= copy_noun %>
+          </div>
+        <% end %>
+      </div>
+      <div class="mt-3 text-center">
         <button id="marc_button" type="button" class="btn btn-outline-primary btn-sm" onclick="show_marc(this, '<%= i.id %>')">
           <i class="far fa-file-alt"></i> MARC
         </button>

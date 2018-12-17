@@ -3,7 +3,7 @@
     <button type="button" class="btn btn-light" onclick="select_all()">Select All</button>
     <button type="button" class="btn btn-light disabled bulk-action" onclick="bulk_edit_hold(this, 'suspend')" disabled="true">Suspend Selected</button>
     <button type="button" class="btn btn-light disabled bulk-action" onclick="bulk_edit_hold(this, 'activate')" disabled="true">Activate Selected</button>
-    <button type="button" class="btn btn-light disabled bulk-action" onclick="bulk_edit_hold(this, 'cancel')" disabled="true">Cancel Selected</button>
+    <button type="button" id="bulk-hold-cancel" class="btn btn-light disabled bulk-action" onclick="bulk_edit_hold(this, 'confirm')" disabled="true">Cancel Selected</button>
     <button type="button" class="btn btn-light" onclick="select_clear()">Clear Selection</button>
   </div>
   <% @holds.each do |hold| %>
