@@ -110,16 +110,7 @@ function save_preferences(element) {
   }
 
   console.log(parameters);
-  $.post('/update_preferences.json', parameters)
-  .done(function(data) {
-    if (data.message == 'success') {
-      location.reload();
-    } else {
-      show_alert('danger', 'An error occurred while saving your preferences. Please reload the page and try again later.');
-    }
-
-  });
-  $(element).html('<i class="fas fa-asterisk spin"></i> Saving...').removeClass('disabled').prop('disabled', false);
+  $.post('/update_preferences.js', parameters)
 
 }
 

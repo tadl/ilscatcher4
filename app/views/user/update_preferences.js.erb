@@ -1,0 +1,24 @@
+<% if !@user.error %>
+  <% @userdetails = JSON.parse(cookies[:user]) %>
+  $('#account-preferences').html("<%= escape_javascript(render partial: 'account_preferences') %>");
+
+  <% @html = "" %>
+
+  <% @update_preferences.each do |message| %>
+    <% puts message.inspect %>
+    <% if !message[:error].blank? %>
+      <% @html.concat('<div class="text-danger w-100 font-weight-bold text-center">').concat(message[:error]).concat('</div>') %>
+    <% end %>
+
+    <% if !message[:success].blank? %>
+      <% @html.concat('<div class="text-success w-100 font-weight-bold text-center">').concat(message[:success]).concat('</div>') %>
+    <% end %>
+
+  <% end %>
+
+
+  $('#alert-box').append("<%= escape_javascript(render partial: 'alert', locals: {alert_type: 'warning', alert_text: @html}) %>");
+
+<% else %>
+  /* not sure how this would happen */
+<% end %>

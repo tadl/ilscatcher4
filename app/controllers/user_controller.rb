@@ -238,10 +238,11 @@ class UserController < ApplicationController
   def update_preferences
     if @user
       @update_preferences = @user.update_preferences(params)
+      @preferences = @user.TEMP_get_preferences
       basic_info_and_cookies(@user)
     end
     respond_to do |format|
-      format.json {render :json =>{:user => @user, :preferences => @update_preferences}}
+      format.json {render :json =>{:user => @user, :messages => @update_preferences, :preferences => @preferences}}
       format.js
     end
   end
