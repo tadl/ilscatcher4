@@ -44,7 +44,7 @@ class User
 
   def TEMP_get_checkouts
     scraper = Scraper.new
-    checkouts_hash = scraper.user_get_checkouts_2(self.token)
+    checkouts_hash = scraper.user_get_checkouts(self.token)
     if checkouts_hash != 'error'
       return checkouts_hash
     else

@@ -26,7 +26,7 @@ task :scrape_test => :environment do
       i += 1
       api_start_time = Time.now
       scraper = Scraper.new
-      scraper.user_get_checkouts(user.token)
+      scraper.user_get_holds(user.token)
       api_end_time = Time.now
       api_request_duration = api_end_time - api_start_time
       puts 'api request number ' + i.to_s + ' took ' + api_request_duration.to_s
@@ -41,7 +41,7 @@ task :scrape_test => :environment do
       i += 1
       scrape_start_time = Time.now
       scraper = Scraper.new
-      scraper.user_get_checkouts_2(user.token)
+      scraper.user_get_holds_2(user.token)
       scrape_end_time = Time.now
       scrape_request_duration = scrape_end_time - scrape_start_time
       puts 'scrape request number ' + i.to_s + ' took ' + scrape_request_duration.to_s

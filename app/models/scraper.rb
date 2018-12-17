@@ -35,16 +35,6 @@ class Scraper
   end
 
   def user_get_checkouts(token)
-    params = '?token=' + token
-    checkouts_hash =  json_request('checkouts', params)
-    if !checkouts_hash['user']['error']
-      return scraped_checkouts_to_full_checkouts(checkouts_hash['checkouts'])
-    else
-      return 'error'
-    end
-  end
-
-  def user_get_checkouts_2(token)
     url = Settings.machine_readable + 'eg/opac/myopac/circs'
     page = scrape_request(url, token)
     if test_for_logged_in(page) == false
@@ -61,7 +51,7 @@ class Scraper
           :barcode => c.search('td[@name="barcode"]').text.to_s.try(:gsub!, /\n/," ").try(:squeeze, " ").try(:strip),
         }
       end
-      return scraped_checkouts_to_full_checkouts_2(raw_checkouts)
+      return scraped_checkouts_to_full_checkouts(raw_checkouts)
     end 
   end
   
@@ -70,7 +60,7 @@ class Scraper
     params = '?token=' + token + '&checkout_ids=' + checkout_ids + '&record_ids=1'
     renew_response = json_request('renew_checkouts', params)
     if !renew_response['user']['error']
-      renew_response['checkouts'] = scraped_checkouts_to_full_checkouts(renew_response['checkouts'])
+      renew_response['checkouts'] = scraped_checkouts_to_full_checkouts_2(renew_response['checkouts'])
       return renew_response
     else
       return 'error'
@@ -81,7 +71,7 @@ class Scraper
     params = '?token=' + token + '&page=' + page.to_s
     checkout_hash = json_request('checkout_history', params)
     if !checkout_hash['user']['error']
-      checkout_hash['checkouts'] = scraped_historical_checkouts_to_full_checkouts(checkout_hash['checkouts']) 
+      checkout_hash['checkouts'] = scraped_historical_checkouts_to_full_checkouts_2(checkout_hash['checkouts']) 
       return checkout_hash
     else
       return 'error'
@@ -89,17 +79,24 @@ class Scraper
   end
 
   def user_get_holds(token)
-    params = '?token=' + token
-    holds_hash =  json_request('holds', params)
-    if !holds_hash['user']['error']
-      if !holds_hash['holds'].any?
-        return []
-      else
-        return scraped_holds_to_full_holds(holds_hash['holds'])
-      end
+    url = Settings.machine_readable + 'eg/opac/myopac/holds?limit=41'
+    page = scrape_request(url, token)
+    if test_for_logged_in(page) == false
+      return {error: 'not logged in'}
     else
-      return 'error'
-    end
+      holds_div = page.parser.css('tr.acct_holds_temp')
+      raw_holds = holds_div.map do |h|
+        {
+          :record_id => clean_record_id(h.css('td[2]').css('a').try(:attr, 'href').to_s),
+          :hold_id => h.search('input[@name="hold_id"]').try(:attr, "value").to_s,
+          :hold_status => h.css('td[8]').text.strip,
+          :queue_status => h.css('/td[9]/div/div[1]').text.strip.gsub(/AvailableExpires/, 'Ready for Pickup, Expires'),
+          :queue_state => h.css('/td[9]/div/div[2]').text.scan(/\d+/).map { |n| n.to_i },
+          :pickup_location => h.css('td[5]').text.strip,
+        }
+      end
+      return scraped_holds_to_full_holds(raw_holds)
+    end 
   end
 
   def user_manage_hold(token, hold_id, task)
@@ -108,7 +105,7 @@ class Scraper
     params += '&task=' + task
     holds_hash =  json_request('manage_hold', params)
     if !holds_hash['user']['error']
-      return scraped_holds_to_full_holds(holds_hash['holds'])
+      return scraped_holds_to_full_holds_2(holds_hash['holds'])
     else
       return 'error'
     end
@@ -127,7 +124,7 @@ class Scraper
     if !holds_hash['message'] != 'bad login'
       hold_array = []
       hold_array.push(holds_hash['message'])
-      return scraped_holds_to_full_holds(hold_array)[0]
+      return scraped_holds_to_full_holds_2(hold_array)[0]
     else
       return 'error'
     end
@@ -505,7 +502,7 @@ class Scraper
     end
   end
 
-  def scraped_checkouts_to_full_checkouts(checkouts_hash)
+  def scraped_checkouts_to_full_checkouts_2(checkouts_hash)
     query = ''
     checkouts_hash.each do |c|
       query += c['record_id'] + ','
@@ -527,7 +524,7 @@ class Scraper
     return checkouts
   end
 
-  def scraped_checkouts_to_full_checkouts_2(checkouts_hash)
+  def scraped_checkouts_to_full_checkouts(checkouts_hash)
     query = ''
     checkouts_hash.each do |c|
       query += c[:record_id] + ','
@@ -549,33 +546,30 @@ class Scraper
     return checkouts
   end
 
-
-  def scraped_historical_checkouts_to_full_checkouts(checkouts_hash)
+  def scraped_holds_to_full_holds(holds_hash)
     query = ''
-    checkouts_hash.each do |c|
-      query += c['record_id'] + ','
+    holds_hash.each do |h|
+      query += h[:record_id] + ','
     end
-    search = Search.new({:query => query, :type => 'record_id', :size => 500})
+    search = Search.new({:query => query, :type => 'record_id', :size => 100})
     search.get_results
     items = search.results
-    checkouts = []
-    checkouts_hash.each do |c|
-      matching_item = items.select{|i| i.id.to_s == c['record_id']}
-      checkout = Checkout.new
-      copy_instance_variables(matching_item[0], checkout)
-      checkout.checkout_date = c['checkout_date']
-      checkout.due_date = c['due_date']
-      checkout.return_date = c['return_date']
-      checkout.barcode = c['barcode']
-      if !checkout.id.nil?
-        checkouts.push(checkout)
-      end
+    holds = []
+    items.each do |i|
+      matching_hold = holds_hash.select {|k| k[:record_id] == i.id.to_s}
+      hold = Hold.new
+      copy_instance_variables(i, hold)
+      hold.hold_id = matching_hold[0][:hold_id]
+      hold.hold_status = matching_hold[0][:hold_status]
+      hold.queue_status = matching_hold[0][:queue_status]
+      hold.queue_state  = matching_hold[0][:queue_state]
+      hold.pickup_location = matching_hold[0][:pickup_location]
+      holds.push(hold)
     end
-    return checkouts
+    return holds
   end
 
-
-  def scraped_holds_to_full_holds(holds_hash)
+  def scraped_holds_to_full_holds_2(holds_hash)
     query = ''
     holds_hash.each do |h|
       query += h['record_id'] + ','

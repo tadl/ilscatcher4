@@ -68,13 +68,14 @@ class UserController < ApplicationController
   end
 
   def all_account
-    #invoking this class before calling on it again in parallel avoids weird crashes with no performance impact
+    #invoking these classes before calling on them again in parallel avoids weird crashes with no performance impact
     if @user
     prep_job = Scraper.new
     prep_search = Search.new
     prep_hold = Hold.new
     prep_checkout = Checkout.new
-      Parallel.each([1,2,3,4], in_threads: 4){|task|
+    prep_list = List.new
+      Parallel.each([1,2,3,4,5,6,7], in_threads: 7){|task|
         case task
           when 1
             @preferences = @user.TEMP_get_preferences
@@ -84,12 +85,20 @@ class UserController < ApplicationController
             @holds = @user.TEMP_get_holds(false)
           when 4
             basic_info_and_cookies(@user)
+          when 5
+            request_fines = @user.TEMP_fines
+            @fines = request_fines['fines']
+            @fees = request_fines['fees']
+          when 6
+            @payments = @user.TEMP_payments
+          when 7
+            @lists = @user.TEMP_get_lists
           else
         end
       }
     end 
     respond_to do |format|
-      format.json {render :json =>{:user => @user, :checkouts => @checkouts, :preferences => @preferences, :holds => @holds}}
+      format.json {render :json =>{:user => @user, :checkouts => @checkouts, :preferences => @preferences, :holds => @holds, :fines => @fines, :fees => @fees, :payments => @payments, :lists => @lists}}
     end
   end
 
