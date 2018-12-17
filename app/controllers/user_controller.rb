@@ -241,8 +241,8 @@ class UserController < ApplicationController
       basic_info_and_cookies(@user)
     end
     respond_to do |format|
-      format.html
       format.json {render :json =>{:user => @user, :preferences => @update_preferences}}
+      format.js
     end
   end
 
