@@ -5,7 +5,6 @@
   <% @html = "" %>
 
   <% @update_preferences.each do |message| %>
-    <% puts message.inspect %>
     <% if !message[:error].blank? %>
       <% @html.concat('<div class="text-danger w-100 font-weight-bold text-center">').concat(message[:error]).concat('</div>') %>
     <% end %>
