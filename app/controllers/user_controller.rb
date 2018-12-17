@@ -178,7 +178,6 @@ class UserController < ApplicationController
       if params[:hold_status] == 'Suspended'
         params[:hold_status] = 'Active'
       end 
-      puts params[:hold_status]
       @hold = @user.TEMP_change_hold_pickup(params[:hold_id], params[:hold_status], params[:pickup_location])
     else
       @hold = {:error => 'missing parameters'}
