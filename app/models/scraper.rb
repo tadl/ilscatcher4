@@ -382,7 +382,7 @@ class Scraper
   def item_marc_format(id)
     url = Settings.machine_readable + 'eg/opac/record/' + id + '?expand=marchtml#marchtml'
     page = scrape_request(url)
-    marc = page.parser.at_css('.marc_table').to_s.gsub(/\n/,'').gsub(/\t/,'') rescue 'error'
+    marc = page[0].parser.at_css('.marc_table').to_s.gsub(/\n/,'').gsub(/\t/,'') rescue 'error'
     return marc
   end
 
