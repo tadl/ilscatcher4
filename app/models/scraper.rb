@@ -7,7 +7,7 @@ class Scraper
 
   def user_basic_info(token)
     url = Settings.machine_readable + 'eg/opac/myopac/prefs_notify'
-    page = scrape_request(url, token)
+    page = scrape_request(url, token)[0]
     if test_for_logged_in(page) == false
       return 'error'
     else
@@ -36,7 +36,7 @@ class Scraper
 
   def user_get_checkouts(token)
     url = Settings.machine_readable + 'eg/opac/myopac/circs'
-    page = scrape_request(url, token)
+    page = scrape_request(url, token)[0]
     if test_for_logged_in(page) == false
       return {error: 'not logged in'}
     else
@@ -71,7 +71,7 @@ class Scraper
     params = '?token=' + token + '&page=' + page.to_s
     checkout_hash = json_request('checkout_history', params)
     if !checkout_hash['user']['error']
-      checkout_hash['checkouts'] = scraped_historical_checkouts_to_full_checkouts_2(checkout_hash['checkouts']) 
+      checkout_hash['checkouts'] = scraped_historical_checkouts_to_full_checkouts(checkout_hash['checkouts']) 
       return checkout_hash
     else
       return 'error'
@@ -80,7 +80,7 @@ class Scraper
 
   def user_get_holds(token)
     url = Settings.machine_readable + 'eg/opac/myopac/holds?limit=41'
-    page = scrape_request(url, token)
+    page = scrape_request(url, token)[0]
     if test_for_logged_in(page) == false
       return {error: 'not logged in'}
     else
@@ -95,7 +95,11 @@ class Scraper
           :pickup_location => h.css('td[5]').text.strip,
         }
       end
-      return scraped_holds_to_full_holds(raw_holds)
+      if raw_holds.size != 0
+        return scraped_holds_to_full_holds(raw_holds)
+      else
+        return []
+      end
     end 
   end
 
@@ -105,7 +109,11 @@ class Scraper
     params += '&task=' + task
     holds_hash =  json_request('manage_hold', params)
     if !holds_hash['user']['error']
-      return scraped_holds_to_full_holds_2(holds_hash['holds'])
+      if holds_hash['holds'].size != 0
+        return scraped_holds_to_full_holds_2(holds_hash['holds'])
+      else
+        return []
+      end
     else
       return 'error'
     end
@@ -146,7 +154,7 @@ class Scraper
     end 
     url = Settings.machine_readable + 'eg/opac/myopac/update_username'
     request_params = [["current_pw",   CGI.unescape(params[:current_password])], ["username",  CGI.unescape(params[:username])]]
-    page = scrape_request(url, params[:token], request_params)
+    page = scrape_request(url, params[:token], request_params)[0]
     if test_for_logged_in(page) == false
       return {type: 'username', error: "Invalid password"}
     end
@@ -164,7 +172,7 @@ class Scraper
     end 
     url = Settings.machine_readable + 'eg/opac/myopac/update_password'
     request_params = [["current_pw",  CGI.unescape(params[:current_password])], ["new_pw",  CGI.unescape(params[:new_password])], ["new_pw2",  CGI.unescape(params[:new_password])]]
-    page = scrape_request(url, params[:token], request_params)
+    page = scrape_request(url, params[:token], request_params)[0]
     if test_for_logged_in(page) == false
       return {type: 'password', error: "Invalid current password"}
     end
@@ -185,7 +193,7 @@ class Scraper
     end 
     url = Settings.machine_readable + 'eg/opac/myopac/update_email'
     request_params = [["current_pw",  CGI.unescape(params[:current_password])], ["email",  CGI.unescape(params[:email])]]
-    page = scrape_request(url, params[:token], request_params)
+    page = scrape_request(url, params[:token], request_params)[0]
     if test_for_logged_in(page) == false
       return {type: 'email', error: "Invalid password"}
     end
@@ -203,7 +211,7 @@ class Scraper
     end 
     url = Settings.machine_readable + 'eg/opac/myopac/update_alias'
     request_params = [["current_pw",  CGI.unescape(params[:current_password])], ["alias",  CGI.unescape(params[:hold_shelf_alias])]]
-    page = scrape_request(url, params[:token], request_params)
+    page = scrape_request(url, params[:token], request_params)[0]
     if test_for_logged_in(page) == false
       return {type: 'alias', error: "Invalid password"}
     end
@@ -225,7 +233,7 @@ class Scraper
     request_params.push(["history.hold.retention_start", params['keep_hold_history']])
     request_params.push(["history_delete_confirmed", 1])
     request_params.push(["opac.hits_per_page", '10'])
-    page = scrape_request(url, params['token'], request_params)
+    page = scrape_request(url, params['token'], request_params)[0]
     if test_for_logged_in(page) == false
       return {type: 'circ_prefs', error: "Invalid password"}
     else
@@ -242,7 +250,7 @@ class Scraper
     request_params.push(["opac.hold_notify.sms", params['text_notify']])
     request_params.push(["opac.default_phone", params['phone_notify_number']])
     request_params.push(["opac.default_sms_notify", params['text_notify_number']])
-    page = scrape_request(url, params['token'], request_params)
+    page = scrape_request(url, params['token'], request_params)[0]
     if test_for_logged_in(page) == false
       return {type: 'notify_prefs', error: "Invalid password"}
     else
@@ -342,6 +350,33 @@ class Scraper
       hold.confirmation = hold_confirmation['hold_confirmation'][0]['message']
     end
     return hold
+  end
+
+  def item_place_hold_2(token, force, id)
+    params = id.split(',').reject(&:empty?).map(&:strip).map {|k| "&hold_target=#{k}" }.join
+    url = Settings.machine_readable + 'eg/opac/place_hold?hold_type=T' + params
+    intial_request = scrape_request(url, token)
+    agent = intial_request[1]
+    page = intial_request[0]
+    if test_for_logged_in(page) == false
+      return 'error'
+    else
+      hold_form = agent.page.forms[1]
+      agent.submit(hold_form)
+      page = agent.page
+      hold = Hold.new
+      page.parser.css('//table#hold-items-list//tr').each do |h|
+        hold.id = h.at_css("td[1]//input").try(:attr, "value")
+        hold.confirmation = h.at_css("td[2]").try(:text).try(:gsub!, /\n/," ").try(:squeeze, " ").try(:strip)
+      end
+      if !hold.confirmation == "Hold was successfully placed"
+        hold.error = true
+        if hold.confirmation == "Placing this hold could result in longer wait times." || hold.confirmation =~ /checked out to the requestor/
+          hold.need_to_force = true
+        end
+      end
+      return hold
+    end
   end
 
   def item_marc_format(id)
@@ -491,7 +526,7 @@ class Scraper
     else
       page = agent.get(url)
     end
-    return page 
+    return page, agent
   end
 
   def test_for_logged_in(page)
@@ -542,6 +577,30 @@ class Scraper
       checkout.checkout_id = matching_checkout[0][:checkout_id]
       checkout.barcode = matching_checkout[0][:barcode]
       checkouts.push(checkout)
+    end
+    return checkouts
+  end
+
+  def scraped_historical_checkouts_to_full_checkouts(checkouts_hash)
+    query = ''
+    checkouts_hash.each do |c|
+      query += c['record_id'] + ','
+    end
+    search = Search.new({:query => query, :type => 'record_id', :size => 500})
+    search.get_results
+    items = search.results
+    checkouts = []
+    checkouts_hash.each do |c|
+      matching_item = items.select{|i| i.id.to_s == c['record_id']}
+      checkout = Checkout.new
+      copy_instance_variables(matching_item[0], checkout)
+      checkout.checkout_date = c['checkout_date']
+      checkout.due_date = c['due_date']
+      checkout.return_date = c['return_date']
+      checkout.barcode = c['barcode']
+      if !checkout.id.nil?
+        checkouts.push(checkout)
+      end
     end
     return checkouts
   end
