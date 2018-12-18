@@ -104,7 +104,7 @@ class Search
       if self.min_score 
         min_score = self.min_score
       else
-        min_score = 20
+        min_score = 30
       end
     elsif self.type == 'title'
       search_scheme = title_search
@@ -193,7 +193,7 @@ class Search
       should:[
         {
           multi_match: {
-            type: "phrase_prefix",
+            type: "phrase",
             query: self.query,
             fields: ['title.folded^10', 'title.raw^10', 'title_short', 'author^7', 'title_alt', 'author_other^3','contents^5','abstract^5','subjects^3','series^6','genres'],
             slop:  50,
@@ -211,11 +211,11 @@ class Search
         },
         {
           multi_match: {
-            type: 'most_fields',
+            type: 'best_fields',
             query: self.query,
             fields: ['title.folded^10', 'title.raw','author', 'title_alt', 'author_other','contents','abstract','subjects','series','genres'],
             fuzziness: 2,
-            slop:  100,
+            slop:  50,
             boost: 1
           }
         },        
