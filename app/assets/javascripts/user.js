@@ -11,8 +11,6 @@ function cancel_edit_preferences() {
 
 function save_preferences(element) {
 
-  $(element).html('<i class="fas fa-asterisk spin"></i> Saving...').addClass('disabled').prop('disabled', true);
-
   var parameters = {};
 
   var pickup_library = $('#edit-pref-pickup-library').val();
@@ -27,7 +25,7 @@ function save_preferences(element) {
 
   if (
     (pickup_library != pickup_library_orig) ||
-    (default_search != default_search_orig) || 
+    (default_search != default_search_orig) ||
     (keep_circ_history != keep_circ_history_orig) ||
     (keep_hold_history != keep_hold_history_orig)
   ) {
@@ -69,10 +67,15 @@ function save_preferences(element) {
     parameters.current_password = current_password;
   }
   if (new_password != "") {
-    parameters.user_prefs_changed = true;
-    parameters.password_changed = true;
-    parameters.new_password = new_password;
-    parameters.current_password = current_password;
+    if (new_password == new_password2) {
+      parameters.user_prefs_changed = true;
+      parameters.password_changed = true;
+      parameters.new_password = new_password;
+      parameters.current_password = current_password;
+    } else {
+      console.log("passwords do not match");
+    }
+
   }
 
   var phone_notify_number = encodeURIComponent($('#edit-pref-phone-notify-number').val());
@@ -104,21 +107,29 @@ function save_preferences(element) {
 
   if ((parameters.user_prefs_changed == true) && (current_password == "")) {
     $('#edit-pref-current-password').addClass('border-danger');
-    $('#password-note').html('This field is required when making changes to User Preferences.');
+    $('#current-password-note').html('This field is required when making changes to User Preferences.');
     // probably include some help text, too
     $(element).html('Save').removeClass('disabled').prop('disabled', false);
   }
 
-  $.post('/update_preferences.js', parameters)
+  if (parameters.length > 0) {
+    $(element).html('<i class="fas fa-asterisk spin"></i> Saving...').addClass('disabled').prop('disabled', true);
+    $.post('/update_preferences.js', parameters)
+  } else {
+    $('#cancel-preferences').click(); /* TODO need to test to be sure things are valid here and not just click cancel */
+  }
 
 }
 
 function toggle_password_visible(element) {
-  var target = $(element).data('element');
-  if ($(target).attr('type') == "text") {
-    $(target).attr('type', 'password').addClass('fa-eye-slash').removeClass('fa-eye');
+  var form = $(element).data('element');
+  var eye = $(element).data('eye');
+  if ($(form).attr('type') == "text") {
+    $(form).attr('type', 'password');
+    $(eye).addClass('fa-eye-slash').removeClass('fa-eye');
   } else {
-    $(target).attr('type', 'text').addClass('fa-eye').removeClass('fa-eye-slash');
+    $(form).attr('type', 'text');
+    $(eye).addClass('fa-eye').removeClass('fa-eye-slash');
   }
 }
 

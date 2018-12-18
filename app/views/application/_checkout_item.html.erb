@@ -16,6 +16,22 @@
           </a>
         </div>
         <div class="<%= details_column_classes %>">
+          <% iso_date = Date.strptime(i.due_date, '%m/%d/%Y').mjd %>
+          <% today_date = Date.current.mjd %>
+          <% days_count = (today_date - iso_date).abs %>
+          <% if iso_date < today_date %>
+            <% ago_fromnow = "ago" %>
+            <h2 class="card-title font-weight-bold"><%= days_count %> Day<% if days_count != 1 %>s<% end %> Overdue</h2>
+          <% end %>
+          <% if iso_date == today_date %>
+            <h2 class="card-title font-weight-bold">Due Today</h2>
+          <% end %>
+          <% if iso_date > today_date %>
+            <% ago_fromnow = "from now" %>
+            <% if days_count <= 3 %>
+              <h2 class="card-title font-weight-bold">Due in <%= days_count %> Day<% if days_count != 1 %>s<% end %></h2>
+            <% end %>
+          <% end %>
           <h4 class="card-title">
             <% if i.author.present? %>
               <% search_loc = i.search_location.present? ? i.search_location : Settings.location_default %>
@@ -31,6 +47,11 @@
             </p>
             <p class="card-text text-large">
               <span class="font-weight-bold">Due Date:</span> <%= i.due_date %>
+              <% if days_count != 0 %>
+                (<span class="font-weight-bold"><%= days_count %></span> day<% if days_count != 1 %>s<% end %> <%= ago_fromnow %>)
+              <% else %>
+                (today)
+              <% end %>
             </p>
             <p class="card-text">
               <% if i.renew_attempts.to_i > 0 %>
