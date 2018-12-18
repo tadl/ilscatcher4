@@ -66,14 +66,23 @@ function save_preferences(element) {
     parameters.email = email;
     parameters.current_password = current_password;
   }
-  if (new_password != "") {
+  if (new_password) {
+    var validpass = /(?=.*\d)(?=.*[A-Za-z]).{7,}/;
     if (new_password == new_password2) {
-      parameters.user_prefs_changed = true;
-      parameters.password_changed = true;
-      parameters.new_password = new_password;
-      parameters.current_password = current_password;
+      if (validpass.test(new_password)) {
+        if (current_password) {
+          parameters.user_prefs_changed = true;
+          parameters.password_changed = true;
+          parameters.new_password = new_password;
+          parameters.current_password = current_password;
+        } else {
+          $('#current-password-note').html('This field is required when making changes to User Preferences.');
+        }
+      } else {
+        $('#new-password-note').html("New password does not meet complexity requirements. Passwords must contain at least 1 letter and 1 number and be 7 or more characters long.");
+      }
     } else {
-      console.log("passwords do not match");
+      $('#new-password-note').html("New passwords didn't match. Please try again.");
     }
 
   }
@@ -109,14 +118,14 @@ function save_preferences(element) {
     $('#edit-pref-current-password').addClass('border-danger');
     $('#current-password-note').html('This field is required when making changes to User Preferences.');
     // probably include some help text, too
-    $(element).html('Save').removeClass('disabled').prop('disabled', false);
+
+    // this should actually never get hit, because we're testing that earlier. Throwing a console.log in to test for now
+    console.log("whoaaaa this is actually necessary apparently");
   }
 
   if (Object.keys(parameters).length > 0) {
     $(element).html('<i class="fas fa-asterisk spin"></i> Saving...').addClass('disabled').prop('disabled', true);
     $.post('/update_preferences.js', parameters)
-  } else {
-    $('#cancel-preferences').click(); /* TODO need to test to be sure things are valid here and not just click cancel */
   }
 
 }
