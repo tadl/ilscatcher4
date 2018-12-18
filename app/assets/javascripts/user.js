@@ -112,7 +112,7 @@ function save_preferences(element) {
     $(element).html('Save').removeClass('disabled').prop('disabled', false);
   }
 
-  if (parameters.length > 0) {
+  if (Object.keys(parameters).length > 0) {
     $(element).html('<i class="fas fa-asterisk spin"></i> Saving...').addClass('disabled').prop('disabled', true);
     $.post('/update_preferences.js', parameters)
   } else {
