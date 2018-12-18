@@ -90,7 +90,7 @@ class Item
 
   def TEMP_place_hold(token = '', force = '')
     scraper = Scraper.new
-    hold_request = scraper.item_place_hold(token, force, self.id)
+    hold_request = scraper.item_place_hold_2(token, force, self.id)
     if hold_request != 'error'
       return hold_request
     else
