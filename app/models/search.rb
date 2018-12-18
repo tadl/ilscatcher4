@@ -97,28 +97,28 @@ class Search
       if self.min_score 
         min_score = self.min_score
       else
-        min_score = 10
+        min_score = 350
       end
     elsif self.type == 'author'
       search_scheme = author_search
       if self.min_score 
         min_score = self.min_score
       else
-        min_score = 1
+        min_score = 20
       end
     elsif self.type == 'title'
       search_scheme = title_search
       if self.min_score
         min_score = self.min_score
       else
-        min_score = 0.24
+        min_score = 100
       end
     elsif self.type == 'subject'
       search_scheme = subject_search
       if self.min_score
         min_score = self.min_score
       else
-        min_score = 0.6
+        min_score = 37
       end
     elsif self.type == 'series'
       search_scheme = series_search
@@ -193,10 +193,10 @@ class Search
       should:[
         {
           multi_match: {
-            type: "phrase",
+            type: "phrase_prefix",
             query: self.query,
             fields: ['title.folded^10', 'title.raw^10', 'title_short', 'author^7', 'title_alt', 'author_other^3','contents^5','abstract^5','subjects^3','series^6','genres'],
-            slop:  100,
+            slop:  50,
             boost: 14
           }
         },
@@ -256,9 +256,9 @@ class Search
       should:[
         {
           multi_match: {
-          type: 'phrase',
+          type: 'phrase_prefix',
           query: self.query,
-          fields: ['author^2', 'author_other'],
+          fields: ['author', 'author_other'],
           slop:  3
           }
         },
@@ -266,7 +266,7 @@ class Search
           multi_match: {
           type: 'best_fields',
           query: self.query,
-          fields: ['author^2', 'author_other'],
+          fields: ['author^2', 'author_other^2'],
           fuzziness: 2,
           }
         }
@@ -280,9 +280,9 @@ class Search
       should:[
         {
           multi_match: {
-            type: 'phrase',
+            type: 'phrase_prefix',
             query: self.query,
-            fields: ['title_short', 'title_alt', 'title.raw^20'],
+            fields: ['title.folded', 'title.raw', 'title_short', 'title_alt'],
             slop:  3,
             boost: 10
           }
@@ -291,7 +291,7 @@ class Search
           multi_match: {
           type: 'most_fields',
           query: self.query,
-          fields: ['title_short', 'title_alt', 'title.raw^20'],
+          fields: ['title.folded^10', 'title.raw^10', 'title_short', 'title_alt'],
           fuzziness: 1,
           boost: 1
           }
