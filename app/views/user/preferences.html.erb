@@ -1,3 +1,15 @@
+<% if @user.overdue.to_i > 0 %>
+  <div class="row">
+    <div class="col-12">
+      <h2 class="text-center mt-3">
+        You have <%= @user.overdue %> overdue item<% if @user.overdue.to_i != 1 %>s<% end %>.
+      </h2>
+      <h2 class="text-center mt-3">
+        Please return <%= (@user.overdue.to_i != 1) ? 'them' : 'it' %>, or <a href="<%= checkouts_path %>">view your checkouts</a> to attempt renewal. Thank you!
+      </h2>
+    </div>
+  </div>
+<% end %>
 <div class="row">
   <div id="account-menu" class="col-12 col-md-3 mt-3">
     <%= render 'account_menu' %>
