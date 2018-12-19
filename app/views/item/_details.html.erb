@@ -60,7 +60,7 @@
                 </button>
                 <div class="dropdown-menu">
                   <% @mylists.each do |list| %>
-                    <a class="dropdown-item" data-list_id="<%= list['list_id'] %>" data-record_id="<%= i.id %>" onclick="add_to_list(this)"><%= list['title'].truncate(40) %></a>
+                    <a class="dropdown-item" data-dropdown_id="#list-dropdown-<%= i.id %>" data-button_id="#list-button-<%= i.id %>" data-list_id="<%= list['list_id'] %>" data-record_id="<%= i.id %>" onclick="add_to_list(this)"><%= list['title'].truncate(40) %></a>
                   <% end %>
                 </div>
               </div>
