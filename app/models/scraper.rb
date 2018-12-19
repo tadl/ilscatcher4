@@ -40,32 +40,33 @@ class Scraper
     if test_for_logged_in(page) == false
       return {error: 'not logged in'}
     else
-      checkouts_div = page.parser.css('table#acct_checked_main_header').css('tr').drop(1).reject{|r| r.search('span[@class="failure-text"]').present?}
-      raw_checkouts = checkouts_div.map do |c|
-        {
-          :record_id => clean_record_id(c.search('td[@name="author"]').css('a')[0].try(:attr, "href")),
-          :checkout_id => c.search('input[@name="circ"]').try(:attr, "value").to_s,
-          :renew_attempts => c.search('td[@name="renewals"]').text.to_s.try(:gsub!, /\n/," ").try(:squeeze, " ").try(:strip),
-          :due_date => c.search('td[@name="due_date"]').text.to_s.try(:gsub!, /\n/," ").try(:squeeze, " ").try(:strip),
-          :iso_due_date => Date.strptime(c.search('td[@name="due_date"]').text.to_s.try(:gsub!, /\n/," ").try(:squeeze, " ").try(:strip),'%m/%d/%Y').to_s,
-          :barcode => c.search('td[@name="barcode"]').text.to_s.try(:gsub!, /\n/," ").try(:squeeze, " ").try(:strip),
-        }
-      end
-      return scraped_checkouts_to_full_checkouts(raw_checkouts)
+      return scrape_checkout_page(page)
     end 
   end
   
   def user_renew_checkouts(token, checkout_ids)
-    #need to pass a record_ids param but it can be whatever (weird ILSCatcher3 stuff..)
-    params = '?token=' + token + '&checkout_ids=' + checkout_ids + '&record_ids=1'
-    renew_response = json_request('renew_checkouts', params)
-    if !renew_response['user']['error']
-      renew_response['checkouts'] = scraped_checkouts_to_full_checkouts_2(renew_response['checkouts'])
-      return renew_response
+    url = Settings.machine_readable + 'eg/opac/myopac/circs?action=renew'
+    checkout_ids = checkout_ids.split(',')
+    checkout_ids.each do |c|
+      url += '&circ=' + c
+    end 
+    page = scrape_request(url, token)[0]
+    if test_for_logged_in(page) == false
+      return {error: 'not logged in'}
     else
-      return 'error'
-    end
+      message = page.parser.at_css('div.renew-summary').try(:text).try(:strip)
+      errors = page.parser.css('table#acct_checked_main_header').css('tr').drop(1).reject{|r| r.search('span[@class="failure-text"]').present? == false}.map do |c| 
+        {
+          :message => c.css('span.failure-text').text.strip.try(:gsub, /^Copy /, ''),
+          :checkout_id => c.previous.previous.search('input[@name="circ"]').try(:attr, "value").to_s,
+          :title => circ_to_title(page, c.previous.previous.search('input[@name="circ"]').try(:attr, "value").to_s).try(:gsub, /:.*/, '').try(:strip),
+        }
+      end
+      checkouts = scrape_checkout_page(page)
+      return message, errors, checkouts
+    end 
   end
+
 
   def user_checkout_history(token, page)
     params = '?token=' + token + '&page=' + page.to_s
@@ -543,28 +544,6 @@ class Scraper
     end
   end
 
-  def scraped_checkouts_to_full_checkouts_2(checkouts_hash)
-    query = ''
-    checkouts_hash.each do |c|
-      query += c['record_id'] + ','
-    end
-    search = Search.new({:query => query, :type => 'record_id', :size => 82})
-    search.get_results
-    items = search.results
-    checkouts = []
-    items.each do |i|
-      matching_checkout = checkouts_hash.select {|k| k['record_id'] == i.id.to_s}
-      checkout = Checkout.new
-      copy_instance_variables(i, checkout)
-      checkout.due_date = matching_checkout[0]['due_date']
-      checkout.renew_attempts = matching_checkout[0]['renew_attempts']
-      checkout.checkout_id = matching_checkout[0]['checkout_id']
-      checkout.barcode = matching_checkout[0]['barcode']
-      checkouts.push(checkout)
-    end
-    return checkouts
-  end
-
   def scraped_checkouts_to_full_checkouts(checkouts_hash)
     query = ''
     checkouts_hash.each do |c|
@@ -693,6 +672,21 @@ class Scraper
     return items
   end
 
+  def scrape_checkout_page(page)
+    checkouts_div = page.parser.css('table#acct_checked_main_header').css('tr').drop(1).reject{|r| r.search('span[@class="failure-text"]').present?}
+    raw_checkouts = checkouts_div.map do |c|
+      {
+        :record_id => clean_record_id(c.search('td[@name="author"]').css('a')[0].try(:attr, "href")),
+        :checkout_id => c.search('input[@name="circ"]').try(:attr, "value").to_s,
+        :renew_attempts => c.search('td[@name="renewals"]').text.to_s.try(:gsub!, /\n/," ").try(:squeeze, " ").try(:strip),
+        :due_date => c.search('td[@name="due_date"]').text.to_s.try(:gsub!, /\n/," ").try(:squeeze, " ").try(:strip),
+        :iso_due_date => Date.strptime(c.search('td[@name="due_date"]').text.to_s.try(:gsub!, /\n/," ").try(:squeeze, " ").try(:strip),'%m/%d/%Y').to_s,
+        :barcode => c.search('td[@name="barcode"]').text.to_s.try(:gsub!, /\n/," ").try(:squeeze, " ").try(:strip),
+      }
+    end
+    return scraped_checkouts_to_full_checkouts(raw_checkouts)
+  end
+
   def true_false_to_on_off(params)
     processed_params = {}
     params.each do |k,v|
@@ -713,4 +707,10 @@ class Scraper
     end
     return record_id
   end
+
+  def circ_to_title(page, checkout_id)
+    target_input = 'input[@value="'+ checkout_id +'"]'
+    title = page.at(target_input).try(:parent).try(:next).try(:next).try(:css, 'a')[0].try(:text)
+    return title  
+  end 
 end

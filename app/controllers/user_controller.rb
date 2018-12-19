@@ -119,9 +119,9 @@ class UserController < ApplicationController
   def renew_checkouts
     if @user && params[:checkout_ids]
       renew_request = @user.TEMP_renew_checkouts(params[:checkout_ids])
-      @checkouts = renew_request['checkouts']
-      @message = renew_request['message']
-      @errors = renew_request['errors']
+      @checkouts = renew_request[2]
+      @message = renew_request[0]
+      @errors = renew_request[1]
     else
       @checkouts = {:error => 'missing parameters'}
     end
