@@ -85,57 +85,52 @@ class Scraper
     if test_for_logged_in(page) == false
       return {error: 'not logged in'}
     else
-      holds_div = page.parser.css('tr.acct_holds_temp')
-      raw_holds = holds_div.map do |h|
-        {
-          :record_id => clean_record_id(h.css('td[2]').css('a').try(:attr, 'href').to_s),
-          :hold_id => h.search('input[@name="hold_id"]').try(:attr, "value").to_s,
-          :hold_status => h.css('td[8]').text.strip,
-          :queue_status => h.css('/td[9]/div/div[1]').text.strip.gsub(/AvailableExpires/, 'Ready for Pickup, Expires'),
-          :queue_state => h.css('/td[9]/div/div[2]').text.scan(/\d+/).map { |n| n.to_i },
-          :pickup_location => h.css('td[5]').text.strip,
-        }
-      end
-      if raw_holds.size != 0
-        return scraped_holds_to_full_holds(raw_holds)
-      else
-        return []
-      end
+      return scrape_holds_page(page)
     end 
   end
 
-  def user_manage_hold(token, hold_id, task)
-    params = '?token=' + token
-    params += '&hold_id=' + hold_id
-    params += '&task=' + task
-    holds_hash =  json_request('manage_hold', params)
-    if !holds_hash['user']['error']
-      if holds_hash['holds'].size != 0
-        return scraped_holds_to_full_holds_2(holds_hash['holds'])
-      else
-        return []
-      end
-    else
+  def user_manage_holds(token, hold_id, task)
+    url = Settings.machine_readable + 'eg/opac/myopac/holds?limit=91'
+    params = []
+    holds = hold_id.split(',')
+    holds.each do |h|
+      params.push(['hold_id', h])
+    end
+    params.push(['action', task])
+    page = scrape_request(url, token, params)[0]
+    if test_for_logged_in(page) == false
       return 'error'
+    else
+      return scrape_holds_page(page)
     end
   end
 
   def user_change_hold_pickup(token, hold_id, hold_status, pickup_location)
-    params = '?token=' + token
-    params += '&hold_id=' + hold_id
+    url = Settings.machine_readable + 'eg/opac/myopac/holds/edit?id=' + hold_id
     if hold_status == "Active"
-      params += '&hold_state=t'
+      hold_status = 't'
     else
-      params += '&hold_state=f'
+      hold_status = 'f'
     end
-    params += '&new_pickup=' + pickup_location
-    holds_hash =  json_request('update_hold_pickup', params)
-    if !holds_hash['message'] != 'bad login'
-      hold_array = []
-      hold_array.push(holds_hash['message'])
-      return scraped_holds_to_full_holds_2(hold_array)[0]
-    else
+    params = []
+    params.push(["hold_id", hold_id])
+    params.push(["action", "edit"])
+    params.push(["pickup_lib", pickup_location])
+    params.push(["expire_time", ""])
+    params.push(["frozen", hold_status])
+    params.push(["thaw_date", ""])
+    page = scrape_request(url, token, params)[0]
+    if test_for_logged_in(page) == false
       return 'error'
+    else
+      holds = scrape_holds_page(page)
+      target_hold = ''
+      holds.each do |h|
+        if h.hold_id == hold_id
+          target_hold = h
+        end
+      end
+      return target_hold
     end
   end
 
@@ -257,7 +252,6 @@ class Scraper
     else
       return {type: 'notify_prefs', success: "Notification preferences were sucessfully changed"}
     end
-    
   end
   
   def user_get_fines(token)
@@ -613,29 +607,6 @@ class Scraper
     return holds
   end
 
-  def scraped_holds_to_full_holds_2(holds_hash)
-    query = ''
-    holds_hash.each do |h|
-      query += h['record_id'] + ','
-    end
-    search = Search.new({:query => query, :type => 'record_id', :size => 100})
-    search.get_results
-    items = search.results
-    holds = []
-    items.each do |i|
-      matching_hold = holds_hash.select {|k| k['record_id'] == i.id.to_s}
-      hold = Hold.new
-      copy_instance_variables(i, hold)
-      hold.hold_id = matching_hold[0]['hold_id']
-      hold.hold_status = matching_hold[0]['hold_status']
-      hold.queue_status = matching_hold[0]['queue_status']
-      hold.queue_state  = matching_hold[0]['queue_state']
-      hold.pickup_location = matching_hold[0]['pickup_location']
-      holds.push(hold)
-    end
-    return holds
-  end
-
   def copy_instance_variables(parent_class, child_class)
     parent_class.instance_variables.each { |v| 
     child_class.instance_variable_set(v, parent_class.instance_variable_get(v)) }
@@ -687,6 +658,25 @@ class Scraper
     return scraped_checkouts_to_full_checkouts(raw_checkouts)
   end
 
+  def scrape_holds_page(page)
+    holds_div = page.parser.css('tr.acct_holds_temp')
+    raw_holds = holds_div.map do |h|
+      {
+        :record_id => clean_record_id(h.css('td[2]').css('a').try(:attr, 'href').to_s),
+        :hold_id => h.search('input[@name="hold_id"]').try(:attr, "value").to_s,
+        :hold_status => h.css('td[8]').text.strip,
+        :queue_status => h.css('/td[9]/div/div[1]').text.strip.gsub(/AvailableExpires/, 'Ready for Pickup, Expires'),
+        :queue_state => h.css('/td[9]/div/div[2]').text.scan(/\d+/).map { |n| n.to_i },
+        :pickup_location => h.css('td[5]').text.strip,
+      }
+    end
+    if raw_holds.size != 0
+      return scraped_holds_to_full_holds(raw_holds)
+    else
+      return []
+    end
+  end 
+
   def true_false_to_on_off(params)
     processed_params = {}
     params.each do |k,v|
@@ -712,5 +702,7 @@ class Scraper
     target_input = 'input[@value="'+ checkout_id +'"]'
     title = page.at(target_input).try(:parent).try(:next).try(:next).try(:css, 'a')[0].try(:text)
     return title  
-  end 
+  end
+
+
 end

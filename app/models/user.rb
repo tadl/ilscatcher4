@@ -87,12 +87,8 @@ class User
 
   def TEMP_manage_hold(hold_id, task)
     scraper = Scraper.new
-    holds_hash = scraper.user_manage_hold(self.token, hold_id, task)
-    if holds_hash != 'error'
-      return holds_hash
-    else
-      return {:error => 'unable to fetch holds'}
-    end
+    holds_hash = scraper.user_manage_holds(self.token, hold_id, task)
+    return holds_hash
   end
 
   def TEMP_change_hold_pickup(hold_id, hold_status, pickup_location)

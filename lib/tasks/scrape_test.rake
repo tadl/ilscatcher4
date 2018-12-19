@@ -18,7 +18,6 @@ task :scrape_test => :environment do
     puts "invalid username or password"
   else
     puts "valid username and password. Testing scrape vs ILSCatcher3 API calls for checkouts"
-    puts user.token
 
     i = 0
     api_request_times = []
@@ -26,7 +25,7 @@ task :scrape_test => :environment do
       i += 1
       api_start_time = Time.now
       scraper = Scraper.new
-      scraper.user_renew_checkouts(user.token,'24865986')
+      scraper.user_change_hold_pickup(user.token, '2186576', 'Suspended', '24')
       api_end_time = Time.now
       api_request_duration = api_end_time - api_start_time
       puts 'api request number ' + i.to_s + ' took ' + api_request_duration.to_s
@@ -41,7 +40,7 @@ task :scrape_test => :environment do
       i += 1
       scrape_start_time = Time.now
       scraper = Scraper.new
-      scraper.user_renew_checkouts_2(user.token,'24865986')
+      scraper.user_change_hold_pickup_2(user.token, '2186576', 'Suspended', '24')
       scrape_end_time = Time.now
       scrape_request_duration = scrape_end_time - scrape_start_time
       puts 'scrape request number ' + i.to_s + ' took ' + scrape_request_duration.to_s
