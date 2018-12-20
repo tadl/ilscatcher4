@@ -135,7 +135,7 @@
     <div class="form-group row">
       <label class="col-form-label col-12 col-md-4" for="edit-pref-username">Username</label>
       <div class="col-12 col-md-8">
-        <input type="text" class="form-control pref user" id="edit-pref-username" placeholder="Username" data-orig="<%= @preferences['username'] %>" value="<%= @preferences['username'] %>">
+        <input type="text" class="form-control pref user" id="edit-pref-username" placeholder="Username" data-orig="<%= @preferences['username'] %>" value="<%= @preferences['username'] %>" required>
       </div>
     </div>
 
@@ -149,7 +149,8 @@
     <div class="form-group row">
       <label class="col-form-label col-12 col-md-4" for="edit-pref-email-address">Email Address</label>
       <div class="col-12 col-md-8">
-        <input type="email" class="form-control pref user" id="edit-pref-email-address" placeholder="Email Address" data-orig="<%= @preferences['email'] %>" value="<%= @preferences['email'] %>">
+        <input type="email" class="form-control pref user" id="edit-pref-email-address" placeholder="Email Address" data-valid="true" data-orig="<%= @preferences['email'] %>" value="<%= @preferences['email'] %>">
+        <small id="email-address-feedback" class=""></small>
       </div>
     </div>
 

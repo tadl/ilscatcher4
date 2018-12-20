@@ -58,6 +58,19 @@
     $(this).val($(this).val().replace(/^(\d{3})(\d{3})(\d)+$/, "$1-$2-$3"));
   });
 
+  $('#edit-pref-email-address').keyup(function() {
+    var validemail = /[a-zA-Z0-9_+-]+(\.[a-zA-Z0-9_+-]+)*@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}/;
+    if (validemail.test($(this).val())) {
+      $(this).attr('data-valid', 'true');
+      $(this).css('border', '1px solid green');
+      $('#email-address-feedback').html("").removeClass();
+    } else {
+      $(this).css('border', '1px solid red');
+      $(this).attr('data-valid', 'false');
+      $('#email-address-feedback').html("This e-mail address does not appear to be valid.").removeClass().addClass('form-text text-danger');
+    }
+  });
+
   $(document).ready(function () {
     $(".numberinput").forceNumeric();
   });
