@@ -196,15 +196,16 @@
     <div class="form-group row">
       <label class="col-form-label col-12 col-md-4" for="edit-pref-phone-notify-number">Phone Notify Number</label>
       <div class="col-12 col-md-8">
-        <input type="text" class="form-control pref notify" id="edit-pref-phone-notify-number" placeholder="Phone Notify Number" data-orig="<%= @preferences['phone_notify_number'] %>" value="<%= @preferences['phone_notify_number'] %>">
+        <input type="text" class="form-control pref notify numberinput" id="edit-pref-phone-notify-number" placeholder="Phone Notify Number" data-orig="<%= @preferences['phone_notify_number'] %>" value="<%= @preferences['phone_notify_number'] %>">
       </div>
     </div>
 
     <div class="form-group row">
       <label class="col-form-label col-12 col-md-4" for="edit-pref-text-notify-number">Text Notify Number</label>
       <div class="col-12 col-md-8 with-feedback">
-        <input type="text" class="form-control pref notify" id="edit-pref-text-notify-number" placeholder="Text Notify Number" data-orig="<%= @preferences['text_notify_number'] %>" value="<%= @preferences['text_notify_number'] %>">
+        <input type="text" class="form-control pref notify numberinput" id="edit-pref-text-notify-number" placeholder="Text Notify Number" data-orig="<%= @preferences['text_notify_number'] %>" value="<%= @preferences['text_notify_number'] %>">
         <i class="fas fa-check text-success" id="text-notify-feedback" aria-hidden="true"></i>
+        <small id="text-notify-text-feedback" class="form-text"></small>
       </div>
     </div>
 

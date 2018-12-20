@@ -152,15 +152,15 @@ function validate_sms(number) {
   })
   .done(function(data) {
     if (data.result) {
-      //$('#text-notify-feedback').html("<span class='glyphicon glyphicon-flag text-danger'> We can't determine if this number is capable of receiving text messages.");
       $('#text-notify-feedback').removeClass().addClass('fas fa-flag text-warning');
+      $('#text-notify-text-feedback').html("We can't determine if this number is capable of receiving text messages.").removeClass().addClass('form-text text-danger');
     } else {
       if (data.carrier.type == 'mobile') {
-        //$('#sms-check-result').text("<span class='glyphicon glyphicon-ok text-success'></span> This number appears capable of receiving text messages.");
         $('#text-notify-feedback').removeClass().addClass('fas fa-check text-success');
+        $('#text-notify-text-feedback').html("This number appears capable of receiving text messages.").removeClass().addClass('form-text text-success');
       } else {
-        //$('#sms-check-result').text("<span class='glyphicon glyphicon-remove text-danger'></span> This number might not be able to receive text messages.");
         $('#text-notify-feedback').removeClass().addClass('fas fa-times text-danger');
+        $('#text-notify-text-feedback').html("This number might not be able to receive text messages.").removeClass().addClass('form-text text-danger');;
       }
     }
   });

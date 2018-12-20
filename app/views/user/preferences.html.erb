@@ -24,6 +24,11 @@
   var digits_trimmed;
   var element = '#edit-pref-text-notify-number';
   $(element).keyup(function(event) {
+    $(this).val($(this).val().replace(/^(\d{3})(\d{3})(\d)+$/, "$1-$2-$3"));
+    if ($(this).val() == "") {
+      $('#text-notify-feedback').removeClass();
+      $('#text-notify-text-feedback').html("").removeClass();
+    }
     if (event.which !== 0) {
       let test_number = $(element).val();
       let digits = test_number.replace(/\D/g, '');
@@ -37,6 +42,7 @@
       }
     }
   });
+
   $('#edit-pref-new-password').keyup(function(event) {
     $('#new-password-note').empty();
   });
@@ -47,4 +53,41 @@
     $('#new-password-note').empty();
     $('#current-password-note').empty();
   });
+
+  $('#edit-pref-phone-notify-number').keyup(function() {
+    $(this).val($(this).val().replace(/^(\d{3})(\d{3})(\d)+$/, "$1-$2-$3"));
+  });
+
+  $(document).ready(function () {
+    $(".numberinput").forceNumeric();
+  });
+
+  // forceNumeric() plug-in implementation
+  jQuery.fn.forceNumeric = function () {
+    return this.each(function () {
+      $(this).keydown(function (e) {
+        var key = e.which || e.keyCode;
+
+        if (!e.shiftKey && !e.altKey && !e.ctrlKey &&
+        // numbers
+          key >= 48 && key <= 57 ||
+        // Numeric keypad
+          key >= 96 && key <= 105 ||
+        // comma, period and minus, . on keypad
+          key == 190 || key == 188 || key == 109 || key == 110 ||
+        // Backspace and Tab and Enter
+          key == 8 || key == 9 || key == 13 ||
+        // Home and End
+          key == 35 || key == 36 ||
+        // left and right arrows
+          key == 37 || key == 39 ||
+        // Del and Ins
+          key == 46 || key == 45)
+            return true;
+
+        return false;
+      });
+    });
+  }
+
 </script>
