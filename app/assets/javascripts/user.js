@@ -49,7 +49,7 @@ function save_preferences(element) {
   var new_password2 = encodeURIComponent($('#edit-pref-new-password2').val());
   var current_password = encodeURIComponent($('#edit-pref-current-password').val());
 
-  if (username != username_orig) {
+  if ((username != username_orig) && (username != "") {
     parameters.user_prefs_changed = true;
     parameters.username_changed = true;
     parameters.username = username;
