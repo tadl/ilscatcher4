@@ -49,7 +49,7 @@ function save_preferences(element) {
   var new_password2 = encodeURIComponent($('#edit-pref-new-password2').val());
   var current_password = encodeURIComponent($('#edit-pref-current-password').val());
 
-  if ((username != username_orig) && (username != "")) {
+  if ((username != username_orig) && (username)) {
     parameters.user_prefs_changed = true;
     parameters.username_changed = true;
     parameters.username = username;
@@ -115,22 +115,11 @@ function save_preferences(element) {
     parameters.text_notify = text_notify;
   }
 
-  if (username == "") {
-    $('#username-feedback').html('Username can not be blank').addClass('form-text text-danger');
-  }
-
-  if ((parameters.user_prefs_changed == true) && (current_password == "")) {
-    $('#edit-pref-current-password').addClass('border-danger');
-    $('#current-password-note').html('This field is required when making changes to User Preferences.');
-    // probably include some help text, too
-
-    // this should actually never get hit, because we're testing that earlier. Throwing a console.log in to test for now
-    console.log("whoaaaa this is actually necessary apparently");
-  }
-
-  if (Object.keys(parameters).length > 0) {
+  if ((Object.keys(parameters).length > 0) && (username)) {
     $(element).html('<i class="fas fa-asterisk spin"></i> Saving...').addClass('disabled').prop('disabled', true);
     $.post('/update_preferences.js', parameters)
+  } else {
+    console.log('no changes to make');
   }
 
 }
