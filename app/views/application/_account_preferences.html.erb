@@ -136,6 +136,7 @@
       <label class="col-form-label col-12 col-md-4" for="edit-pref-username">Username</label>
       <div class="col-12 col-md-8">
         <input type="text" class="form-control pref user" id="edit-pref-username" placeholder="Username" data-orig="<%= @preferences['username'] %>" value="<%= @preferences['username'] %>" required>
+        <small id="username-feedback" class=""></small>
       </div>
     </div>
 
@@ -188,7 +189,7 @@
             <button type="button" class="btn btn-light" data-eye="#current-password-eye" data-element="#edit-pref-current-password" onclick="toggle_password_visible(this)"><i class="fas fa-eye-slash" id="current-password-eye"></i><span class="sr-only">toggle password visibility</span></button>
           </div>
         </div>
-        <small id="current-password-note" class="form-text text-danger">Required only if changing User Preferences.</small>
+        <small id="current-password-note" class="form-text text-secondary">Current password is Required when changing User Preferences.</small>
       </div>
     </div>
 

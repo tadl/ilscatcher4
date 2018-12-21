@@ -53,6 +53,14 @@
     $('#new-password-note').empty();
     $('#current-password-note').empty();
   });
+  $('#edit-pref-username').keyup(function(event) {
+    $('#username-feedback').empty().removeClass();
+    if ($(this).val()) {
+      $(this).css('border', '1px solid rgb(206, 212, 218)');
+    } else {
+      $(this).css('border', '1px solid red');
+    }
+  })
 
   $('#edit-pref-phone-notify-number').keyup(function() {
     $(this).val($(this).val().replace(/^(\d{3})(\d{3})(\d)+$/, "$1-$2-$3"));

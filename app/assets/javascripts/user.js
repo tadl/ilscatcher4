@@ -49,7 +49,7 @@ function save_preferences(element) {
   var new_password2 = encodeURIComponent($('#edit-pref-new-password2').val());
   var current_password = encodeURIComponent($('#edit-pref-current-password').val());
 
-  if ((username != username_orig) && (username != "") {
+  if ((username != username_orig) && (username != "")) {
     parameters.user_prefs_changed = true;
     parameters.username_changed = true;
     parameters.username = username;
@@ -113,6 +113,10 @@ function save_preferences(element) {
     parameters.email_notify = email_notify;
     parameters.phone_notify = phone_notify;
     parameters.text_notify = text_notify;
+  }
+
+  if (username == "") {
+    $('#username-feedback').html('Username can not be blank').addClass('form-text text-danger');
   }
 
   if ((parameters.user_prefs_changed == true) && (current_password == "")) {

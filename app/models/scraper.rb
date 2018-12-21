@@ -177,7 +177,7 @@ class Scraper
     if test_for_bad_old_password
       return {type: 'password', error: "Invalid current password"}
     elsif test_for_invalid_new_password
-      return {type: 'password', error: "Password does not meet requirements"}
+      return {type: 'password', error: "Password does not meet complexity requirements"}
     else
       return {type: 'password', success: "Password was sucessfully changed"}
     end
@@ -211,11 +211,11 @@ class Scraper
     if test_for_logged_in(page) == false
       return {type: 'alias', error: "Invalid password"}
     end
-    test_for_in_use = page.at_css('div:contains("Please try a different alias")').text rescue nil
+    test_for_in_use = page.at_css('div:contains("Please try a different hold shelf alias")').text rescue nil
     if test_for_in_use
-      return {type: 'alias', error: "Alias is in use by another patron"}
+      return {type: 'alias', error: "Hold shelf alias is in use by another patron"}
     else
-      return {type: 'alias', success: "Alias was sucessfully changed"}
+      return {type: 'alias', success: "Hold shelf alias was sucessfully changed"}
     end
   end
 
@@ -233,7 +233,7 @@ class Scraper
     if test_for_logged_in(page) == false
       return {type: 'circ_prefs', error: "Invalid password"}
     else
-      return {type: 'circ_prefs', success: "Circ preferences were sucessfully changed"}
+      return {type: 'circ_prefs', success: "Circulation preferences were sucessfully changed"}
     end
   end
 
