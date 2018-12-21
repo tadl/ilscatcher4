@@ -135,7 +135,7 @@
     <div class="form-group row">
       <label class="col-form-label col-12 col-md-4" for="edit-pref-username">Username</label>
       <div class="col-12 col-md-8">
-        <input type="text" class="form-control pref user" id="edit-pref-username" placeholder="Username" data-orig="<%= @preferences['username'] %>" value="<%= @preferences['username'] %>" required>
+        <input type="text" class="form-control pref user" id="edit-pref-username" maxlength="50" placeholder="Username" data-orig="<%= @preferences['username'] %>" value="<%= @preferences['username'] %>" required>
         <small id="username-feedback" class=""></small>
       </div>
     </div>
@@ -143,7 +143,7 @@
     <div class="form-group row">
       <label class="col-form-label col-12 col-md-4" for="edit-pref-holdshelf-alias">Holdshelf Alias</label>
       <div class="col-12 col-md-8">
-        <input type="text" class="form-control pref user" id="edit-pref-holdshelf-alias" placeholder="Holdshelf Alias" data-orig="<%= @preferences['hold_shelf_alias'] %>" value="<%= @preferences['hold_shelf_alias'] %>">
+        <input type="text" class="form-control pref user" id="edit-pref-holdshelf-alias" maxlength="50" placeholder="Holdshelf Alias" data-orig="<%= @preferences['hold_shelf_alias'] %>" value="<%= @preferences['hold_shelf_alias'] %>">
       </div>
     </div>
 
