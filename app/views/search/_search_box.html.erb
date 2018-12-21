@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col">
         <div class="form-group">
-          <div class="input-group input-group-lg mb-3">
+          <div class="input-group input-group-lg">
             <div class="input-group-prepend">
               <span class="input-group-text" id="search-addon">Search</span>
             </div>
@@ -15,9 +15,9 @@
         </div>
       </div>
     </div>
-    <button class="btn btn-primary btn-block text-left mb-3 px-3 d-block d-md-none" type="button" data-toggle="collapse" data-target="#search-opts" aria-expanded="true" aria-controls="search-addon" title="Search Options">Toggle Search Options <i class="fa float-right"></i></button>
+    <button class="btn btn-primary btn-block text-left mb-3 d-block d-md-none" type="button" data-toggle="collapse" data-target="#search-opts" aria-expanded="true" aria-controls="search-addon" title="Search Options">Toggle Search Options <i class="fa float-right"></i></button>
     <div class="row toggles show" id="search-opts">
-      <div class="col-sm-12 col-md-6 col-lg-3">
+      <div class="col-12 col-md-6 col-lg-3 order-md-1">
         <div class="input-group input-group-sm mb-2">
           <div class="input-group-prepend" style="width: 100%">
             <span class="input-group-text">Type</span>
@@ -31,7 +31,7 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-12 col-md-6 col-lg-3">
+      <div class="col-12 col-md-6 col-lg-3 order-md-2">
         <div class="input-group input-group-sm mb-2">
           <div class="input-group-prepend" style="width: 100%">
             <span class="input-group-text">Format</span>
@@ -45,7 +45,7 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-12 col-md-6 col-lg-3">
+      <div class="col-12 col-md-6 col-lg-3 order-md-3">
         <div class="input-group input-group-sm mb-2">
           <div class="input-group-prepend" style="width: 100%">
             <span class="input-group-text">Sort By</span>
@@ -60,7 +60,7 @@
         </div>
       </div>
       <% if @search.location_options %>
-        <div class="col-sm-12 col-md-6 col-lg-3">
+        <div class="col-12 col-md-6 col-lg-3 order-md-4">
           <div class="input-group input-group-sm mb-2">
             <div class="input-group-prepend" style="width: 100%">
               <span class="input-group-text">Location</span>
@@ -75,7 +75,7 @@
           </div>
         </div>
       <% end %>
-      <div class="col-sm-12 col-md-6 col-lg-3">
+      <div class="col-12 col-md-6 col-lg-3 order-md-5">
         <div class="input-group input-group-sm mb-2">
           <div class="input-group-prepend" style="width: 100%">
             <span class="input-group-text">Display as</span>
@@ -93,7 +93,7 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-12 col-md-6 col-lg-3">
+      <div class="col-12 col-md-6 col-lg-3 order-md-6">
         <div class="input-group input-group-sm mt-1">
           <div class="form-check">
             <input class="form-check-input<%= (params[:new_search].to_s != 'true') ? ' autoload' : '' %>" type="checkbox" value="true" id="limit_available" name="limit_available" <%= if_true_checked(@search.limit_available) %>>
@@ -103,7 +103,7 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-12 col-md-6 col-lg-3">
+      <div class="col-12 col-md-6 col-lg-3 order-md-8 order-lg-7">
         <div class="input-group input-group-sm mt-1">
           <div class="form-check">
             <input class="form-check-input<%= (params[:new_search].to_s != 'true') ? ' autoload' : '' %>" type="checkbox" value="true" id="limit_physical" name="limit_physical" <%= if_true_checked(@search.limit_physical) %>>
@@ -114,7 +114,7 @@
         </div>
       </div>
       <% if Settings.melcat_enabled == true && params[:new_search].to_s != "true" %>
-        <div class="col-12 col-md-6 col-lg-3">
+        <div class="col-12 col-md-6 col-lg-3 mb-2 order-md-7 order-lg-8">
           <a role="button" class="btn btn-sm btn-light btn-block" href="<%= Settings.melcat_link + url_encode(@search.query) %>">Search MeLCat</a>
         </div>
       <% end %>
