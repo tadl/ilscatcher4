@@ -144,31 +144,31 @@
 </div>
 
 <script>
-  function register(){
-    $('#register_button').prop('disabled', true)
-    $('#data_error').css('display', 'none')
-    $('#server_error').css('display', 'none')
-    $('#first_name').css('border', '')
-    $('#last_name').css('border', '')
-    $('#street_address').css('border', '')
-    $('#city').css('border', '')
-    $('#state').css('border', '')
-    $('#zip_code').css('border', '')
-    $('#phone').css('border', '')
-    $('#email').css('border', '')
-    first_name = $('#first_name').val()
-    middle_name = $('#middle_name').val()
-    last_name = $('#last_name').val()
-    street_address = $('#street_address').val()
-    city = $('#city').val()
-    state = $('#state').val()
-    zip_code = $('#zip_code').val()
-    phone = $('#phone').val()
-    email = $('#email').val()
-    birth_month = $('#birth_date_month').val()
-    birth_day = $('#birth_date_day').val()
-    birth_year = $('#birth_date_year').val()
-    enews = $('#enews').is(':checked')
+  function register() {
+    $('#register_button').prop('disabled', true);
+    $('#data_error').css('display', 'none');
+    $('#server_error').css('display', 'none');
+    $('#first_name').css('border', '');
+    $('#last_name').css('border', '');
+    $('#street_address').css('border', '');
+    $('#city').css('border', '');
+    $('#state').css('border', '');
+    $('#zip_code').css('border', '');
+    $('#phone').css('border', '');
+    $('#email').css('border', '');
+    first_name = $('#first_name').val();
+    middle_name = $('#middle_name').val();
+    last_name = $('#last_name').val();
+    street_address = $('#street_address').val();
+    city = $('#city').val();
+    state = $('#state').val();
+    zip_code = $('#zip_code').val();
+    phone = $('#phone').val();
+    email = $('#email').val();
+    birth_month = $('#birth_date_month').val();
+    birth_day = $('#birth_date_day').val();
+    birth_year = $('#birth_date_year').val();
+    enews = $('#enews').is(':checked');
     $.post('/submit_registration.js',
       { first_name: first_name,
         middle_name: middle_name,
@@ -184,7 +184,27 @@
         birth_year: birth_year,
         enews: enews
       }
-    )
+    );
   }
+
+  jQuery.fn.capitalize = function() {
+    $(this[0]).keyup(function(event) {
+      var box = event.target;
+      var txt = $(this).val();
+      var start = box.selectionStart;
+      var end = box.selectionEnd;
+      $(this).val(txt.replace(/^(.)|(\s|\-)(.)/g, function($1) {
+        return $1.toUpperCase();
+      }));
+      box.setSelectionRange(start, end);
+    });
+    return this;
+  }
+
+  $('#first_name').capitalize();
+  $('#middle_name').capitalize();
+  $('#last_name').capitalize();
+  $('#street_address').capitalize();
+  $('#city').capitalize();
 
 </script>
