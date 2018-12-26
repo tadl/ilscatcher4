@@ -131,7 +131,8 @@ function do_login(f) {
   var from_action = f.from_action.value
   var target_hold = f.target_hold.value
 
-  if (username != "" && password != "") {
+  if ((username) && (password)) {
+    $('#login-button').html('<i class="fas fa-asterisk spin"></i> One moment...').attr('disabled', true).addClass('disabled')
     $.post("login.js", {username: username, password: password, from_action: from_action, target_hold: target_hold});
     $('#login-message').text('');
   } else {

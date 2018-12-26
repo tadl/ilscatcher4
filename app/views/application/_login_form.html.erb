@@ -25,11 +25,11 @@
         <input type="password" class="form-control" id="password" placeholder="Password">
       </div>
     </div>
-    <input style="display: none" id="from_action" value="<%= from %>">
-    <input style="display: none" id="target_hold" value="<%= target_hold %>">
+    <input type="hidden" id="from_action" value="<%= from %>">
+    <input type="hidden" id="target_hold" value="<%= target_hold %>">
     <div class="row mb-3">
       <div class="col">
-        <button type="submit" class="btn btn-primary btn-block" id="login-button" onclick="do_login()">Sign in!</button>
+        <button type="submit" class="btn btn-primary btn-block" id="login-button">Go!</button>
       </div>
     </div>
   </form>

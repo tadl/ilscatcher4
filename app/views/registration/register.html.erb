@@ -1,6 +1,6 @@
 <div class="container" id="register">
   <div class="row mt-3">
-    <h1>Signing-up for a library card is easy!</h1> 
+    <h1>Registering for a library card is easy!</h1> 
   </div>
   <div class="row mb-3">
     <h3>Please fill out the form below to get started.</h3>
@@ -77,16 +77,18 @@
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="enews" checked>
-          <label class="form-check-label" for="enews">
-            Stay Connected! Receive news, events, and other email updates from your library
-          </label>
+    <% if Settings.register_newsletter == true %>
+      <div class="row">
+        <div class="col">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="enews" checked>
+            <label class="form-check-label" for="enews">
+              Stay Connected! Receive news, events, and other email updates from your library
+            </label>
+          </div>
         </div>
       </div>
-    </div>
+    <% end %>
   </form>
   <div class="row mt-3">
     <h3>Agreement</h3>
