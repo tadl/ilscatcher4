@@ -111,6 +111,24 @@ class Register
     register_path << '&param=' + stgma_json.to_s
     register_path << '&param=' + stgba_json.to_s
 
+    if Settings.register_newsletter == true && params[:enews] == 'true'
+      uri = URI(Settings.register_listapi_url)
+
+      params = {
+        'check' => ENV["LISTAPI_KEY"],
+        'email' => params[:email],
+        'firstname' => params[:first_name],
+        'lastname' => params[:last_name],
+        'city' => params[:city],
+        'state' => params[:state],
+        'zip' => params[:zip_code],
+      }
+
+      res = Net::HTTP.post_form(uri, params);
+      # puts res.body if res.is_a?(Net::HTTPSuccess) # Uncomment for DEBUG
+
+    end
+
     uri = URI.parse(register_path)
     response = Net::HTTP.get_response(uri)
     if response.code == '200'
@@ -118,6 +136,7 @@ class Register
     else
       return 'error'
     end
+
   end
 
   private
