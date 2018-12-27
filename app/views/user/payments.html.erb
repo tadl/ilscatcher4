@@ -15,9 +15,9 @@
         <tbody>
           <% @payments.each do |payment| %>
             <tr>
-              <td><%= payment['payment_date'] %></td>
-              <td><%= payment['payment_for'] %></td>
-              <td><%= payment['amount'] %></td>
+              <td><%= payment[:payment_date] %></td>
+              <td><%= payment[:payment_for] %></td>
+              <td><%= payment[:amount] %></td>
             </tr>
           <% end %>
         </tbody>
