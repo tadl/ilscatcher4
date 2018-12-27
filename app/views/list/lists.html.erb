@@ -27,55 +27,52 @@
       </div>
     </div>
     <% @lists.each do |list| %>
-      <div class="card mb-3 edit-list w-100" id="edit-list-<%= list['list_id'] %>">
-        <h5 class="card-header font-weight-bold">Editing list: <%= list['title'] %></h5>
+      <div class="card mb-3 edit-list w-100" id="edit-list-<%= list.list_id %>">
+        <h5 class="card-header font-weight-bold">Editing list: <%= list.title %></h5>
         <div class="card-body">
           <div class="form-group">
-            <label for="list-<%= list['list_id'] %>-title">Name</label>
-            <input type="text" class="form-control" id="list-<%= list['list_id'] %>-title" value="<%= list['title'] %>">
+            <label for="list-<%= list.list_id %>-title">Name</label>
+            <input type="text" class="form-control" id="list-<%= list.list_id %>-title" value="<%= list.title %>">
           </div>
           <div class="form-group">
-            <label for="list-<%= list['list_id'] %>-description">Description</label>
-            <textarea class="form-control" id="list-<%= list['list_id'] %>-description" rows="2"><%= list['description'] %></textarea>
+            <label for="list-<%= list.list_id %>-description">Description</label>
+            <textarea class="form-control" id="list-<%= list.list_id %>-description" rows="2"><%= list.description %></textarea>
           </div>
-          <div class="w-100 alert alert-danger list-error" id="list-error-<%= list['list_id'] %>" role="alert" style="display: none;"></div>
-          <button class="btn btn-success" id="save-list-<%= list['list_id'] %>" role="button" onclick="save_list_details(<%= list['list_id'] %>, <%= list['offset'] %>)">Save</button>
-          <button class="btn btn-danger" id="cancel-list-<%= list['list_id'] %>" role="button" onclick="cancel_edit_list(<%= list['list_id'] %>)">Cancel</button>
+          <div class="w-100 alert alert-danger list-error" id="list-error-<%= list.list_id %>" role="alert" style="display: none;"></div>
+          <button class="btn btn-success" id="save-list-<%= list.list_id %>" role="button" onclick="save_list_details(<%= list.list_id %>, <%= list.offset %>)">Save</button>
+          <button class="btn btn-danger" id="cancel-list-<%= list.list_id %>" role="button" onclick="cancel_edit_list(<%= list.list_id %>)">Cancel</button>
         </div>
       </div>
-      <div class="card mb-3 list-info w-100" id="list-<%= list['list_id'] %>">
-        <a href="/view_list?list_id=<%= list['list_id'] %>">
+      <div class="card mb-3 list-info w-100" id="list-<%= list.list_id %>">
+        <a href="/view_list?list_id=<%= list.list_id %>">
           <h5 class="card-header font-weight-bold">
-            <%= list['title'] %>
-            <% if list['default'] == true %>
+            <%= list.title %>
+            <% if list.default == true %>
               <i class="fas fa-check float-right text-success"></i>
               <span class="sr-only">This is your default list</span>
             <% end %>
           </h5>
         </a>
         <div class="card-body">
-          <% if list['description'] != "" %>
-            <h5 class="card-title"><%= list['description'] %></h5>
+          <% if list.description != "" %>
+            <h5 class="card-title"><%= list.description %></h5>
           <% else %>
             <h5 class="card-title">No description</h5>
           <% end %>
-          <% visibility = (list['shared'] == true) ? 'Private' : 'Public' %>
+          <% visibility = (list.shared == true) ? 'Private' : 'Public' %>
             <div class="row">
-              <div class="col-12 col-md-4 col-lg-2 mb-2 px-1">
-                <a class="btn btn-primary btn-block" type="button" href="/view_list?list_id=<%= list['list_id'] %>">View</a>
+              <div class="col-12 col-md-6 col-lg-3 mb-2 px-1">
+                <button class="btn btn-primary btn-block" role="button" onclick="edit_list_details(<%= list.list_id %>)">Edit Details</button>
               </div>
-              <div class="col-12 col-md-4 col-lg-2 mb-2 px-1">
-                <button class="btn btn-primary btn-block" role="button" onclick="edit_list_details(<%= list['list_id'] %>)">Edit</button>
+              <div class="col-12 col-md-6 col-lg-3 mb-2 px-1">
+                <button class="btn btn-primary btn-block" role="button" data-listid="<%= list.list_id %>" onclick="delete_list(this)">Delete</button>
               </div>
-              <div class="col-12 col-md-4 col-lg-2 mb-2 px-1">
-                <button class="btn btn-primary btn-block" role="button" data-listid="<%= list['list_id'] %>" onclick="delete_list(this)">Delete</button>
+              <div class="col-12 col-md-6 col-lg-3 mb-2 px-1">
+                <button class="btn btn-primary btn-block" role="button" data-listid="<%= list.list_id %>" data-offset="<%= list.offset %>" onclick="toggle_list_visibility(this, '<%= visibility %>')">Make <%= visibility %></button>
               </div>
-              <div class="col-12 col-md-4 col-lg-2 mb-2 px-1">
-                <button class="btn btn-primary btn-block" role="button" data-listid="<%= list['list_id'] %>" data-offset="<%= list['offset'] %>" onclick="toggle_list_visibility(this, '<%= visibility %>')">Make <%= visibility %></button>
-              </div>
-              <% if list['default'] != true %>
-                <div class="col-12 col-md-4 col-lg-2 mb-2 px-1">
-                  <button class="btn btn-primary btn-block" role="button" data-listid="<%= list['list_id'] %>" onclick="set_list_default(this)">Make default</button>
+              <% if list.default != true %>
+                <div class="col-12 col-md-6 col-lg-3 mb-2 px-1">
+                  <button class="btn btn-primary btn-block" role="button" data-listid="<%= list.list_id %>" onclick="set_list_default(this)">Make default</button>
                 </div>
               <% end %>
             </div>

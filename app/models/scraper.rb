@@ -320,17 +320,26 @@ class Scraper
   end
 
   def user_get_lists(token)
-    params = '?token=' + token
-    list_hash = json_request('lists', params)
-    if !list_hash['user']['error']
+    url = Settings.machine_readable + 'eg/opac/myopac/lists'
+    page = scrape_request(url, token)[0]
+    if test_for_logged_in(page) == false
+      return 'error'
+    else
+      raw_lists = page.parser.css('.bookbag-controls-holder').map do |l|
+        {
+          :title=> l.css('.bookbag-name').try(:text) ,
+          :description => l.css('.bookbag-description').try(:text),
+          :list_id => l.search('input[@name="list"]')[0].try(:attr, "value").to_s,
+          :shared => check_for_shared_list(l.css('.bookbag-share')),
+          :default => check_for_default_list(l.search('input[@value="remove_default"]'))
+        }
+      end
       lists = []
-      list_hash['lists'].each do |l|
+      raw_lists.each do |l|
         list = List.new(l)
-        lists.push(l)
+        lists.push(list)
       end
       return lists
-    else
-      return 'error'
     end
   end
 
@@ -744,6 +753,23 @@ class Scraper
     target_input = 'input[@value="'+ checkout_id +'"]'
     title = page.at(target_input).try(:parent).try(:next).try(:next).try(:css, 'a')[0].try(:text)
     return title  
+  end
+
+  def check_for_shared_list(share_div)
+    hidden = share_div.search('input[@name="action"]').try(:attr, "value").to_s
+    if hidden != 'hide'
+      return false
+    else
+      return true
+    end
+  end
+
+  def check_for_default_list(default_value)
+    if default_value.to_s != '' 
+      return true
+    else
+      return false
+    end
   end
 
 
