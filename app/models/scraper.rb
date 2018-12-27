@@ -775,5 +775,13 @@ class Scraper
     end
   end
 
+  def to_bool(string)
+    if string == "TRUE" || string == "checked"
+        return true
+    else
+        return false
+    end
+  end
+
 
 end
