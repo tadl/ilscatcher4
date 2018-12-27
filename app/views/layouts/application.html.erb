@@ -15,6 +15,15 @@
       <%= render :partial => 'application/navbar' %>
     </nav>
     <div class="container">
+      <div class="w-100 text-center">
+        <div class="TODO temporary breakpoint test">
+          <h5 class="d-block d-sm-none">Current breakpoint: XS</h5>
+          <h5 class="d-none d-sm-block d-md-none">Current breakpoint: SM</h5>
+          <h5 class="d-none d-md-block d-lg-none">Current breakpoint: MD</h5>
+          <h5 class="d-none d-lg-block d-xl-none">Current breakpoint: LG</h5>
+          <h5 class="d-none d-xl-block">Current breakpoint: XL</h5>
+        </div><!-- TODO -->
+      </div>
       <div id="alert-box" class="w-100"></div>
       <%= yield %>
     </div>
