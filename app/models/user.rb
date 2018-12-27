@@ -163,7 +163,7 @@ class User
 
   def TEMP_get_lists
     scraper = Scraper.new
-    list_hash = scraper.user_get_lists_2(self.token)
+    list_hash = scraper.user_get_lists(self.token)
     if list_hash != 'error'
       return list_hash
     else
