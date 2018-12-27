@@ -61,17 +61,20 @@
           <% end %>
           <% visibility = (list.shared == true) ? 'Private' : 'Public' %>
             <div class="row">
-              <div class="col-12 col-md-6 col-lg-3 mb-2 px-1">
-                <button class="btn btn-primary btn-block" role="button" onclick="edit_list_details(<%= list.list_id %>)">Edit Details</button>
+              <div class="col-12 col-md-4 col-lg-2 mb-2 px-1">
+                <a class="btn btn-primary btn-block" type="button" href="/view_list?list_id=<%= list.list_id %>">View</a>
               </div>
-              <div class="col-12 col-md-6 col-lg-3 mb-2 px-1">
+              <div class="col-12 col-md-4 col-lg-2 mb-2 px-1">
+                <button class="btn btn-primary btn-block" role="button" onclick="edit_list_details(<%= list.list_id %>)">Edit</button>
+              </div>
+              <div class="col-12 col-md-4 col-lg-2 mb-2 px-1">
                 <button class="btn btn-primary btn-block" role="button" data-listid="<%= list.list_id %>" onclick="delete_list(this)">Delete</button>
               </div>
-              <div class="col-12 col-md-6 col-lg-3 mb-2 px-1">
+              <div class="col-12 col-md-4 col-lg-2 mb-2 px-1">
                 <button class="btn btn-primary btn-block" role="button" data-listid="<%= list.list_id %>" data-offset="<%= list.offset %>" onclick="toggle_list_visibility(this, '<%= visibility %>')">Make <%= visibility %></button>
               </div>
               <% if list.default != true %>
-                <div class="col-12 col-md-6 col-lg-3 mb-2 px-1">
+                <div class="col-12 col-md-4 col-lg-2 mb-2 px-1">
                   <button class="btn btn-primary btn-block" role="button" data-listid="<%= list.list_id %>" onclick="set_list_default(this)">Make default</button>
                 </div>
               <% end %>

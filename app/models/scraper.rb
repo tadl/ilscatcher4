@@ -320,19 +320,23 @@ class Scraper
   end
 
   def user_get_lists(token)
-    url = Settings.machine_readable + 'eg/opac/myopac/lists'
+    url = Settings.machine_readable + 'eg/opac/myopac/prefs_notify'
     page = scrape_request(url, token)[0]
     if test_for_logged_in(page) == false
       return 'error'
     else
-      raw_lists = page.parser.css('.bookbag-controls-holder').map do |l|
-        {
-          :title=> l.css('.bookbag-name').try(:text) ,
-          :description => l.css('.bookbag-description').try(:text),
-          :list_id => l.search('input[@name="list"]')[0].try(:attr, "value").to_s,
-          :shared => check_for_shared_list(l.css('.bookbag-share')),
-          :default => check_for_default_list(l.search('input[@value="remove_default"]'))
-        }
+      raw_lists = []
+      i = 0
+      page.parser.css('.bookbag_entry').each do |l|
+        raw_list = {}
+        raw_list[:title] = l.css('.bookbag_name').try(:text)
+        raw_list[:description] = l.css('.bookbag_description').try(:text)
+        raw_list[:list_id] = l.css('.bookbag_id').try(:text)
+        raw_list[:shared] = check_for_shared_list(l.css('.bookbag_pub').text)
+        raw_list[:default] = check_for_default_list(l.css('.bookbag_default').text)
+        raw_list[:offset] = (i / 10.0).floor * 10
+        raw_lists.push(raw_list)
+        i += 1
       end
       lists = []
       raw_lists.each do |l|
@@ -755,20 +759,27 @@ class Scraper
     return title  
   end
 
-  def check_for_shared_list(share_div)
-    hidden = share_div.search('input[@name="action"]').try(:attr, "value").to_s
-    if hidden != 'hide'
-      return false
-    else
+  def check_for_shared_list(value)
+    if value == "t"
       return true
+    else
+      return false
     end
   end
 
-  def check_for_default_list(default_value)
-    if default_value.to_s != '' 
+  def check_for_default_list(value)
+    if value == "DEFAULT"
       return true
     else
       return false
+    end
+  end
+
+  def to_bool(string)
+    if string == "TRUE" || string == "checked"
+        return true
+    else
+        return false
     end
   end
 
