@@ -1,10 +1,23 @@
 <% if @userdetails['holds'].to_i > 0 && @userdetails['token'] != "" %>
-  <div class="mb-3">
-    <button type="button" class="btn btn-light" onclick="select_all()">Select All</button>
-    <button type="button" class="btn btn-light disabled bulk-action" onclick="bulk_edit_hold(this, 'suspend')" disabled="true">Suspend Selected</button>
-    <button type="button" class="btn btn-light disabled bulk-action" onclick="bulk_edit_hold(this, 'activate')" disabled="true">Activate Selected</button>
-    <button type="button" id="bulk-hold-cancel" class="btn btn-light disabled bulk-action" onclick="bulk_edit_hold(this, 'confirm')" disabled="true">Cancel Selected</button>
-    <button type="button" class="btn btn-light" onclick="select_clear()">Clear Selection</button>
+  <div class="row">
+    <div class="col-6 col-lg-4 mb-3">
+      <button type="button" class="btn btn-block btn-light" onclick="select_all()">Select All</button>
+    </div>
+    <div class="col-6 col-lg-4 mb-3">
+      <button type="button" class="btn btn-block btn-light" onclick="select_clear()">Clear Selection</button>
+    </div>
+  </div>
+  <div class="row hold-actions" style="display: none;">
+    <div class="col-6 col-lg-4 mb-3">
+      <button type="button" class="btn btn-block btn-light disabled bulk-action" onclick="bulk_edit_hold(this, 'suspend')" disabled="true">Suspend Selected</button>
+    </div>
+    <div class="col-6 col-lg-4 mb-3">
+      <button type="button" class="btn btn-block btn-light disabled bulk-action" onclick="bulk_edit_hold(this, 'activate')" disabled="true">Activate Selected</button>
+    </div>
+    <div class="col-6 col-lg-4 mb-3">
+      <button type="button" id="bulk-hold-cancel" class="btn btn-block btn-light disabled bulk-action" onclick="bulk_edit_hold(this, 'confirm')" disabled="true">Cancel Selected</button>
+    </div>
+    <div class="col-6 col-lg-4 col-xl-4 mb-3"></div>
   </div>
   <% @holds.each do |hold| %>
     <%= render 'hold_item', :i => hold %>

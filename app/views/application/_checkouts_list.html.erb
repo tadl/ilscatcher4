@@ -1,15 +1,15 @@
 <% if @userdetails['checkouts'].to_i > 0 && @userdetails['token'] != "" %>
   <div class="row">
-    <div class="col-6 col-md-3 mb-3">
+    <div class="col-6 col-lg-3 mb-3">
       <button type="button" class="btn btn-block btn-light" onclick="select_all()">Select All</button>
     </div>
-    <div class="col-6 col-md-3 mb-3">
+    <div class="col-6 col-lg-3 mb-3">
       <button type="button" class="btn btn-block btn-light bulk-action disabled" onclick="bulk_renew()" disabled="true">Renew Selected</button>
     </div>
-    <div class="col-6 col-md-3 mb-3">
+    <div class="col-6 col-lg-3 mb-3">
       <button type="button" class="btn btn-block btn-light" onclick="select_clear()">Clear Selection</button>
     </div>
-    <div class="col-6 col-md-3 mb-3">
+    <div class="col-6 col-lg-3 mb-3">
       <button type="button" class="btn btn-block btn-light all-renew float-right" onclick="renew_all()">Renew All</button>
     </div>
   </div>

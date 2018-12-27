@@ -289,9 +289,17 @@ function toggle_select(element) {
   if ($(element).hasClass('select') == true) {
     $(element).removeClass('select btn-light').addClass('selected btn-success').html('<i class="fas fa-check"></i> Selected');
     $('.bulk-action').removeClass('disabled').prop('disabled', false);
+    $('.hold-actions').show();
   } else {
     $(element).removeClass('selected btn-success').addClass('select btn-light').html('Select');
-    $('.bulk-action').addClass('disabled').prop('disabled', true);
+    var selected_items = 0;
+    $('.selected').each(function() {
+      selected_items++;
+    });
+    if (selected_items == 0) {
+      $('.bulk-action').addClass('disabled').prop('disabled', true);
+      $('.hold-actions').hide();
+    }
   }
 }
 function select_all() {
@@ -302,10 +310,12 @@ function select_all() {
   });
   if (selectCount > 0) {
     $('.bulk-action').removeClass('disabled').prop('disabled', false);
+    $('.hold-actions').show();
   }
 }
 function select_clear() {
   $('.bulk-action').addClass('disabled').prop('disabled', true);
+  $('.hold-actions').hide();
   $('.selected').each(function() {
     $(this).removeClass('selected btn-success').addClass('select btn-light').html('Select');
   });
