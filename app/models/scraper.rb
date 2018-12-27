@@ -135,12 +135,29 @@ class Scraper
   end
 
   def user_get_preferences(token)
-    params = '?token=' + token
-    preferences_hash = json_request('preferences', params)
-    if !preferences_hash['user']['error']
-      return preferences_hash['preferences']
-    else
+    url = Settings.machine_readable + 'eg/opac/myopac/prefs_notify'
+    page = scrape_request(url, token)[0]
+    if test_for_logged_in(page) == false
       return 'error'
+    else
+      prefs = {}
+      prefs["username"] = page.at('td:contains("Username")').next.next.text rescue nil
+      prefs["hold_shelf_alias"] = page.at('td:contains("Holdshelf Alias")').next.next.text rescue nil
+      prefs["day_phone"] = page.at('td:contains("Day Phone")').next.next.text rescue nil
+      prefs["evening_phone"] = page.at('td:contains("Evening Phone")').next.next.text rescue nil 
+      prefs["other_phone"] = page.at('td:contains("Other Phone")').next.next.text rescue nil
+      prefs["email"] = page.at('td:contains("Email Address")').next.next.text rescue nil
+      prefs["melcat_id"] = page.at('td:contains("MeLCat ID")').next.next.text rescue nil
+      prefs["pickup_library"] = page.css('select[@name="opac.default_pickup_location"] option[@selected="selected"]').attr('value').text rescue nil
+      prefs["default_search"] = page.css('select[@name="opac.default_search_location"] option[@selected="selected"]').attr('value').text rescue nil
+      prefs["keep_circ_history"] = to_bool(page.at('span:contains("circ_history")').next.next.text) rescue nil
+      prefs["keep_hold_history"] = to_bool(page.at('span:contains("hold_history")').next.next.text) rescue nil
+      prefs["email_notify"] = to_bool(page.css('input[@name="opac.hold_notify.email"]').attr('checked').try(:text)) rescue nil
+      prefs["phone_notify"] = to_bool(page.css('input[@name="opac.hold_notify.phone"]').attr('checked').try(:text)) rescue nil
+      prefs["text_notify"] = to_bool(page.css('input[@name="opac.hold_notify.sms"]').attr('checked').try(:text)) rescue nil
+      prefs["phone_notify_number"] =  page.css('input[@name="opac.default_phone"]').attr('value').try(:text) rescue nil
+      prefs["text_notify_number"] =  page.css('input[@name="opac.default_sms_notify"]').attr('value').try(:text) rescue nil
+      return prefs
     end
   end
 
@@ -177,7 +194,7 @@ class Scraper
     if test_for_bad_old_password
       return {type: 'password', error: "Invalid current password"}
     elsif test_for_invalid_new_password
-      return {type: 'password', error: "Password does not meet complexity requirements"}
+      return {type: 'password', error: "Password does not meet requirements"}
     else
       return {type: 'password', success: "Password was sucessfully changed"}
     end
@@ -211,11 +228,11 @@ class Scraper
     if test_for_logged_in(page) == false
       return {type: 'alias', error: "Invalid password"}
     end
-    test_for_in_use = page.at_css('div:contains("Please try a different hold shelf alias")').text rescue nil
+    test_for_in_use = page.at_css('div:contains("Please try a different alias")').text rescue nil
     if test_for_in_use
-      return {type: 'alias', error: "Hold shelf alias is in use by another patron"}
+      return {type: 'alias', error: "Alias is in use by another patron"}
     else
-      return {type: 'alias', success: "Hold shelf alias was sucessfully changed"}
+      return {type: 'alias', success: "Alias was sucessfully changed"}
     end
   end
 
@@ -233,7 +250,7 @@ class Scraper
     if test_for_logged_in(page) == false
       return {type: 'circ_prefs', error: "Invalid password"}
     else
-      return {type: 'circ_prefs', success: "Circulation preferences were sucessfully changed"}
+      return {type: 'circ_prefs', success: "Circ preferences were sucessfully changed"}
     end
   end
 
