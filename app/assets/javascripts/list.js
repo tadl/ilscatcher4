@@ -62,7 +62,7 @@ function cancel_new_list() {
 }
 
 function save_new_list(element) {
-  $(element).html('<i class="fas fa-asterisk spin"></i> Creating new list...').attr('disabled', true).addClass('disabled');
+  $(element).html('<i class="fas fa-asterisk spin"></i> Saving...').attr('disabled', true).addClass('disabled');
   var name = encodeURIComponent($('#new-list-title').val());
   var description = encodeURIComponent($('#new-list-description').val());
   var sharedTemp = $('#new-list-shared').prop('checked');
@@ -78,7 +78,7 @@ function save_new_list(element) {
 }
 
 function toggle_list_visibility(element, visibility) {
-  $(element).html('<i class="fas fa-asterisk spin"></i> Toggling share setting...').attr('disabled', true).addClass('disabled');
+  $(element).html('<i class="fas fa-asterisk spin"></i> One moment...').attr('disabled', true).addClass('disabled');
   var listid = $(element).data('listid');
   var offset = $(element).data('offset');
   var share = (visibility == 'Public') ? 'show' : 'hide';
@@ -93,7 +93,7 @@ function toggle_list_visibility(element, visibility) {
 }
 
 function set_list_default(element) {
-  $(element).html('<i class="fas fa-asterisk spin"></i> Setting default list...').attr('disabled', true).addClass('disabled');
+  $(element).html('<i class="fas fa-asterisk spin"></i> One moment...').attr('disabled', true).addClass('disabled');
   var listid = $(element).data('listid');
   $.post('/make_default_list.json', {list_id: listid})
     .done(function(data) {
