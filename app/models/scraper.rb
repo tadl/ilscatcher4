@@ -303,12 +303,19 @@ class Scraper
   end
 
   def user_get_payments(token)
-    params = '?token=' + token
-    payments_hash = json_request('payments', params)
-    if !payments_hash['user']['error']
-      return payments_hash['payments']
-    else
+    url = Settings.machine_readable + 'eg/opac/myopac/main_payments?limit=100'
+    page = scrape_request(url, token)[0]
+    if test_for_logged_in(page) == false
       return 'error'
+    else
+      payment_list = page.parser.css('table[@title="Payments"]/tbody/tr').map do |c|
+        {
+          :payment_date => c.css('td[1]').text.try(:strip),
+          :payment_for => c.css('td[2]').text.try(:strip),
+          :amount => c.css('td[3]').text.try(:strip),
+        }
+      end
+      return payment_list
     end
   end
 
