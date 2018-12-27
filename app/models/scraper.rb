@@ -270,17 +270,35 @@ class Scraper
       return {type: 'notify_prefs', success: "Notification preferences were sucessfully changed"}
     end
   end
-  
+
   def user_get_fines(token)
-    params = '?token=' + token
-    fines_hash = json_request('fines', params)
-    if !fines_hash['user']['error']
-      fines_and_fees = {}
-      fines_and_fees['fines'] = fines_hash['fines']
-      fines_and_fees['fees'] = fines_hash['fees']
-      return fines_and_fees
-    else
+    url = Settings.machine_readable + 'eg/opac/myopac/main?limit=100'
+    page = scrape_request(url, token)[0]
+    if test_for_logged_in(page) == false
       return 'error'
+    else
+      fines_and_fees = {}
+      fines_and_fees['fines'] = page.parser.css('#myopac_circ_trans_row').map do |c|
+        {
+          :title => c.css('td[1]').text.try(:strip),
+          :author => c.css('td[2]').text.try(:strip),
+          :checkout_date => c.css('td[3]').text.try(:strip),
+          :due_date => c.css('td[4]').text.try(:strip),
+          :return_date => c.css('td[5]').text.try(:strip),
+          :balance_owed => c.css('td[6]').text.try(:strip),
+        }
+      end
+      fines_and_fees['fees'] = page.parser.css('#myopac_trans_div/table/tbody/tr').map do |c|
+        {
+          :transaction_start_date => c.css('td[1]').text.try(:strip),
+          :last_pmt_date => c.css('td[2]').text.try(:strip),
+          :initial_amt_owed => c.css('td[3]').text.try(:strip),
+          :total_amt_paid => c.css('td[4]').text.try(:strip),
+          :balance_owed => c.css('td[5]').text.try(:strip),
+          :billing_type => c.css('td[6]').text.try(:strip),
+        }
+      end
+      return fines_and_fees
     end
   end
 
