@@ -62,7 +62,7 @@
           <% visibility = (list.shared == true) ? 'Private' : 'Public' %>
             <div class="row">
               <div class="col-12 col-md-4 col-lg-2 mb-2 px-1">
-                <a class="btn btn-primary btn-block" type="button" href="/view_list?list_id=<%= list.list_id %>">View</a>
+                <a class="btn btn-primary btn-block" role="button" href="/view_list?list_id=<%= list.list_id %>">View</a>
               </div>
               <div class="col-12 col-md-4 col-lg-2 mb-2 px-1">
                 <button class="btn btn-primary btn-block" role="button" onclick="edit_list_details(<%= list.list_id %>)">Edit</button>
