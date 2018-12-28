@@ -209,3 +209,8 @@ a:hover {
   right: 25px;
   display: none;
 }
+
+/* fix ios input zooming when font size <16px */
+.form-control {
+  font-size: 16px;
+}

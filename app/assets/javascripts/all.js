@@ -114,7 +114,7 @@ function show_login_form(){
   var form = $('#hidden_login').html()
   $('#hidden_login').html('')
   $.fancybox.open({
-    src  : '<div id="login_container" style="max-width: 400px; width: 100%;">'+ form +'</div>',
+    src  : '<div id="login_container" class="w-100" style="max-width:400px;">'+ form +'</div>',
     type : 'inline',
     opts : {
       beforeClose : function( instance, current ) {
