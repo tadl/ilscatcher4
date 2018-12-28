@@ -23,11 +23,11 @@
     </ul>
     <% if !cookies[:user].present? %>
       <div class="btn-group navbar-nav ml-auto">
-        <button type="button" class="btn btn-primary mr-lg-3 mt-2" id="account-button" onclick="show_login_form()">
+        <button type="button" class="btn btn-primary mr-lg-3 mb-2 mb-lg-0" id="account-button" onclick="show_login_form()">
           Sign in
         </button>
         <% if Settings.online_registration == true && Settings.register_link_show == true %>
-          <a href="<%= Settings.register_link %>" role="button" class="btn btn-primary mt-2" id="register-button">
+          <a href="<%= Settings.register_link %>" role="button" class="btn btn-primary mb-2 mb-lg-0" id="register-button">
             <%= Settings.register_link_text %>
           </a>
         <% end %>
