@@ -3,7 +3,7 @@
     <%= render 'account_menu' %>
   </div>
   <div id="account-lists" class="col-12 col-md-9 mt-3">
-    <button class="btn btn-primary mb-3 float-right" role="button" onclick="new_list()"><i class="fas fa-plus"></i> New List</button>
+    <button class="btn btn-primary mb-3 float-right" type="button" onclick="new_list()"><i class="fas fa-plus"></i> New List</button>
     <div class="card mb-3 new-list w-100">
       <h5 class="card-header font-wight-bold">Create a new list</h5>
       <div class="card-body">
@@ -22,8 +22,8 @@
           </label>
         </div>
         <div class="w-100 alert alert-danger new-list-error" role="alert" style="display: none;"></div>
-        <button class="btn btn-success" id="save-new-list" role="button" onclick="save_new_list(this)">Save</button>
-        <button class="btn btn-danger" id="cancel-new-list" role="button" onclick="cancel_new_list()">Cancel</button>
+        <button class="btn btn-success" id="save-new-list" type="button" onclick="save_new_list(this)">Save</button>
+        <button class="btn btn-danger" id="cancel-new-list" type="button" onclick="cancel_new_list()">Cancel</button>
       </div>
     </div>
     <% @lists.each do |list| %>
@@ -39,8 +39,8 @@
             <textarea class="form-control" id="list-<%= list.list_id %>-description" rows="2"><%= list.description %></textarea>
           </div>
           <div class="w-100 alert alert-danger list-error" id="list-error-<%= list.list_id %>" role="alert" style="display: none;"></div>
-          <button class="btn btn-success" id="save-list-<%= list.list_id %>" role="button" onclick="save_list_details(<%= list.list_id %>, <%= list.offset %>)">Save</button>
-          <button class="btn btn-danger" id="cancel-list-<%= list.list_id %>" role="button" onclick="cancel_edit_list(<%= list.list_id %>)">Cancel</button>
+          <button class="btn btn-success" id="save-list-<%= list.list_id %>" type="button" onclick="save_list_details(<%= list.list_id %>, <%= list.offset %>)">Save</button>
+          <button class="btn btn-danger" id="cancel-list-<%= list.list_id %>" type="button" onclick="cancel_edit_list(<%= list.list_id %>)">Cancel</button>
         </div>
       </div>
       <div class="card mb-3 list-info w-100" id="list-<%= list.list_id %>">
@@ -65,17 +65,17 @@
                 <a class="btn btn-primary btn-block" role="button" href="/view_list?list_id=<%= list.list_id %>">View</a>
               </div>
               <div class="col-12 col-md-4 col-lg-2 mb-2 px-1">
-                <button class="btn btn-primary btn-block" role="button" onclick="edit_list_details(<%= list.list_id %>)">Edit</button>
+                <button class="btn btn-primary btn-block" type="button" onclick="edit_list_details(<%= list.list_id %>)">Edit</button>
               </div>
               <div class="col-12 col-md-4 col-lg-2 mb-2 px-1">
-                <button class="btn btn-primary btn-block" role="button" data-listid="<%= list.list_id %>" onclick="delete_list(this)">Delete</button>
+                <button class="btn btn-primary btn-block" type="button" data-listid="<%= list.list_id %>" onclick="delete_list(this)">Delete</button>
               </div>
               <div class="col-12 col-md-4 col-lg-2 mb-2 px-1">
-                <button class="btn btn-primary btn-block" role="button" data-listid="<%= list.list_id %>" data-offset="<%= list.offset %>" onclick="toggle_list_visibility(this, '<%= visibility %>')">Make <%= visibility %></button>
+                <button class="btn btn-primary btn-block" type="button" data-listid="<%= list.list_id %>" data-offset="<%= list.offset %>" onclick="toggle_list_visibility(this, '<%= visibility %>')">Make <%= visibility %></button>
               </div>
               <% if list.default != true %>
                 <div class="col-12 col-md-4 col-lg-2 mb-2 px-1">
-                  <button class="btn btn-primary btn-block" role="button" data-listid="<%= list.list_id %>" onclick="set_list_default(this)">Make default</button>
+                  <button class="btn btn-primary btn-block" type="button" data-listid="<%= list.list_id %>" onclick="set_list_default(this)">Make default</button>
                 </div>
               <% end %>
             </div>

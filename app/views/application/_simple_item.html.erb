@@ -19,7 +19,7 @@
   <div class="col-6 col-md-3 my-auto">
     <% if i.electronic == false && i.holdable == true %>
       <div class="hold-button list-hold-button-<%= i.id %>">
-        <button class="btn btn-primary btn-block btn-sm btn-hold-<%= i.id %>" role="button" onclick="place_hold(this, <%= i.id %>,'', 'list_of_results')">Place Hold</button>
+        <button class="btn btn-primary btn-block btn-sm btn-hold-<%= i.id %>" type="button" onclick="place_hold(this, <%= i.id %>,'', 'list_of_results')">Place Hold</button>
       </div>
       <div id="list-change-pickup-<%= i.id %>">
       </div>

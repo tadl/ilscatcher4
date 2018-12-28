@@ -57,7 +57,7 @@
             <% end %>
             <% if i.electronic == false && i.holdable == true %>
               <div class="hold-button list-hold-button-<%= i.id %> col-12 col-md-4 mb-3 px-1">
-                <button class="btn btn-primary btn-block btn-hold-<%= i.id %>" role="button" onclick="place_hold(this, <%= i.id %>,'', 'list_of_results')">Place Hold</button>
+                <button class="btn btn-primary btn-block btn-hold-<%= i.id %>" type="button" onclick="place_hold(this, <%= i.id %>,'', 'list_of_results')">Place Hold</button>
               </div>
             <% elsif i.electronic == true %>
               <div class="view-resource-button col-12 col-md-4 mb-3 px-1">
@@ -156,9 +156,9 @@
                 <p class="card-text" id="note-<%= note['note_id'] %>-<%= i.list_item_id %>"><span id="note-content-<%= note['note_id'] %>-<%= i.list_item_id %>"><%= coder.decode(note['note']) %></span><% if @my_list == true %> <button class="btn btn-primary btn-sm btn-list-note-edit" data-listid="<%= @list.list_id %>" data-listitemid="<%= i.list_item_id %>" data-noteid="<%= note['note_id'] %>" onclick="edit_list_item_note(this)">Edit</button><% end %></p>
                 <div class="card-text w-100 edit-note mb-3" id="edit-note-<%= note['note_id'] %>-<%= i.list_item_id %>">
                   <textarea class="form-control mb-3 w-100" id="edit-note-content-<%= note['note_id'] %>-<%= i.list_item_id %>"></textarea>
-                  <button role="button" class="btn btn-success btn-list-note-edit-save mb-3" data-listitemid="<%= i.list_item_id %>" data-noteid="<%= note['note_id'] %>" data-listid="<%= @list.list_id %>" onclick="save_edit_list_item_note(this)">Save</button>
-                  <button role="button" class="btn btn-primary btn-list-note-delete-confirm mb-3" data-noteid="<%= note['note_id'] %>" data-listid="<%= @list.list_id %>" onclick="delete_list_item_note(this)">Delete</button>
-                  <button role="button" class="btn btn-danger btn-list-note-edit-cancel mb-3" data-listitemid="<%= i.list_item_id %>" data-noteid="<%= note['note_id'] %>" onclick="cancel_edit_list_item_note(this)">Cancel</button>
+                  <button type="button" class="btn btn-success btn-list-note-edit-save mb-3" data-listitemid="<%= i.list_item_id %>" data-noteid="<%= note['note_id'] %>" data-listid="<%= @list.list_id %>" onclick="save_edit_list_item_note(this)">Save</button>
+                  <button type="button" class="btn btn-primary btn-list-note-delete-confirm mb-3" data-noteid="<%= note['note_id'] %>" data-listid="<%= @list.list_id %>" onclick="delete_list_item_note(this)">Delete</button>
+                  <button type="button" class="btn btn-danger btn-list-note-edit-cancel mb-3" data-listitemid="<%= i.list_item_id %>" data-noteid="<%= note['note_id'] %>" onclick="cancel_edit_list_item_note(this)">Cancel</button>
                 </div>
               <% end %>
             <% end %>
@@ -167,11 +167,11 @@
                 <div class="new-note mb-3 w-100" id="new-note-<%= i.list_item_id %>">
                   <label for="new-note-content-<%= i.list_item_id %>" class="font-weight-bold">Add a new note to this item</label>
                   <textarea class="form-control mb-3 w-100" id="new-note-content-<%= i.list_item_id %>" rows="2"></textarea>
-                  <button role="button" class="btn btn-success btn-list-note-save" data-listitemid="<%= i.list_item_id %>" data-listid="<%= @list.list_id %>" onclick="save_new_list_item_note(this)">Save</button>
-                  <button role="button" class="btn btn-danger btn-list-note-cancel" data-listitemid="<%= i.list_item_id %>" onclick="cancel_new_list_item_note(this)">Cancel</button>
+                  <button type="button" class="btn btn-success btn-list-note-save" data-listitemid="<%= i.list_item_id %>" data-listid="<%= @list.list_id %>" onclick="save_new_list_item_note(this)">Save</button>
+                  <button type="button" class="btn btn-danger btn-list-note-cancel" data-listitemid="<%= i.list_item_id %>" onclick="cancel_new_list_item_note(this)">Cancel</button>
                 </div>
-                <div class="col mb-3"><button role="button" class="btn btn-primary btn-block btn-list-note" data-listitemid="<%= i.list_item_id %>" onclick="new_list_item_note(this)">Add note to item</button></div>
-                <div class="col mb-3"><button role="button" class="btn btn-primary btn-block btn-remove-item" data-listitemid="<%= i.list_item_id %>" data-listid="<%= @list.list_id %>" onclick="remove_item_from_list(this)">Remove from list</button></div>
+                <div class="col mb-3"><button type="button" class="btn btn-primary btn-block btn-list-note" data-listitemid="<%= i.list_item_id %>" onclick="new_list_item_note(this)">Add note to item</button></div>
+                <div class="col mb-3"><button type="button" class="btn btn-primary btn-block btn-remove-item" data-listitemid="<%= i.list_item_id %>" data-listid="<%= @list.list_id %>" onclick="remove_item_from_list(this)">Remove from list</button></div>
               </div>
             <% end %>
           <% end %>
