@@ -396,6 +396,9 @@ class Scraper
       end
       if items.size > 0
         list.items = list_items_to_full_items(items)
+        if page.parser.css('.search_page_nav_link:contains("Next")').present?
+          list.more_results = "true"
+        end
       else
         list.items = []
         list.title = page.parser.css('.lowhits-bookbag-name').text.strip rescue nil
