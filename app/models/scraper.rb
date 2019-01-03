@@ -626,10 +626,10 @@ class Scraper
       matching_item = items.select{|i| i.id.to_s == c[:record_id]}
       checkout = Checkout.new
       copy_instance_variables(matching_item[0], checkout)
-      checkout.checkout_date = c['checkout_date']
-      checkout.due_date = c['due_date']
-      checkout.return_date = c['return_date']
-      checkout.barcode = c['barcode']
+      checkout.checkout_date = c[:checkout_date]
+      checkout.due_date = c[:due_date]
+      checkout.return_date = c[:return_date]
+      checkout.barcode = c[:barcode]
       if !checkout.id.nil?
         checkouts.push(checkout)
       end
