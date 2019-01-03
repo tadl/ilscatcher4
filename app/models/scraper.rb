@@ -399,7 +399,6 @@ class Scraper
     end
   end
 
-  # TODO: test if passing force works as expected. need sample record
   def item_place_hold(token, force, id)
     params = id.split(',').reject(&:empty?).map(&:strip).map {|k| "&hold_target=#{k}" }.join
     url = Settings.machine_readable + 'eg/opac/place_hold?hold_type=T' + params
@@ -412,6 +411,11 @@ class Scraper
       hold_form = agent.page.forms[1]
       agent.submit(hold_form)
       page = agent.page
+      if force == 'true'
+        force_hold_form = page.forms[1]
+        agent.submit(force_hold_form)
+        page = agent.page
+      end
       hold = Hold.new
       page.parser.css('//table#hold-items-list//tr').each do |h|
         hold.id = h.at_css("td[1]//input").try(:attr, "value")
@@ -423,7 +427,12 @@ class Scraper
         elsif hold.confirmation =~ /The patron has reached the maximum number of holds/
           hold.error = 'You have reached the maximum number of allowable holds'
         end
-        if hold.confirmation == "Placing this hold could result in longer wait times." || hold.confirmation =~ /checked out to the requestor/
+        if hold.confirmation == "Placing this hold could result in longer wait times." 
+          hold.error = 'Placing this hold could result in longer wait times.'
+          hold.need_to_force = true
+        end
+        if hold.confirmation =~ /checked out to the requestor/
+          hold.error = 'You already have this item checked out.'
           hold.need_to_force = true
         end
       else

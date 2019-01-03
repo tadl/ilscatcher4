@@ -158,7 +158,7 @@ function request_password_reset(){
 }
 
 function place_hold(element, id, force, from_action) {
-  var force_hold = (typeof force !== 'undefined') ? 'false' : 'true';
+  var force_hold = (typeof force !== 'undefined') ? force : 'false';
   var token = Cookies.get('login')
   if (token == null) {
     login_and_place_hold(id, from_action)

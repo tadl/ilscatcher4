@@ -11,8 +11,11 @@
     message += '<%= escape_javascript(location_map(@user.pickup_library, "long")) %></div>'
     message += ' <button class="btn btn-primary btn-sm change_pickup_button" data-record_id="<%= escape_javascript(@hold.id.to_s) %>" data-from_action="<%= escape_javascript(params[:from_action]) %>" onclick="show_change_pickup(this)">Change pickup location</button>'
   <% else %>
-    var message = '<div class="text-danger">Hold was not successfully placed. '
-    message += '<%= escape_javascript(@hold.error) %></div>'
+    var message = '<div class="text-danger">Hold was not successfully placed:'
+    message += '<br><%= escape_javascript(@hold.error) %></div>'
+    <% if @hold.need_to_force == true %>
+      message += '<button class="btn btn-primary btn-sm" onclick="place_hold(this, <%= escape_javascript(@hold.id.to_s) %>, \'true\', \'<%= escape_javascript(params[:from_action]) %>\')">Force Hold</button>'
+    <% end %>
   <% end %>
   $(target_div).html(message);
 <% end %>

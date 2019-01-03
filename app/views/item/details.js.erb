@@ -1,5 +1,5 @@
 $.fancybox.close();
-$.fancybox.open('<div class="w-100 h-100" style="max-width: 1200px;"><%= escape_javascript(render 'details', i: @item) %></div>');
+$.fancybox.open('<div class="detail_fancybox" style="max-width: 1200px;"><%= escape_javascript(render 'details', i: @item) %></div>');
 var current_id = <%= @item.id %>;
 
 <% if params[:from] == "slider" %>
