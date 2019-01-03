@@ -381,6 +381,7 @@ class Scraper
       return 'error'
     else
       list = List.new
+      list.sort = sort
       list.title = page.parser.css('.result-bookbag-name').text rescue nil
       list.description = page.parser.css('.result-bookbag-description').text rescue nil
       list.list_id = list_id
