@@ -363,13 +363,13 @@ class Scraper
     end
   end
 
-  def user_view_list(token, list_id, page, sort = 'container_date.descending')
+  def user_view_list(token, list_id, page_number, sort = 'container_date.descending')
     url = Settings.machine_readable + 'eg/opac/results?contains=nocontains&query='
     #weird screen scraping requirement
     url += SecureRandom.hex(13)
     url += '&qtype=keyword&bookbag='+ list_id
     url += '&sort='+ sort
-    url += '&limit=10&page=' + page.to_s
+    url += '&limit=10&page=' + page_number.to_s
     url +=  '&loc=' + Settings.location_default
     page = scrape_request(url, token)[0]
     if test_for_logged_in(page) == false
@@ -379,6 +379,7 @@ class Scraper
       list.title = page.parser.css('.result-bookbag-name').text rescue nil
       list.description = page.parser.css('.result-bookbag-description').text rescue nil
       list.list_id = list_id
+      list.page = page_number
       items = []
       page.parser.css('.result_table_row').each do |l|
         item_hash = Hash.new
