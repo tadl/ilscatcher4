@@ -698,23 +698,15 @@ class Scraper
     child_class.instance_variable_set(v, parent_class.instance_variable_get(v)) }
   end
 
-  def list_hash_to_list(list_hash)
-    list = List.new
-    list.title = list_hash['name']
-    list.list_id = list_hash['id']
-    list.description = list_hash['description']
-    list.more_results = list_hash['more_results']
-    list.page = list_hash['page']
-    list.no_items = false
-    return list
-  end 
 
   def list_items_to_full_items(list_item_hash)
     query = ''
+    sort_array = []
     list_item_hash.each do |l|
       query += l['record_id'] + ','
+      sort_array.push(l['record_id'])
     end
-    search = Search.new({:query => query, :type => 'record_id', :size => 9000})
+    search = Search.new({:query => query, :type => 'record_id', :sort => 'list', :size => 9000})
     search.get_results
     list_items = search.results
     items = []
@@ -726,7 +718,8 @@ class Scraper
       list_item.list_item_id = matching_item[0]['list_item_id']
       items.push(list_item)
     end
-    return items
+    #sort the items in the order they are requested
+    return items.sort{ |a,b| sort_array.index(a.id.to_s) <=> sort_array.index(b.id.to_s) }   
   end
 
   def scrape_checkout_page(page)
