@@ -28,10 +28,10 @@ class ListController < ApplicationController
         @user = nil
       end
       if @user
-        @list = @user.TEMP_view_list(@user.token, params[:list_id], page)
+        @list = @user.TEMP_view_list(@user.token, params[:list_id], page, params[:sort])
       else
         @user = User.new
-        @list = @user.TEMP_view_list(nil, params[:list_id], page)
+        @list = @user.TEMP_view_list(nil, params[:list_id], page, params[:sort])
       end
       if cookies[:lists]
         @mylists = JSON.parse(cookies[:lists])

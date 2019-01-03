@@ -363,7 +363,12 @@ class Scraper
     end
   end
 
-  def user_view_list(token, list_id, page_number, sort = 'container_date.descending')
+  #options for sort: newest_to_list = "container_data.descending", oldest_to_list = "containter_date"
+  #otehr sort options titlesort, titlesort.descending, authorsort, authorsort.descending, pubdate, pubdate.descending 
+  def user_view_list(token, list_id, page_number, sort)
+    if sort.nil?
+      sort = 'container_date.descending'
+    end
     url = Settings.machine_readable + 'eg/opac/results?contains=nocontains&query='
     #weird screen scraping requirement
     url += SecureRandom.hex(13)
