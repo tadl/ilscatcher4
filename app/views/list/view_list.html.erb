@@ -26,7 +26,7 @@
     <div class="<%= content_classes %>">
       <div id="items">
         <% if @list.no_items != true %>
-          <% @items.each do |i| %>
+          <% @list.items.each do |i| %>
             <%= render "list_item", i: i %>
           <% end %>
         <% else %>

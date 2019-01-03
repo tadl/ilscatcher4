@@ -1,7 +1,7 @@
 class List
   include ActiveModel::Model
   attr_accessor :title, :list_id, :description, :default, :shared, :offset, :no_items, :empty, 
-                :error, :more_results, :page
+                :error, :more_results, :page, :items, :not_accessible
 
   def create(token, params)
     scraper = Scraper.new

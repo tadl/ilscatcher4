@@ -363,29 +363,49 @@ class Scraper
     end
   end
 
-  def user_view_list(token, list_id, page)
-    params = '?list_id=' + list_id
-    params += '&page=' + page.to_s
-    if token
-      params += '&token=' + token
-    end
-    list_hash = json_request('view_list', params)
-    if list_hash['list']['no_items'] == '' && list_hash['list']['name'] != ''
-      list_hash['items'] = list_items_to_full_items(list_hash['list']['items'])
-      list_hash['list'] = list_hash_to_list(list_hash['list'])
-      return list_hash
-    elsif list_hash['list']['no_items'] != '' && list_hash['list']['name'] == ''
-      list_hash['list']['name'] = list_hash['list']['no_items']
-      list_hash['list'] = list_hash_to_list(list_hash['list'])
-      list_hash['list'].no_items = true
-      return list_hash
-    elsif list_hash['list']['no_items'] == '' && list_hash['list']['name'] == ''
-      list_hash['list'] = list_hash_to_list(list_hash['list'])
-      list_hash['list'].no_items = true
-      list_hash['list'].error = 'List does not exist or is not public'
-      return list_hash
-    else
+  def user_view_list(token, list_id, page, sort = 'container_date.descending')
+    url = Settings.machine_readable + 'eg/opac/results?contains=nocontains&query='
+    #weird screen scraping requirement
+    url += SecureRandom.hex(13)
+    url += '&qtype=keyword&bookbag='+ list_id
+    url += '&sort='+ sort
+    url += '&limit=10&page=' + page.to_s
+    url +=  '&loc=' + Settings.location_default
+    page = scrape_request(url, token)[0]
+    if test_for_logged_in(page) == false
       return 'error'
+    else
+      list = List.new
+      list.title = page.parser.css('.result-bookbag-name').text rescue nil
+      list.description = page.parser.css('.result-bookbag-description').text rescue nil
+      list.list_id = list_id
+      items = []
+      page.parser.css('.result_table_row').each do |l|
+        item_hash = Hash.new
+        item_hash['record_id'] = l.css('.search_link').attr('name').to_s.gsub('record_','') 
+        item_hash['list_item_id'] = l.css('.result-bookbag-item-id').text.strip rescue nil
+        notes = Array.new
+        l.css('.result-bookbag-item-note-id').each do |n|
+          note = Hash.new
+          note ['note_id'] = n.text.strip rescue nil
+          note['note'] = n.next.next.text.strip rescue nil
+          notes = notes.push(note)
+        end
+        item_hash['notes'] = notes
+        items.push(item_hash)
+      end
+      if items.size > 0
+        list.items = list_items_to_full_items(items)
+      else
+        list.items = []
+        list.title = page.parser.css('.lowhits-bookbag-name').text.strip rescue nil
+        list.no_items =  true
+        if list.title == ''
+          list.not_accessible = true
+          list.error = true
+        end
+      end
+      return list
     end
   end
 

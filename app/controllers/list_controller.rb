@@ -21,17 +21,18 @@ class ListController < ApplicationController
       else
         page = 0
       end
-
+      if params[:token] || cookies[:login]
+        @user = User.new
+        @user.token = params[:token] || cookies[:login]
+      else
+        @user = nil
+      end
       if @user
-        list_hash = @user.TEMP_view_list(@user.token, params[:list_id], page)
+        @list = @user.TEMP_view_list(@user.token, params[:list_id], page)
       else
         @user = User.new
-        list_hash = @user.TEMP_view_list(nil, params[:list_id], page)
+        @list = @user.TEMP_view_list(nil, params[:list_id], page)
       end
-
-      @list = list_hash['list']
-      @items = list_hash['items']
-
       if cookies[:lists]
         @mylists = JSON.parse(cookies[:lists])
         @mylists.each do |l|
@@ -43,11 +44,10 @@ class ListController < ApplicationController
 
     else
       @list = {:error => 'missing parameters'}
-      @items = {:error => 'missing parameters'}
     end
     respond_to do |format|
       format.html
-      format.json {render :json =>{ list: @list, items: @items}}
+      format.json {render :json =>{ list: @list}}
       format.js
     end
   end

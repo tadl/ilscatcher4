@@ -1,4 +1,4 @@
-<% @items.each do |i| %>
+<% @list.items.each do |i| %>
   $("#items").append('<%= escape_javascript(render "list_item", i: i) %>')
 <% end %>
 <% if @list.more_results.to_s == "true" %>
