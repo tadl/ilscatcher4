@@ -67,16 +67,32 @@ class Scraper
     end 
   end
 
-
   def user_checkout_history(token, page)
-    params = '?token=' + token + '&page=' + page.to_s
-    checkout_hash = json_request('checkout_history', params)
-    if !checkout_hash['user']['error']
-      checkout_hash['checkouts'] = scraped_historical_checkouts_to_full_checkouts(checkout_hash['checkouts']) 
-      return checkout_hash
+    url = Settings.machine_readable + 'eg/opac/myopac/circ_history?limit=30;offset='
+    url += (page.to_i * 30).to_s
+    page = scrape_request(url, token)[0]
+    if test_for_logged_in(page) == false
+      return {error: 'not logged in'}
     else
-      return 'error'
-    end
+      checkouts_hash = {}
+      raw_checkouts = []
+      page.parser.css('#acct_checked_main_header').css('tr').drop(1).each do |l|
+        checkout = Hash.new
+        checkout[:record_id] = l.at_css('td[1]/a[1]').try(:attr,'href').split('?')[0].gsub('/eg/opac/record/','') rescue nil
+        checkout[:checkout_date] = l.css('td[2]').try(:text).try(:strip)
+        checkout[:due_date] = l.css('td[3]').try(:text).try(:strip)
+        checkout[:return_date] = l.css('td[4]').try(:text).try(:strip)
+        checkout[:barcode] = l.css('td[5]').try(:text).try(:strip)
+        raw_checkouts.push(checkout)
+      end
+      checkouts_hash['checkouts'] = scraped_historical_checkouts_to_full_checkouts(raw_checkouts)
+      if page.parser.css('.invisible:contains("Next")').present?
+        checkouts_hash['more_results'] = "false"
+      else
+        checkouts_hash['more_results'] = "true"
+      end
+      return checkouts_hash      
+    end 
   end
 
   def user_get_holds(token)
@@ -385,24 +401,6 @@ class Scraper
 
   # TODO: test if passing force works as expected. need sample record
   def item_place_hold(token, force, id)
-    params = '?token=' + token + '&record_id=' + id
-    if force == 'true'
-      params += '&force=true'
-    end
-    hold_confirmation = json_request('place_hold', params)
-    hold = Hold.new
-    hold.id = id
-    if hold_confirmation['hold_confirmation'][0]['error'] == true
-      hold.error = hold_confirmation['hold_confirmation'][0]['message'].split('placed')[1]
-    elsif hold_confirmation == 'error'
-      hold.error = 'Server Error. Please try again later'
-    else
-      hold.confirmation = hold_confirmation['hold_confirmation'][0]['message']
-    end
-    return hold
-  end
-
-  def item_place_hold_2(token, force, id)
     params = id.split(',').reject(&:empty?).map(&:strip).map {|k| "&hold_target=#{k}" }.join
     url = Settings.machine_readable + 'eg/opac/place_hold?hold_type=T' + params
     intial_request = scrape_request(url, token)
@@ -618,14 +616,14 @@ class Scraper
   def scraped_historical_checkouts_to_full_checkouts(checkouts_hash)
     query = ''
     checkouts_hash.each do |c|
-      query += c['record_id'] + ','
+      query += c[:record_id].to_s + ','
     end
     search = Search.new({:query => query, :type => 'record_id', :size => 500})
     search.get_results
     items = search.results
     checkouts = []
     checkouts_hash.each do |c|
-      matching_item = items.select{|i| i.id.to_s == c['record_id']}
+      matching_item = items.select{|i| i.id.to_s == c[:record_id]}
       checkout = Checkout.new
       copy_instance_variables(matching_item[0], checkout)
       checkout.checkout_date = c['checkout_date']
@@ -782,6 +780,5 @@ class Scraper
         return false
     end
   end
-
 
 end
