@@ -2,7 +2,7 @@
   <form id="search_form" action="/search">
     <div class="row">
       <div class="col">
-        <div class="form-group">
+        <div class="form-group mb-2">
           <div class="input-group input-group-lg">
             <div class="input-group-prepend">
               <span class="input-group-text" id="search-addon">Search</span>
@@ -14,6 +14,22 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="row mt-0 p-1 mb-2">
+      <% if @search.facets.size > 0 %>
+        <% @search.facets.each do |facet| %>
+          <% if facet['subfacets'].size > 0 %>
+            <% facet['subfacets'].each do |s| %>
+              <% if active_facet_tester(@search, [facet['type_raw'], s]) == true %>
+                <a href="<%= search_link_builder('remove_facet', @search, [facet['type_raw'], s]) %>" class="btn btn-sm btn-primary mx-1 mt-0 mb-1" type="button">
+                  <%= facet['type'].chomp('s') %>:<%= s %>
+                  <span class="badge badge-light text-danger badge-pill"> X </span>
+                </a>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
     </div>
     <button class="btn btn-primary btn-block text-left mb-3 d-block d-md-none" type="button" data-toggle="collapse" data-target="#search-opts" aria-expanded="true" aria-controls="search-addon" title="Search Options">Toggle Search Options <i class="fa float-right"></i></button>
     <div class="row toggles show" id="search-opts">
