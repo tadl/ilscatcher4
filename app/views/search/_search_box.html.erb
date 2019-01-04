@@ -16,15 +16,17 @@
       </div>
     </div>
     <div class="row mt-0 p-1 mb-2">
-      <% if @search.facets.size > 0 %>
-        <% @search.facets.each do |facet| %>
-          <% if facet['subfacets'].size > 0 %>
-            <% facet['subfacets'].each do |s| %>
-              <% if active_facet_tester(@search, [facet['type_raw'], s]) == true %>
-                <a href="<%= search_link_builder('remove_facet', @search, [facet['type_raw'], s]) %>" class="btn btn-sm btn-primary mx-1 mt-0 mb-1" type="button">
-                  <%= facet['type'].chomp('s') %>:<%= s %>
-                  <span class="badge badge-light text-danger badge-pill"> X </span>
-                </a>
+      <% if defined?(@search.facets) && @search.facets.present? %>
+        <% if @search.facets.size > 0 %>
+          <% @search.facets.each do |facet| %>
+            <% if facet['subfacets'].size > 0 %>
+              <% facet['subfacets'].each do |s| %>
+                <% if active_facet_tester(@search, [facet['type_raw'], s]) == true %>
+                  <a href="<%= search_link_builder('remove_facet', @search, [facet['type_raw'], s]) %>" class="btn btn-sm btn-primary mx-1 mt-0 mb-1" type="button">
+                    <%= facet['type'].chomp('s') %>:<%= s %>
+                    <span class="badge badge-light text-danger badge-pill"> X </span>
+                  </a>
+                <% end %>
               <% end %>
             <% end %>
           <% end %>
