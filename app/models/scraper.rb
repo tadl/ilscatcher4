@@ -548,69 +548,64 @@ class Scraper
   end
 
   def list_add_note(token, values)
-    params = '?token=' + token
-    params += '&list_id=' + values[:list_id]
-    params += '&list_item_id=' + values[:list_item_id]
-    params += '&note=' + values[:note]
-    add_note_confirmation = json_request('add_note_to_list', params)
-    if add_note_confirmation['message'] && add_note_confirmation['message'] == 'success'
-      return add_note_confirmation['message']
-    else
+    url = Settings.machine_readable + 'eg/opac/myopac/list/update?bbid=' + values[:list_id] + '&edit_notes=' + values[:list_id]
+    values.transform_values! {|v|  CGI.unescape(v)}
+    values[:list] = values[:list_id]
+    list_item_key = 'item-' + values[:list_item_id]
+    values[list_item_key] = values[:note]
+    values[:save_notes] = 'Save Notes'
+    page = scrape_request(url, token, values)[0] rescue 'error'
+    if test_for_logged_in(page) == 'error'
       return 'error'
+    else
+      return 'success'
     end
   end
 
   def list_edit_note(token, values)
-    params = '?token=' + token
-    params += '&list_id=' + values[:list_id]
-    params += '&note_id=' + values[:note_id]
-    if values[:note]
-      params += '&note=' + values[:note]
-    end
-    edit_note_confirmation = json_request('edit_note', params)
-    if edit_note_confirmation['message'] && edit_note_confirmation['message'] == 'success'
-      return edit_note_confirmation['message']
-    else
+    url = Settings.machine_readable + 'eg/opac/myopac/list/update?bbid=' + values[:list_id] + '&edit_notes=' + values[:list_id]
+    values.transform_values! {|v|  CGI.unescape(v)}
+    values[:list] = values[:list_id]
+    note_key = 'note-' + values[:note_id]
+    values[note_key] = values[:note]
+    values[:save_notes] = 'Save Notes'
+    page = scrape_request(url, token, values)[0] rescue 'error'
+    if test_for_logged_in(page) == 'error'
       return 'error'
+    else
+      return 'success'
     end
   end
 
-  def list_add_item(token,values)
-    params = '?token=' + token
-    params += '&record_id=' + values[:record_id]
-    params += '&list_id=' + values[:list_id]
-    add_confirmation = json_request('add_item_to_list', params)
-    if add_confirmation['message'] && add_confirmation['message'] == 'success'
-      return add_confirmation['message']
-    else
+  def list_add_item(token, values)
+    url = Settings.machine_readable + 'eg/opac/myopac/list/update?&record=' + values[:record_id]
+    url += '&action=add_rec&list=' + values[:list_id]
+    page = scrape_request(url, token)[0] rescue 'error'
+    if test_for_logged_in(page) == 'error'
       return 'error'
+    else
+      return 'success'
     end
   end
 
   def list_remove_item(token, values)
-    params = '?token=' + token
-    params += '&list_item_id=' + values[:list_item_id]
-    params += '&list_id=' + values[:list_id]
-    remove_confirmation = json_request('remove_item_from_list', params)
+    url = Settings.machine_readable + 'eg/opac/myopac/list/update?bookbag=' + values[:list_id]
+    url +=  '&action=del_item&list=' + values[:list_id]
+    url += '&selected_item=' + values[:list_item_id]
+    page = scrape_request(url, token)[0] rescue 'error'
+    if test_for_logged_in(page) == 'error'
+      return 'error'
+    else
+      return 'success'
+    end
     if remove_confirmation['message'] && remove_confirmation['message'] == 'success'
       return remove_confirmation['message']
     else
       return 'error'
     end
   end
-
   
   private
-
-  def json_request(path = '', params = '')
-    uri = URI.parse(BASE_URL + path + '.json' + params)
-    response = Net::HTTP.get_response(uri)
-    if response.code == '200'
-      return JSON.parse(response.body)
-    else
-      return 'error'
-    end
-  end
 
   def scrape_request(url = '', token = '', params = '')
     agent = Mechanize.new
