@@ -9,11 +9,11 @@
       <div class="card-body">
         <div class="form-group">
           <label for="new-list-title">Name</label>
-          <input type="text" class="form-control" id="new-list-title" placeholder="A list needs a name">
+          <input type="text" class="form-control" id="new-list-title" placeholder="A list needs a name" maxlength="128">
         </div>
         <div class="form-group">
           <label for="new-list-description">Description</label>
-          <textarea class="form-control" id="new-list-description" rows="2"></textarea>
+          <textarea class="form-control" id="new-list-description" rows="2" maxlength="5550"></textarea>
         </div>
         <div class="form-check mb-3">
           <input class="form-check-input" type="checkbox" value="" id="new-list-shared">
@@ -32,11 +32,11 @@
         <div class="card-body">
           <div class="form-group">
             <label for="list-<%= list.list_id %>-title">Name</label>
-            <input type="text" class="form-control" id="list-<%= list.list_id %>-title" value="<%= list.title %>">
+            <input type="text" class="form-control" id="list-<%= list.list_id %>-title" value="<%= list.title %>" maxlength="128">
           </div>
           <div class="form-group">
             <label for="list-<%= list.list_id %>-description">Description</label>
-            <textarea class="form-control" id="list-<%= list.list_id %>-description" rows="2"><%= list.description %></textarea>
+            <textarea class="form-control" id="list-<%= list.list_id %>-description" rows="2" maxlength="5550"><%= list.description %></textarea>
           </div>
           <div class="w-100 alert alert-danger list-error" id="list-error-<%= list.list_id %>" role="alert" style="display: none;"></div>
           <button class="btn btn-success" id="save-list-<%= list.list_id %>" type="button" onclick="save_list_details(<%= list.list_id %>, <%= list.offset %>)">Save</button>
