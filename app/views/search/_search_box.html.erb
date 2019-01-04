@@ -15,14 +15,14 @@
         </div>
       </div>
     </div>
-    <div class="row mt-0 p-1 mb-2">
-      <% if defined?(@search.facets) && @search.facets.present? %>
-        <% if @search.facets.size > 0 %>
+    <% if defined?(@search.facets) && @search.facets.present? %>
+      <% if @search.facets.size > 0 %>
+        <div class="row mt-0 p-0 mb-0">
           <% @search.facets.each do |facet| %>
             <% if facet['subfacets'].size > 0 %>
               <% facet['subfacets'].each do |s| %>
                 <% if active_facet_tester(@search, [facet['type_raw'], s]) == true %>
-                  <a href="<%= search_link_builder('remove_facet', @search, [facet['type_raw'], s]) %>" class="btn btn-sm btn-primary mx-1 mt-0 mb-1" type="button">
+                  <a href="<%= search_link_builder('remove_facet', @search, [facet['type_raw'], s]) %>" class="btn btn-sm btn-primary mx-1 mt-0 mb-2 p-1" type="button">
                     <%= facet['type_singular'] %>:<%= s %>
                     <span class="badge badge-light text-danger badge-pill"> X </span>
                   </a>
@@ -30,9 +30,9 @@
               <% end %>
             <% end %>
           <% end %>
-        <% end %>
+        </div>
       <% end %>
-    </div>
+    <% end %>
     <button class="btn btn-primary btn-block text-left mb-3 d-block d-md-none" type="button" data-toggle="collapse" data-target="#search-opts" aria-expanded="true" aria-controls="search-addon" title="Search Options">Toggle Search Options <i class="fa float-right"></i></button>
     <div class="row toggles show" id="search-opts">
       <div class="col-12 col-md-6 col-lg-3 order-md-1">
