@@ -3,7 +3,7 @@ cover_url_prefix_md: "https://catalog.tadl.org/opac/extras/ac/jacket/medium/r/"
 cover_url_prefix_sm: "https://catalog.tadl.org/opac/extras/ac/jacket/small/r/"
 evergreen_server: 'mr-v2.catalog.tadl.org'
 logo_icon: "tadl-icon.png"
-location_options: [['Traverse City', '23', 'TADL-WOOD'], ['All Locations', '22', 'TADL-ALL'], ['Interlochen', '24', 'TADL-IPL'], ['Kingsley', '25', 'TADL-KBL'], ['Peninsula', '26', 'TADL-PCL'], ['East Bay', '28', 'TADL-EBB'], ['Fife Lake', '27', 'TADL-FLPL']]
+location_options: [['All Locations', '22', 'TADL-ALL'], ['Traverse City', '23', 'TADL-WOOD'], ['Interlochen', '24', 'TADL-IPL'], ['Kingsley', '25', 'TADL-KBL'], ['Peninsula', '26', 'TADL-PCL'], ['East Bay', '28', 'TADL-EBB'], ['Fife Lake', '27', 'TADL-FLPL']]
 location_options_minus_all: [['Traverse City', '23', 'TADL-WOOD'], ['Interlochen', '24', 'TADL-IPL'], ['Kingsley', '25', 'TADL-KBL'], ['Peninsula', '26', 'TADL-PCL'], ['East Bay', '28', 'TADL-EBB'], ['Fife Lake', '27', 'TADL-FLPL']]
 view_default: 'list'
 location_default: '22'

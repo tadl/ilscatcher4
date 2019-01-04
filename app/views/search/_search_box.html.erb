@@ -65,6 +65,10 @@
             <div class="input-group-prepend" style="width: 100%">
               <span class="input-group-text">Location</span>
               <select class="form-control form-control-sm<%= (params[:new_search].to_s != 'true') ? ' autoload' : '' %>" id="locations" name="location">
+                <% if params[:new_search] == 'true' && Settings.opac !=  true && cookies[:user].present? %>
+                  <% @userdetails = JSON.parse(cookies[:user]) %>
+                  <% @search.location = @userdetails['default_search'] %>
+                <% end %>
                 <% @search.location_options.each do |s| %>
                   <option value="<%= s[1] %>"  <%= check_selected(@search.location, s[1]) %>>
                     <%= s[0] %>

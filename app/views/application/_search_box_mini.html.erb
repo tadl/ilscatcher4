@@ -10,7 +10,12 @@
           <input type="hidden" name="type" value="keyword" />
           <input type="hidden" name="fmt" value="all" />
           <input type="hidden" name="sort" value="relevance" />
-          <input type="hidden" name="location" value="22" />
+          <% if Settings.opac !=  true && cookies[:user].present? %>
+            <% @userdetails = JSON.parse(cookies[:user]) %>
+            <input type="hidden" name="location" value="<%= @userdetails['default_search'] %>" />
+          <% else %>
+            <input type="hidden" name="location" value="<%= Settings.locaiton_default %>" />
+          <% end %>
           <input type="hidden" name="limit_available" value="false" />
           <input type="hidden" name="limit_physical" value="false" />
           <div class="input-group-append">
