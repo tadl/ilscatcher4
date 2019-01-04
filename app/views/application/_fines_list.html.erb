@@ -14,12 +14,12 @@
     <tbody>
       <% fines.each do |fine| %>
         <tr>
-          <td><%= fine['title'] %></td>
-          <td><%= fine['author'] %></td>
-          <td><%= fine['checkout_date'] %></td>
-          <td><%= fine['due_date'] %></td>
-          <td><%= fine['return_date'] %></td>
-          <td><%= fine['balance_owed'] %></td>
+          <td><%= fine[:title] %></td>
+          <td><%= fine[:author] %></td>
+          <td><%= fine[:checkout_date] %></td>
+          <td><%= fine[:due_date] %></td>
+          <td><%= fine[:return_date] %></td>
+          <td><%= fine[:balance_owed] %></td>
         </tr>
       <% end %>
     </tbody>

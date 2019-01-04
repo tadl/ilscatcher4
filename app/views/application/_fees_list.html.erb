@@ -14,12 +14,12 @@
     <tbody>
       <% fees.each do |fee| %>
         <tr>
-          <td><%= fee['transaction_start_date'] %></td>
-          <td><%= fee['last_pmt_date'] %></td>
-          <td><%= fee['initial_amt_owed'] %></td>
-          <td><%= fee['total_amt_paid'] %></td>
-          <td><%= fee['balance_owed'] %></td>
-          <td><%= fee['billing_type'] %></td>
+          <td><%= fee[:transaction_start_date] %></td>
+          <td><%= fee[:last_pmt_date] %></td>
+          <td><%= fee[:initial_amt_owed] %></td>
+          <td><%= fee[:total_amt_paid] %></td>
+          <td><%= fee[:balance_owed] %></td>
+          <td><%= fee[:billing_type] %></td>
         </tr>
       <% end %>
     </tbody>
