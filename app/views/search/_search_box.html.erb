@@ -23,7 +23,7 @@
               <% facet['subfacets'].each do |s| %>
                 <% if active_facet_tester(@search, [facet['type_raw'], s]) == true %>
                   <a href="<%= search_link_builder('remove_facet', @search, [facet['type_raw'], s]) %>" class="btn btn-sm btn-primary mx-1 mt-0 mb-1" type="button">
-                    <%= facet['type'] %>:<%= s %>
+                    <%= facet['type_singular'] %>:<%= s %>
                     <span class="badge badge-light text-danger badge-pill"> X </span>
                   </a>
                 <% end %>
