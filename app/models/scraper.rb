@@ -487,7 +487,6 @@ class Scraper
   def list_create(token, values)
     url = Settings.machine_readable + 'eg/opac/myopac/list/update'
     values.transform_values! {|v|  CGI.unescape(v)}
-    puts values.to_s
     values[:action] = 'create'
     page = scrape_request(url, token, values)[0] rescue 'error'
     if test_for_logged_in(page) == 'error'
@@ -497,53 +496,54 @@ class Scraper
     end
   end
 
-
   def list_edit(token, values)
-    params = '?token=' + token
-    params += '&list_id=' + values[:list_id]
-    params += '&name=' + values[:name]
-    params += '&description=' + values[:description]
-    params += '&offset=' + values[:offset]
-    edit_confirmation = json_request('edit_list', params)
-    if edit_confirmation['message'] && edit_confirmation['message'] == 'success'
-      return edit_confirmation['message']
-    else
+    url = Settings.machine_readable + 'eg/opac/myopac/lists'
+    values.transform_values! {|v|  CGI.unescape(v)}
+    values[:bbid] = values[:list_id]
+    values[:action] = 'editmeta'
+    page = scrape_request(url, token, values)[0] rescue 'error'
+    if test_for_logged_in(page) == 'error'
       return 'error'
+    else
+      return 'success'
     end
   end
 
   def list_share(token, values)
-    params = '?token=' + token
-    params += '&list_id=' + values[:list_id]
-    params += '&share=' + values[:share]
-    params += '&offset=' + values[:offset]
-    share_confirmation = json_request('share_list', params)
-    if share_confirmation['message'] && share_confirmation['message'] == 'success'
-      return share_confirmation['message']
-    else
+    url = Settings.machine_readable + 'eg/opac/myopac/list/update'
+    values[:list] = values[:list_id]
+    values[:action] = values[:share]
+    page = scrape_request(url, token, values)[0] rescue 'error'
+    if test_for_logged_in(page) == 'error'
       return 'error'
+    else
+      return 'success'
     end
   end
 
   def list_make_default(token, list_id)
-    params = '?token=' + token
-    params += '&list_id=' + list_id
-    make_default_confirmation = json_request('make_default_list', params)
-    if make_default_confirmation['message'] && make_default_confirmation['message'] == 'success'
-      return make_default_confirmation['message']
-    else
+    url = Settings.machine_readable + 'eg/opac/myopac/list/update'
+    values = {}
+    values[:list] = list_id
+    values[:action] = 'make_default'
+    page = scrape_request(url, token, values)[0] rescue 'error'
+    if test_for_logged_in(page) == 'error'
       return 'error'
+    else
+      return 'success'
     end
   end
 
   def list_destroy(token, list_id)
-    params = '?token=' + token
-    params += '&list_id=' + list_id
-    destroy_confirmation = json_request('destroy_list', params)
-    if destroy_confirmation['message'] && destroy_confirmation['message'] == 'success'
-      return destroy_confirmation['message']
-    else
+    url = Settings.machine_readable + 'eg/opac/myopac/list/update?bbid=' + list_id
+    values = {}
+    values[:list] = list_id
+    values[:action] = 'delete'
+    page = scrape_request(url, token, values)[0] rescue 'error'
+    if test_for_logged_in(page) == 'error'
       return 'error'
+    else
+      return 'success'
     end
   end
 
