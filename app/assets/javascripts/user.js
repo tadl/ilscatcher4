@@ -116,7 +116,7 @@ function save_preferences(element) {
   }
 
   if ((Object.keys(parameters).length > 0) && (username)) {
-    $(element).html('<i class="fas fa-asterisk spin"></i> Saving...').addClass('disabled').prop('disabled', true);
+    $(element).html('<i class="fas fa-asterisk spin"></i> Saving...').addClass('disabled').attr('disabled', true);
     $.post('/update_preferences.js', parameters)
   } else {
     console.log('no changes to make');

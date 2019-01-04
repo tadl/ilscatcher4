@@ -20,8 +20,8 @@ function save_list_details(id, offset) {
     return;
   }
   var description = encodeURIComponent($('#list-'+id+'-description').val());
-  $('#cancel-list-'+id).prop('disabled', true).addClass('disabled');
-  $('#save-list-'+id).html('<i class="fas fa-asterisk spin"></i> Saving...').prop('disabled', true).addClass('disabled');
+  $('#cancel-list-'+id).attr('disabled', true).addClass('disabled');
+  $('#save-list-'+id).html('<i class="fas fa-asterisk spin"></i> Saving...').attr('disabled', true).addClass('disabled');
   $.post('/edit_list.json', {list_id: id, offset: offset, name: name, description: description})
     .done(function(data) {
       if (data.message == 'success') {
