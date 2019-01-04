@@ -419,15 +419,20 @@ class Scraper
     end
   end
 
-  def user_password_reset(user)
-    params = '?username=' + user
-    reset_hash = json_request('reset_password_request', params)
-    if reset_hash['message'] == 'complete'
-      return reset_hash['message']
+  def user_password_reset(username)
+    url = Settings.machine_readable + 'eg/opac/password_reset'
+    intial_request = scrape_request(url)
+    agent = intial_request[1]
+    page =  intial_request[0]
+    form = page.forms[1]
+    if (username =~ /^TADL\d{7,8}$|^90\d{5}$|^91111\d{9}$|^[a-zA-Z]\d{10}/ )
+      form.field_with(:name => "barcode").value = username
     else
-      return 'error'
+      form.field_with(:name => "username").value = username
     end
-  end
+    agent.submit(form)
+    return 'complete'
+  end 
 
   def item_place_hold(token, force, id)
     params = id.split(',').reject(&:empty?).map(&:strip).map {|k| "&hold_target=#{k}" }.join
