@@ -430,20 +430,20 @@ class Search
   def process_facets(results = [])
     facets = Array.new
     subjects = Hash.new
-    subjects['type'] = 'Subjects'
-    subjects['type_raw'] = 'subjects'
+    subjects['type'] = 'Subject'
+    subjects['type_raw'] = 'subject'
     subjects['subfacets'] = Array.new
     authors = Hash.new
-    authors['type'] = 'Authors'
-    authors['type_raw'] = 'authors'
+    authors['type'] = 'Author'
+    authors['type_raw'] = 'author'
     authors['subfacets'] = Array.new
     series = Hash.new
     series['type'] = 'Series'
     series['type_raw'] = 'series'
     series['subfacets'] = Array.new
     genres = Hash.new
-    genres['type'] = 'Genres'
-    genres['type_raw'] = 'genres'
+    genres['type'] = 'Genre'
+    genres['type_raw'] = 'genre'
     genres['subfacets'] = Array.new
     results.each do |r|
       authors['subfacets'].push(r.author)
