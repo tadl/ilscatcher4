@@ -14,7 +14,7 @@
             <% @userdetails = JSON.parse(cookies[:user]) %>
             <input type="hidden" name="location" value="<%= @userdetails['default_search'] %>" />
           <% else %>
-            <input type="hidden" name="location" value="<%= Settings.locaiton_default %>" />
+            <input type="hidden" name="location" value="<%= Settings.location_default %>" />
           <% end %>
           <input type="hidden" name="limit_available" value="false" />
           <input type="hidden" name="limit_physical" value="false" />
