@@ -485,17 +485,18 @@ class Scraper
   end
 
   def list_create(token, values)
-    params = '?token=' + token
-    params += '&name=' + values[:name]
-    params += '&description=' + values[:description]
-    params += '&shared=' + values[:shared]
-    list_confirmation = json_request('create_list', params)
-    if list_confirmation['message'] && list_confirmation['message'] == 'success'
-      return list_confirmation['message']
-    else
+    url = Settings.machine_readable + 'eg/opac/myopac/list/update'
+    values.transform_values! {|v|  CGI.unescape(v)}
+    puts values.to_s
+    values[:action] = 'create'
+    page = scrape_request(url, token, values)[0] rescue 'error'
+    if test_for_logged_in(page) == 'error'
       return 'error'
+    else
+      return 'success'
     end
   end
+
 
   def list_edit(token, values)
     params = '?token=' + token
