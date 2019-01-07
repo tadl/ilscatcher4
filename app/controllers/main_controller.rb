@@ -13,6 +13,7 @@ class MainController < ApplicationController
         list = {}
         list["title"] = s["name"]
         list["nice_title"] = s["display_name"]
+        list["search_link"] = '/search?' + URI.encode_www_form(s["params"])
         list["items"] = Rails.cache.read(s["name"])
        section_lists.push(list)
       end

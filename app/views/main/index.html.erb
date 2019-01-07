@@ -13,6 +13,7 @@
       <li class="nav-item">
         <a class="nav-link <%= if index == 0 then 'active' end %>" id="<%= search.name %>-tab" data-toggle="tab" href="#<%= search.name %>" role="tab" aria-controls="<%= search.name %>" aria-selected="<%= if index == 0 then 'true' else 'false' end %>"><%= search.display_name %></a>
       </li>
+      <a type="button" class="btn btn-light search-button" id="search-button-<%= search.name %>"<% if index != 0 %> style="display: none;"<% end %> href="<%= search.search_link %>">View All</a>
     <% end %>
   </ul>
   <div class="tab-content" id="<%= lists['group'] %>Content">
@@ -36,3 +37,9 @@
     <% end %>
   </div>
 <% end %>
+<script>
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+    $(e.target).parent().next().show();
+    $(e.relatedTarget).parent().next().hide();
+  });
+</script>

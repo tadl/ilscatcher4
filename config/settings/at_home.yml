@@ -6,26 +6,33 @@ lists:
       - name: "tadlnewfiction"
         display_name: "New Fiction"
         params: {query: "619", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "22"}
+        search_link: "/search?query=619&type=shelving_location&fmt=all&sort=pubdateDESC&location=22"
       - name: "tadlnewnonfiction"
         display_name: "New Non-fiction"
         params: {query: "621", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "22"}
+        search_link: "/search?query=621&type=shelving_location&fmt=all&sort=pubdateDESC&location=22"
   - group: 'Video'
     searches:
       - name: "tadlhotdvds"
         display_name: "HOT DVDs"
         params: {query: "682", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "22"}
+        search_link: "/search?query=682&type=shelving_location&fmt=all&sort=pubdateDESC&location=22"
       - name: "tadlnewdvds"
         display_name: "New DVDs"
         params: {query: "687", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "22"}
+        search_link: "/search?query=687&type=shelving_location&fmt=all&sort=pubdateDESC&location=22"
       - name: "tadltcfilmfest"
         display_name: "TC Film Festival"
         params: {query: "778", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "22"}
+        search_link: "/search?query=778&type=shelving_location&fmt=all&sort=pubdateDESC&location=22"
   - group: 'Music'
     searches:
       - name: "tadlnewmusic"
         display_name: "New Music"
         params: {query: "686", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "22"}
+        search_link: "/search?query=686&type=shelving_location&fmt=all&sort=pubdateDESC&location=22"
       - name: "tadlhottunes"
         display_name: "HOT Tunes"
         params: {query: "684", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "22"}
+        search_link: "/search?query=684&type=shelving_location&fmt=all&sort=pubdateDESC&location=22"
 
