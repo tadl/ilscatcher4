@@ -13,7 +13,6 @@ class SearchController < ApplicationController
           search[:params].each do |k,v|
             if v == params[:query]
               @search_title = search[:display_name]
-              puts @search_title
             end
           end
         end
