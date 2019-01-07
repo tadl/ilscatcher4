@@ -183,7 +183,8 @@ class Search
             }
           }
         }
-      ]
+      ],
+      filter: process_filters,
     }
     return query
   end

@@ -217,7 +217,12 @@
                     <tr>
                       <td><%= copy['circ_lib'] %></td>
                       <td><strong><%= copy['call_number'] %></strong> in <strong><%= copy['location'] %></strong></td>
-                      <td><%= copy['status'] %></td>
+                      <td>
+                        <%= copy['status'] %>
+                        <%if copy['due_date'] %>
+                          (<em> Due: <%= copy['due_date'] %> </em>)
+                        <% end %>
+                      </td>
                     </tr>
                   <% end %>
                 </tbody>
