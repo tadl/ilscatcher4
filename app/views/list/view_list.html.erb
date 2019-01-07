@@ -17,7 +17,7 @@
           </div>
           <div class="list-group list-group-flush">
             <% @mylists.each do |l| %>
-              <a href="/view_list?list_id=<%= l['list_id'] %>" class="list-group-item list-group-item-action justify-content-between align-items-center d-flex<%= (l['list_id'] == @list.list_id) ? ' active' : '' %>"><%= l['title'] %></a>
+              <a href="/view_list?list_id=<%= l.list_id %>" class="list-group-item list-group-item-action justify-content-between align-items-center d-flex<%= (l.list_id == @list.list_id) ? ' active' : '' %>"><%= l.title %></a>
             <% end %>
           </div>
         </div>

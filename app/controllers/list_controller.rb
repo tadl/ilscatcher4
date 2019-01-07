@@ -4,7 +4,7 @@ class ListController < ApplicationController
 
   def lists
     if @user
-      @lists = get_lists_and_set_cookie(@user)
+      @lists = get_lists_and_set_cache(@user)
     else
       @lists = {:error => 'missing parameters'}
     end
@@ -33,10 +33,11 @@ class ListController < ApplicationController
         @user = User.new
         @list = @user.TEMP_view_list(nil, params[:list_id], page, params[:sort])
       end
-      if cookies[:lists]
-        @mylists = JSON.parse(cookies[:lists])
+      key_name = 'lists_' + @user.token
+      @mylists = Rails.cache.fetch(key_name)
+      if @mylists.size > 0 
         @mylists.each do |l|
-          if l['list_id'] == params[:list_id]
+          if l.list_id == params[:list_id]
             @my_list = true
           end
         end
@@ -57,7 +58,7 @@ class ListController < ApplicationController
     if @user && params[:name] && params[:shared]
       list = List.new
       @message = list.create(@user.token, params)
-      @lists = get_lists_and_set_cookie(@user)
+      @lists = get_lists_and_set_cache(@user)
     else
       @message = {:error => 'missing parameters'}
     end
@@ -70,7 +71,7 @@ class ListController < ApplicationController
     if @user && params[:list_id] && params[:offset]
       list = List.new
       @message = list.edit(@user.token, params)
-      @lists = get_lists_and_set_cookie(@user)
+      @lists = get_lists_and_set_cache(@user)
     else
       @message = {:error => 'missing parameters'}
     end
@@ -84,7 +85,7 @@ class ListController < ApplicationController
     if @user && params[:list_id] && params[:offset] && params[:share]
       list = List.new
       @message = list.share(@user.token, params)
-      @lists = get_lists_and_set_cookie(@user)
+      @lists = get_lists_and_set_cache(@user)
     else
       @message = {:error => 'missing parameters'}
     end
@@ -97,7 +98,7 @@ class ListController < ApplicationController
     if @user && params[:list_id]
       list = List.new
       @message = list.make_default(@user.token, params[:list_id])
-      @lists = get_lists_and_set_cookie(@user)
+      @lists = get_lists_and_set_cache(@user)
     else
       @message = {:error => 'missing parameters'}
     end
@@ -110,7 +111,7 @@ class ListController < ApplicationController
     if @user && params[:list_id]
       list = List.new
       @message = list.destroy(@user.token, params[:list_id])
-      @lists = get_lists_and_set_cookie(@user)
+      @lists = get_lists_and_set_cache(@user)
     else
       @message = {:error => 'missing parameters'}
     end
@@ -171,9 +172,10 @@ class ListController < ApplicationController
 
   private
 
-  def get_lists_and_set_cookie(user)
+  def get_lists_and_set_cache(user)
     lists = user.TEMP_get_lists
-    cookies[:lists] = {:value => lists.to_json, :expires => 1.hour.from_now.utc}
+    key_name = 'lists_' + @user.token
+    Rails.cache.write(key_name, lists)
     return lists
   end
 
