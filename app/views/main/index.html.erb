@@ -13,7 +13,7 @@
       <li class="nav-item">
         <a class="nav-link <%= if index == 0 then 'active' end %>" id="<%= search.name %>-tab" data-toggle="tab" href="#<%= search.name %>" role="tab" aria-controls="<%= search.name %>" aria-selected="<%= if index == 0 then 'true' else 'false' end %>"><%= search.display_name %></a>
       </li>
-      <a type="button" class="btn btn-light search-button" id="search-button-<%= search.name %>"<% if index != 0 %> style="display: none;"<% end %> href="<%= search.search_link %>">View All</a>
+      <a type="button" class="btn btn-light search-button" id="search-button-<%= search.name %>"<% if index != 0 %> style="display: none;"<% end %> href="<%= search.search_link %>">View All <i class="fas fa-angle-right"></i></a>
     <% end %>
   </ul>
   <div class="tab-content" id="<%= lists['group'] %>Content">
