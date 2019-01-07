@@ -1,5 +1,9 @@
 <div class="row">
-  <%= render 'search_box' %>
+  <% if defined?(@search_title) %>
+    <%= render 'canned_search_box' %>
+  <% else %>
+    <%= render 'search_box' %>
+  <% end %>
 </div>
 <div id="results" class="row">
   <%= render "results", search: @search %>

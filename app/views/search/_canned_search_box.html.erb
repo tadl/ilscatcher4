@@ -1,0 +1,96 @@
+<div id="search_box" class="col">
+  <form id="search_form" action="/search">
+    <h2 class="title">Browsing <%= @search_title %> at <%= location_map(@search.location, "long") %></h2>
+    <a href="/search?new_search=true">Start a new search <i class="fas fa-angle-right"></i></a>
+    <div class="row" style="display: none;">
+      <div class="col">
+        <div class="form-group mb-2">
+          <div class="input-group input-group-lg">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="search-addon">Search</span>
+            </div>
+            <input id="search_for" name="query" class="form-control" aria-describedby="search-addon" value="<%= @search.query %>" autocomplete='off' placeholder="Books, movies, music &amp; more!">
+            <div class="input-group-append">
+              <button id="search_button" class="btn btn-primary px-lg-5 px-md-4 px-3" type="submit" form="search_form"><span class="sr-only">Search</span><%= icon('fas', "search") %></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% if defined?(@search.facets) && @search.facets.present? %>
+      <% if @search.facets.size > 0 %>
+        <div class="row mt-0 p-0 mb-0">
+          <% @search.facets.each do |facet| %>
+            <% if facet['subfacets'].size > 0 %>
+              <% facet['subfacets'].each do |s| %>
+                <% if active_facet_tester(@search, [facet['type_raw'], s]) == true %>
+                  <a href="<%= search_link_builder('remove_facet', @search, [facet['type_raw'], s]) %>" class="btn btn-sm btn-primary mx-1 mt-0 mb-2 p-1" type="button">
+                    <%= facet['type_singular'] %>:<%= s %>
+                    <span class="badge badge-light text-danger badge-pill"> X </span>
+                  </a>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+    <button class="btn btn-primary btn-block text-left mb-3 d-block d-md-none" type="button" data-toggle="collapse" data-target="#search-opts" aria-expanded="true" aria-controls="search-addon" title="Search Options">Toggle Search Options <i class="fa float-right"></i></button>
+    <div class="row toggles show" id="search-opts">
+      <input type="hidden" name="type" id="type" value="shelving_location">
+      <input type="hidden" name="location" id="location" value="<%= @search.location %>">
+      <div class="col-12 col-md-6 col-lg-3 order-md-3">
+        <div class="input-group input-group-sm mb-2">
+          <div class="input-group-prepend" style="width: 100%">
+            <span class="input-group-text">Sort By</span>
+            <select class="form-control form-control-sm<%= (params[:new_search].to_s != 'true') ? ' autoload' : '' %>" id="sorts" name="sort">
+              <% @search.sort_options.each do |s| %>
+                <option value="<%= s[1] %>" <%= check_selected(@search.sort, s[1]) %>>
+                  <%= s[0] %>
+                </option>
+              <% end %>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3 order-md-5">
+        <div class="input-group input-group-sm mb-2">
+          <div class="input-group-prepend" style="width: 100%">
+            <span class="input-group-text">Display as</span>
+            <select class="form-control form-control-sm<%= (params[:new_search].to_s != 'true') ? ' autoload' : '' %>" id="view" name="view">
+              <option value="list" <%= check_selected(@search.view, 'list') %>>
+                List
+              </option>
+              <option value="grid" <%= check_selected(@search.view, 'grid') %>>
+                Grid
+              </option>
+              <option value="simple" <%= check_selected(@search.view, 'simple') %>>
+                Simple
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3 order-md-6">
+        <div class="input-group input-group-sm mt-1">
+          <div class="form-check">
+            <input class="form-check-input<%= (params[:new_search].to_s != 'true') ? ' autoload' : '' %>" type="checkbox" value="true" id="limit_available" name="limit_available" <%= if_true_checked(@search.limit_available) %>>
+            <label class="form-check-label" for="limit_available">
+              Available Only
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3 order-md-8 order-lg-7">
+        <div class="input-group input-group-sm mt-1">
+          <div class="form-check">
+            <input class="form-check-input<%= (params[:new_search].to_s != 'true') ? ' autoload' : '' %>" type="checkbox" value="true" id="limit_physical" name="limit_physical" <%= if_true_checked(@search.limit_physical) %>>
+            <label class="form-check-label" for="limit_physical">
+              Physical Items Only
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
