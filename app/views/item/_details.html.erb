@@ -38,34 +38,8 @@
     </div>
     <div class="<%= body_col_classes %>">
       <div class="row">
-        <% @userdetails = (cookies[:user].present?) ? JSON.parse(cookies[:user]) : "" %>
         <div class="col-12 col-md-6 order-2 order-md-1">
-          <% if cookies[:lists].present? %>
-            <% @mylists = JSON.parse(cookies[:lists]) %>
-            <% @list_ids = [] %>
-            <% @mylists.each do |list| %>
-              <% @list_ids.push(list['list_id']) %>
-              <% if list['default'].to_s == "true" %>
-                <% @default_list = list['list_id'] %>
-              <% end %>
-            <% end %>
-            <% if @default_list.blank? %>
-              <% @default_list = @list_ids.reverse[0] %>
-            <% end %>
-            <div class="list-button mb-3">
-              <div class="btn-group w-100" id="list-div-<%= i.id %>">
-                <button type="button" class="btn btn-primary btn-block" id="list-button-<%= i.id %>" data-button_id="#list-button-<%= i.id %>" data-dropdown_id="#list-dropdown-<%= i.id %>" data-list_id="<%= @default_list %>" data-record_id="<%= i.id %>" onclick="add_to_list(this)">Add to list</button>
-                <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" id="list-dropdown-<%= i.id %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span class="sr-only">Toggle Dropdown</span>
-                </button>
-                <div class="dropdown-menu">
-                  <% @mylists.each do |list| %>
-                    <a class="dropdown-item" data-dropdown_id="#list-dropdown-<%= i.id %>" data-button_id="#list-button-<%= i.id %>" data-list_id="<%= list['list_id'] %>" data-record_id="<%= i.id %>" onclick="add_to_list(this)"><%= list['title'].truncate(40) %></a>
-                  <% end %>
-                </div>
-              </div>
-            </div>
-          <% end %>
+          <%= render 'add_to_list', i: i %>
         </div>
         <div class="col-12 col-md-6 order-1 order-md-2">
           <% if i.holdable == true && i.electronic == false %>
