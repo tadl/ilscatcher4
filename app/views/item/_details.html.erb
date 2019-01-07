@@ -220,7 +220,7 @@
                       <td>
                         <%= copy['status'] %>
                         <%if copy['due_date'] %>
-                          (<em> Due: <%= copy['due_date'] %> </em>)
+                          (<em> Due: <%= format_due_date(copy['due_date']) %> </em>)
                         <% end %>
                       </td>
                     </tr>

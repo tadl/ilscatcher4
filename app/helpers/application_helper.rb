@@ -119,5 +119,11 @@ module ApplicationHelper
     end
   end
 
+  def format_due_date(due_date)
+    date_array = due_date.split('-')
+    formated_date = date_array[1] + '/' + date_array[2] + '/' + date_array[0]
+    return formated_date
+  end
+
 end
 
