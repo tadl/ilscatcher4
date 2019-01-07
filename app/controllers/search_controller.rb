@@ -7,6 +7,18 @@ class SearchController < ApplicationController
     if !params[:view]
       params[:view] = 'list'
     end
+    if params[:type] == "shelving_location"
+      Settings.lists.each do |list|
+        list[:searches].each do |search|
+          search[:params].each do |k,v|
+            if v == params[:query]
+              @search_title = search[:display_name]
+              puts @search_title
+            end
+          end
+        end
+      end
+    end
   	@search = Search.new(allowed_params)
     unless params[:new_search] == 'true'
       @search.get_results
