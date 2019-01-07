@@ -375,7 +375,7 @@ class Scraper
     url += '&qtype=keyword&bookbag='+ list_id
     url += '&sort='+ sort
     url += '&limit=10&page=' + page_number.to_s
-    url +=  '&loc=' + Settings.location_default
+    url += '&loc=' + Settings.location_default
     page = scrape_request(url, token)[0]
     if test_for_logged_in(page) == false
       return 'error'
@@ -679,8 +679,10 @@ class Scraper
 
   def scraped_holds_to_full_holds(holds_hash)
     query = ''
+    sort_array = []
     holds_hash.each do |h|
       query += h[:record_id] + ','
+      sort_array.push(h[:record_id])
     end
     search = Search.new({:query => query, :type => 'record_id', :size => 100})
     search.get_results
@@ -697,7 +699,7 @@ class Scraper
       hold.pickup_location = matching_hold[0][:pickup_location]
       holds.push(hold)
     end
-    return holds
+    return holds.sort{ |a,b| sort_array.index(a.id.to_s) <=> sort_array.index(b.id.to_s) } 
   end
 
   def copy_instance_variables(parent_class, child_class)
