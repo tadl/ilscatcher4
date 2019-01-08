@@ -6,7 +6,9 @@
   <a href="<%= preferences_path %>" class="list-group-item list-group-item-action<%= (request.path == preferences_path) ? ' active' : '' %>">Account Preferences</a>
   <a href="<%= checkouts_path %>" class="list-group-item list-group-item-action<%= (request.path == checkouts_path) ? ' active' : '' %>">Checked Out Items</a>
   <a href="<%= holds_path %>" class="list-group-item list-group-item-action<%= (request.path == holds_path) ? ' active' : '' %>">All Items on Hold</a>
-  <a href="<%= holds_pickup_path %>" class="list-group-item list-group-item-action<%= (request.path == holds_pickup_path) ? ' active' : '' %>">Holds Ready for Pickup</a>
+  <% if @userdetails['holds_ready'].to_i > 0 %>
+    <a href="<%= holds_pickup_path %>" class="list-group-item list-group-item-action<%= (request.path == holds_pickup_path) ? ' active' : '' %>">Holds Ready for Pickup</a>
+  <% end %>
   <a href="<%= lists_path %>" class="list-group-item list-group-item-action<%= (request.path == lists_path) ? ' active' : '' %>">My Lists</a>
   <a href="<%= fines_path %>" class="list-group-item list-group-item-action<%= (request.path == fines_path) ? ' active' : '' %>">Current Fines</a>
   <a href="<%= payments_path %>" class="list-group-item list-group-item-action<%= (request.path == payments_path) ? ' active' : '' %>">Past Payments</a>
