@@ -24,7 +24,7 @@
             <% if facet['subfacets'].size > 0 %>
               <% facet['subfacets'].each do |s| %>
                 <% if active_facet_tester(@search, [facet['type_raw'], s]) == true %>
-                  <a href="<%= search_link_builder('remove_facet', @search, [facet['type_raw'], s]) %>" class="btn btn-sm btn-primary mx-1 mt-0 mb-2 p-1" type="button">
+                  <a href="<%= search_link_builder('remove_facet', @search, [facet['type_raw'], s]) %>" class="btn btn-sm btn-primary mx-1 mt-0 mb-2 p-1" role="button">
                     <%= facet['type_singular'] %>:<%= s %>
                     <span class="badge badge-light text-danger badge-pill"> X </span>
                   </a>
