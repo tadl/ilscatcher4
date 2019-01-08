@@ -28,7 +28,10 @@
             <div class="col-12 col-md-4 details-button mb-3 px-1">
               <a class="btn btn-primary btn-block item_details_link" role="button" href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)">Details</a>
             </div>
-            <%= render 'add_to_list', i: i, from_option: 'list-' %>
+            <% @userdetails = (cookies[:user].present?) ? JSON.parse(cookies[:user]) : "" %>
+            <% if @userdetails != '' %>
+              <%= render 'add_to_list', i: i, from_option: 'list-' %>
+            <% end %>
             <% if i.electronic == false && i.holdable == true %>
               <div class="hold-button list-hold-button-<%= i.id %> col-12 col-md-4 mb-3 px-1">
                 <button class="btn btn-primary btn-block btn-hold-<%= i.id %>" type="button" onclick="place_hold(this, <%= i.id %>,'', 'list_of_results')">Place Hold</button>

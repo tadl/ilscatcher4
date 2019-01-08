@@ -4,7 +4,7 @@ class User
   require 'digest/md5'
   attr_accessor :username, :error, :token, :hold_self_alias, :first_name, :last_name, 
                 :card, :cards, :email, :message, :full_name, :checkouts, :holds, :holds_ready,
-                :fine, :pickup_library, :default_search, :overdue, :melcat_id  
+                :fine, :pickup_library, :default_search, :overdue, :melcat_id, :temp_password 
 
   URI = URI.parse('https://' + Settings.evergreen_server + "/osrf-gateway-v1")
 
@@ -139,6 +139,14 @@ class User
       messages.push(response)
     end
     return messages
+  end
+
+  def change_temp_password(params)
+    params[:token] = self.token
+    scraper = Scraper.new
+    reset_message = scraper.user_change_password(params)
+    puts reset_message
+    return reset_message
   end
 
   def TEMP_fines

@@ -6,6 +6,10 @@ class UserController < ApplicationController
     if cookies[:login] || params[:token] || (params[:username] && (params[:password] || params[:md5password]))
       @user = User.new
 
+      if params[:password] && (params[:password].length <= 4)
+        @user.temp_password = true
+      end
+
       if cookies[:login] && (!params[:token] || !params[:username])
         params[:token] = cookies[:login]
       end
@@ -342,6 +346,15 @@ class UserController < ApplicationController
       format.js
     end
   end 
+
+  def change_temp_password
+    if @user
+      @change_password_request = @user.change_temp_password(params)
+    end
+    respond_to do |format|
+      format.js
+    end
+  end
 
 
 

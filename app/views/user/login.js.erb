@@ -2,7 +2,16 @@
   $('#navbar').html("<%= escape_javascript(render partial: 'navbar') %>");
   $.fancybox.close();
   $.get('/lists.json');
-  <% if !@from_action.blank? %>
+  <% if @user.temp_password == true %>
+    $.fancybox.open('<div class="detail_fancybox" style="max-width: 600px;"><%= escape_javascript(render 'temp_password') %></div>');
+    $('#temp_password').val('<%= params[:password] %>')
+    <% if !@from_action.blank? %>
+      $('#temp_from_action').val('<%= @from_action %>')
+      <% if !@target_hold.blank? %>
+        $('#temp_target_hold').val('<%= @target_hold %>')
+      <% end %>
+    <% end %>
+  <% elsif !@from_action.blank? %>
     <% if !@target_hold.blank? %>
       <% if @from_action == 'from_details' %>
         var target_div = '.details-hold-button-<%= escape_javascript(@target_hold) %>'

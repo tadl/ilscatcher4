@@ -145,6 +145,37 @@ function do_login(f) {
 
 }
 
+function change_temp_password(f){
+    $('#temp_errors').html("")
+    var password_1 = f.new_password_1.value
+    var password_2 = f.new_password_2.value
+    var from_action = f.temp_from_action.value
+    var target_hold = f.temp_target_hold.value
+    var current_password = f.temp_password.value
+    var test_for_bad = 'good'
+    if(password_1 != password_2){
+      $('#temp_errors').html("Passwords do not match")
+      test_for_bad = 'bad'
+      return false
+    }
+    if(password_1.length < 7){
+        $('#temp_errors').append("<p>Password not long enough. Must be at least 7 characters</p>")
+        test_for_bad = 'bad'
+    }
+    if(!password_1.match(/\d+/g)){
+        $('#temp_errors').append("<p>Password must contain at least one number</p>")
+        test_for_bad = 'bad'  
+    }
+    if(!password_1.match(/[a-zA-Z]/)){
+        $('#temp_errors').append("<p>Password must contain at least one letter</p>")
+        test_for_bad = 'bad'
+    }
+    if(test_for_bad != 'bad'){
+      $.post("change_temp_password.js", {current_password: current_password, new_password: password_1, password_2: password_2, from_action: from_action, target_hold: target_hold});
+    }
+    return false; 
+}
+
 function login_and_place_hold(id, from_action){
   $.post("login_and_place_hold.js",{target_hold: id, from_action: from_action});
 }
@@ -237,7 +268,7 @@ function cancel_confirm(element) {
 }
 function edit_hold(element, action) {
   var holdId = $(element).data('hold');
-  $(element).html('<i class="fas fa-asterisk spin"></i> One moment...').addClass('disabled').attr('disabled', true);
+  $(element).html('<i class="fas fa-asterisk spin"></i> One moment...').addClass('disabled').prop('disabled', true);
   $.post("manage_hold.js", {hold_id: holdId, task: action.toLowerCase()});
 }
 function bulk_edit_hold(element, action) {
@@ -250,14 +281,14 @@ function bulk_edit_hold(element, action) {
     holdIds.push($(this).data('hold'));
   });
   if (holdIds.length > 0) {
-    $('.bulk-action').addClass('disabled').attr('disabled', true);
+    $('.bulk-action').addClass('disabled').prop('disabled', true);
     $(element).html('<i class="fas fa-asterisk spin"></i> One moment...');
     $.post("manage_hold.js", {hold_id: holdIds.join(), task: action});
   }
 }
 
 function renew(cid, element) {
-  $(element).html('<i class="fas fa-asterisk spin"></i> Renewing').addClass('disabled').attr('disabled', true);
+  $(element).html('<i class="fas fa-asterisk spin"></i> Renewing').addClass('disabled').prop('disabled', true);
   $.post("renew_checkouts.js", {checkout_ids: cid});
 }
 function bulk_renew() {
@@ -266,7 +297,7 @@ function bulk_renew() {
     checkoutIds.push($(this).data('checkout'));
   });
   if (checkoutIds.length > 0) {
-    $('.bulk-action').html('<i class="fas fa-asterisk spin"></i> Renewing selected items').addClass('disabled').attr('disabled', true);
+    $('.bulk-action').html('<i class="fas fa-asterisk spin"></i> Renewing selected items').addClass('disabled').prop('disabled', true);
     $.post("renew_checkouts.js", {checkout_ids: checkoutIds.join()});
   } else {
     show_alert('warning', 'You must select one or more items to renew.');
@@ -278,7 +309,7 @@ function renew_all() {
     checkoutIds.push($(this).data('checkout'));
   });
   if (checkoutIds.length > 0) {
-    $('.all-renew').html('<i class="fas fa-asterisk spin"></i> Renewing all items').addClass('disabled').attr('disabled', true);
+    $('.all-renew').html('<i class="fas fa-asterisk spin"></i> Renewing all items').addClass('disabled').prop('disabled', true);
     $.post("renew_checkouts.js", {checkout_ids: checkoutIds.join()});
   } else {
     show_alert('warning', 'Sorry, you have no items eligible for renewal.');
@@ -288,7 +319,7 @@ function renew_all() {
 function toggle_select(element) {
   if ($(element).hasClass('select') == true) {
     $(element).removeClass('select btn-light').addClass('selected btn-success').html('<i class="fas fa-check"></i> Selected');
-    $('.bulk-action').removeClass('disabled').attr('disabled', false);
+    $('.bulk-action').removeClass('disabled').prop('disabled', false);
     $('.hold-actions').show();
   } else {
     $(element).removeClass('selected btn-success').addClass('select btn-light').html('Select');
@@ -297,7 +328,7 @@ function toggle_select(element) {
       selected_items++;
     });
     if (selected_items == 0) {
-      $('.bulk-action').addClass('disabled').attr('disabled', true);
+      $('.bulk-action').addClass('disabled').prop('disabled', true);
       $('.hold-actions').hide();
     }
   }
@@ -309,12 +340,12 @@ function select_all() {
     $(this).removeClass('select btn-light').addClass('selected btn-success').html('<i class="fas fa-check"></i> Selected');
   });
   if (selectCount > 0) {
-    $('.bulk-action').removeClass('disabled').attr('disabled', false);
+    $('.bulk-action').removeClass('disabled').prop('disabled', false);
     $('.hold-actions').show();
   }
 }
 function select_clear() {
-  $('.bulk-action').addClass('disabled').attr('disabled', true);
+  $('.bulk-action').addClass('disabled').prop('disabled', true);
   $('.hold-actions').hide();
   $('.selected').each(function() {
     $(this).removeClass('selected btn-success').addClass('select btn-light').html('Select');
