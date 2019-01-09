@@ -3,7 +3,14 @@
   $.fancybox.close();
   $.get('/lists.json');
   <% if @user.temp_password == true %>
-    $.fancybox.open('<div class="detail_fancybox" style="max-width: 600px;"><%= escape_javascript(render 'temp_password') %></div>');
+    var fancy_options = {
+      smallBtn: false,
+      buttons: [],
+      clickSlide: false,
+      clickOutside: false
+    }
+    var temp_password_html = '<div class="detail_fancybox" style="max-width: 600px;"><%= escape_javascript(render 'temp_password') %></div>'
+    $.fancybox.open(temp_password_html, fancy_options);
     $('#temp_password').val('<%= params[:password] %>')
     <% if !@from_action.blank? %>
       $('#temp_from_action').val('<%= @from_action %>')
