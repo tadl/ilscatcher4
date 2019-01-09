@@ -1,5 +1,4 @@
-<div class="container">
-  <div class="row mb-3">
+<div class="row mb-3">
     <div class="col-lg-12">
       <button id="previous-<%= i.id%>" style="display:none" class="btn btn-sm btn-outline-primary float-left previous_link" onclick="previous_item()">
         <%= icon('fas', 'arrow-left') %> Previous
@@ -8,13 +7,11 @@
         Next <%= icon('fas', 'arrow-right') %>
       </button>
     </div>
-  </div>
-
-  <% cover_col_classes = 'col-12 col-md-4 order-1' %>
-  <% body_col_classes = 'col-12 col-md-8 order-2' %>
-
-  <div class="row mb-2">
-    <div class="<%= cover_col_classes %>">
+</div>
+<% cover_col_classes = 'col-12 col-md-4 order-1' %>
+<% body_col_classes = 'col-12 col-md-8 order-2' %>
+<div class="row mb-2">
+  <div class="<%= cover_col_classes %>">
       <div id="item_cover_<%= i.id %>_details" class="w-100 text-center mb-3 item-cover">
         <img src="<%= Settings.cover_url_prefix_lg %><%= i.id %>" class="img-fluid mb-3" onerror="missing_cover('<%= i.id %>', '<%= i.type_of_resource %>')" onload="check_blank_cover(this)">
         <% if i.hold_count.to_i > 0 %>
@@ -35,8 +32,8 @@
           </button>
         </a>
       </div>
-    </div>
-    <div class="<%= body_col_classes %>">
+  </div>
+  <div class="<%= body_col_classes %>">
       <div class="row">
         <% @userdetails = (cookies[:user].present?) ? JSON.parse(cookies[:user]) : "" %>
         <% if @userdetails != '' %>
@@ -120,9 +117,9 @@
         <% end %>
       </div>
       <div id="trailer_<%= i.id %>" class="mt-3"></div>
-    </div>
   </div>
-  <div class="row">
+</div>
+<div class="row">
     <div class="container-fluid">
       <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="pills-tab" role="tablist">
         <% if i.electronic.to_s == "false" %>
@@ -266,9 +263,7 @@
         <% end %>
       </div>
     </div>
-  </div>
 </div>
-
 <script>
   function load_added_content(record_id, isbn) {
     if (isbn && isbn != '') {
