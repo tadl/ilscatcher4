@@ -37,3 +37,4 @@ config/environments/*.local.yml
 
 # ignore local item boxes
 /app/assets/images/boxes/*
+!/app/assets/images/boxes/.keep
