@@ -1,4 +1,4 @@
-<div class="row mb-5 mt-2">
+<div class="row mt-2">
   <div class="col-12 col-md-3">
     <%= image_tag("tadl-logo.jpg", class: "w-100") %>
   </div>
@@ -6,7 +6,8 @@
     <%= render 'search_box_mini' %>
   </div>
 </div>
-<% Settings.lists.each do |lists| %>
+<div class="d-none d-lg-block mt-5">
+  <% Settings.lists.each do |lists| %>
   <!-- <h1><%= lists['group'] %></h1> -->
   <ul class="nav nav-tabs" id="<%= lists['group'] %>" role="tablist">
     <% lists['searches'].each_with_index do |search, index| %>
@@ -36,7 +37,25 @@
       </div>
     <% end %>
   </div>
-<% end %>
+  <% end %>
+</div>
+<div class="d-block d-lg-none">
+  <h1 class="mb-3">Featured Items</h1>
+  <div class="row">
+    <% Settings.lists.each do |g| %>
+      <% g['searches'].each do |l| %>
+        
+        <div class="col-6 col-sm-4 mb-3">
+          <a href="<%= l['search_link'] %>">
+          <%= image_tag ('/assets/boxes/' + l['name'] + '_box.jpg'), class: "img-fluid mb-2" %>
+          <h5> <%= l['display_name'] %> </h5>
+          </a>
+        </div>
+        
+      <% end %>
+    <% end %>
+  </div>
+</div>
 <script>
   $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
     $(e.target).parent().next().show();

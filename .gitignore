@@ -34,3 +34,6 @@ config/environments/*.local.yml
 
 # ignore vim temp files
 *.sw[op]
+
+# ignore local item boxes
+/app/assets/images/boxes/*
