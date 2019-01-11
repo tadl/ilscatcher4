@@ -1,8 +1,8 @@
 <div class="row mt-2">
-  <div class="col-12 col-md-3">
-    <%= image_tag("tadl-logo.jpg", class: "w-100") %>
+  <div class="col-12 col-md-4 col-lg">
+    <%= image_tag("tadl-logo.jpg", class: "w-100 logo_index") %>
   </div>
-  <div class="col-12 col-md-9">
+  <div class="col-12 col-md-8 col-lg-9">
     <%= render 'search_box_mini' %>
   </div>
 </div>
@@ -40,7 +40,7 @@
   <% end %>
 </div>
 <div class="d-block d-lg-none">
-  <h1 class="mb-3">Featured Items</h1>
+  <h2 class="mt-2 mb-3">Featured Items</h2>
   <div class="row">
     <% Settings.lists.each do |g| %>
       <% g['searches'].each do |l| %>

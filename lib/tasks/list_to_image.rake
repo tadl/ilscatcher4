@@ -36,7 +36,7 @@ task :item_boxes => :environment do
 
       images.each do |i|
         this_file = directory_name  + (l['name'] + '_' + count.to_s + '.jpg' )
-        i.resize('250x265!')  
+        i.resize('150x163!')  
         i.write(this_file)
         image_files.push(this_file)
         count += 1
@@ -44,7 +44,7 @@ task :item_boxes => :environment do
       
       MiniMagick::Tool::Montage.new do |image|
         image_files.each {|i| image << i}
-        image.geometry '250x265'
+        image.geometry '150x163'
         image.tile '2x2'
         image.mode 'Concatenate'
         image << directory_name + (l['name'] + '_' + "box.jpg")
