@@ -132,7 +132,7 @@ function do_login(f) {
   var target_hold = f.target_hold.value
 
   if ((username) && (password)) {
-    $('#login-button').html('<i class="fas fa-asterisk spin"></i> One moment...').attr('disabled', true).addClass('disabled')
+    $('#login-button').html('<i class="fas fa-asterisk spin"></i> One moment...').prop('disabled', true).addClass('disabled')
     $.post("login.js", {username: username, password: password, from_action: from_action, target_hold: target_hold});
     $('#login-message').text('');
   } else {
@@ -195,7 +195,7 @@ function place_hold(element, id, force, from_action) {
     login_and_place_hold(id, from_action)
     return
   } else {
-    $(element).html('<i class="fas fa-asterisk spin"></i> Placing Hold...').addClass('disabled').attr('disabled', true);
+    $(element).html('<i class="fas fa-asterisk spin"></i> Placing Hold...').addClass('disabled').prop('disabled', true);
     $.post("place_hold.js", {id: id, force: force_hold, from_action: from_action});
   }
 }
@@ -206,7 +206,7 @@ function show_change_pickup(element) {
   var from_action = $(element).data('from_action');
   var hold_status = $(element).data('hold_status');
   if (!hold_id) {
-    $(element).html('<i class="fas fa-asterisk spin"></i> Loading pickup locations...').addClass('disabled').attr('disabled', true);
+    $(element).html('<i class="fas fa-asterisk spin"></i> Loading pickup locations...').addClass('disabled').prop('disabled', true);
     $.get('/holds.json')
     .done(function(data) {
       if (data['holds']) {
@@ -244,8 +244,8 @@ function change_pickup_location(element) {
   var hold_status = $(element).data('hold_status');
   var from_action = $(element).data('from_action');
   var record_id = $(element).data('record_id');
-  $('.cancel_change_pickup-'+record_id).addClass('disabled').attr('disabled', true);
-  $('.change_pickup_button-'+record_id).html('<i class="fas fa-asterisk spin"></i> Changing pickup location...').addClass('disabled').attr('disabled', true);
+  $('.cancel_change_pickup-'+record_id).addClass('disabled').prop('disabled', true);
+  $('.change_pickup_button-'+record_id).html('<i class="fas fa-asterisk spin"></i> Changing pickup location...').addClass('disabled').prop('disabled', true);
   $.post("change_hold_pickup.js", {hold_id: hold_id, hold_status: hold_status, pickup_location: pickup_location, from_action: from_action });
 }
 function cancel_change_pickup(element) {
@@ -258,7 +258,7 @@ function cancel_change_pickup(element) {
     var target_div = '.list-hold-button-' + record_id;
     var hide_div = '#list-change-pickup-' + record_id;
   }
-  $('.change_pickup_button').html('Change pickup location').removeClass('disabled').attr('disabled', false);
+  $('.change_pickup_button').html('Change pickup location').removeClass('disabled').prop('disabled', false);
   $(hide_div).empty().hide();
   $(target_div).show();
 }
@@ -268,7 +268,7 @@ function cancel_confirm(element) {
 }
 function edit_hold(element, action) {
   var holdId = $(element).data('hold');
-  $(element).html('<i class="fas fa-asterisk spin"></i> One moment...').addClass('disabled').attr('disabled', true);
+  $(element).html('<i class="fas fa-asterisk spin"></i> One moment...').addClass('disabled').prop('disabled', true);
   $.post("manage_hold.js", {hold_id: holdId, task: action.toLowerCase()});
 }
 function bulk_edit_hold(element, action) {
@@ -281,14 +281,14 @@ function bulk_edit_hold(element, action) {
     holdIds.push($(this).data('hold'));
   });
   if (holdIds.length > 0) {
-    $('.bulk-action').addClass('disabled').attr('disabled', true);
+    $('.bulk-action').addClass('disabled').prop('disabled', true);
     $(element).html('<i class="fas fa-asterisk spin"></i> One moment...');
     $.post("manage_hold.js", {hold_id: holdIds.join(), task: action});
   }
 }
 
 function renew(cid, element) {
-  $(element).html('<i class="fas fa-asterisk spin"></i> Renewing').addClass('disabled').attr('disabled', true);
+  $(element).html('<i class="fas fa-asterisk spin"></i> Renewing').addClass('disabled').prop('disabled', true);
   $.post("renew_checkouts.js", {checkout_ids: cid});
 }
 function bulk_renew() {
@@ -297,7 +297,7 @@ function bulk_renew() {
     checkoutIds.push($(this).data('checkout'));
   });
   if (checkoutIds.length > 0) {
-    $('.bulk-action').html('<i class="fas fa-asterisk spin"></i> Renewing selected items').addClass('disabled').attr('disabled', true);
+    $('.bulk-action').html('<i class="fas fa-asterisk spin"></i> Renewing selected items').addClass('disabled').prop('disabled', true);
     $.post("renew_checkouts.js", {checkout_ids: checkoutIds.join()});
   } else {
     show_alert('warning', 'You must select one or more items to renew.');
@@ -309,7 +309,7 @@ function renew_all() {
     checkoutIds.push($(this).data('checkout'));
   });
   if (checkoutIds.length > 0) {
-    $('.all-renew').html('<i class="fas fa-asterisk spin"></i> Renewing all items').addClass('disabled').attr('disabled', true);
+    $('.all-renew').html('<i class="fas fa-asterisk spin"></i> Renewing all items').addClass('disabled').prop('disabled', true);
     $.post("renew_checkouts.js", {checkout_ids: checkoutIds.join()});
   } else {
     show_alert('warning', 'Sorry, you have no items eligible for renewal.');
@@ -319,7 +319,7 @@ function renew_all() {
 function toggle_select(element) {
   if ($(element).hasClass('select') == true) {
     $(element).removeClass('select btn-light').addClass('selected btn-success').html('<i class="fas fa-check"></i> Selected');
-    $('.bulk-action').removeClass('disabled').attr('disabled', false);
+    $('.bulk-action').removeClass('disabled').prop('disabled', false);
     $('.hold-actions').show();
   } else {
     $(element).removeClass('selected btn-success').addClass('select btn-light').html('Select');
@@ -328,7 +328,7 @@ function toggle_select(element) {
       selected_items++;
     });
     if (selected_items == 0) {
-      $('.bulk-action').addClass('disabled').attr('disabled', true);
+      $('.bulk-action').addClass('disabled').prop('disabled', true);
       $('.hold-actions').hide();
     }
   }
@@ -340,12 +340,12 @@ function select_all() {
     $(this).removeClass('select btn-light').addClass('selected btn-success').html('<i class="fas fa-check"></i> Selected');
   });
   if (selectCount > 0) {
-    $('.bulk-action').removeClass('disabled').attr('disabled', false);
+    $('.bulk-action').removeClass('disabled').prop('disabled', false);
     $('.hold-actions').show();
   }
 }
 function select_clear() {
-  $('.bulk-action').addClass('disabled').attr('disabled', true);
+  $('.bulk-action').addClass('disabled').prop('disabled', true);
   $('.hold-actions').hide();
   $('.selected').each(function() {
     $(this).removeClass('selected btn-success').addClass('select btn-light').html('Select');
@@ -369,8 +369,8 @@ function add_to_list(element) {
   var record_id = $(element).data('record_id');
   var button = $(element).data('button_id');
   var dropdown = $(element).data('dropdown_id');
-  $(button).attr('disabled', true).addClass('disabled').html('<i class="fas fa-asterisk spin"></i> Adding...');
-  $(dropdown).attr('disabled', true).addClass('disabled');
+  $(button).prop('disabled', true).addClass('disabled').html('<i class="fas fa-asterisk spin"></i> Adding...');
+  $(dropdown).prop('disabled', true).addClass('disabled');
   $.post('/add_item_to_list.json', {list_id: list_id, record_id: record_id})
   .done(function(data) {
     if (data.message == 'success') {

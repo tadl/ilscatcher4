@@ -1,2 +1,2 @@
-$('#marc_button').html('<i class="far fa-file-alt"></i> MARC').removeClass('disabled').attr('disabled', false);
+$('#marc_button').html('<i class="far fa-file-alt"></i> MARC').removeClass('disabled').prop('disabled', false);
 $.fancybox.open('<div style="max-width: 1200px; width: 100%;"><%= escape_javascript(render 'marc_record') %></div>');

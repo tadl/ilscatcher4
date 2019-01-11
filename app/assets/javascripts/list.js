@@ -2,14 +2,14 @@ function edit_list_details(id) {
   $('#list-'+id).hide();
   $('#edit-list-'+id).show();
   $('.list-info').each(function() {
-    $(this).find('button').attr('disabled', true).addClass('disabled');
+    $(this).find('button').prop('disabled', true).addClass('disabled');
   });
 }
 
 function cancel_edit_list(id) {
   $('#edit-list-'+id).hide();
   $('#list-'+id).show();
-  $('button').attr('disabled', false).removeClass('disabled');
+  $('button').prop('disabled', false).removeClass('disabled');
   $('.list-error').html('').hide();
 }
 
@@ -20,8 +20,8 @@ function save_list_details(id, offset) {
     return;
   }
   var description = encodeURIComponent($('#list-'+id+'-description').val());
-  $('#cancel-list-'+id).attr('disabled', true).addClass('disabled');
-  $('#save-list-'+id).html('<i class="fas fa-asterisk spin"></i> Saving...').attr('disabled', true).addClass('disabled');
+  $('#cancel-list-'+id).prop('disabled', true).addClass('disabled');
+  $('#save-list-'+id).html('<i class="fas fa-asterisk spin"></i> Saving...').prop('disabled', true).addClass('disabled');
   $.post('/edit_list.json', {list_id: id, offset: offset, name: name, description: description})
     .done(function(data) {
       if (data.message == 'success') {
@@ -40,7 +40,7 @@ function delete_list(element) {
 
 function actually_delete_list(element) {
   var listid = $(element).data('listid');
-  $(element).html('<i class="fas fa-asterisk spin"></i> Deleting...').attr('disabled', true).addClass('disabled');
+  $(element).html('<i class="fas fa-asterisk spin"></i> Deleting...').prop('disabled', true).addClass('disabled');
   $.post('/destroy_list.json', {list_id: listid})
     .done(function(data) {
       if (data.message == 'success') {
@@ -62,7 +62,7 @@ function cancel_new_list() {
 }
 
 function save_new_list(element) {
-  $(element).html('<i class="fas fa-asterisk spin"></i> Saving...').attr('disabled', true).addClass('disabled');
+  $(element).html('<i class="fas fa-asterisk spin"></i> Saving...').prop('disabled', true).addClass('disabled');
   var name = encodeURIComponent($('#new-list-title').val());
   var description = encodeURIComponent($('#new-list-description').val());
   var sharedTemp = $('#new-list-shared').prop('checked');
@@ -78,7 +78,7 @@ function save_new_list(element) {
 }
 
 function toggle_list_visibility(element, visibility) {
-  $(element).html('<i class="fas fa-asterisk spin"></i> One moment...').attr('disabled', true).addClass('disabled');
+  $(element).html('<i class="fas fa-asterisk spin"></i> One moment...').prop('disabled', true).addClass('disabled');
   var listid = $(element).data('listid');
   var offset = $(element).data('offset');
   var share = (visibility == 'Public') ? 'show' : 'hide';
@@ -93,7 +93,7 @@ function toggle_list_visibility(element, visibility) {
 }
 
 function set_list_default(element) {
-  $(element).html('<i class="fas fa-asterisk spin"></i> One moment...').attr('disabled', true).addClass('disabled');
+  $(element).html('<i class="fas fa-asterisk spin"></i> One moment...').prop('disabled', true).addClass('disabled');
   var listid = $(element).data('listid');
   $.post('/make_default_list.json', {list_id: listid})
     .done(function(data) {
@@ -111,7 +111,7 @@ function edit_list_item_note(element) {
   $('#edit-note-content-'+noteid+'-'+listitemid).val($('#note-content-'+noteid+'-'+listitemid).text());
   $('#note-'+noteid+'-'+listitemid).hide();
   $('#edit-note-'+noteid+'-'+listitemid).show();
-  $('.btn-list-note-edit').attr('disabled', true).addClass('disabled');
+  $('.btn-list-note-edit').prop('disabled', true).addClass('disabled');
 }
 
 function cancel_edit_list_item_note(element) {
@@ -119,11 +119,11 @@ function cancel_edit_list_item_note(element) {
   var listitemid = $(element).data('listitemid');
   $('#note-'+noteid+'-'+listitemid).show();
   $('#edit-note-'+noteid+'-'+listitemid).hide();
-  $('.btn-list-note-edit').attr('disabled', false).removeClass('disabled');
+  $('.btn-list-note-edit').prop('disabled', false).removeClass('disabled');
 }
 
 function save_edit_list_item_note(element) {
-  $(element).html('<i class="fas fa-asterisk spin"></i> Updating note...').attr('disabled', true).addClass('disabled');
+  $(element).html('<i class="fas fa-asterisk spin"></i> Updating note...').prop('disabled', true).addClass('disabled');
   var noteid = $(element).data('noteid');
   var listid = $(element).data('listid');
   var listitemid = $(element).data('listitemid');
@@ -145,7 +145,7 @@ function delete_list_item_note(element) {
 }
 
 function actually_delete_list_item_note(element) {
-  $(element).html('<i class="fas fa-asterisk spin"></i> Deleting note...').attr('disabled', true).addClass('disabled');
+  $(element).html('<i class="fas fa-asterisk spin"></i> Deleting note...').prop('disabled', true).addClass('disabled');
   var noteid = $(element).data('noteid');
   var listid = $(element).data('listid');
   var note = '';
@@ -170,7 +170,7 @@ function cancel_new_list_item_note(element) {
 }
 
 function save_new_list_item_note(element) {
-  $(element).html('<i class="fas fa-asterisk spin"></i> Saving note...').attr('disabled', true).addClass('disabled');
+  $(element).html('<i class="fas fa-asterisk spin"></i> Saving note...').prop('disabled', true).addClass('disabled');
   var listitemid = $(element).data('listitemid');
   var listid = $(element).data('listid');
   var notecontent = encodeURIComponent($('#new-note-content-'+listitemid).val());
@@ -189,7 +189,7 @@ function remove_item_from_list(element) {
 }
 
 function actually_remove_item_from_list(element) {
-  $(element).html('<i class="fas fa-asterisk spin"></i> Removing item...').attr('disabled', true).addClass('disabled');
+  $(element).html('<i class="fas fa-asterisk spin"></i> Removing item...').prop('disabled', true).addClass('disabled');
   var listid = $(element).data('listid');
   var listitemid = $(element).data('listitemid');
   $.post('/remove_item_from_list.json', {list_id: listid, list_item_id: listitemid})

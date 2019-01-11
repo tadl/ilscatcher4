@@ -145,7 +145,7 @@
 
 <script>
   function register() {
-    $('#register_button').attr('disabled', true).addClass('disabled');
+    $('#register_button').prop('disabled', true).addClass('disabled');
     $('#data_error').css('display', 'none');
     $('#server_error').css('display', 'none');
     $('#first_name').css('border', '');

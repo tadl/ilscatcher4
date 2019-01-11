@@ -2,7 +2,7 @@
   $('#register').html('');
   $('#confirmation').css('display','block');
 <% else %>
-  $('#register_button').attr('disabled', false).removeClass('disabled');
+  $('#register_button').prop('disabled', false).removeClass('disabled');
   <% if @invalid_data['server'] %>
     $('#server_error').css('display', 'block');
   <% else %>
