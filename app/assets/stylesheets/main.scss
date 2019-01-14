@@ -222,6 +222,7 @@ a:hover {
   margin-right: auto;
 }
 
+/* responsive fancybox class for mobile (xs to md) views */
 @media screen and (min-width: 1px) and (max-width: 991px) {
   .responsive_fancybox{
     height: 100%;
