@@ -1,13 +1,14 @@
 <div class="row">
-  <div id="account-menu" class="col-12 col-md-3 mt-3">
+  <div id="account-menu" class="d-none d-lg-inline-block col-12 col-lg-3 mt-3">
     <%= render 'account_menu' %>
-    <% if (@user.fine.to_f > 0) && (Settings.online_payment == true) %>
+    <% if (@user.fine.to_f > 0) && (Settings.online_payment == true) %><!-- TODO -->
       <div class="mt-4">
         <a role="button" class="btn btn-success btn-block btn-lg" href="<%= Settings.online_payment_url %>"><%= Settings.online_payment_text %></a>
       </div>
     <% end %>
   </div>
-  <div id="account-fines" class="col-12 col-md-9 mt-3">
+  <div id="account-fines" class="col-12 col-lg-9 mt-3">
+    <h2 class="bg-primary text-light d-inline-block d-lg-none w-100 p-2">Fines</h2>
     <% if (@fines.length > 0) || (@fees.length > 0) %>
       <% if @fines.length > 0 %>
         <%= render 'fines_list', fines: @fines %>

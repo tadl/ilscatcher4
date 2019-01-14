@@ -1,9 +1,12 @@
 <div class="row">
-  <div id="account-menu" class="col-12 col-md-3 mt-3">
+  <div id="account-menu" class="d-none d-lg-inline-block col-12 col-lg-3 mt-3">
     <%= render 'account_menu' %>
   </div>
-  <div id="account-lists" class="col-12 col-md-9 mt-3">
-    <button class="btn btn-primary mb-3 float-right" type="button" onclick="new_list()"><i class="fas fa-plus"></i> New List</button>
+  <div id="account-lists" class="col-12 col-lg-9 mt-3">
+    <h2 class="bg-primary text-light d-inline-block d-lg-none w-100 p-2">Lists
+      <button class="btn btn-light float-right" type="button" onclick="new_list()"><i class="fas fa-plus"></i> Add New</button>
+    </h2>
+    <button class="btn btn-primary float-right mb-2 d-none d-lg-inline-block" type="button" onclick="new_list()"><i class="fas fa-plus"></i> New List</button>
     <div class="card mb-3 new-list w-100">
       <h5 class="card-header font-wight-bold">Create a new list</h5>
       <div class="card-body">

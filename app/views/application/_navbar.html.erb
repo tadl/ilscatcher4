@@ -59,12 +59,53 @@
               <a class="dropdown-item" href="<%= checkouts_path %>">Checked Out Items</a>
               <a class="dropdown-item" href="<%= holds_path %>">All Items on Hold</a>
               <a class="dropdown-item" href="<%= holds_pickup_path %>">Holds Ready for Pickup</a>
-              <a class="dropdown-item" href="<%= lists_path %>">My Lists</a>
               <a class="dropdown-item" href="<%= fines_path %>">Current Fines</a>
               <a class="dropdown-item" href="<%= payments_path %>">Past Payments</a>
+              <a class="dropdown-item" href="<%= lists_path %>">My Lists</a>
               <a class="dropdown-item" href="<%= checkout_history_path %>">Checkout History</a>
             </div>
           </div>
+        </li>
+        <li class="btn-group nav-item d-inline-flex d-lg-none mb-2">
+          <a class="btn btn-primary btn-block" role="button" href="<%= checkouts_path %>">
+            Checked Out Items
+            <% if @userdetails['checkouts'].to_i > 0 %>
+              <span class="badge badge-light"> <%= @userdetails['checkouts'] %></span>
+            <% end %>
+          </a>
+        </li>
+        <li class="btn-group nav-item d-inline-flex d-lg-none mb-2">
+          <a class="btn btn-primary btn-block" role="button" href="<%= holds_path %>">
+            Items on Hold
+            <% if @userdetails['holds'].to_i > 0 %>
+              <span class="badge badge-light"> <%= @userdetails['holds'] %></span>
+            <% end %>
+          </a>
+        </li>
+        <% if @userdetails['holds_ready'].to_i > 0 %>
+          <li class="btn-group nav-item d-inline-flex d-lg-none mb-2">
+            <a class="btn btn-primary btn-block" role="button" href="<%= holds_pickup_path %>">
+              Holds Ready for Pickup
+              <span class="badge badge-light"> <%= @userdetails['holds_ready'] %></span>
+            </a>
+          </li>
+        <% end %>
+        <li class="btn-group nav-item d-inline-flex d-lg-none mb-2">
+          <a class="btn btn-primary btn-block" role="button" href="<%= fines_path %>">
+            Current Fines
+            <% if @userdetails['fine'].to_f > 0 %>
+              <span class="badge badge-light"> <%= @userdetails['fine'] %></span>
+            <% end %>
+          </a>
+        </li>
+        <li class="btn-group nav-item d-inline-flex d-lg-none mb-2">
+          <a class="btn btn-primary btn-block" role="button" href="<%= payments_path %>">Past Payments</a>
+        </li>
+        <li class="btn-group nav-item d-inline-flex d-lg-none mb-2">
+          <a class="btn btn-primary btn-block" role="button" href="<%= lists_path %>">My Lists</a>
+        </li>
+        <li class="btn-group nav-item d-inline-flex d-lg-none mb-2">
+          <a class="btn btn-primary btn-block" role="button" href="<%= checkout_history_path %>">Checkout History</a>
         </li>
         <li class="nav-item ml-lg-2 mt-lg-1">
           <button type="button" class="btn btn-block btn-light" id="logout-button" onclick="do_logout()">Sign Out</button>
