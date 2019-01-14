@@ -29,7 +29,7 @@ var ready = function(){
   });
 
   var windowWidth = $(window).width();
-  if (windowWidth <= 768) {
+  if (windowWidth <= 767) {
     $('.toggles').collapse('hide');
   }
 
@@ -40,6 +40,8 @@ var ready = function(){
 }
 
 $(document).ready(ready);
+
+/*
 $(window).resize(function() {
   var windowWidth = $(window).width();
   if (windowWidth <= 768) {
@@ -48,6 +50,7 @@ $(window).resize(function() {
     $('.toggles').collapse('show');
   }
 });
+ */
 
 
 /* open fancybox with item details */
