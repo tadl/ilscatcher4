@@ -221,3 +221,11 @@ a:hover {
   margin-left: auto;
   margin-right: auto;
 }
+
+@media screen and (min-width: 1px) and (max-width: 991px) {
+  .responsive_fancybox{
+    height: 100%;
+    width: 100%;
+    top: 0;
+  }
+}
