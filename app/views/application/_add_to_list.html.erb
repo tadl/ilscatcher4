@@ -1,7 +1,12 @@
 <% @key_name = 'lists_' + @userdetails['token'] %>
 <% @mylists = Rails.cache.fetch(@key_name) %>
 <% if @mylists.size > 0 %>
-  <div class="col-12 col-md-4 list-button mb-3 px-1">
+  <% if from_option == '' %>
+    <% button_class = 'col-12 col-md-6 list-button mb-3 px-1' %>
+  <% else %>
+    <% button_class = 'col-12 col-md-4 list-button mb-3 px-1' %>
+  <% end %>
+  <div class="<%= button_class %>">
     <% @list_ids = [] %>
     <% @mylists.each do |list| %>
       <% @list_ids.push(list.list_id) %>
