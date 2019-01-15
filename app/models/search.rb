@@ -522,6 +522,9 @@ class Search
           elsif f[1] == 'electronic'
             filters.push(electronic_filter(f[2]))
           end
+          if f.size == 4
+            filters.push(term: {"fiction": f[3]})
+          end
         end
       end
     end unless self.fmt.nil?
