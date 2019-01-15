@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require jquery.fancybox.min
 //= require OwlCarousel2
+//= require jsbarcode
 //= require js-cookie
 //= require popper
 //= require bootstrap
