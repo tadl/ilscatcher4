@@ -13,6 +13,14 @@
           <div class="col-6 card-text font-weight-bold">Primary Card</div>
           <div class="col-6 card-text"><%= @userdetails['card'] %></div>
         </div>
+        <div class="row mb-2">
+          <div class="col-12 card-text">
+            <canvas id="barcode" class="barcode"></canvas>
+            <script>
+              JsBarcode("#barcode", "<%= @userdetails['card'] %>", { fontSize: 16, textMargin: 0});
+            </script>
+          </div>
+        </div>
       <% end %>
     </div>
   </div>

@@ -220,6 +220,7 @@ GEM
       rails-assets-jquery (>= 1.8.3)
     rails-assets-jquery (3.3.1)
     rails-assets-js-cookie (2.2.0)
+    rails-assets-jsbarcode (3.11.0)
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
@@ -322,6 +323,7 @@ DEPENDENCIES
   rails (~> 5.2.1)
   rails-assets-OwlCarousel2!
   rails-assets-js-cookie!
+  rails-assets-jsbarcode!
   responders
   sass-rails (~> 5.0)
   selenium-webdriver
