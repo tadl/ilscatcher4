@@ -6,7 +6,7 @@
     Menu <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse justify-content-stretch" id="navbarNav">
-    <ul class="navbar-nav">
+    <ul class="navbar-nav d-none d-lg-flex">
       <li class="nav-item<%= (request.path == index_path) ? ' active' : '' %>">
         <a class="nav-link" href="<%= index_path %>">Home <span class="sr-only">(current)</span></a>
       </li>
@@ -17,6 +17,21 @@
         <% Settings.added_nav_links.each do |link| %>
           <li class="nav-item">
             <a class="nav-link" href="<%= link['url'] %>"><%= link['name'] %></a>
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
+    <ul class="navbar-nav d-flex d-lg-none">
+      <li class="btn-group nav-item d-inline-flex d-lg-none mb-2">
+        <a class="btn btn-primary btn-block" role="button" href="<%= index_path %>">Home</a>
+      </li>
+      <li class="btn-group nav-item d-inline-flex d-lg-none mb-2">
+        <a class="btn btn-primary btn-block" role="button" href="<%= search_path %>?new_search=true">Search</a>
+      </li>
+      <% if !Settings.added_nav_links.nil? %>
+        <% Settings.added_nav_links.each do |link| %>
+          <li class="btn-group nav-item d-inline-flex d-lg-none mb-2">
+            <a class="btn btn-primary btn-block" role="button" href="<%= link['url'] %>"><%= link['name'] %></a>
           </li>
         <% end %>
       <% end %>
