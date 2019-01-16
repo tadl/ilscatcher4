@@ -41,14 +41,14 @@
         <% end %>
         <div class="col-12 col-md-6 order-1 order-md-2">
           <% if i.holdable == true && i.electronic == false %>
-            <div class="hold-button details-hold-button-<%= i.id %> mb-3">
+            <div class="hold-button details-hold-button-<%= i.id %> mb-2">
               <button type="button" class="btn btn-primary btn-block" onclick="place_hold(this, '<%= i.id %>', '', 'from_details')">
                 Place Hold
               </button>
             </div>
-            <div id="details-change-pickup-<%= i.id %>" class="mb-3"></div>
+            <div id="details-change-pickup-<%= i.id %>" class="mb-2"></div>
           <% elsif i.electronic.to_s == "true" %>
-            <a class="btn btn-primary btn-block mb-3" role="button" href="<%= i.eresource_link %>">View Resource</a>
+            <a class="btn btn-primary btn-block mb-2" role="button" href="<%= i.eresource_link %>">View Resource</a>
           <% end %>
         </div>
       </div>
