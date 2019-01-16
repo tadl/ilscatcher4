@@ -1,5 +1,7 @@
-<% cover_column_classes = 'col-12 col-sm-3 col-md-3' %>
-<% details_column_classes = 'col-12 col-sm-9 col-md-9' %>
+<% cover_column_classes = 'col-4 col-sm-3 col-md-3' %>
+<% details_column_classes = 'col-8 col-sm-9 col-md-9' %>
+<% second_row_cover_column_classes = 'col-12 col-lg-3' %>
+<% second_row_details_column_classes = 'col-12 col-lg-9' %>
 <div class="item card mb-3" data-record_id="<%= i.id %>">
   <a href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)" class="item_details_link">
     <h5 class="card-header font-weight-bold">
@@ -9,150 +11,154 @@
     </h5>
   </a>
   <div class="card-body">
-    <div class="container-fluid">
-      <div class="row">
-        <div id="item_cover_<%= i.id %>" class="<%= cover_column_classes %> text-center">
-          <a href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)" class="item_details_link">
-            <img id="cover_<%= i.id %>" src="<%= Settings.cover_url_prefix_lg %><%= i.id %>" class="img-fluid item_cover mb-4" onerror="missing_cover('<%= i.id %>', '<%= i.type_of_resource %>')" onload="check_blank_cover(this)">
-          </a>
-        </div>
-        <div class="<%= details_column_classes %>">
-          <h4 class="card-title">
-            <% if i.author.present? %>
-              <a href="/search?query=<%= i.author %>&type=author&location=<%= i.search_location %>&view=<%= i.search_view %>">
-                <strong><%= i.author %></strong>
-              </a>
-            <% end %>
-          </h4>
-          <div class="row">
-            <div class="col-12 col-md-4 details-button mb-2 px-1">
-              <a class="btn btn-primary btn-block item_details_link" role="button" href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)">Details</a>
+    <div class="row">
+      <div id="item_cover_<%= i.id %>" class="<%= cover_column_classes %> text-center">
+        <a href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)" class="item_details_link">
+          <img id="cover_<%= i.id %>" src="<%= Settings.cover_url_prefix_lg %><%= i.id %>" class="img-fluid item_cover mb-4" onerror="missing_cover('<%= i.id %>', '<%= i.type_of_resource %>')" onload="check_blank_cover(this)">
+        </a>
+      </div>
+      <div class="<%= details_column_classes %>">
+        <h4 class="card-title">
+          <% if i.author.present? %>
+            <a href="/search?query=<%= i.author %>&type=author&location=<%= i.search_location %>&view=<%= i.search_view %>">
+              <strong><%= i.author %></strong>
+            </a>
+          <% end %>
+        </h4>
+        <div class="row">
+          <div class="col-12 col-md-4 details-button mb-2 px-1">
+            <a class="btn btn-primary btn-block item_details_link" role="button" href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)">Details</a>
+          </div>
+          <% @userdetails = (cookies[:user].present?) ? JSON.parse(cookies[:user]) : "" %>
+          <% if @userdetails != '' %>
+            <%= render 'add_to_list', i: i, from_option: 'list-' %>
+          <% end %>
+          <% if i.electronic == false && i.holdable == true %>
+            <div class="hold-button list-hold-button-<%= i.id %> col-12 col-md-4 mb-2 px-1">
+              <button class="btn btn-primary btn-block btn-hold-<%= i.id %>" type="button" onclick="place_hold(this, <%= i.id %>,'', 'list_of_results')">Place Hold</button>
             </div>
-            <% @userdetails = (cookies[:user].present?) ? JSON.parse(cookies[:user]) : "" %>
-            <% if @userdetails != '' %>
-              <%= render 'add_to_list', i: i, from_option: 'list-' %>
-            <% end %>
-            <% if i.electronic == false && i.holdable == true %>
-              <div class="hold-button list-hold-button-<%= i.id %> col-12 col-md-4 mb-2 px-1">
-                <button class="btn btn-primary btn-block btn-hold-<%= i.id %>" type="button" onclick="place_hold(this, <%= i.id %>,'', 'list_of_results')">Place Hold</button>
-              </div>
-            <% elsif i.electronic == true %>
-              <div class="view-resource-button col-12 col-md-4 mb-2 px-1">
-                <a class="btn btn-primary btn-block btn-resource" role="button" href="<%= i.eresource_link %>">View</a>
-              </div>
-            <% end %>
-          </div>
-          <div id="list-change-pickup-<%= i.id %>"></div>
-          <div class="info-block">
-            <% if defined?(i.checkout_date) %>
-              <div class="card-text border-left pl-2 mb-2"><span class="font-weight-bold">Checkout Details:</span>
-                <div class="row">
-                  <div class="col">Borrowed: <%= i.checkout_date %></div>
-                  <div class="col<% if i.return_date == "*" %> font-weight-bold<% end %>">Due: <%= i.due_date %></div>
-                  <% if i.return_date != "*" %>
-                    <div class="col font-weight-bold">Returned: <%= i.return_date %></div>
-                  <% end %>
-                </div>
-              </div>
-            <% end %>
-            <% coder = HTMLEntities.new %>
-            <% if i.abstract.present? %>
-              <p class="card-text"><span class="font-weight-bold">Summary:</span> <%= coder.decode(i.abstract.truncate(250)) %></p>
-            <% end %>
-            <% if i.contents.present? %>
-              <p class="card-text"><span class="font-weight-bold">Contents:</span> <%= coder.decode(i.contents.truncate(250)) %></p>
-            <% end %>
-            <% if i.publisher.present? %>
-              <div class="card-text">
-                <span class="font-weight-bold">Publisher: </span>
-                <%= i.publisher %>
-              </div>
-            <% end %>
-            <% if i.sort_year.present? %>
-              <div class="card-text">
-                <span class="font-weight-bold">Publication Year: </span>
-                <%= i.sort_year %>
-              </div>
-            <% end %>
-            <% if i.hold_count.to_i > 0 %>
-              <div class="hold-info font-weight-bold">
-                <% total_copies = i.availability['copies_all'] %>
-                <% copy_noun = total_copies > 1 ? 'copies' : 'copy' %>
-                <%= i.hold_count %> hold<% if i.hold_count.to_i > 1 %>s<% end %> on <%= total_copies %> <%= copy_noun %>
-              </div>
-            <% end %>
-          </div>
-          <% if i.electronic.to_s == "false" %>
-            <% if i.search_location == Settings.location_default || i.search_location.nil? %>
-              <% if i.availability['copies_all_available'] > 0 %>
-                <% i.availability['by_location'].each do |l| %>
-                  <% if l['copies_available'] > 0 %>
-                    <div class="text-success"><strong>Available at <%= l['name'] %></strong></div>
-                    <div class="info-block">
-                      <% l['shelving_locations'].each do |sl| %>
-                        <div>
-                          <strong><%= sl['available_copies'] %></strong> <%= (sl['available_copies'] == 1) ? 'copy' : 'copies' %> in <strong><%= sl['shelving_location'] %></strong>, Call number: <strong><%= sl['call_number'] %></strong>
-                        </div>
-                      <% end %>
-                    </div>
-                  <% end %>
+          <% elsif i.electronic == true %>
+            <div class="view-resource-button col-12 col-md-4 mb-2 px-1">
+              <a class="btn btn-primary btn-block btn-resource" role="button" href="<%= i.eresource_link %>">View</a>
+            </div>
+          <% end %>
+        </div>
+        <div id="list-change-pickup-<%= i.id %>"></div>
+        <div class="info-block">
+          <% if defined?(i.checkout_date) %>
+            <div class="card-text border-left pl-2 mb-2"><span class="font-weight-bold">Checkout Details:</span>
+              <div class="row">
+                <div class="col">Borrowed: <%= i.checkout_date %></div>
+                <div class="col<% if i.return_date == "*" %> font-weight-bold<% end %>">Due: <%= i.due_date %></div>
+                <% if i.return_date != "*" %>
+                  <div class="col font-weight-bold">Returned: <%= i.return_date %></div>
                 <% end %>
-              <% else %>
-                No copies available please place a hold
-              <% end %>
-            <% else %>
-            <% i.availability['by_location'].select{|h| h["code"] == i.search_location}.each do |l| %>
-              <% if l['copies_available'] > 0 %>
-                <div class="text-success"><strong>Available at <%= l['name'] %></strong></div>
-                <div class="info-block">
-                  <% l['shelving_locations'].each do |sl| %>
-                    <% if sl['available_copies'] > 0 &&  %>
+              </div>
+            </div>
+          <% end %>
+          <% coder = HTMLEntities.new %>
+          <% if i.abstract.present? %>
+            <p class="card-text d-none d-md-inline-block"><span class="font-weight-bold">Summary:</span> <%= coder.decode(i.abstract.truncate(250)) %></p>
+          <% end %>
+          <% if i.contents.present? %>
+            <p class="card-text d-none d-md-inline-block"><span class="font-weight-bold">Contents:</span> <%= coder.decode(i.contents.truncate(250)) %></p>
+          <% end %>
+          <% if i.publisher.present? %>
+            <div class="card-text d-none d-md-inline-block">
+              <span class="font-weight-bold">Publisher: </span>
+              <%= i.publisher %>
+            </div>
+          <% end %>
+          <% if i.sort_year.present? %>
+            <div class="card-text d-none d-md-inline-block">
+              <span class="font-weight-bold">Publication Year: </span>
+              <%= i.sort_year %>
+            </div>
+          <% end %>
+          <% if i.hold_count.to_i > 0 %>
+            <div class="hold-info font-weight-bold">
+              <% total_copies = i.availability['copies_all'] %>
+              <% copy_noun = total_copies > 1 ? 'copies' : 'copy' %>
+              <%= i.hold_count %> hold<% if i.hold_count.to_i > 1 %>s<% end %> on <%= total_copies %> <%= copy_noun %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="<%= second_row_cover_column_classes %> d-none d-lg-inline-block">
+      </div>
+      <div class="<%= second_row_details_column_classes %>">
+        <% if i.electronic.to_s == "false" %>
+          <% if i.search_location == Settings.location_default || i.search_location.nil? %>
+            <% if i.availability['copies_all_available'] > 0 %>
+              <% i.availability['by_location'].each do |l| %>
+                <% if l['copies_available'] > 0 %>
+                  <div class="text-success"><strong>Available at <%= l['name'] %></strong></div>
+                  <div class="info-block">
+                    <% l['shelving_locations'].each do |sl| %>
                       <div>
                         <strong><%= sl['available_copies'] %></strong> <%= (sl['available_copies'] == 1) ? 'copy' : 'copies' %> in <strong><%= sl['shelving_location'] %></strong>, Call number: <strong><%= sl['call_number'] %></strong>
                       </div>
                     <% end %>
-                  <% end %>
-                </div>
-              <% else %>
-                <div class="info-block">
-                  <% if i.availability['copies_all_available'] > 0 %>
-                    No copies available at this location. <strong><%= i.availability['copies_all_available'] %></strong> available elsewhere in the district. See more or place hold.
-                  <% else %>
-                    No copies available please place a hold
-                  <% end %>
-                </div>
+                  </div>
+                <% end %>
               <% end %>
+            <% else %>
+              No copies available please place a hold
             <% end %>
-            <% end %>
-          <% end %>
-          <% if defined?(i.list_item_id) %>
-            <% if i.notes.present? %>
-              <div class="card-text"><span class="font-weight-bold">List Notes:</span></div>
-              <% i.notes.sort_by! { |k| k['note_id'] } %>
-              <% i.notes.each do |note| %>
-                <p class="card-text" id="note-<%= note['note_id'] %>-<%= i.list_item_id %>"><span id="note-content-<%= note['note_id'] %>-<%= i.list_item_id %>"><%= coder.decode(note['note']) %></span><% if @my_list == true %> <button class="btn btn-primary btn-sm btn-list-note-edit" data-listid="<%= @list.list_id %>" data-listitemid="<%= i.list_item_id %>" data-noteid="<%= note['note_id'] %>" onclick="edit_list_item_note(this)">Edit</button><% end %></p>
-                <div class="card-text w-100 edit-note mb-3" id="edit-note-<%= note['note_id'] %>-<%= i.list_item_id %>">
-                  <textarea class="form-control mb-3 w-100" id="edit-note-content-<%= note['note_id'] %>-<%= i.list_item_id %>" maxlength="390"></textarea>
-                  <button type="button" class="btn btn-success btn-list-note-edit-save mb-3" data-listitemid="<%= i.list_item_id %>" data-noteid="<%= note['note_id'] %>" data-listid="<%= @list.list_id %>" onclick="save_edit_list_item_note(this)">Save</button>
-                  <button type="button" class="btn btn-primary btn-list-note-delete-confirm mb-3" data-noteid="<%= note['note_id'] %>" data-listid="<%= @list.list_id %>" onclick="delete_list_item_note(this)">Delete</button>
-                  <button type="button" class="btn btn-danger btn-list-note-edit-cancel mb-3" data-listitemid="<%= i.list_item_id %>" data-noteid="<%= note['note_id'] %>" onclick="cancel_edit_list_item_note(this)">Cancel</button>
-                </div>
-              <% end %>
-            <% end %>
-            <% if @my_list == true %>
-              <div class="card-text w-100 row">
-                <div class="new-note mb-3 w-100" id="new-note-<%= i.list_item_id %>">
-                  <label for="new-note-content-<%= i.list_item_id %>" class="font-weight-bold">Add a new note to this item</label>
-                  <textarea class="form-control mb-3 w-100" id="new-note-content-<%= i.list_item_id %>" rows="2" maxlength="390"></textarea>
-                  <button type="button" class="btn btn-success btn-list-note-save" data-listitemid="<%= i.list_item_id %>" data-listid="<%= @list.list_id %>" onclick="save_new_list_item_note(this)">Save</button>
-                  <button type="button" class="btn btn-danger btn-list-note-cancel" data-listitemid="<%= i.list_item_id %>" onclick="cancel_new_list_item_note(this)">Cancel</button>
-                </div>
-                <div class="col mb-3"><button type="button" class="btn btn-primary btn-block btn-list-note" data-listitemid="<%= i.list_item_id %>" onclick="new_list_item_note(this)">Add note to item</button></div>
-                <div class="col mb-3"><button type="button" class="btn btn-primary btn-block btn-remove-item" data-listitemid="<%= i.list_item_id %>" data-listid="<%= @list.list_id %>" onclick="remove_item_from_list(this)">Remove from list</button></div>
+          <% else %>
+          <% i.availability['by_location'].select{|h| h["code"] == i.search_location}.each do |l| %>
+            <% if l['copies_available'] > 0 %>
+              <div class="text-success"><strong>Available at <%= l['name'] %></strong></div>
+              <div class="info-block">
+                <% l['shelving_locations'].each do |sl| %>
+                  <% if sl['available_copies'] > 0 &&  %>
+                    <div>
+                      <strong><%= sl['available_copies'] %></strong> <%= (sl['available_copies'] == 1) ? 'copy' : 'copies' %> in <strong><%= sl['shelving_location'] %></strong>, Call number: <strong><%= sl['call_number'] %></strong>
+                    </div>
+                  <% end %>
+                <% end %>
+              </div>
+            <% else %>
+              <div class="info-block">
+                <% if i.availability['copies_all_available'] > 0 %>
+                  No copies available at this location. <strong><%= i.availability['copies_all_available'] %></strong> available elsewhere in the district. See more or place hold.
+                <% else %>
+                  No copies available please place a hold
+                <% end %>
               </div>
             <% end %>
           <% end %>
-        </div>
+          <% end %>
+        <% end %>
+        <% if defined?(i.list_item_id) %>
+          <% if i.notes.present? %>
+            <div class="card-text"><span class="font-weight-bold">List Notes:</span></div>
+            <% i.notes.sort_by! { |k| k['note_id'] } %>
+            <% i.notes.each do |note| %>
+              <p class="card-text" id="note-<%= note['note_id'] %>-<%= i.list_item_id %>"><span id="note-content-<%= note['note_id'] %>-<%= i.list_item_id %>"><%= coder.decode(note['note']) %></span><% if @my_list == true %> <button class="btn btn-primary btn-sm btn-list-note-edit" data-listid="<%= @list.list_id %>" data-listitemid="<%= i.list_item_id %>" data-noteid="<%= note['note_id'] %>" onclick="edit_list_item_note(this)">Edit</button><% end %></p>
+              <div class="card-text w-100 edit-note mb-3" id="edit-note-<%= note['note_id'] %>-<%= i.list_item_id %>">
+                <textarea class="form-control mb-3 w-100" id="edit-note-content-<%= note['note_id'] %>-<%= i.list_item_id %>" maxlength="390"></textarea>
+                <button type="button" class="btn btn-success btn-list-note-edit-save mb-3" data-listitemid="<%= i.list_item_id %>" data-noteid="<%= note['note_id'] %>" data-listid="<%= @list.list_id %>" onclick="save_edit_list_item_note(this)">Save</button>
+                <button type="button" class="btn btn-primary btn-list-note-delete-confirm mb-3" data-noteid="<%= note['note_id'] %>" data-listid="<%= @list.list_id %>" onclick="delete_list_item_note(this)">Delete</button>
+                <button type="button" class="btn btn-danger btn-list-note-edit-cancel mb-3" data-listitemid="<%= i.list_item_id %>" data-noteid="<%= note['note_id'] %>" onclick="cancel_edit_list_item_note(this)">Cancel</button>
+              </div>
+            <% end %>
+          <% end %>
+          <% if @my_list == true %>
+            <div class="card-text w-100 row">
+              <div class="new-note mb-3 w-100" id="new-note-<%= i.list_item_id %>">
+                <label for="new-note-content-<%= i.list_item_id %>" class="font-weight-bold">Add a new note to this item</label>
+                <textarea class="form-control mb-3 w-100" id="new-note-content-<%= i.list_item_id %>" rows="2" maxlength="390"></textarea>
+                <button type="button" class="btn btn-success btn-list-note-save" data-listitemid="<%= i.list_item_id %>" data-listid="<%= @list.list_id %>" onclick="save_new_list_item_note(this)">Save</button>
+                <button type="button" class="btn btn-danger btn-list-note-cancel" data-listitemid="<%= i.list_item_id %>" onclick="cancel_new_list_item_note(this)">Cancel</button>
+              </div>
+              <div class="col mb-3"><button type="button" class="btn btn-primary btn-block btn-list-note" data-listitemid="<%= i.list_item_id %>" onclick="new_list_item_note(this)">Add note to item</button></div>
+              <div class="col mb-3"><button type="button" class="btn btn-primary btn-block btn-remove-item" data-listitemid="<%= i.list_item_id %>" data-listid="<%= @list.list_id %>" onclick="remove_item_from_list(this)">Remove from list</button></div>
+            </div>
+          <% end %>
+        <% end %>
       </div>
     </div>
   </div>
