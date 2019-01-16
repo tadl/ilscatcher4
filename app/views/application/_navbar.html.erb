@@ -122,6 +122,9 @@
         <li class="btn-group nav-item d-inline-flex d-lg-none mb-2">
           <a class="btn btn-primary btn-block" role="button" href="<%= checkout_history_path %>">Checkout History</a>
         </li>
+        <li class="btn-group nav-item d-inline-flex d-lg-none mb-2">
+          <button class="btn btn-primary btn-block" type="button" data-card_number="<%= @userdetails['card'] %>" onclick="show_card(this)">Show Library Card</button>
+        </li>
         <li class="nav-item ml-lg-2 mt-lg-1">
           <button type="button" class="btn btn-block btn-light" id="logout-button" onclick="do_logout()">Sign Out</button>
         </li>
