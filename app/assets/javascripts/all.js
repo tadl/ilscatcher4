@@ -105,7 +105,7 @@ function show_login_form(){
   var form = $('#hidden_login').html()
   $('#hidden_login').html('')
   $.fancybox.open({
-    src  : '<div id="login_container" class="responsive_fancybox">'+ form +'</div>',
+    src  : '<div id="login_container" class="responsive_fancybox_login">'+ form +'</div>',
     type : 'inline',
     opts : {
       beforeClose : function( instance, current ) {
@@ -372,9 +372,3 @@ function add_to_list(element) {
   });
 }
 
-
-function show_card(element) {
-  var card_number = $(element).data('card_number');
-  $.fancybox.open('<div class="responsive_fancybox text-center" style="max-width: 650px; width: 100%;"><h2 class="bg-primary text-light w-100 p-2">Library Card</h2><canvas id="barcode" class="barcode"></canvas><p>Use your mobile device as a library card to check out at any library location.</p></div>');
-  JsBarcode("#barcode", card_number, { fontSize: 16, textMargin: 0});
-}
