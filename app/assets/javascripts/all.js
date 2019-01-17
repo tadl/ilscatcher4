@@ -86,7 +86,7 @@ function missing_cover(id, type) {
   //Use this size of icon for gird and details
   var icon_html_grid_details = icon_base + ' fa-10x"></i>';
   //Use a small and large icon for list display and only show right sized based on breakpoint
-  var icon_html_large_list = icon_base + ' fa-10x d-block d-sm-none"></i>';
+  var icon_html_large_list = icon_base + ' fa-6x d-block d-sm-none"></i>';
   var icon_html_small_list = icon_base + ' fa-6x d-none d-sm-block"></i>';
   var icon_html_both_list = icon_html_large_list + icon_html_small_list
   //Put the right html into the right div
