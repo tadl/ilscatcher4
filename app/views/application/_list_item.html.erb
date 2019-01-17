@@ -1,7 +1,7 @@
 <% cover_column_classes = 'col-4 col-sm-3 col-md-3' %>
 <% details_column_classes = 'col-8 col-sm-9 col-md-9' %>
-<% second_row_cover_column_classes = 'col-12 col-lg-3' %>
-<% second_row_details_column_classes = 'col-12 col-lg-9' %>
+<% second_row_cover_column_classes = 'col-12 col-md-3' %>
+<% second_row_details_column_classes = 'col-12 col-md-9' %>
 <div class="item card mb-3" data-record_id="<%= i.id %>">
   <a href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)" class="item_details_link">
     <h5 class="card-header font-weight-bold">
@@ -86,7 +86,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="<%= second_row_cover_column_classes %> d-none d-lg-inline-block">
+      <div class="<%= second_row_cover_column_classes %> d-none d-md-inline-block">
       </div>
       <div class="<%= second_row_details_column_classes %>">
         <% if i.electronic.to_s == "false" %>
