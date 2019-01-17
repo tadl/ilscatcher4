@@ -40,7 +40,7 @@
   <% end %>
 </div>
 <div class="d-block d-lg-none">
-  <h2 class="mt-2 mb-3 bg-primary text-light p-2 w-100">Featured Items</h2>
+  <h2 class="mt-2 mb-3 text-dark p-2 w-100">Featured Items</h2>
   <div class="row">
     <% Settings.lists.each do |g| %>
       <% g['searches'].each do |l| %>
@@ -48,7 +48,7 @@
         <div class="col-6 col-sm-4 mb-3">
           <a href="<%= l['search_link'] %>">
           <%= image_tag ('/assets/boxes/' + l['name'] + '_box.jpg'), class: "img-fluid mb-0" %>
-          <h5 class="bg-primary text-light p-2 mt-0"> <%= l['display_name'] %> </h5>
+          <h5 class="bg-primary text-light text-center p-2 mt-0"> <%= l['display_name'] %> </h5>
           </a>
         </div>
         
