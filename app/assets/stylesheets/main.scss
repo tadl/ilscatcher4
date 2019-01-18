@@ -246,3 +246,11 @@ a:hover {
 .barcode {
   max-width: 100%;
 }
+
+@media (max-width: 991px) {
+  .navbar {
+    overflow: auto;
+    max-height: 85vh;
+    align-items: flex-start;
+  }
+}
