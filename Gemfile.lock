@@ -90,6 +90,7 @@ GEM
       dry-validation (>= 0.10.4)
     connection_pool (2.2.2)
     crass (1.0.4)
+    dalli (2.7.9)
     deep_merge (1.2.1)
     domain_name (0.5.20180417)
       unf (>= 0.0.5, < 1.0.0)
@@ -304,6 +305,7 @@ DEPENDENCIES
   chromedriver-helper
   coffee-rails (~> 4.2)
   config
+  dalli
   dotenv-rails
   elasticsearch
   font-awesome-sass (~> 5.3.1)
