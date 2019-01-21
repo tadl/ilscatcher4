@@ -13,6 +13,7 @@
 //= require jquery3
 //= require jquery_ujs
 //= require jquery.fancybox.min
+//= salvattore.min
 //= require OwlCarousel2
 //= require jsbarcode
 //= require js-cookie
