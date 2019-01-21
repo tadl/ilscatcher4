@@ -12,7 +12,8 @@
   },
   "scripts": {
     "dokku": {
-      "postdeploy": "rake sliders && rake item_boxes"
+      "predeploy": "rake item_boxes",
+      "postdeploy": "rake sliders"
     }
   }
 }
