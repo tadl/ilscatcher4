@@ -47,7 +47,11 @@
         
         <div class="col-6 col-sm-4 mb-3">
           <a href="<%= l['search_link'] %>">
-          <%= image_tag (l['name'] + '_box.jpg'), class: "img-fluid mb-0" %>
+          <% if Rails.env.production? %>
+            <img src="<%= l['name'] + '_box.jpg' %>" class="img-fluid mb-0">
+          <% else %>
+            <%= image_tag (l['name'] + '_box.jpg'), class: "img-fluid mb-0" %>
+          <% end %>
           <h5 class="bg-primary text-light text-center p-2 mt-0"> <%= l['display_name'] %> </h5>
           </a>
         </div>
