@@ -31,16 +31,16 @@ task :item_boxes => :environment do
       MiniMagick::Tool::Montage.new
       
       if  Rails.env.production?
-        directory_name = '/public/assets/boxes/'
+        directory_name = Rails.root.to_s + '/public/assets/'
       else
-        directory_name = Rails.root.to_s + '/app/assets/images/boxes/'
+        directory_name = Rails.root.to_s + '/app/assets/images/'
       end
       
       count = 1
       image_files = []
 
       images.each do |i|
-        this_file = directory_name  + (l['name'] + '_' + count.to_s + '.jpg' )
+        this_file = directory_name  +  (l['name'] + '_' + count.to_s + '.jpg' )
         i.resize('150x163!')  
         i.write(this_file)
         image_files.push(this_file)
