@@ -36,6 +36,8 @@ task :item_boxes => :environment do
         directory_name = Rails.root.to_s + '/app/assets/images/'
       end
       
+      puts directory_name
+
       count = 1
       image_files = []
 
