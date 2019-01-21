@@ -29,8 +29,13 @@ task :item_boxes => :environment do
       end
 
       MiniMagick::Tool::Montage.new
-
-      directory_name = Rails.root.to_s + '/app/assets/images/boxes/'
+      
+      if  Rails.env.production?
+        directory_name = Rails.root.to_s + '/public/assets/boxes/'
+      else
+        directory_name = Rails.root.to_s + '/app/assets/images/boxes/'
+      end
+      
       count = 1
       image_files = []
 
