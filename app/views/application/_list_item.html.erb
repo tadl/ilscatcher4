@@ -64,13 +64,13 @@
             <p class="card-text d-none d-md-inline-block"><span class="font-weight-bold">Contents:</span> <%= coder.decode(i.contents.truncate(250)) %></p>
           <% end %>
           <% if i.publisher.present? %>
-            <div class="card-text d-none d-md-inline-block">
+            <div class="card-text d-none d-md-block">
               <span class="font-weight-bold">Publisher: </span>
               <%= i.publisher %>
             </div>
           <% end %>
           <% if i.sort_year.present? %>
-            <div class="card-text d-none d-md-inline-block">
+            <div class="card-text d-none d-md-block">
               <span class="font-weight-bold">Publication Year: </span>
               <%= i.sort_year %>
             </div>
