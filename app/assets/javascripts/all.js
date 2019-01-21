@@ -7,7 +7,7 @@ var ready = function(){
   });
 
   // load salvattore
-  $.getScript('/assets/salvattore.min.js');
+  salvattore.init()
 
   // left and right arrows to move between items
   var take_a_break = false
