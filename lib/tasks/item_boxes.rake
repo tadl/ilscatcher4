@@ -30,7 +30,7 @@ task :item_boxes => :environment do
 
       MiniMagick::Tool::Montage.new
 
-      directory_name = Rails.root.to_s + '/public/assets/'
+      directory_name = Rails.root.to_s + '/app/assets/images/boxes/'
       count = 1
       image_files = []
 
