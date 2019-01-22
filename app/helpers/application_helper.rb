@@ -110,8 +110,8 @@ module ApplicationHelper
 
   def check_cover(id)
     # this needs a ttl
-    Rails.cache.fetch("cover" + id.to_s) do
-      url = Settings.cover_url_prefix_md + id.to_s
+    Rails.cache.fetch("cover" + id.to_s, expires_in: 1.day) do
+      url = Settings.cover_url_prefix_lg + id.to_s
       image = MiniMagick::Image.open(url) rescue nil
       if image != nil && image.width > 2
         @result = true
