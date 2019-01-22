@@ -1,6 +1,5 @@
-<% cover_column_classes = 'col-12 col-sm-3 col-md-3 col-lg-3 col-xl-2' %>
-<% details_column_classes = 'col-12 col-sm-9 col-md-9 col-lg-6 col-xl-7' %>
-<% button_column_classes = 'col-12 col-sm-12 col-md-12 col-lg-3 col-xl-3' %>
+<% cover_column_classes = 'col-4 col-sm-3 col-md-3' %>
+<% details_column_classes = 'col-8 col-sm-9 col-md-9' %>
 <div class="item card mb-3" data-record_id="<%= i.id %>">
   <a href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)" class="item_details_link">
     <h5 class="card-header">
@@ -16,6 +15,28 @@
           </a>
         </div>
         <div class="<%= details_column_classes %>">
+          <div class="row">
+            <% if i.renew_attempts.to_i > 0 %>
+              <div class="col mb-3">
+                <button class="btn btn-primary btn-block renew-button" type="button" data-checkout="<%= i.checkout_id %>" onclick="renew(<%= i.checkout_id %>, this)">Renew</button>
+              </div>
+            <% end %>
+            <div class="col mb-3">
+              <a class="btn btn-primary btn-block item_details_link" role="button" href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)">Details</a>
+            </div>
+            <% if i.renew_attempts.to_i > 0 %>
+              <div class="col mb-3">
+                <button class="btn btn-light btn-block select" type="button" data-checkout="<%= i.checkout_id %>" onclick="toggle_select(this)">Select</button>
+              </div>
+            <% end %>
+            <% if i.hold_count.to_i > 0 %>
+              <div class="hold-info font-weight-bold text-center">
+                <% total_copies = i.availability['copies_all'] %>
+                <% copy_noun = total_copies > 1 ? 'copies' : 'copy' %>
+                <%= i.hold_count %> hold<% if i.hold_count.to_i > 1 %>s<% end %> on <%= total_copies %> <%= copy_noun %>
+              </div>
+            <% end %>
+          </div>
           <% iso_date = Date.strptime(i.due_date, '%m/%d/%Y').mjd %>
           <% today_date = Date.current.mjd %>
           <% days_count = (today_date - iso_date).abs %>
@@ -61,28 +82,6 @@
               <% end %>
             </p>
           </div>
-        </div>
-        <div class="<%= button_column_classes %>">
-          <% if i.renew_attempts.to_i > 0 %>
-            <div class="mb-3">
-              <button class="btn btn-primary btn-block renew-button" type="button" data-checkout="<%= i.checkout_id %>" onclick="renew(<%= i.checkout_id %>, this)">Renew</button>
-            </div>
-          <% end %>
-          <div class="mb-3">
-            <a class="btn btn-primary btn-block item_details_link" role="button" href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>, 'list', null, <%= i.search_location %>)">Details</a>
-          </div>
-          <% if i.renew_attempts.to_i > 0 %>
-            <div class="mb-3">
-              <button class="btn btn-light btn-block select" type="button" data-checkout="<%= i.checkout_id %>" onclick="toggle_select(this)">Select</button>
-            </div>
-          <% end %>
-          <% if i.hold_count.to_i > 0 %>
-            <div class="hold-info font-weight-bold text-center">
-              <% total_copies = i.availability['copies_all'] %>
-              <% copy_noun = total_copies > 1 ? 'copies' : 'copy' %>
-              <%= i.hold_count %> hold<% if i.hold_count.to_i > 1 %>s<% end %> on <%= total_copies %> <%= copy_noun %>
-            </div>
-          <% end %>
         </div>
       </div>
     </div>
