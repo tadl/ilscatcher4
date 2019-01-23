@@ -1,7 +1,38 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Ilscatcher4</title>
+    <%
+      if action_name == "search"
+        if defined?(@search_title)
+          title_slug = "Browsing " + @search_title + " at " + location_map(@search.location, "long")
+        elsif !params['query'].blank?
+          title_slug = "Searching " + params['query'].to_s
+        else
+          title_slug = "Search"
+        end
+      end
+      if action_name == "details"
+        title_slug = "Item details: " + @item.title
+      end
+      if action_name == "register"
+        title_slug = "Library Account Registration"
+      end
+      if controller_name == "user"
+        title_slug = "My Account | " + action_name.capitalize.gsub('_', ' ')
+      end
+      if action_name == "lists"
+        title_slug = "My Account | Lists"
+      end
+      if action_name == "view_list"
+        title_slug = "Viewing List: " + @list.title + " " + @list.description
+      end
+      if !title_slug.blank?
+        display_title = title_slug + " | " + Settings.catalog_name
+      else
+        display_title = Settings.catalog_name
+      end
+    %>
+    <title><%= display_title %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
