@@ -33,6 +33,11 @@
       end
     %>
     <title><%= display_title %></title>
+    <meta property="og:title" content="<%= display_title %>" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="<%= Settings.catalog_name %>" />
+    <meta property="og:url" content="<%= Settings.public_catalog %><%= request.fullpath %>" />
+    <meta property="og:image" content="<% if action_name == "details" %><%= Settings.cover_url_prefix_lg %><%= @item.id.to_s %><% else %><%= asset_path(Settings.logo_icon) %><% end %>" />
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
