@@ -1,4 +1,4 @@
-<% if @search.facets && @search.view != 'grid' %>
+<% if @search.facets %>
   <div class="col-md-3 mb-2" id="facets">
     <button type="button" class="btn btn-primary btn-block text-left d-block d-md-none"  data-toggle="collapse" href="#facet-block" aria-expanded="true" aria-controls="facet-block">
       Toggle Facets
@@ -18,7 +18,7 @@
     <% end %>
   </div>
 <% elsif @search.results && @search.view == 'grid' %>
-  <div class="col-md-12" id="items">
+  <div class="col-md-9" id="items">
     <div id="grid" class="row" data-columns>
       <% @search.results.each do |i| %>
         <%= render "grid_item", i: i, search: @search %>
