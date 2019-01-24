@@ -28,6 +28,9 @@ class Search
       item.instance_variable_set(:@availability, item.check_availability)
       item.instance_variable_set(:@eresource_link, item.check_eresource_link)
       item.instance_variable_set(:@result_order, item_number)
+      if item.type_of_resource == 'sound recording-nonmusical'
+        item.title_display += ' (AUDIOBOOK)'
+      end
       if self.location
         item.instance_variable_set(:@search_location, self.location)
         item.instance_variable_set(:@search_code, self.location_code)
