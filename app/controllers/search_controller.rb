@@ -5,8 +5,14 @@ class SearchController < ApplicationController
       params[:query] = ''
     end
     if !params[:view]
-      params[:view] = 'list'
-    end
+      if cookies[:layout]
+        params[:view] = cookies[:layout]
+      else
+        params[:view] = Settings.default_layout
+      end
+    else
+      cookies[:layout] = {:value => params[:view]}
+    end 
     if params[:type] == "shelving_location"
       Settings.lists.each do |list|
         list[:searches].each do |search|
