@@ -6,11 +6,20 @@ module ApplicationHelper
       if location_array[1].to_s == id.to_s
         output = (type == 'short') ? location_array[2] : location_array[0]
       end
-
     end
-
     return output
   end
+
+  def location_short_to_long(short_code)
+    Settings.location_options.each do |l|
+      if l[2] == short_code
+        return l[0]
+      end
+    end 
+    #if no match (which shouldn't happen but may return short_code)
+    return short_code
+  end
+
 
   def check_selected(current, option)
     if current == option
@@ -110,8 +119,8 @@ module ApplicationHelper
 
   def check_cover(id)
     # this needs a ttl
-    Rails.cache.fetch("cover" + id.to_s, expires_in: 1.day) do
-      url = Settings.cover_url_prefix_lg + id.to_s
+    Rails.cache.fetch("cover" + id.to_s) do
+      url = Settings.cover_url_prefix_md + id.to_s
       image = MiniMagick::Image.open(url) rescue nil
       if image != nil && image.width > 2
         @result = true

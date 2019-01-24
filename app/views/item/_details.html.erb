@@ -1,4 +1,4 @@
-<div class="row mb-3">
+<div class="row mb-3 mr-2 ml-2">
     <div class="col-lg-12">
       <button id="previous-<%= i.id%>" style="display:none" class="btn btn-sm btn-outline-primary float-left previous_link" onclick="previous_item()">
         <%= icon('fas', 'arrow-left') %> Previous
@@ -39,7 +39,7 @@
         <% if @userdetails != '' %>
           <%= render 'add_to_list', i: i, from_option: '' %>
         <% end %>
-        <div class="col-12 col-md-6 order-1 order-md-2">
+        <div class="col-12 col-md-6 order-1 order-md-2 px-1">
           <% if i.holdable == true && i.electronic == false %>
             <div class="hold-button details-hold-button-<%= i.id %> mb-2">
               <button type="button" class="btn btn-primary btn-block" onclick="place_hold(this, '<%= i.id %>', '', 'from_details')">
@@ -185,14 +185,14 @@
                     <% if location_specific == true %>
                       <% if (copy['status'] == 'Available' || copy['status'] == 'Reshelving') && copy['circ_lib'] == location_map(i.search_location, 'short') %>
                         <tr>
-                          <td><%= copy['circ_lib'] %></td>
+                          <td><%= location_short_to_long(copy['circ_lib']) %></td>
                           <td><strong><%= copy['call_number'] %></strong> in <strong><%= copy['location'] %></strong></td>
                           <td><%= copy['status'] %></td>
                         </tr>
                       <% end %>
                     <% elsif (copy['status'] == 'Available' || copy['status'] == 'Reshelving') %>
                       <tr>
-                        <td><%= copy['circ_lib'] %></td>
+                        <td><%= location_short_to_long(copy['circ_lib']) %></td>
                         <td><strong><%= copy['call_number'] %></strong> in <strong><%= copy['location'] %></strong></td>
                         <td><%= copy['status'] %></td>
                       </tr>
@@ -215,7 +215,7 @@
                 <tbody>
                   <% i.holdings.each do |copy| %>
                     <tr>
-                      <td><%= copy['circ_lib'] %></td>
+                      <td><%= location_short_to_long(copy['circ_lib']) %></td>
                       <td><strong><%= copy['call_number'] %></strong> in <strong><%= copy['location'] %></strong></td>
                       <td>
                         <%= copy['status'] %>

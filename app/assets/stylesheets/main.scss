@@ -232,6 +232,10 @@ a:hover {
   width: 450px;
 }
 
+.fancybox-content{
+  padding: 18px;
+}
+
 
 /* responsive fancybox class for mobile (xs to md) views */
 @media screen and (min-width: 1px) and (max-width: 991px) {
