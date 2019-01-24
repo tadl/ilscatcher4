@@ -1,32 +1,86 @@
-<div class="row item mb-1 pb-1 border-bottom" data-record_id="<%= i.id %>">
-  <div class="col-12 col-md-6">
-    <a href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>)" class="item_details_link">
-      <%= icon('fas', item_format_icon(i.type_of_resource)) %> <%= i.title %>
-    </a>
-  </div>
-  <div class="col-12 col-md-6">
-    <% if i.author.present? %>
-      <% search_loc = i.search_location.present? ? i.search_location : Settings.location_default %>
-      <% search_view = i.search_view.present? ? i.search_view : Settings.view_default %>
-      <a href="/search?query=<%= i.author %>&type=author&location=<%= search_loc %>&view=<%= search_view %>">
-        <%= i.author %>
+<div class="item mb-1 pb-1 border-bottom" data-record_id="<%= i.id %>">
+  <div class="row">
+    <div class="col-12">
+      <a href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>)" class="item_details_link">
+        <%= icon('fas', item_format_icon(i.type_of_resource)) %> <%= i.title %>
       </a>
-    <% end %>
+    </div>
+    <div class="col-12">
+      <% if i.author.present? %>
+        <% search_loc = i.search_location.present? ? i.search_location : Settings.location_default %>
+        <% search_view = i.search_view.present? ? i.search_view : Settings.view_default %>
+        <a href="/search?query=<%= i.author %>&type=author&location=<%= search_loc %>&view=<%= search_view %>">
+          <i class="fas fa-user"></i> <%= i.author %>
+        </a>
+      <% end %>
+    </div>
   </div>
-  <div class="col-6 d-md-none my-auto">
-    <button type="button" class="btn btn-block btn-primary btn-sm d-md-none" onclick="item_details(<%= i.id %>)">Details</button>
-  </div>
-  <div class="col-6 col-md-3 my-auto">
-    <% if i.electronic == false && i.holdable == true %>
-      <div class="hold-button list-hold-button-<%= i.id %>">
-        <button class="btn btn-primary btn-block btn-sm btn-hold-<%= i.id %>" type="button" onclick="place_hold(this, <%= i.id %>,'', 'list_of_results')">Place Hold</button>
-      </div>
-      <div id="list-change-pickup-<%= i.id %>">
-      </div>
-    <% elsif i.electronic == true %>
-      <div class="view-resource-button">
-        <a class="btn btn-primary btn-block btn-sm btn-resource" role="button" href="<%= i.eresource_link %>">View Online</a>
-      </div>
-    <% end %>
+  <div class="row">
+    <div class="col-12 col-md-9 my-auto">
+      <% if i.electronic.to_s == "false" %>
+        <% if i.search_location == Settings.location_default || i.search_location.nil? %>
+          <% if i.availability['copies_all_available'] > 0 %>
+            <% i.availability['by_location'].each do |l| %>
+              <div class="row">
+                <% if l['copies_available'] > 0 %>
+                  <div class="col-4 col-md-4 col-lg-3">
+                    <div class="text-success"><strong><%= l['name'] %></strong></div>
+                  </div>
+                  <div class="col-8 col-md-8 col-lg-9">
+                    <% l['shelving_locations'].each do |sl| %>
+                      <div class="p-0 m-0">
+                        <strong><%= sl['available_copies'] %></strong> <%= (sl['available_copies'] == 1) ? 'copy' : 'copies' %> in <strong><%= sl['shelving_location'] %></strong>, Call number: <strong><%= sl['call_number'] %></strong>
+                      </div>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          <% else %>
+            No copies available please place a hold
+          <% end %>
+        <% else %>
+          <% i.availability['by_location'].select{|h| h["code"] == i.search_location}.each do |l| %>
+            <div class="row">
+              <% if l['copies_available'] > 0 %>
+                <div class="col-12">
+                  <% l['shelving_locations'].each do |sl| %>
+                    <% if sl['available_copies'] > 0 &&  %>
+                      <div class="p-0 m-0">
+                        <strong><%= sl['available_copies'] %></strong> <%= (sl['available_copies'] == 1) ? 'copy' : 'copies' %> in <strong><%= sl['shelving_location'] %></strong>, Call number: <strong><%= sl['call_number'] %></strong>
+                      </div>
+                    <% end %>
+                  <% end %>
+                </div>
+              <% else %>
+                <div class="col-12">
+                  <% if i.availability['copies_all_available'] > 0 %>
+                    No copies available at this location. <strong><%= i.availability['copies_all_available'] %></strong> available elsewhere in the district. See more or place hold.
+                  <% else %>
+                    No copies available please place a hold
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="col-6 d-md-none my-auto">
+      <button type="button" class="btn btn-block btn-primary btn-sm d-md-none" onclick="item_details(<%= i.id %>)">Details</button>
+    </div>
+    <div class="col-6 col-md-3 my-auto">
+      <% if i.electronic == false && i.holdable == true %>
+        <div class="hold-button list-hold-button-<%= i.id %>">
+          <button class="btn btn-primary btn-block btn-sm btn-hold-<%= i.id %>" type="button" onclick="place_hold(this, <%= i.id %>,'', 'list_of_results')">Place Hold</button>
+        </div>
+        <div id="list-change-pickup-<%= i.id %>">
+        </div>
+      <% elsif i.electronic == true %>
+        <div class="view-resource-button">
+          <a class="btn btn-primary btn-block btn-sm btn-resource" role="button" href="<%= i.eresource_link %>">View Online</a>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>
