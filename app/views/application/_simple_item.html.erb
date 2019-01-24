@@ -1,11 +1,10 @@
 <div class="item mb-1 pb-1 border-bottom" data-record_id="<%= i.id %>">
-  <div class="row">
-    <div class="col-12">
+  <div class="row mb-1">
+    <div class="col-9">
       <a href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>)" class="item_details_link">
         <%= icon('fas', item_format_icon(i.type_of_resource)) %> <%= i.title %>
       </a>
-    </div>
-    <div class="col-12">
+      <br>
       <% if i.author.present? %>
         <% search_loc = i.search_location.present? ? i.search_location : Settings.location_default %>
         <% search_view = i.search_view.present? ? i.search_view : Settings.view_default %>
@@ -13,6 +12,9 @@
           <i class="fas fa-user"></i> <%= i.author %>
         </a>
       <% end %>
+    </div>
+    <div class="col-3 d-none d-md-block">
+      <button type="button" class="btn btn-block btn-primary btn-sm" onclick="item_details(<%= i.id %>)">Details</button>
     </div>
   </div>
   <div class="row">
