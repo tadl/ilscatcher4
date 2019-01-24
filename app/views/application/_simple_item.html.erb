@@ -4,7 +4,7 @@
       <%= icon('fas', item_format_icon(i.type_of_resource)) %> <%= i.title %>
     </a>
   </div>
-  <div class="col-12 col-md-3">
+  <div class="col-12 col-md-6">
     <% if i.author.present? %>
       <% search_loc = i.search_location.present? ? i.search_location : Settings.location_default %>
       <% search_view = i.search_view.present? ? i.search_view : Settings.view_default %>
