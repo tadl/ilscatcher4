@@ -58,7 +58,7 @@ class UserController < ApplicationController
   def logout
     if @user
       key_name = 'lists_' + @user.token
-      Rails.cache.delete('key_name')
+      Rails.cache.delete(key_name)
       @user.logout
       cookies.delete :login
       cookies.delete :user
