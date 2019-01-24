@@ -108,28 +108,28 @@
               No copies available please place a hold
             <% end %>
           <% else %>
-          <% i.availability['by_location'].select{|h| h["code"] == i.search_location}.each do |l| %>
-            <% if l['copies_available'] > 0 %>
-              <div class="text-success"><strong>Available at <%= l['name'] %></strong></div>
-              <div class="info-block">
-                <% l['shelving_locations'].each do |sl| %>
-                  <% if sl['available_copies'] > 0 &&  %>
-                    <div>
-                      <strong><%= sl['available_copies'] %></strong> <%= (sl['available_copies'] == 1) ? 'copy' : 'copies' %> in <strong><%= sl['shelving_location'] %></strong>, Call number: <strong><%= sl['call_number'] %></strong>
-                    </div>
+            <% i.availability['by_location'].select{|h| h["code"] == i.search_location}.each do |l| %>
+              <% if l['copies_available'] > 0 %>
+                <div class="text-success"><strong>Available at <%= l['name'] %></strong></div>
+                <div class="info-block">
+                  <% l['shelving_locations'].each do |sl| %>
+                    <% if sl['available_copies'] > 0 &&  %>
+                      <div>
+                        <strong><%= sl['available_copies'] %></strong> <%= (sl['available_copies'] == 1) ? 'copy' : 'copies' %> in <strong><%= sl['shelving_location'] %></strong>, Call number: <strong><%= sl['call_number'] %></strong>
+                      </div>
+                    <% end %>
                   <% end %>
-                <% end %>
-              </div>
-            <% else %>
-              <div class="info-block">
-                <% if i.availability['copies_all_available'] > 0 %>
-                  No copies available at this location. <strong><%= i.availability['copies_all_available'] %></strong> available elsewhere in the district. See more or place hold.
-                <% else %>
-                  No copies available please place a hold
-                <% end %>
-              </div>
+                </div>
+              <% else %>
+                <div class="info-block">
+                  <% if i.availability['copies_all_available'] > 0 %>
+                    No copies available at this location. <strong><%= i.availability['copies_all_available'] %></strong> available elsewhere in the district. See more or place hold.
+                  <% else %>
+                    No copies available please place a hold
+                  <% end %>
+                </div>
+              <% end %>
             <% end %>
-          <% end %>
           <% end %>
         <% end %>
         <% if defined?(i.list_item_id) %>
