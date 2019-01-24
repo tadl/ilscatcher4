@@ -37,7 +37,7 @@
               </div>
             <% end %>
           <% else %>
-            No copies available please place a hold
+            No copies available. Please place a hold.
           <% end %>
         <% else %>
           <% i.availability['by_location'].select{|h| h["code"] == i.search_location}.each do |l| %>
@@ -55,9 +55,9 @@
               <% else %>
                 <div class="col-12">
                   <% if i.availability['copies_all_available'] > 0 %>
-                    No copies available at this location. <strong><%= i.availability['copies_all_available'] %></strong> available elsewhere in the district. See more or place hold.
+                    No copies available at this location. <strong><%= i.availability['copies_all_available'] %></strong> available elsewhere in the district.
                   <% else %>
-                    No copies available please place a hold
+                    No copies available. Please place a hold.
                   <% end %>
                 </div>
               <% end %>
