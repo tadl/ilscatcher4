@@ -135,7 +135,7 @@ class Search
       if self.min_score
         min_score = self.min_score
       else
-        min_score = 0.24
+        min_score = 10
       end
     elsif self.type == 'record_id'
       search_scheme = record_id_search

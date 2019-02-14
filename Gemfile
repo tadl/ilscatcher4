@@ -28,6 +28,7 @@ gem 'rails-assets-jsbarcode', source: 'https://rails-assets.org'
 gem 'htmlentities'
 gem 'mechanize'
 gem 'parallel'
+gem 'rack-cors'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
