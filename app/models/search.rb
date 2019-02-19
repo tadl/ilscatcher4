@@ -3,11 +3,29 @@ class Search
   include ActiveModel::Model
   attr_accessor :query, :type, :sort, :fmt, :location, :min_score, :page, :subjects, :view,
                 :authors, :genres, :series, :limit_available, :limit_physical, :more_results,
-                :facets, :results, :view, :size
+                :facets, :results, :view, :size, :ids
   
   def client
     client = Elasticsearch::Client.new host: ENV['ES_URL']
   end
+
+  def get_by_ids
+    if self.size.nil?
+      self.size = 24
+    else
+      self.size = self.size.to_i
+    end
+    if self.page
+      item_number = (self.page.to_i * self.size)
+    else
+      item_number = 0
+    end
+    ids = self.ids.split(',')
+    search = self.client.mget index: ENV['ES_INDEX'], body: { 
+      ids: ids 
+    }
+    process_results(search['docs'], item_number)
+  end 
 
   def get_results
     if self.size.nil?
@@ -21,8 +39,38 @@ class Search
       item_number = 0
     end
     search = elastic_search()
+    process_results(search['hits']['hits'], item_number)
+  end
+
+  def search_type_options
+    return [['Keyword', 'keyword'], ['Author / Group / Actor', 'author'],['Title', 'title'],['Subject', 'subject'], ['Series', 'series'], ['Genre', 'single_genre'], ['Call Number', 'call_number']]
+  end
+
+  def sort_options
+    return [['Relevance', 'relevance'], ['Newest to Oldest', 'pubdateDESC'],['Oldest to Newest', 'pubdateASC'],['Title A to Z', 'titleAZ'], ['Title Z to A', 'titleZA']]
+  end
+
+  def format_options
+    return Settings.format_options
+  end
+
+  def location_options
+    return Settings.location_options
+  end
+
+  def location_code
+    self.location_options.each do |l|
+      if l[1] == self.location
+        return l[2]
+      end
+    end
+  end
+
+  private
+
+  def process_results(raw_results, item_number)
     results = Array.new
-    search['hits']['hits'].each do |h|
+    raw_results.each do |h|
       item = Item.new(h['_source'])
       #this line adds availability to items which is a method as if it was an attribute
       item.instance_variable_set(:@availability, item.check_availability)
@@ -55,32 +103,6 @@ class Search
     self.instance_variable_set(:@facets, process_facets(results))
     self.instance_variable_set(:@results, results.first(self.size))
   end
-
-  def search_type_options
-    return [['Keyword', 'keyword'], ['Author / Group / Actor', 'author'],['Title', 'title'],['Subject', 'subject'], ['Series', 'series'], ['Genre', 'single_genre'], ['Call Number', 'call_number']]
-  end
-
-  def sort_options
-    return [['Relevance', 'relevance'], ['Newest to Oldest', 'pubdateDESC'],['Oldest to Newest', 'pubdateASC'],['Title A to Z', 'titleAZ'], ['Title Z to A', 'titleZA']]
-  end
-
-  def format_options
-    return Settings.format_options
-  end
-
-  def location_options
-    return Settings.location_options
-  end
-
-  def location_code
-    self.location_options.each do |l|
-      if l[1] == self.location
-        return l[2]
-      end
-    end
-  end
-
-  private
 
   def elastic_search()
     if self.page
@@ -150,15 +172,15 @@ class Search
       search_scheme = shelving_location_search
       min_score = 1
     end
-      self.client.search index: ENV['ES_INDEX'], body: { 
-        query: {
-          bool: search_scheme,
-        },
-        sort: sort_strategy,
-        size: (self.size + 1),
-        from: page,
-        min_score: min_score
-      }
+    self.client.search index: ENV['ES_INDEX'], body: { 
+      query: {
+        bool: search_scheme,
+      },
+      sort: sort_strategy,
+      size: (self.size + 1),
+      from: page,
+      min_score: min_score
+    }
   end
 
   def blank_search
@@ -565,7 +587,6 @@ class Search
         minimum_should_match: 2
       }
     }
-    puts did_it.to_s
     return did_it
   end
 

@@ -636,9 +636,8 @@ class Scraper
     checkouts_hash.each do |c|
       query += c[:record_id] + ','
     end
-    search = Search.new({:query => query, :type => 'record_id', :size => 82})
-    search.get_results
-    items = search.results
+    search = Search.new({:ids => query , :size => 100})
+    items = search.get_by_ids
     checkouts = []
     items.each do |i|
       matching_checkout = checkouts_hash.select {|k| k[:record_id] == i.id.to_s}
@@ -658,9 +657,8 @@ class Scraper
     checkouts_hash.each do |c|
       query += c[:record_id].to_s + ','
     end
-    search = Search.new({:query => query, :type => 'record_id', :size => 500})
-    search.get_results
-    items = search.results
+    search = Search.new({:ids => query , :size => 100})
+    items = search.get_by_ids
     checkouts = []
     checkouts_hash.each do |c|
       matching_item = items.select{|i| i.id.to_s == c[:record_id]}
@@ -679,14 +677,11 @@ class Scraper
 
   def scraped_holds_to_full_holds(holds_hash)
     query = ''
-    sort_array = []
     holds_hash.each do |h|
       query += h[:record_id] + ','
-      sort_array.push(h[:record_id])
     end
-    search = Search.new({:query => query, :type => 'record_id', :size => 100})
-    search.get_results
-    items = search.results
+    search = Search.new({:ids => query , :size => 100})
+    items = search.get_by_ids
     holds = []
     items.each do |i|
       matching_hold = holds_hash.select {|k| k[:record_id] == i.id.to_s}
@@ -699,7 +694,7 @@ class Scraper
       hold.pickup_location = matching_hold[0][:pickup_location]
       holds.push(hold)
     end
-    return holds.sort{ |a,b| sort_array.index(a.id.to_s) <=> sort_array.index(b.id.to_s) } 
+    return holds 
   end
 
   def copy_instance_variables(parent_class, child_class)
@@ -710,14 +705,11 @@ class Scraper
 
   def list_items_to_full_items(list_item_hash)
     query = ''
-    sort_array = []
     list_item_hash.each do |l|
       query += l['record_id'] + ','
-      sort_array.push(l['record_id'])
     end
-    search = Search.new({:query => query, :type => 'record_id', :sort => 'list', :size => 9000})
-    search.get_results
-    list_items = search.results
+    search = Search.new({:ids => query, :sort => 'list', :size => 9000})
+    list_items = search.get_by_ids
     items = []
     list_items.each do |i|
       matching_item = list_item_hash.select {|k| k['record_id'] == i.id.to_s}
@@ -727,8 +719,7 @@ class Scraper
       list_item.list_item_id = matching_item[0]['list_item_id']
       items.push(list_item)
     end
-    #sort the items in the order they are requested
-    return items.sort{ |a,b| sort_array.index(a.id.to_s) <=> sort_array.index(b.id.to_s) }   
+    return items
   end
 
   def scrape_checkout_page(page)
