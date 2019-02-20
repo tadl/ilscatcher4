@@ -456,13 +456,14 @@ class Scraper
         hold.id = h.at_css("td[1]//input").try(:attr, "value")
         hold.confirmation = h.at_css("td[2]").try(:text).try(:gsub!, /\n/," ").try(:squeeze, " ").try(:strip)
       end
+      puts hold.confirmation
       if !(hold.confirmation =~ /Hold was successfully placed/)
         if hold.confirmation =~ /User already has an open hold on the selected item/
           hold.error = 'You already have this item on hold'
         elsif hold.confirmation =~ /The patron has reached the maximum number of holds/
           hold.error = 'You have reached the maximum number of allowable holds'
         end
-        if hold.confirmation == "Placing this hold could result in longer wait times." 
+        if hold.confirmation =~ /Placing this hold could result in longer wait times./
           hold.error = 'Placing this hold could result in longer wait times.'
           hold.need_to_force = true
         end
