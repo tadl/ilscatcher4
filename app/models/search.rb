@@ -122,7 +122,7 @@ class Search
       if self.min_score 
         min_score = self.min_score
       else
-        min_score = 350
+        min_score = 300
       end
     elsif self.type == 'author'
       search_scheme = author_search
@@ -221,7 +221,7 @@ class Search
           multi_match: {
             type: "phrase",
             query: self.query,
-            fields: ['title.folded^10', 'title.raw^10', 'title_short', 'author^7', 'title_alt', 'author_other^3','contents^5','abstract^5','subjects^3','series^6','genres'],
+            fields: ['title.folded^8', 'title.raw^8', 'title_display^4', 'title_short', 'author^7', 'author_brief^7', 'author_full^4', 'title_alt', 'author_other^5','contents^5','abstract^5','subjects^3','series^6','genres'],
             slop:  50,
             boost: 14
           }
@@ -230,7 +230,7 @@ class Search
           multi_match: {
             type: 'cross_fields',
             query: self.query,
-            fields: ['title.folded^10', 'title.raw^10','author^2','contents','series'],
+            fields: ['title.folded^10', 'title.raw^10', 'title_display^4','author^2', 'author_brief^2', 'genres', 'author_other', 'author_full', 'contents','series'],
             slop:  10,
             boost: 25
           }
@@ -239,7 +239,7 @@ class Search
           multi_match: {
             type: 'best_fields',
             query: self.query,
-            fields: ['title.folded^10', 'title.raw','author', 'title_alt', 'author_other','contents','abstract','subjects','series','genres'],
+            fields: ['title.folded^10', 'title.raw','author', 'author_brief', 'author_full', 'title_alt', 'author_other','contents','abstract','subjects','series','genres'],
             fuzziness: 2,
             slop:  50,
             boost: 1
@@ -284,7 +284,7 @@ class Search
           multi_match: {
           type: 'phrase_prefix',
           query: self.query,
-          fields: ['author', 'author_other'],
+          fields: ['author', 'author_other', 'author_full', 'author_brief^2'],
           slop:  3
           }
         },
@@ -292,7 +292,7 @@ class Search
           multi_match: {
           type: 'best_fields',
           query: self.query,
-          fields: ['author^2', 'author_other^2'],
+          fields: ['author^2', 'author_other^2','author_full', 'author_brief^2'],
           fuzziness: 2,
           }
         }
