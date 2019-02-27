@@ -78,7 +78,7 @@ class Search
       item.instance_variable_set(:@result_order, item_number)
       if item.type_of_resource == 'sound recording-nonmusical'
         item.title_display += ' (AUDIOBOOK)'
-      end
+      end rescue
       if self.location
         item.instance_variable_set(:@search_location, self.location)
         item.instance_variable_set(:@search_code, self.location_code)
@@ -122,14 +122,14 @@ class Search
       if self.min_score 
         min_score = self.min_score
       else
-        min_score = 300
+        min_score = 280
       end
     elsif self.type == 'author'
       search_scheme = author_search
       if self.min_score 
         min_score = self.min_score
       else
-        min_score = 30
+        min_score = 23
       end
     elsif self.type == 'title'
       search_scheme = title_search
@@ -143,7 +143,7 @@ class Search
       if self.min_score
         min_score = self.min_score
       else
-        min_score = 37
+        min_score = 50
       end
     elsif self.type == 'series'
       search_scheme = series_search
@@ -157,7 +157,7 @@ class Search
       if self.min_score
         min_score = self.min_score
       else
-        min_score = 10
+        min_score = 75
       end
     elsif self.type == 'record_id'
       search_scheme = record_id_search
@@ -306,9 +306,9 @@ class Search
       should:[
         {
           multi_match: {
-            type: 'phrase_prefix',
+            type: 'best_fields',
             query: self.query,
-            fields: ['title.folded', 'title.raw', 'title_short', 'title_alt'],
+            fields: ['title.folded', 'title.raw', 'title_short', 'title_alt', 'title_nonfiling'],
             slop:  3,
             boost: 10
           }
