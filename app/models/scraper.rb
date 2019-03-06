@@ -85,11 +85,16 @@ class Scraper
         checkout[:barcode] = l.css('td[5]').try(:text).try(:strip)
         raw_checkouts.push(checkout)
       end
-      checkouts_hash['checkouts'] = scraped_historical_checkouts_to_full_checkouts(raw_checkouts)
-      if page.parser.css('.invisible:contains("Next")').present?
+      if raw_checkouts.size == 0
+        checkouts_hash['checkouts'] = []
         checkouts_hash['more_results'] = "false"
       else
-        checkouts_hash['more_results'] = "true"
+        checkouts_hash['checkouts'] = scraped_historical_checkouts_to_full_checkouts(raw_checkouts)
+        if page.parser.css('.invisible:contains("Next")').present?
+          checkouts_hash['more_results'] = "false"
+        else
+          checkouts_hash['more_results'] = "true"
+        end
       end
       return checkouts_hash      
     end 
@@ -735,7 +740,11 @@ class Scraper
         :barcode => c.search('td[@name="barcode"]').text.to_s.try(:gsub!, /\n/," ").try(:squeeze, " ").try(:strip),
       }
     end
-    return scraped_checkouts_to_full_checkouts(raw_checkouts)
+    if raw_checkouts.size == 0
+      return []
+    else
+      return scraped_checkouts_to_full_checkouts(raw_checkouts)
+    end
   end
 
   def scrape_holds_page(page)
