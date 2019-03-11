@@ -3,8 +3,8 @@ class UserController < ApplicationController
   before_action :check_for_token, except: [:login, :login_and_place_hold, :sign_in, :missing_token, :request_password_reset, :submit_password_reset]
 
   def login
+    @user = User.new
     if cookies[:login] || params[:token] || (params[:username] && (params[:password] || params[:md5password]))
-      @user = User.new
 
       if params[:password] && (params[:password].length <= 4)
         @user.temp_password = true
@@ -28,14 +28,17 @@ class UserController < ApplicationController
       end
 
     else
-      @user = {'error'=> 'missing parameters'}
+      @user.error = "missing parameters"
     end
 
-    respond_to do |format|
-      format.json {render :json => @user}
-      format.js
+    if @user.error == nil && params[:full] == 'true'
+      redirect_to :controller => 'user', :action => 'all_account', :format => 'json', :params => {token: @user.token}
+    else
+      respond_to do |format|
+        format.json {render :json => @user}
+        format.js
+      end
     end
-
   end
 
   def login_and_place_hold
