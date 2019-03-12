@@ -83,7 +83,7 @@ class UserController < ApplicationController
     prep_hold = Hold.new
     prep_checkout = Checkout.new
     prep_list = List.new
-      Parallel.each([1,2,3,4,5,6,7], in_threads: 7){|task|
+      Parallel.each([1,2,3,4], in_threads: 7){|task|
         case task
           when 1
             @preferences = @user.TEMP_get_preferences
