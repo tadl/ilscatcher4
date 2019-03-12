@@ -192,9 +192,13 @@ class Scraper
     if test_for_logged_in(page) == false
       return {type: 'username', error: "Invalid password"}
     end
+
+    test_for_bad_password = page.at_css('div:contains("Your current password was not correct.")').text rescue nil
     test_for_in_use = page.at_css('div:contains("Please try a different username")').text rescue nil
     if test_for_in_use
       return {type: 'username', error: "Username is in use by another patron"}
+    elsif test_for_bad_password
+        return {type: 'username', error: "Your current password was not correct."}
     else
       return {type: 'username', success: "Username was sucessfully changed"}
     end
@@ -232,8 +236,11 @@ class Scraper
       return {type: 'email', error: "Invalid password"}
     end
     test_for_bad_email = page.at_css('div:contains("Please try a different email address")').text rescue nil
+    test_for_bad_old_password = page.at_css('div:contains("Your current password was not correct.")').text rescue nil
     if test_for_bad_email
       return {type: 'email', error: "Invalid email"}
+    elsif test_for_bad_old_password
+      return {type: 'email', error: "Your current password was not correct."}
     else
       return {type: 'email', success: "Email was sucessfully changed"}
     end
@@ -249,9 +256,12 @@ class Scraper
     if test_for_logged_in(page) == false
       return {type: 'alias', error: "Invalid password"}
     end
+    test_for_bad_old_password = page.at_css('div:contains("Your current password was not correct.")').text rescue nil
     test_for_in_use = page.at_css('div:contains("Please try a different alias")').text rescue nil
     if test_for_in_use
       return {type: 'alias', error: "Alias is in use by another patron"}
+    elsif test_for_bad_old_password
+      return {type: 'alias', error: "Your current password was not correct."}
     else
       return {type: 'alias', success: "Alias was sucessfully changed"}
     end
