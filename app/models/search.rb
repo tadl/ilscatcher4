@@ -71,27 +71,30 @@ class Search
   def process_results(raw_results, item_number)
     results = Array.new
     raw_results.each do |h|
-      item = Item.new(h['_source'])
-      #this line adds availability to items which is a method as if it was an attribute
-      item.instance_variable_set(:@availability, item.check_availability)
-      item.instance_variable_set(:@eresource_link, item.check_eresource_link)
-      item.instance_variable_set(:@result_order, item_number)
-      if item.type_of_resource == 'sound recording-nonmusical' && !item.title_display.nil?
-        item.title_display += ' (AUDIOBOOK)'
+      if h['_source']
+        item = Item.new(h['_source'])
+        #this line adds availability to items which is a method as if it was an attribute
+        puts h['_source']
+        item.instance_variable_set(:@availability, item.check_availability)
+        item.instance_variable_set(:@eresource_link, item.check_eresource_link)
+        item.instance_variable_set(:@result_order, item_number)
+        if item.type_of_resource == 'sound recording-nonmusical' && !item.title_display.nil?
+          item.title_display += ' (AUDIOBOOK)'
+        end
+        if self.location
+          item.instance_variable_set(:@search_location, self.location)
+          item.instance_variable_set(:@search_code, self.location_code)
+        else
+          item.instance_variable_set(:@search_location, Settings.location_default)
+        end
+        if self.view
+          item.instance_variable_set(:@search_view, self.view)
+        else
+          item.instance_variable_set(:@search_view, Settings.view_default)
+        end
+        item_number += 1
+        results.push(item)
       end
-      if self.location
-        item.instance_variable_set(:@search_location, self.location)
-        item.instance_variable_set(:@search_code, self.location_code)
-      else
-        item.instance_variable_set(:@search_location, Settings.location_default)
-      end
-      if self.view
-        item.instance_variable_set(:@search_view, self.view)
-      else
-        item.instance_variable_set(:@search_view, Settings.view_default)
-      end
-      item_number += 1
-      results.push(item)
     end 
     if results.size > self.size
       more_results = true
