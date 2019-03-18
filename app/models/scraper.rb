@@ -446,7 +446,7 @@ class Scraper
       form.field_with(:name => "username").value = username
     end
     agent.submit(form)
-    return 'complete'
+    return {:success => 'password reset request submitted'}
   end 
 
   def item_place_hold(token, force, id)

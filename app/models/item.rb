@@ -7,7 +7,8 @@ class Item
                 :type_of_resource, :sort_year, :publisher, :title_short, :author, :hold_count,
                 :author_other, :record_year, :availability, :attrs, :eresource_link, :result_order,
                 :search_view, :search_location_copies, :search_code, :author_brief, :author_full,
-                :bib_stauts, :author_fullerform, :bib_status
+                :bib_stauts, :author_fullerform, :bib_status, :author_other_brief, :author_other_full,
+                :is_large_print,
 
   def is_available
     # returns bool if item is available at all or a single location depending on the search location param

@@ -74,7 +74,6 @@ class Search
       if h['_source']
         item = Item.new(h['_source'])
         #this line adds availability to items which is a method as if it was an attribute
-        puts h['_source']
         item.instance_variable_set(:@availability, item.check_availability)
         item.instance_variable_set(:@eresource_link, item.check_eresource_link)
         item.instance_variable_set(:@result_order, item_number)
@@ -125,7 +124,7 @@ class Search
       if self.min_score 
         min_score = self.min_score
       else
-        min_score = 280
+        min_score = 28
       end
     elsif self.type == 'author'
       search_scheme = author_search
@@ -146,7 +145,7 @@ class Search
       if self.min_score
         min_score = self.min_score
       else
-        min_score = 50
+        min_score = 32
       end
     elsif self.type == 'series'
       search_scheme = series_search
@@ -222,32 +221,35 @@ class Search
       should:[
         {
           multi_match: {
-            type: "phrase",
+            type: "cross_fields",
             query: self.query,
-            fields: ['title.folded^8', 'title.raw^8', 'title_display^4', 'title_short', 'author^7', 'author_brief^7', 'author_full^4', 'title_alt', 'author_other^5','contents^5','abstract^5','subjects^3','series^6','genres'],
+            fields: [ 'title.folded', 
+                      'title_display', 
+                      'title_short^3', 
+                      'title_alt',
+                      'title.docs^3', 
+                      'author.folded', 
+                      'author_brief^5',  
+                      'author_other',
+                      'author_other_brief^3',
+                      'contents^2',
+                      'contents.english',
+                      'abstract',
+                      'subjects^3',
+                      'subjects.english^2',
+                      'series',
+                      'genres'],
             slop:  50,
-            boost: 14
           }
         },
         {
-          multi_match: {
-            type: 'cross_fields',
-            query: self.query,
-            fields: ['title.folded^10', 'title.raw^10', 'title_display^4','author^2', 'author_brief^2', 'genres', 'author_other', 'author_full', 'contents','series'],
-            slop:  10,
-            boost: 25
+          term: {
+            "title.docs": {          
+              value: self.query,
+              boost: 15
+            }
           }
         },
-        {
-          multi_match: {
-            type: 'best_fields',
-            query: self.query,
-            fields: ['title.folded^10', 'title.raw','author', 'author_brief', 'author_full', 'title_alt', 'author_other','contents','abstract','subjects','series','genres'],
-            fuzziness: 2,
-            slop:  50,
-            boost: 1
-          }
-        },        
       ],
       filter: process_filters,
     }
@@ -285,18 +287,11 @@ class Search
       should:[
         {
           multi_match: {
-          type: 'phrase_prefix',
-          query: self.query,
-          fields: ['author', 'author_other', 'author_full', 'author_brief^2'],
-          slop:  3
-          }
-        },
-        {
-          multi_match: {
           type: 'best_fields',
           query: self.query,
-          fields: ['author^2', 'author_other^2','author_full', 'author_brief^2'],
+          fields: ['author', 'author_other', 'author_other_brief^2', 'author_full', 'author_brief^3'],
           fuzziness: 2,
+          slop:  3
           }
         }
       ],
@@ -332,23 +327,24 @@ class Search
 
   def subject_search
     {
-      should:[
+      must:[
         {
           multi_match: {
-          type: 'phrase',
-          query: self.query,
-          fields: ['subjects^3', 'abstract', 'contents'],
-          slop:  3,
-          boost: 10
+            type: 'best_fields',
+            query: self.query,
+            fields: ['subjects^2','subjects.english^2','abstract','contents'],
+            slop:  3,
+            fuzziness: 1,
           }
         },
-        {
+      ],
+      should:[  
+        {   
           multi_match: {
-          type: 'best_fields',
-          query: self.query,
-          fields: ['subjects^3', 'abstract', 'contents'],
-          fuzziness: 2,
-          boost: 1
+            type: 'best_fields',
+            query: self.query,
+            fields: ['subjects','subjects.english','abstract','contents'],
+            slop: 3,
           }
         }
       ],
