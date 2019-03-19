@@ -132,7 +132,7 @@ class Search
       if self.min_score 
         min_score = self.min_score
       else
-        min_score = 520
+        min_score = 250
       end
     elsif self.type == 'title'
       search_scheme = title_search
@@ -314,27 +314,27 @@ class Search
             query: self.query,
             fields: [ 
                       'author.folded',
-                      'author', 
-                      'author_brief^8',  
-                      'author_other^8',
-                      'author_other_brief^8',
+                      'author^2', 
+                      'author_brief^5',  
+                      'author_other^3',
+                      'author_other_brief^3',
                     ],
             slop:  100,
             boost: 3,
-            fuzziness: 2
+            fuzziness: 1
           }
         }, 
       ],
       should:[
         {
           multi_match: {
-            type: "most_fields",
+            type: "phrase",
             query: self.query,
             fields: [ 
                       'author.folded', 
-                      'author_brief^5',  
-                      'author_other^2',
-                      'author_other_brief^3',
+                      'author_brief^6',  
+                      'author_other^4',
+                      'author_other_brief^4',
                     ],
             slop:  20,
             boost: 10,
@@ -497,8 +497,8 @@ class Search
     sort_type = Array.new
     if self.sort == nil || self.sort == '' || self.sort == 'relevance'
       sort_type.push("_score")
-      sort_type.push({"sort_year": "asc" })
       sort_type.push({ "author.raw": "asc" })
+      sort_type.push({"sort_year": "desc" })
       sort_type.push({ "title_nonfiling.sort": "asc" })
     else
       if sort == 'titleAZ'
