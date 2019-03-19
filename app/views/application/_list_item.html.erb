@@ -75,6 +75,10 @@
               <%= i.sort_year %>
             </div>
           <% end %>
+          <div class="card-text d-none d-md-block">
+              <span class="font-weight-bold">Score: </span>
+              <%= i.score %>
+          </div>
           <% if i.hold_count.to_i > 0 %>
             <div class="hold-info font-weight-bold">
               <% total_copies = i.availability['copies_all'] %>

@@ -74,6 +74,7 @@ class Search
       if h['_source']
         item = Item.new(h['_source'])
         #this line adds availability to items which is a method as if it was an attribute
+        item.instance_variable_set(:@score, h['_score'])
         item.instance_variable_set(:@availability, item.check_availability)
         item.instance_variable_set(:@eresource_link, item.check_eresource_link)
         item.instance_variable_set(:@result_order, item_number)
@@ -124,42 +125,42 @@ class Search
       if self.min_score 
         min_score = self.min_score
       else
-        min_score = 28
+        min_score = 200
       end
     elsif self.type == 'author'
       search_scheme = author_search
       if self.min_score 
         min_score = self.min_score
       else
-        min_score = 23
+        min_score = 600
       end
     elsif self.type == 'title'
       search_scheme = title_search
       if self.min_score
         min_score = self.min_score
       else
-        min_score = 100
+        min_score = 350
       end
     elsif self.type == 'subject'
       search_scheme = subject_search
       if self.min_score
         min_score = self.min_score
       else
-        min_score = 32
+        min_score = 300
       end
     elsif self.type == 'series'
       search_scheme = series_search
       if self.min_score
         min_score = self.min_score
       else
-        min_score = 0.6
+        min_score = 9.2
       end
     elsif self.type == 'single_genre'
       search_scheme = single_genre_search
       if self.min_score
         min_score = self.min_score
       else
-        min_score = 75
+        min_score = 5
       end
     elsif self.type == 'record_id'
       search_scheme = record_id_search
@@ -218,36 +219,58 @@ class Search
 
   def keyword_search
     { 
+      must:[
+        {
+          multi_match: {
+            type: "best_fields",
+            query: self.query,
+            fields: [ 'title.folded', 
+                      'title_display^3', 
+                      'title_short.docs^4', 
+                      'title_alt',
+                      'title.docs^4', 
+                      'author.folded', 
+                      'author_brief^4',  
+                      'author_other^8',
+                      'author_other_brief^8',
+                      'contents',
+                      'contents.english^2',
+                      'contents_array',
+                      'abstract',
+                      'abstract_array',
+                      'subjects^3',
+                      'subjects.english^2',
+                      'series',
+                      'genres'],
+            slop:  100,
+            boost: 3,
+            fuzziness: 1
+          }
+        }, 
+      ],
       should:[
         {
           multi_match: {
             type: "cross_fields",
             query: self.query,
             fields: [ 'title.folded', 
-                      'title_display', 
-                      'title_short^3', 
+                      'title_display^3', 
+                      'title_short.docs^4', 
                       'title_alt',
-                      'title.docs^3', 
+                      'title.docs^4', 
                       'author.folded', 
                       'author_brief^5',  
-                      'author_other',
+                      'author_other^3',
                       'author_other_brief^3',
-                      'contents^2',
-                      'contents.english',
+                      'contents',
+                      'contents.english^2',
                       'abstract',
                       'subjects^3',
                       'subjects.english^2',
                       'series',
                       'genres'],
-            slop:  50,
-          }
-        },
-        {
-          term: {
-            "title.docs": {          
-              value: self.query,
-              boost: 15
-            }
+            slop:  20,
+            boost: 10,
           }
         },
       ],
@@ -283,72 +306,123 @@ class Search
   end
 
   def author_search
-    {
+    { 
+      must:[
+        {
+          multi_match: {
+            type: "best_fields",
+            query: self.query,
+            fields: [ 
+                      'author.folded',
+                      'author', 
+                      'author_brief^8',  
+                      'author_other^8',
+                      'author_other_brief^8',
+                    ],
+            slop:  100,
+            boost: 3,
+            fuzziness: 2
+          }
+        }, 
+      ],
       should:[
         {
           multi_match: {
-          type: 'best_fields',
-          query: self.query,
-          fields: ['author', 'author_other', 'author_other_brief^2', 'author_full', 'author_brief^3'],
-          fuzziness: 2,
-          slop:  3
+            type: "cross_fields",
+            query: self.query,
+            fields: [ 
+                      'author.folded', 
+                      'author_brief^5',  
+                      'author_other^3',
+                      'author_other_brief^3',
+                    ],
+            slop:  20,
+            boost: 10,
           }
-        }
+        },
       ],
-      filter: process_filters
+      filter: process_filters,
     }
   end
 
   def title_search
-    {
+  { 
+      must:[
+        {
+          multi_match: {
+            type: "best_fields",
+            query: self.query,
+            fields: [ 'title.folded', 
+                      'title_display^3', 
+                      'title_short.docs^4', 
+                      'title_alt',
+                      'title.docs^4', 
+                    ],
+            slop:  100,
+            boost: 3,
+            fuzziness: 1
+          }
+        }, 
+      ],
       should:[
         {
           multi_match: {
-            type: 'best_fields',
+            type: "cross_fields",
             query: self.query,
-            fields: ['title.folded', 'title.raw', 'title_short', 'title_alt', 'title_nonfiling'],
-            slop:  3,
-            boost: 10
+            fields: [ 'title.folded', 
+                      'title_display^3', 
+                      'title_short.docs^4', 
+                      'title_alt',
+                      'title.docs^4', 
+                    ],
+            slop:  20,
+            boost: 10,
           }
         },
-        {
-          multi_match: {
-          type: 'most_fields',
-          query: self.query,
-          fields: ['title.folded^10', 'title.raw^10', 'title_short', 'title_alt'],
-          fuzziness: 1,
-          boost: 1
-          }
-        }
       ],
-      filter: process_filters
+      filter: process_filters,
     }
   end
 
   def subject_search
-    {
+    { 
       must:[
         {
           multi_match: {
-            type: 'best_fields',
+            type: "best_fields",
             query: self.query,
-            fields: ['subjects^2','subjects.english^2','abstract','contents'],
-            slop:  3,
-            fuzziness: 1,
+            fields: [ 'contents',
+                      'contents.english^2',
+                      'contents_array',
+                      'abstract',
+                      'abstract_array',
+                      'subjects^3',
+                      'subjects.english^3',
+                    ],
+            slop:  100,
+            boost: 3,
+            fuzziness: 1
+          }
+        }, 
+      ],
+      should:[
+        {
+          multi_match: {
+            type: "cross_fields",
+            query: self.query,
+            fields: [ 
+                      'contents',
+                      'contents.english^2',
+                      'abstract',
+                      'subjects^3',
+                      'subjects.english^3',
+                    ],
+            slop:  20,
+            boost: 10,
           }
         },
       ],
-      should:[  
-        {   
-          multi_match: {
-            type: 'best_fields',
-            query: self.query,
-            fields: ['subjects','subjects.english','abstract','contents'],
-            slop: 3,
-          }
-        }
-      ],
-      filter: process_filters
+      filter: process_filters,
     }
   end
 
@@ -369,7 +443,7 @@ class Search
           type: 'best_fields',
           query: self.query,
           fields: ['series'],
-          fuzziness: 2,
+          fuzziness: 1,
           boost: 1
           }
         }
@@ -423,6 +497,7 @@ class Search
     sort_type = Array.new
     if self.sort == nil || self.sort == '' || self.sort == 'relevance'
       sort_type.push("_score")
+      sort_type.push({"sort_year": "asc" })
       sort_type.push({ "author.raw": "asc" })
       sort_type.push({ "title_nonfiling.sort": "asc" })
     else
