@@ -132,7 +132,7 @@ class Search
       if self.min_score 
         min_score = self.min_score
       else
-        min_score = 600
+        min_score = 520
       end
     elsif self.type == 'title'
       search_scheme = title_search
@@ -146,7 +146,7 @@ class Search
       if self.min_score
         min_score = self.min_score
       else
-        min_score = 300
+        min_score = 270
       end
     elsif self.type == 'series'
       search_scheme = series_search
@@ -328,12 +328,12 @@ class Search
       should:[
         {
           multi_match: {
-            type: "cross_fields",
+            type: "most_fields",
             query: self.query,
             fields: [ 
                       'author.folded', 
                       'author_brief^5',  
-                      'author_other^3',
+                      'author_other^2',
                       'author_other_brief^3',
                     ],
             slop:  20,
