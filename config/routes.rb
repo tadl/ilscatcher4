@@ -41,4 +41,11 @@ Rails.application.routes.draw do
   match 'change_temp_password', to: 'user#change_temp_password', as: 'change_temp_password', via: [:get, :post]
   match 'save_account_preferences', to: 'user#save_account_preferences', as: 'save_account_preferences', via: [:get, :post]
   # For details on the DSL available within this file, see http://guides.ruby
+
+  # Legacy routes begin here
+  # First match to new controller if the params do not need to be manipulated
+  match '/main/view_list', to: redirect(path: '/view_list', status: 302), via: [:get, :post]
+  # Now any request that do need params manipulated are handled here 
+  match '/main/:action', controller: 'legacy', via: [:get, :post]
+
 end

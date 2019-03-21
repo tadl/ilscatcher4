@@ -125,7 +125,7 @@ class Search
       if self.min_score 
         min_score = self.min_score
       else
-        min_score = 200
+        min_score = 239
       end
     elsif self.type == 'author'
       search_scheme = author_search
@@ -171,7 +171,7 @@ class Search
     elsif self.type == 'call_number'
       search_scheme = call_number_search
       min_score = 1
-    elsif self.type == 'shelving_location'
+    elsif self.type == 'shelving_location' || 'shelf'
       search_scheme = shelving_location_search
       min_score = 1
     end
@@ -241,7 +241,7 @@ class Search
                       'subjects^3',
                       'subjects.english^2',
                       'series',
-                      'genres'],
+                      'genres^3'],
             slop:  100,
             boost: 3,
             fuzziness: 1
@@ -268,7 +268,7 @@ class Search
                       'subjects^3',
                       'subjects.english^2',
                       'series',
-                      'genres'],
+                      'genres^3'],
             slop:  20,
             boost: 10,
           }

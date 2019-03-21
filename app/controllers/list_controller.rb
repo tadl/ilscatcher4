@@ -33,16 +33,19 @@ class ListController < ApplicationController
         @user = User.new
         @list = @user.TEMP_view_list(nil, params[:list_id], page, params[:sort])
       end
-      key_name = 'lists_' + @user.token
-      @mylists = Rails.cache.fetch(key_name)
-      if @mylists.size > 0 
-        @mylists.each do |l|
-          if l.list_id == params[:list_id]
-            @my_list = true
+      if @user.token
+        key_name = 'lists_' + @user.token
+        @mylists = Rails.cache.fetch(key_name)
+        if @mylists.size > 0 
+          @mylists.each do |l|
+            if l.list_id == params[:list_id]
+              @my_list = true
+            end
           end
         end
+      else
+        @my_list = false
       end
-
     else
       @list = {:error => 'missing parameters'}
     end
