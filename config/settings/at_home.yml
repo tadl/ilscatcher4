@@ -12,6 +12,10 @@ lists:
         display_name: "New Non-fiction"
         params: {query: "621", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "22"}
         search_link: "/search?query=621&type=shelving_location&fmt=all&sort=pubdateDESC&location=22"
+      - name: "tadlnewaudiobooks"
+        display_name: "New Audiobooks"
+        params: {query: "518", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "22"}
+        search_link: "/search?query=518&type=shelving_location&fmt=all&sort=pubdateDESC&location=22"
   - group: 'Video'
     searches:
       - name: "tadlhotdvds"
