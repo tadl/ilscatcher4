@@ -707,7 +707,8 @@ class Scraper
       hold.hold_status = matching_hold[0][:hold_status]
       hold.queue_status = matching_hold[0][:queue_status]
       hold.queue_state  = matching_hold[0][:queue_state]
-      hold.pickup_location = matching_hold[0][:pickup_location]
+      hold.pickup_location = ApplicationController.helpers.location_super_long_map(matching_hold[0][:pickup_location], 'short')
+      hold.pickup_location_code = ApplicationController.helpers.location_super_long_map(matching_hold[0][:pickup_location], 'code')
       holds.push(hold)
     end
     return holds 

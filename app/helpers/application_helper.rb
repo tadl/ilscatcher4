@@ -10,6 +10,16 @@ module ApplicationHelper
     return output
   end
 
+  def location_super_long_map(super_long_name, type = 'code') #type can be 'code' (22) or long 'long' (Traverse City)
+      output = ''
+      Settings.location_options.each do |location_array|
+      if location_array[3] == super_long_name
+        output = (type == 'code') ? location_array[1] : location_array[0]
+      end
+    end
+    return output
+  end
+  
   def location_short_to_long(short_code)
     Settings.location_options.each do |l|
       if l[2] == short_code
