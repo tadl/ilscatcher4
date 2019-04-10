@@ -143,7 +143,7 @@ class Search
       if self.min_score
         min_score = self.min_score
       else
-        min_score = 350
+        min_score = 200
       end
     elsif self.type == 'subject'
       search_scheme = subject_search
@@ -229,23 +229,23 @@ class Search
             type: "best_fields",
             query: self.query,
             fields: [ 'title.folded', 
-                      'title_display^3', 
-                      'title_short.docs^4', 
+                      'title_display', 
+                      'title_short.docs', 
                       'title_alt',
-                      'title.docs^4', 
+                      'title.docs', 
                       'author.folded', 
-                      'author_brief^4',  
-                      'author_other^8',
-                      'author_other_brief^8',
+                      'author_brief',  
+                      'author_other',
+                      'author_other_brief',
                       'contents',
-                      'contents.english^2',
+                      'contents.english',
                       'contents_array',
                       'abstract',
                       'abstract_array',
-                      'subjects^3',
-                      'subjects.english^2',
+                      'subjects',
+                      'subjects.english',
                       'series',
-                      'genres^3'],
+                      'genres'],
             slop:  100,
             boost: 3,
             fuzziness: 1
@@ -264,6 +264,30 @@ class Search
                       'title.docs^4', 
                       'author.folded', 
                       'author_brief^5',  
+                      'author_other^6',
+                      'author_other_brief^6',
+                      'contents',
+                      'contents.english^2',
+                      'abstract',
+                      'subjects^3',
+                      'subjects.english^2',
+                      'series',
+                      'genres^3'],
+            slop:  20,
+            boost: 30,
+          }
+        },
+                {
+          multi_match: {
+            type: "phrase",
+            query: self.query,
+            fields: [ 'title.folded', 
+                      'title_display^3', 
+                      'title_short^6', 
+                      'title_alt',
+                      'title^4', 
+                      'author.folded', 
+                      'author_brief',  
                       'author_other^3',
                       'author_other_brief^3',
                       'contents',
@@ -273,8 +297,8 @@ class Search
                       'subjects.english^2',
                       'series',
                       'genres^3'],
-            slop:  20,
-            boost: 10,
+            slop:  2,
+            boost: 4,
           }
         },
       ],
