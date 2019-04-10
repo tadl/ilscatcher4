@@ -104,7 +104,7 @@
             <span class="input-group-text">Audience</span>
           </div>
           <select class="form-control form-control-sm<%= (params[:new_search].to_s != 'true') ? ' autoload' : '' %>" id="audiences" name="audiences">
-            <% Settings.audiences.each do |a| %>
+            <% @search.audience_options.each do |a| %>
               <option value="<%= a %>"  <%= check_selected(@search.audiences, a) %>>
                 <%= a %>
               </option>

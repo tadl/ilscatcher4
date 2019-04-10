@@ -50,6 +50,10 @@ class Search
     return [['Relevance', 'relevance'], ['Newest to Oldest', 'pubdateDESC'],['Oldest to Newest', 'pubdateASC'],['Title A to Z', 'titleAZ'], ['Title Z to A', 'titleZA']]
   end
 
+  def audience_options 
+    return ['All','Adult','Young Adult','Juvenile']
+  end
+
   def format_options
     return Settings.format_options
   end
