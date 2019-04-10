@@ -3,7 +3,7 @@ class Search
   include ActiveModel::Model
   attr_accessor :query, :type, :sort, :fmt, :location, :min_score, :page, :subjects, :view,
                 :authors, :genres, :series, :limit_available, :limit_physical, :more_results,
-                :facets, :results, :view, :size, :ids
+                :facets, :results, :view, :size, :ids, :audiences
   
   def client
     client = Elasticsearch::Client.new host: ENV['ES_URL']
@@ -609,6 +609,9 @@ class Search
     if self.limit_physical == 'true'
       filters.push(term: {"electronic": false})
     end
+    if self.audiences && self.audiences != 'All'
+      filters.push(audience_filter)
+    end
     if self.fmt != "All Formats"
       self.format_options.each do |f|
         if f[0] == self.fmt
@@ -737,6 +740,38 @@ class Search
         ]
       }
     }
+  end
+
+  def audience_filter
+    if self.audiences == 'Juvenile'
+      { 
+        bool:{
+          should:[
+            {term: {"audiences": "juvenile"}},
+            {term: {"audiences": "marc_juvenile"}},
+          ]
+        }
+      }
+    elsif self.audiences == 'Adult'
+      { 
+        bool:{
+          should:[
+            {term: {"audiences": "adult"}},
+            {term: {"audiences": "marc_adult"}},
+            {term: {"audiences": "marc_general"}},
+          ]
+        }
+      }
+    elsif self.audiences == 'Young Adult'
+      { 
+        bool:{
+          should:[
+            {term: {"audiences": "ya"}},
+            {term: {"audiences": "marc_adolescent"}},
+          ]
+        }
+      }
+    end
   end
 
   def available_filter

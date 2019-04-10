@@ -8,6 +8,7 @@ evergreen_server: 'mr-v2.catalog.tadl.org'
 logo_icon: "tadl-icon.png"
 location_options: [['All Locations', '22', 'TADL-ALL', 'All locations'], ['Traverse City', '23', 'TADL-WOOD','Woodmere (Main) Branch'], ['Interlochen', '24', 'TADL-IPL','Interlochen Public Library'], ['Kingsley', '25', 'TADL-KBL','Kingsley Branch Library'], ['Peninsula', '26', 'TADL-PCL','Peninsula Community Library'], ['East Bay', '28', 'TADL-EBB','East Bay Branch Library'], ['Fife Lake', '27', 'TADL-FLPL','Fife Lake Public Library']]
 location_options_minus_all: [['Traverse City', '23', 'TADL-WOOD','Woodmere (Main) Branch'], ['Interlochen', '24', 'TADL-IPL','Interlochen Public Library'], ['Kingsley', '25', 'TADL-KBL','Kingsley Branch Library'], ['Peninsula', '26', 'TADL-PCL','Peninsula Community Library'], ['East Bay', '28', 'TADL-EBB','East Bay Branch Library'], ['Fife Lake', '27', 'TADL-FLPL','Fife Lake Public Library']]
+audiences: ['All','Adult','Young Adult','Juvenile']
 view_default: 'list'
 location_default: '22'
 location_single: false

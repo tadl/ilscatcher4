@@ -98,6 +98,21 @@
         </div>
       <% end %>
       <div class="col-12 col-md-6 col-lg-3 order-md-5">
+
+        <div class="input-group input-group-sm mb-2">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Audience</span>
+          </div>
+          <select class="form-control form-control-sm<%= (params[:new_search].to_s != 'true') ? ' autoload' : '' %>" id="audiences" name="audiences">
+            <% Settings.audiences.each do |a| %>
+              <option value="<%= a %>"  <%= check_selected(@search.audiences, a) %>>
+                <%= a %>
+              </option>
+            <% end %>
+          </select>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3 order-md-6">
         <div class="input-group input-group-sm mb-2">
           <div class="input-group-prepend">
             <span class="input-group-text">Display as</span>
@@ -115,22 +130,18 @@
           </select>
         </div>
       </div>
-      <div class="col-12 col-md-6 col-lg-3 order-md-6">
+      <div class="col-12 col-md-6 col-lg-3 order-md-7">
         <div class="input-group input-group-sm mt-1">
-          <div class="form-check">
+          <div class="form-check mr-3">
             <input class="form-check-input<%= (params[:new_search].to_s != 'true') ? ' autoload' : '' %>" type="checkbox" value="true" id="limit_available" name="limit_available" <%= if_true_checked(@search.limit_available) %>>
             <label class="form-check-label" for="limit_available">
               Available Only
             </label>
           </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-6 col-lg-3 order-md-8 order-lg-7">
-        <div class="input-group input-group-sm mt-1">
-          <div class="form-check">
+          <div class="form-chec ml-3">
             <input class="form-check-input<%= (params[:new_search].to_s != 'true') ? ' autoload' : '' %>" type="checkbox" value="true" id="limit_physical" name="limit_physical" <%= if_true_checked(@search.limit_physical) %>>
             <label class="form-check-label" for="limit_physical">
-              Physical Items Only
+              Physical Only
             </label>
           </div>
         </div>
