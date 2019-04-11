@@ -143,7 +143,7 @@ class Search
       if self.min_score
         min_score = self.min_score
       else
-        min_score = 200
+        min_score = 300
       end
     elsif self.type == 'subject'
       search_scheme = subject_search
@@ -381,10 +381,9 @@ class Search
           multi_match: {
             type: "best_fields",
             query: self.query,
-            fields: [ 'title.folded', 
+            fields: [ 'title.folded^5', 
                       'title_display^3', 
-                      'title_short.docs^4', 
-                      'title_alt',
+                      'title_short.docs^8', 
                       'title.docs^4', 
                     ],
             slop:  100,
@@ -396,13 +395,12 @@ class Search
       should:[
         {
           multi_match: {
-            type: "cross_fields",
+            type: "phrase",
             query: self.query,
-            fields: [ 'title.folded', 
+            fields: [ 'title.folded^5', 
                       'title_display^3', 
-                      'title_short.docs^4', 
-                      'title_alt',
-                      'title.docs^4', 
+                      'title_short.folded^8', 
+                      'title_alt.folded', 
                     ],
             slop:  20,
             boost: 10,
