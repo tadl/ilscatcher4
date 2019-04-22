@@ -47,6 +47,7 @@ module ApplicationHelper
     url += '&limit_available=' + search.limit_available if search.limit_available
     url += '&view=' + search.view if search.view
     url += '&size=' + search.size.to_s if search.size
+    url += '&audiences=' + search.audiences if search.audiences
     search.subjects.each do |s|
       url += '&subjects[]=' +   url_encode(s)
     end if search.subjects
