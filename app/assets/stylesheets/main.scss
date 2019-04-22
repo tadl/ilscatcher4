@@ -292,3 +292,11 @@ a:hover {
     margin: 5 auto;
   }
 }
+
+/* fix margins on cards for xs/sm sizes */
+@media screen and (min-width: 0px) and (max-width: 767px) { /* sm */
+  .card-body .container-fluid,
+  .card {
+    padding: 0;
+  }
+}
