@@ -200,7 +200,7 @@ class Scraper
     elsif test_for_bad_password
         return {type: 'username', error: "Your current password was not correct."}
     else
-      return {type: 'username', success: "Username was sucessfully changed"}
+      return {type: 'username', success: "Username was successfully changed"}
     end
   end
 
@@ -221,7 +221,7 @@ class Scraper
     elsif test_for_invalid_new_password
       return {type: 'password', error: "Password does not meet requirements"}
     else
-      return {type: 'password', success: "Password was sucessfully changed"}
+      return {type: 'password', success: "Password was successfully changed"}
     end
   end
 
@@ -242,7 +242,7 @@ class Scraper
     elsif test_for_bad_old_password
       return {type: 'email', error: "Your current password was not correct."}
     else
-      return {type: 'email', success: "Email was sucessfully changed"}
+      return {type: 'email', success: "Email was successfully changed"}
     end
   end
 
@@ -263,7 +263,7 @@ class Scraper
     elsif test_for_bad_old_password
       return {type: 'alias', error: "Your current password was not correct."}
     else
-      return {type: 'alias', success: "Alias was sucessfully changed"}
+      return {type: 'alias', success: "Alias was successfully changed"}
     end
   end
 
@@ -281,7 +281,7 @@ class Scraper
     if test_for_logged_in(page) == false
       return {type: 'circ_prefs', error: "Invalid password"}
     else
-      return {type: 'circ_prefs', success: "Circ preferences were sucessfully changed"}
+      return {type: 'circ_prefs', success: "Circulation preferences were successfully changed"}
     end
   end
 
@@ -298,7 +298,7 @@ class Scraper
     if test_for_logged_in(page) == false
       return {type: 'notify_prefs', error: "Invalid password"}
     else
-      return {type: 'notify_prefs', success: "Notification preferences were sucessfully changed"}
+      return {type: 'notify_prefs', success: "Notification preferences were successfully changed"}
     end
   end
 
