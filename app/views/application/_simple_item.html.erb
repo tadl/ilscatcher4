@@ -2,7 +2,7 @@
   <div class="row mb-1">
     <div class="col-9">
       <a href="details?id=<%= i.id %>" onclick="item_details(<%= i.id %>)" class="item_details_link">
-        <%= icon('fas', item_format_icon(i.type_of_resource)) %> <%= i.title %>
+        <%= icon('fas', item_format_icon(i.type_of_resource)) %> <%= i.title_display %>
       </a>
       <br>
       <% if i.author.present? %>

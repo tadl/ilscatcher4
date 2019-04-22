@@ -258,3 +258,45 @@ a:hover {
     align-items: flex-start;
   }
 }
+
+/* scroll to top */
+.back-to-top {
+  background: none;
+  padding: 5px;
+  margin: 0;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 60px;
+  height: 60px;
+  z-index: 100;
+  display: none;
+  text-decoration: none;
+  color: #ffffff;
+  background-color: rgba(51,122,183,0.4);
+}
+
+.back-to-top i {
+  font-size: 50px;
+}
+
+/* fix alert box on mobile */
+@media screen and (min-width: 0px) and (max-width: 991px) { /* md */
+  #alert-box {
+    position: fixed;
+    z-index: 9999;
+    top: 50px;
+    left: 0;
+  }
+  .alert {
+    margin: 5 auto;
+  }
+}
+
+/* fix margins on cards for xs/sm sizes */
+@media screen and (min-width: 0px) and (max-width: 767px) { /* sm */
+  .card-body .container-fluid,
+  .card {
+    padding: 0;
+  }
+}

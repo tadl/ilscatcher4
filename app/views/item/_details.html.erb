@@ -161,6 +161,12 @@
           </li>
         <% end %>
 
+        <% if !i.series.blank? %>
+          <li class="nav-item">
+            <a class="flex-md-fill text-md-center nav-link" id="pills-series-tab" data-toggle="pill" href="#pills-series" role="tab" aria-controls="pills-subjects" aria-selected="false">Series</a>
+          </li>
+        <% end %>
+
         <% if !i.author_other.blank? %>
           <li class="nav-item">
             <a class="flex-md-fill text-md-center nav-link" id="pills-other_authors-tab" data-toggle="pill" href="#pills-other_authors" role="tab" aria-controls="pills-other_authors" aria-selected="false">Other Authors/Cast</a>
@@ -248,6 +254,15 @@
             <div class="list-group">
               <% i.subjects.each do |subject| %>
                 <a href="/search?query=<%= subject %>&amp;type=subject" class="list-group-item list-group-item-action"><%= subject %></a>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+        <% if !i.series.blank? %>
+          <div class="tab-pane fade" id="pills-series" role="tabpanel" aria-labelledby="pills-series-tab">
+            <div class="list-group">
+              <% i.series.each do |series| %>
+                <a href="/search?query=<%= series %>&amp;type=series" class="list-group-item list-group-item-series"><%= series %></a>
               <% end %>
             </div>
           </div>
