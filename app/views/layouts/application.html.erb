@@ -54,6 +54,9 @@
       <div id="alert-box" class="w-100"></div>
       <%= yield %>
     </div>
+    <a href="#" class="back-to-top">
+      <i class="fas fa-arrow-up" title="back to top"></i>
+    </a>
     <div id="hidden_login" style="display: none">
       <%= render "login_form", from: '', target_hold: '' %>
     </div>

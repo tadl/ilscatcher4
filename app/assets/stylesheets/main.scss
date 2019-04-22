@@ -258,3 +258,24 @@ a:hover {
     align-items: flex-start;
   }
 }
+
+/* scroll to top */
+.back-to-top {
+  background: none;
+  padding: 5px;
+  margin: 0;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 60px;
+  height: 60px;
+  z-index: 100;
+  display: none;
+  text-decoration: none;
+  color: #ffffff;
+  background-color: rgba(51,122,183,0.4);
+}
+
+.back-to-top i {
+  font-size: 50px;
+}

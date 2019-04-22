@@ -33,6 +33,22 @@ var ready = function(){
     $('.toggles').collapse('hide');
   }
 
+  /* scroll to top button */
+  var offset = 450;
+  var duration = 300;
+  $(window).scroll(function() {
+    if ($(this).scrollTop() > offset) {
+      $('.back-to-top').fadeIn(duration);
+    } else {
+      $('.back-to-top').fadeOut(duration);
+    }
+  });
+  $('.back-to-top').click(function(event) {
+    event.preventDefault();
+    $('html, body').animate({scrollTop: 0}, duration);
+    return false;
+  });
+
   $('.autoload').on('change', function() {
     $('#search_button').click();
   });
@@ -377,3 +393,4 @@ function show_card(element) {
   $.fancybox.open('<div class="responsive_fancybox text-center" style="max-width: 650px; width: 100%;"><h2 class="bg-primary text-light w-100 p-2">Library Card</h2><canvas id="barcode" class="barcode"></canvas><p>Use your mobile device as a library card to check out at any library location.</p></div>');
   JsBarcode("#barcode", card_number, { fontSize: 16, textMargin: 0});
 }
+
