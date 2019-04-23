@@ -179,14 +179,14 @@ class Search
       search_scheme = shelving_location_search
       min_score = 1
     end
-    self.client.search index: ENV['ES_INDEX'], body: { 
+    self.client.search index: ENV['ES_INDEX'], preference: Digest::MD5.hexdigest(self.query), body: { 
       query: {
         bool: search_scheme,
       },
       sort: sort_strategy,
       size: (self.size + 1),
       from: page,
-      min_score: min_score
+      min_score: min_score,
     }
   end
 
