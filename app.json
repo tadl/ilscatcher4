@@ -6,7 +6,7 @@
     "plugins": [
       {
         "name": "memcached",
-        "commands": ["memcached:create memcached-$APP", "memcached:link memcached-$APP $APP"]
+        "commands": ["memcached:create memcached_$APP", "memcached:link memcached_$APP $APP"]
       }
     ]
   },
