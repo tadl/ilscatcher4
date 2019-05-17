@@ -104,9 +104,17 @@ class UserController < ApplicationController
           else
         end
       }
+    end
+    if Settings.summer_reading
+      summer = {}
+      summer['summer_reading'] = Settings.summer_reading
+      summer['summer_reading_registration'] = Settings.summer_reading_registration
+      summer['summer_reading_reporting'] = Settings.summer_reading_reporting
+    else
+      summer = nil
     end 
     respond_to do |format|
-      format.json {render :json =>{:user => @user, :checkouts => @checkouts, :preferences => @preferences, :holds => @holds, :fines => @fines, :fees => @fees, :payments => @payments, :lists => @lists}}
+      format.json {render :json =>{:user => @user, :checkouts => @checkouts, :preferences => @preferences, :holds => @holds, :fines => @fines, :fees => @fees, :payments => @payments, :lists => @lists, :summer => summer}}
     end
   end
 
