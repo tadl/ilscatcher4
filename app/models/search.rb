@@ -85,6 +85,9 @@ class Search
         if item.type_of_resource == 'sound recording-nonmusical' && !item.title_display.nil?
           item.title_display += ' (AUDIOBOOK)'
         end
+        if item.type_of_resource == 'sound recording-musical' && item.holdings[0] && item.holdings[0]['location_id'] == 533
+          item.title_display += ' (VINYL)'
+        end 
         if self.location
           item.instance_variable_set(:@search_location, self.location)
           item.instance_variable_set(:@search_code, self.location_code)
