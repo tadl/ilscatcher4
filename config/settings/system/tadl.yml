@@ -35,5 +35,9 @@ added_nav_links:
   - name: "Website"
     url: "https://www.tadl.org/"
 summer_reading: true
+<<<<<<< HEAD
 summer_reading_registration: true
+=======
+summer_reading_registration: false
+>>>>>>> d9351afefb8293d4c4adc582cecb1117a77818b2
 summer_reading_reporting: true
