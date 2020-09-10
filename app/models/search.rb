@@ -39,7 +39,7 @@ class Search
       item_number = 0
     end
     search = elastic_search()
-    puts search.to_s
+    puts search['hits'].except('hits').to_s
     process_results(search['hits']['hits'], item_number)
   end
 
