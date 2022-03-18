@@ -21,7 +21,7 @@ gem 'bootswatch', github: 'thomaspark/bootswatch'
 gem 'font-awesome-sass', '~> 5.3.1'
 gem 'mini_magick'
 gem 'config'
-gem 'dalli', group: :production
+gem 'dalli', '2.7.10', group: :production
 gem 'rails-assets-OwlCarousel2', source: 'https://rails-assets.org'
 gem 'rails-assets-js-cookie', source: 'https://rails-assets.org'
 gem 'rails-assets-jsbarcode', source: 'https://rails-assets.org'
