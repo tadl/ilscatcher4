@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.5.1'
+ruby '2.6.3'
 
 gem 'rails', '~> 5.2.3'
 gem 'pg', '>= 0.18', '< 2.0'
@@ -14,14 +14,15 @@ gem 'jbuilder', '~> 2.5'
 #gem 'bootsnap', '>= 1.1.0', require: false
 gem 'dotenv-rails', :groups => [:development, :test]
 gem 'responders'
-gem 'elasticsearch'
+gem 'elasticsearch', '7.0.0' 
 gem 'jquery-rails'
 gem 'bootstrap', '~> 4.3.1'
 gem 'bootswatch', github: 'thomaspark/bootswatch'
 gem 'font-awesome-sass', '~> 5.3.1'
 gem 'mini_magick'
 gem 'config'
-gem 'dalli', group: :production
+gem 'faraday', '~> 0.15.4'
+gem 'dalli', '2.7.10', group: :production
 gem 'rails-assets-OwlCarousel2', source: 'https://rails-assets.org'
 gem 'rails-assets-js-cookie', source: 'https://rails-assets.org'
 gem 'rails-assets-jsbarcode', source: 'https://rails-assets.org'

@@ -1,0 +1,36 @@
+system_name: "Suttons Bay-Bingham District Library"
+catalog_name: "Suttons Bay-Bingham District Library Online Catalog"
+cover_url_prefix_lg: "https://catalog.tadl.org/opac/extras/ac/jacket/large/r/"
+cover_url_prefix_md: "https://catalog.tadl.org/opac/extras/ac/jacket/medium/r/"
+cover_url_prefix_sm: "https://catalog.tadl.org/opac/extras/ac/jacket/small/r/"
+default_layout: 'list'
+evergreen_server: 'mr-v2.catalog.tadl.org'
+logo_icon: "sbbdl.png"
+location_options: [['Suttons Bay', '46', 'SBBDL', 'Suttons Bay']]
+location_options_minus_all: [['Suttons Bay', '46', 'SBBDL','Suttons Bay']]
+view_default: 'list'
+location_default: '46'
+location_single: true
+machine_readable: 'https://mr-v2.catalog.tadl.org/'
+melcat_enabled: true
+melcat_link: 'https://elibrary.mel.org/search/a?searchtype=X&SORT=D&submit=Submit&searcharg='
+melcat_id_display: false
+primary_card_display: false
+online_payment: false
+online_registration: true
+register_link: '/register'
+register_link_show: true
+register_link_text: 'Get a Library Card'
+register_location: '44'
+register_location_name: 'Suttons Bay-Bingham District Library'
+register_agreement_text: 'sbbdl'
+register_newsletter: true
+register_listapi_url: 'https://www.tadl.org/listapi/sbbdl/'
+forgot_password_text: 'Forgot/lost password?'
+search_placeholder: 'Books, movies, music & more!'
+system_lock:
+  card_prefix_allow: '90416'
+account_info: true
+added_nav_links:
+  - name: "Website"
+    url: "https://www.kalkaskalibrary.org/"
