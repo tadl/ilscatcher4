@@ -14,13 +14,14 @@ gem 'jbuilder', '~> 2.5'
 #gem 'bootsnap', '>= 1.1.0', require: false
 gem 'dotenv-rails', :groups => [:development, :test]
 gem 'responders'
-gem 'elasticsearch', '~>7.0' 
+gem 'elasticsearch', '7.0.0' 
 gem 'jquery-rails'
 gem 'bootstrap', '~> 4.3.1'
 gem 'bootswatch', github: 'thomaspark/bootswatch'
 gem 'font-awesome-sass', '~> 5.3.1'
 gem 'mini_magick'
 gem 'config'
+gem 'faraday', '~> 0.15.4'
 gem 'dalli', '2.7.10', group: :production
 gem 'rails-assets-OwlCarousel2', source: 'https://rails-assets.org'
 gem 'rails-assets-js-cookie', source: 'https://rails-assets.org'
