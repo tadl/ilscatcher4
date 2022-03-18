@@ -28,6 +28,8 @@ register_newsletter: true
 register_listapi_url: 'https://www.tadl.org/listapi/sbbdl/'
 forgot_password_text: 'Forgot/lost password?'
 search_placeholder: 'Books, movies, music & more!'
+system_lock:
+  card_prefix_allow: '90416'
 account_info: true
 added_nav_links:
   - name: "Website"

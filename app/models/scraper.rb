@@ -30,6 +30,9 @@ class Scraper
           basic_info['cards'].push(c.try(:text).strip)
         end
       end
+      if Settings.system_lock && (Settings.system_lock.card_prefix_allow != basic_info['card'][0..4])
+        return 'error'
+      end  
       return basic_info
     end
   end
