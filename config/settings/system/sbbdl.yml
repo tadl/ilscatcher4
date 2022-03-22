@@ -21,7 +21,7 @@ online_registration: true
 register_link: '/register'
 register_link_show: true
 register_link_text: 'Get a Library Card'
-register_location: '44'
+register_location: '46'
 register_location_name: 'Suttons Bay-Bingham District Library'
 register_agreement_text: 'sbbdl'
 register_newsletter: true
