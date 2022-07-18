@@ -1,5 +1,5 @@
 public_catalog: 'https://catalog-preview.appstwo.tadl.org'
-format_options: [['All Formats', 'fmt', 'all'], ['Books', 'fmt', 'a'], ['Books - Fiction', 'fmt', 'a', true ], ['Books - Non-fiction', 'fmt', 'a', false], ['Large Print', 'call_prefix', 'LP'], ['Large Print - Fiction', 'call_prefix', 'LP', true], ['Large Print - Non-fiction', 'call_prefix', 'LP', false], ['Audiobooks', 'shelving_location', '515,518,546,571,572,582,584,590,597,680'], ['Audiobooks - Fiction', 'shelving_location', '515,518,546,571,572,582,584,590,597,680', true], ['Audiobooks - Non-fiction', 'shelving_location', '515,518,546,571,572,582,584,590,597,680', false], ['eBooks', 'electronic', 'ebooks'], ['eBooks - Fiction', 'electronic', 'ebooks', true], ['eBooks - Non-fiction', 'electronic', 'ebooks', false], ['Movies / TV', 'fmt', 'g'], ['Music', 'fmt', 'j'], ['Music - Vinyl','shelving_location','533'], ['Video Games', 'shelving_location', '777'], ['Things', 'shelving_location', '1006']]
+format_options: [['All Formats', 'fmt', 'all'], ['Books', 'fmt', 'a'], ['Books - Fiction', 'fmt', 'a', true ], ['Books - Non-fiction', 'fmt', 'a', false], ['Large Print', 'call_prefix', 'LP'], ['Large Print - Fiction', 'call_prefix', 'LP', true], ['Large Print - Non-fiction', 'call_prefix', 'LP', false], ['Audiobooks', 'shelving_location', '515,518,546,571,572,582,584,590,597,680'], ['Audiobooks - Fiction', 'shelving_location', '515,518,546,571,572,582,584,590,597,680,1090', true], ['Audiobooks - Non-fiction', 'shelving_location', '515,518,546,571,572,582,584,590,597,680,1090', false], ['eBooks', 'electronic', 'ebooks'], ['eBooks - Fiction', 'electronic', 'ebooks', true], ['eBooks - Non-fiction', 'electronic', 'ebooks', false], ['Movies / TV', 'fmt', 'g'], ['Music', 'fmt', 'j'], ['Music - Vinyl','shelving_location','533'], ['Video Games', 'shelving_location', '777'], ['Things', 'shelving_location', '1006']]
 format_electronic: [['ebooks', ['Safari', 'OverDrive', 'Hoopla'], ['text', 'kit', 'sound recording-nonmusical', 'cartographic', 'software, multimedia']]]
 lists:
   - group: "Books"
@@ -14,8 +14,8 @@ lists:
         search_link: "/search?query=621&type=shelving_location&fmt=all&sort=pubdateDESC&location=22"
       - name: "tadlnewaudiobooks"
         display_name: "New Audiobooks"
-        params: {query: "518", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "22"}
-        search_link: "/search?query=518&type=shelving_location&fmt=all&sort=pubdateDESC&location=22"
+        params: {query: "515,518,546,571,572,582,584,590,597,680,1090", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "22"}
+        search_link: "/search?query=515,518,546,571,572,582,584,590,597,680,1090&type=shelving_location&fmt=all&sort=pubdateDESC&location=22"
   - group: 'Video'
     searches:
       - name: "tadlhotdvds"
