@@ -4,7 +4,7 @@ cover_url_prefix_lg: "https://catalog.tadl.org/opac/extras/ac/jacket/large/r/"
 cover_url_prefix_md: "https://catalog.tadl.org/opac/extras/ac/jacket/medium/r/"
 cover_url_prefix_sm: "https://catalog.tadl.org/opac/extras/ac/jacket/small/r/"
 default_layout: 'list'
-evergreen_server: 'mr-v2.catalog.tadl.org'
+evergreen_server: 'mr-v2a.catalog.tadl.org'
 logo_icon: "tadl-icon.png"
 location_options: [['Kalkaska', '44', 'KCL', 'Kalkaska']]
 location_options_minus_all: [['Kalkaska', '44', 'KCL','Kalkaska']]
