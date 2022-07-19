@@ -11,7 +11,7 @@ location_options_minus_all: [['Traverse City', '23', 'TADL-WOOD','Woodmere (Main
 view_default: 'list'
 location_default: '22'
 location_single: false
-machine_readable: 'https://mr-v2.catalog.tadl.org/'
+machine_readable: 'https://mr-v2a.catalog.tadl.org/'
 melcat_enabled: true
 melcat_link: 'https://elibrary.mel.org/search/a?searchtype=X&SORT=D&submit=Submit&searcharg='
 melcat_id_display: true
