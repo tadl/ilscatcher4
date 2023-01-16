@@ -14,8 +14,8 @@ lists:
         search_link: "/search?query=621&type=shelving_location&fmt=all&sort=pubdateDESC&location=22"
       - name: "tadlnewaudiobooks"
         display_name: "New Audiobooks"
-        params: {query: "515,518,546,571,572,582,584,590,597,680,1090", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "22"}
-        search_link: "/search?query=515,518,546,571,572,582,584,590,597,680,1090&type=shelving_location&fmt=all&sort=pubdateDESC&location=22"
+        params: {query: "", type: "keyword", fmt: "Audiobooks", sort: "pubdateDESC", location: "22"}
+        search_link: "/search?query=&type=keyword&fmt=Audiobooks&sort=pubdateDESC&location=22"
   - group: 'Video'
     searches:
       - name: "tadlhotdvds"
