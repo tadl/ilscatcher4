@@ -13,7 +13,7 @@ class MainController < ApplicationController
         list = {}
         list["title"] = s["name"]
         list["nice_title"] = s["display_name"]
-        list["search_link"] = '/search?' + s["params"]
+        list["search_link"] = '/search?' + URI.encode_www_form(s["params"])
         if params[:compact] != 'true' && params[:format] != 'html'
           list["items"] = Rails.cache.read(s["name"])
         end
