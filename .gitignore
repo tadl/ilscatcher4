@@ -38,3 +38,5 @@ config/environments/*.local.yml
 # ignore local item boxes
 /app/assets/images/*_box.jpg
 
+# mac
+.DS_Store
