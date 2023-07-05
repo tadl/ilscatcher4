@@ -6,8 +6,8 @@ lists:
     searches:
       - name: "kcl_new_fiction"
         display_name: "New Books"
-        params: {query: "1032,1044,1047,1048,1049,1050", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "44"}
-        search_link: "/search?query=1032,1044,1047,1048,1049,1050&type=shelving_location&fmt=all&sort=pubdateDESC&location=44"
+        params: {query: "1032", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "44"}
+        search_link: "/search?query=1032&type=shelving_location&fmt=all&sort=pubdateDESC&location=44"
 
   - group: 'Video'
     searches:
