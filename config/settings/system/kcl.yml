@@ -9,7 +9,7 @@ logo_icon: "tadl-icon.png"
 location_options: [['Kalkaska', '44', 'KCL', 'Kalkaska']]
 location_options_minus_all: [['Kalkaska', '44', 'KCL','Kalkaska']]
 view_default: 'list'
-location_default: '22'
+location_default: '44'
 location_single: true
 machine_readable: 'https://mr-v2a.catalog.tadl.org/'
 melcat_enabled: true
@@ -24,8 +24,7 @@ register_link_text: 'Get a Library Card'
 register_location: '44'
 register_location_name: 'Kalkaska County Library'
 register_agreement_text: 'kcl'
-register_newsletter: true
-register_listapi_url: 'https://www.tadl.org/listapi/kcl/'
+register_newsletter: false
 forgot_password_text: 'Forgot/lost password?'
 search_placeholder: 'Books, movies, music & more!'
 account_info: true
