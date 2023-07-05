@@ -4,19 +4,15 @@ format_electronic: [['ebooks', ['Safari', 'OverDrive', 'Hoopla'], ['text', 'kit'
 lists:
   - group: "Books"
     searches:
-      - name: "sbbdl_new_fiction"
-        display_name: "New Fiction"
-        params: {query: "1011", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "46"}
-        search_link: "/search?query=1011&type=shelving_location&fmt=all&sort=pubdateDESC&location=46"
-      - name: "sbbdl_new_non-fiction"
-        display_name: "New Non-fiction"
-        params: {query: "1012", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "46"}
-        search_link: "/search?query=1012&type=shelving_location&fmt=all&sort=pubdateDESC&location=46"
+      - name: "kcl_new_fiction"
+        display_name: "New Books"
+        params: {query: "1032,1044,1047,1048,1049,1050", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "44"}
+        search_link: "/search?query=1032,1044,1047,1048,1049,1050&type=shelving_location&fmt=all&sort=pubdateDESC&location=44"
 
   - group: 'Video'
     searches:
-      - name: "sbbdl_new_movies"
-        display_name: "New Movies"
-        params: {query: "1020", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "46"}
-        search_link: "/search?query=1020&type=shelving_location&fmt=all&sort=pubdateDESC&location=46"
+      - name: "kcl_new_video"
+        display_name: "New Video"
+        params: {query: "951", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "44"}
+        search_link: "/search?query=951&type=shelving_location&fmt=all&sort=pubdateDESC&location=44"
 
