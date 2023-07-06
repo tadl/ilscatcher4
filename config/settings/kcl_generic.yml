@@ -4,13 +4,55 @@ format_electronic: [['ebooks', ['Safari', 'OverDrive', 'Hoopla'], ['text', 'kit'
 lists:
   - group: "Books"
     searches:
-      - name: "kcl_new_fiction"
-        display_name: "New Books"
+      - name: "kcl_fiction"
+        display_name: "Fiction"
+        params: {query: "1044", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "44"}
+        search_link: "/search?query=1044&type=shelving_location&fmt=all&sort=pubdateDESC&location=44"
+      - name: "kcl_graphic"
+        display_name: "Graphic"
         params: {query: "1032", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "44"}
         search_link: "/search?query=1032&type=shelving_location&fmt=all&sort=pubdateDESC&location=44"
-  - group: 'Video'
+      - name: "kcl_mystery"
+        display_name: "Mystery"
+        params: {query: "1048", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "44"}
+        search_link: "/search?query=1048&type=shelving_location&fmt=all&sort=pubdateDESC&location=44"
+      - name: "kcl_nonfic"
+        display_name: "Non-fiction"
+        params: {query: "1047", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "44"}
+        search_link: "/search?query=1047&type=shelving_location&fmt=all&sort=pubdateDESC&location=44"
+      - name: "kcl_scifi"
+        display_name: "Sci-fi / Fantasy"
+        params: {query: "1049", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "44"}
+        search_link: "/search?query=1049&type=shelving_location&fmt=all&sort=pubdateDESC&location=44"
+      - name: "kcl_western"
+        display_name: "Western"
+        params: {query: "1050", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "44"}
+        search_link: "/search?query=1050&type=shelving_location&fmt=all&sort=pubdateDESC&location=44"
+      - name: "kcl_largeprint"
+        display_name: "Large Print"
+        params: {query: "959", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "44"}
+        search_link: "/search?query=959&type=shelving_location&fmt=all&sort=pubdateDESC&location=44"
+  - group: 'Audio / Video'
     searches:
-      - name: "kcl_new_video"
-        display_name: "New Video"
+      - name: "kcl_cd"
+        display_name: "CDs"
+        params: {query: "950", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "44"}
+        search_link: "/search?query=950&type=shelving_location&fmt=all&sort=pubdateDESC&location=44"
+      - name: "kcl_dvd"
+        display_name: "DVDs"
         params: {query: "951", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "44"}
         search_link: "/search?query=951&type=shelving_location&fmt=all&sort=pubdateDESC&location=44"
+  - group: 'Juvenile'
+    searches:
+      - name: "kcl_juv"
+        display_name: "Juvenile Collection"
+        params: {query: "956", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "44"}
+        search_link: "/search?query=956&type=shelving_location&fmt=all&sort=pubdateDESC&location=44"
+      - name: "kcl_juv_easy"
+        display_name: "Juvenile Easy"
+        params: {query: "957", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "44"}
+        search_link: "/search?query=957&type=shelving_location&fmt=all&sort=pubdateDESC&location=44"
+      - name: "kcl_juv_readers"
+        display_name: "Juvenile Readers"
+        params: {query: "958", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "44"}
+        search_link: "/search?query=958&type=shelving_location&fmt=all&sort=pubdateDESC&location=44"
