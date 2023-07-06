@@ -8,11 +8,9 @@ lists:
         display_name: "New Books"
         params: {query: "1032", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "44"}
         search_link: "/search?query=1032&type=shelving_location&fmt=all&sort=pubdateDESC&location=44"
-
   - group: 'Video'
     searches:
       - name: "kcl_new_video"
         display_name: "New Video"
         params: {query: "951", type: "shelving_location", fmt: "all", sort: "pubdateDESC", location: "44"}
         search_link: "/search?query=951&type=shelving_location&fmt=all&sort=pubdateDESC&location=44"
-
