@@ -125,7 +125,7 @@ class Scraper
     if test_for_logged_in(page) == false
       return 'error'
     else
-      return scrape_holds_page(page)
+      return user_get_holds(token)
     end
   end
 
