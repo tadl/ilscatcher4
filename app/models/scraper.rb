@@ -104,7 +104,7 @@ class Scraper
   end
 
   def user_get_holds(token)
-    url = Settings.machine_readable + 'eg/opac/myopac/holds?limit=41'
+    url = Settings.machine_readable + 'eg/opac/myopac/holds?limit=201'
     page = scrape_request(url, token)[0]
     if test_for_logged_in(page) == false
       return {error: 'not logged in'}
@@ -114,7 +114,7 @@ class Scraper
   end
 
   def user_manage_holds(token, hold_id, task)
-    url = Settings.machine_readable + 'eg/opac/myopac/holds?limit=91'
+    url = Settings.machine_readable + 'eg/opac/myopac/holds?limit=201'
     params = []
     holds = hold_id.split(',')
     holds.each do |h|
