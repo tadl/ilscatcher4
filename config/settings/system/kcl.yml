@@ -28,6 +28,8 @@ register_newsletter: false
 forgot_password_text: 'Forgot/lost password?'
 search_placeholder: 'Books, movies, music & more!'
 account_info: true
+system_lock:
+  card_prefix_allow: '90247'
 added_nav_links:
   - name: "Website"
     url: "https://www.kalkaskalibrary.org/"
