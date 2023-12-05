@@ -83,7 +83,6 @@ class Search
         item.instance_variable_set(:@availability, item.check_availability)
         item.instance_variable_set(:@eresource_link, item.check_eresource_link)
         item.instance_variable_set(:@result_order, item_number)
-        item.instance_variable_set(:@explain, h['_explanation'])
         if item.type_of_resource == 'sound recording-nonmusical' && !item.title_display.nil?
           item.title_display += ' (AUDIOBOOK)'
         end
@@ -190,7 +189,6 @@ class Search
       },
       sort: sort_strategy,
       size: (self.size + 1),
-      explain: true,
       from: page,
       min_score: min_score,
     }
