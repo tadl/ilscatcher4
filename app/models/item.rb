@@ -35,6 +35,7 @@ class Item
     if self.links.size >= 1
       self.links.each do |l|
         if (l.include? 'via.tadl.org') || (l.include? 'hoopladigital.com')
+          self.electronic = true
           return l
         end
       end
