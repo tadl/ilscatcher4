@@ -6,10 +6,10 @@ cover_url_prefix_sm: "https://catalog.tadl.org/opac/extras/ac/jacket/small/r/"
 default_layout: 'list'
 evergreen_server: 'mr-v2a.catalog.tadl.org'
 logo_icon: "tadl-icon.png"
-location_options: [['All Locations', '43', 'KCLSYS', 'All locations'],['Kalkaska Main Branch', '44', 'KCL', 'Kalkaska Main Branch']]
-location_options_minus_all: [['Kalkaska Main Branch', '44', 'KCL','Kalkaska Main Branch']]
+location_options: [['Kalkaska', '44', 'KCL', 'Kalkaska']]
+location_options_minus_all: [['Kalkaska', '44', 'KCL','Kalkaska']]
 view_default: 'list'
-location_default: '43'
+location_default: '44'
 location_single: true
 machine_readable: 'https://mr-v2a.catalog.tadl.org/'
 melcat_enabled: true
