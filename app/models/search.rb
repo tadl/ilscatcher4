@@ -631,7 +631,7 @@ class Search
     self.authors.each do |s|
       filters.push(term: {"author.raw": URI.unescape(s)})
     end unless self.authors.nil?
-    if self.location && self.location != Settings.location_default
+    if self.location && self.location != Settings.location_default || self.location && self.location == '43'
       filters.push(location_filter)
     end
     if self.limit_available == 'true'
@@ -752,25 +752,50 @@ class Search
   end
 
   def location_filter
-   {
-      bool: {
-        should:[
-          {
-            nested:{
-              path: "holdings",
-              query:{
-                bool:{
-                  should:[
-                    {term: {"holdings.circ_lib": self.location_code}},
-                  ]
+    # Special handling for KCL to not include records found only at schools
+    if self.location == '43'
+      return {
+        bool: {
+          should:[
+            {
+              nested:{
+                path: "holdings",
+                query:{
+                  bool:{
+                    should:[
+                      {term: {"holdings.circ_lib": "KCL"}},
+                      {term: {"holdings.circ_lib": "KCL-COLD"}},
+                      {term: {"holdings.circ_lib": "KCL-GARF"}},
+                    ]
+                  }
                 }
               }
-            }
-          },
-          {term:{"electronic": true}}
-        ]
+            },
+            {term: {"electronic": true}}
+          ]
+        }  
       }
-    }
+    else
+      return {
+        bool: {
+          should:[
+            {
+              nested:{
+                path: "holdings",
+                query:{
+                  bool:{
+                    should:[
+                      {term: {"holdings.circ_lib": self.location_code}},
+                    ]
+                  }
+                }
+              }
+            },
+            {term:{"electronic": true}}
+          ]
+        }
+      }
+    end
   end
 
   def audience_filter
