@@ -6,11 +6,11 @@ cover_url_prefix_sm: "https://catalog.tadl.org/opac/extras/ac/jacket/small/r/"
 default_layout: 'list'
 evergreen_server: 'mr-v2a.catalog.tadl.org'
 logo_icon: "tadl-icon.png"
-location_options: [['All Locations','43','KCL-SYS', 'All Loctions'],['Kalkaska Main Branch', '44', 'KCL', 'Kalkaska'],['Coldsprings Branch', '56', 'KCL-COLD', 'Coldsprings'],['Garfield Township Branch', '57','KCL-GARF','Garfield']]
-location_options_minus_all: [['Kalkaska Main Branch', '44', 'KCL', 'Kalkaska'],['Coldsprings Branch', '56', 'KCL-COLD', 'Coldsprings'],['Garfield Township Branch', '57','KCL-GARF','Garfield']]
+location_options: [['All Locations','43','KCLSYS', 'All Loctions'],['Kalkaska County Library', '44', 'KCL', 'Kalkaska'],['Coldsprings Township Hall Branch Library', '56', 'KCL-COLD', 'Coldsprings'],['Garfield Township Hall Branch Library', '57','KCL-GARF','Garfield']]
+location_options_minus_all: [['Kalkaska County Library', '44', 'KCL', 'Kalkaska'],['Coldsprings Township Hall Branch Library', '56', 'KCL-COLD', 'Coldsprings'],['Garfield Township Hall Branch Library', '57','KCL-GARF','Garfield']]
 view_default: 'list'
 location_default: '43'
-location_single: true
+location_single: false
 machine_readable: 'https://mr-v2a.catalog.tadl.org/'
 melcat_enabled: true
 melcat_link: 'https://elibrary.mel.org/search/a?searchtype=X&SORT=D&submit=Submit&searcharg='
