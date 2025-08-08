@@ -138,8 +138,10 @@
   <div class="row mt-3">
     <p>We look forward to seeing you!</p>
   </div>
-    <div class="row mt-3">
-    <a class="btn btn-default" role="button" href="/">Return to Main Page</a>
+    <% if @iframe != "true" %>
+      <div class="row mt-3">
+      <a class="btn btn-default" role="button" href="/">Return to Main Page</a>
+    <% end %>
   </div>
 </div>
 

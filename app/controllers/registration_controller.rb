@@ -1,7 +1,9 @@
 class RegistrationController < ApplicationController
   respond_to :html, :json, :js
+  layout ->(controller) { controller.params[:iframe] == "true" ? "frame" : "application" }
 
   def register
+    @iframe = params[:iframe]
     respond_to do |format|
       format.html
     end
