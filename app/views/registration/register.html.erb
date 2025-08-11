@@ -158,37 +158,35 @@
     $('#zip_code').css('border', '');
     $('#phone').css('border', '');
     $('#email').css('border', '');
-    first_name = $('#first_name').val();
-    middle_name = $('#middle_name').val();
-    last_name = $('#last_name').val();
-    street_address = $('#street_address').val();
-    city = $('#city').val();
-    state = $('#state').val();
-    zip_code = $('#zip_code').val();
-    phone = $('#phone').val();
-    email = $('#email').val();
-    birth_month = $('#birth_date_month').val();
-    birth_day = $('#birth_date_day').val();
-    birth_year = $('#birth_date_year').val();
-    enews = $('#enews').is(':checked');
-    token = $('meta[name="csrf-token"]').attr('content');
-    $.post('/submit_registration.js',
-      { first_name: first_name,
-        middle_name: middle_name,
-        last_name: last_name,
-        street_address: street_address,
-        city: city,
-        state: state,
-        zip_code: zip_code,
-        phone: phone,
-        email: email,
-        birth_month: birth_month,
-        birth_day: birth_day,
-        birth_year: birth_year,
-        enews: enews,
-        authenticity_token: token,
-      }
-    );
+
+    
+    var payload = {
+      first_name: $('#first_name').val(),
+      middle_name: $('#middle_name').val(),
+      last_name: $('#last_name').val(),
+      street_address: $('#street_address').val(),
+      city: $('#city').val(),
+      state: $('#state').val(),
+      zip_code: $('#zip_code').val(),
+      phone: $('#phone').val(),
+      email: $('#email').val(),
+      birth_month: $('#birth_date_month').val(),
+      birth_day: $('#birth_date_day').val(),
+      birth_year: $('#birth_date_year').val(),
+      enews: $('#enews').is(':checked')
+    };
+
+    var csrf = $('meta[name="csrf-token"]').attr('content');
+    
+    $.ajax({
+      url: '/submit_registration.js',
+      type: 'POST',
+      data: payload,
+      dataType: 'script',                    // expect/execute JS response
+      headers: csrf ? { 'X-CSRF-Token': csrf } : {},
+      xhrFields: { withCredentials: true }   // send cookies for CSRF/session
+    })
+
   }
 
   jQuery.fn.capitalize = function() {
