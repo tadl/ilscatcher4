@@ -27,7 +27,7 @@ register_location: '23'
 register_location_name: 'any TADL location'
 register_agreement_text: 'tadl'
 register_newsletter: true
-register_listapi_url: 'https://www.tadl.org/listapi/tadl/'
+register_listapi_url: 'https://listapi.catalog.tadl.org/listapi/tadl/'
 forgot_password_text: 'Forgot/lost password?'
 search_placeholder: 'Books, movies, music & more!'
 account_info: true
