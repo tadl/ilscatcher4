@@ -9,8 +9,8 @@
     <div class="row">
       <div class="col-md-4">
         <div class="form-group">
-          <label for="first_name">First Name</label>
-          <input type="text" class="form-control" id="first_name" placeholder="First Name">
+          <label for="first_name">Chosen First Name</label>
+          <input type="text" class="form-control" id="first_name" placeholder="Chosen First Name">
         </div>
       </div>
       <div class="col-md-4">
@@ -171,6 +171,7 @@
     birth_day = $('#birth_date_day').val();
     birth_year = $('#birth_date_year').val();
     enews = $('#enews').is(':checked');
+    token = $('meta[name="csrf-token"]').attr('content');
     $.post('/submit_registration.js',
       { first_name: first_name,
         middle_name: middle_name,
@@ -184,7 +185,8 @@
         birth_month: birth_month,
         birth_day: birth_day,
         birth_year: birth_year,
-        enews: enews
+        enews: enews,
+        authenticity_token: token,
       }
     );
   }
