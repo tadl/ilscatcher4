@@ -3,6 +3,9 @@ class RegistrationController < ApplicationController
   layout ->(controller) { controller.params[:iframe] == "true" ? "frame" : "application" }
   before_action :allow_iframe
 
+  skip_before_action :verify_authenticity_token, only: :submit_registration
+  protect_from_forgery with: :null_session, only: :submit_registration
+
   def register
     @iframe = params[:iframe]
     respond_to do |format|
