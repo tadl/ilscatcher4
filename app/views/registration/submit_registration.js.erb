@@ -1,5 +1,5 @@
 <% if @invalid_data.size == 0 %>
-  <% if @iframe == true %>
+  <% if @iframe == 'true' %>
     window.parent.postMessage({ type: "scrollTop" }, "*");
   <% end %>
   $('#register').html('');
