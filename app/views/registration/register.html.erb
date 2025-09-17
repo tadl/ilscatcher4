@@ -176,7 +176,10 @@
       birth_month: $('#birth_date_month').val(),
       birth_day: $('#birth_date_day').val(),
       birth_year: $('#birth_date_year').val(),
-      enews: $('#enews').is(':checked')
+      enews: $('#enews').is(':checked'),
+      <% if @iframe == 'true' %>
+      iframe: 'true'
+      <% end %>
     };
 
     var csrf = $('meta[name="csrf-token"]').attr('content');

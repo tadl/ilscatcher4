@@ -16,6 +16,9 @@ class RegistrationController < ApplicationController
   def submit_registration
     register = Register.new
     @invalid_data = register.validate_and_save(params)
+    if params[:iframe] == 'true'
+      @iframe = 'true'
+    end
     respond_to do |format|
       format.json {render :json =>@invalid_data}
       format.js
