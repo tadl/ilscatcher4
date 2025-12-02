@@ -1,5 +1,5 @@
 class SearchController < ApplicationController
-  respond_to :html, :json, :js
+  before_action :ensure_json_request
   def search
     if !params[:query]
       params[:query] = ''
@@ -36,6 +36,10 @@ class SearchController < ApplicationController
   end
 
   private
+  def ensure_json_request
+    return if request.format.json?
+    head :not_acceptable
+  end
 
   def allowed_params
     params.permit(:query, :type, :sort, :fmt, :location, :page, :size, :limit_available, :view,

@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root 'main#index'
   match 'index', to: 'main#index', as: 'index', via: [:get, :post]
-  match 'search', to: 'search#search', as: 'search', via: [:get, :post]
+  match 'search', to: 'search#search', as: 'search', via: [:get, :post], constraints: { format: :json }
   match 'details', to: 'item#details', as: 'details', via: [:get, :post]
   match 'marc_record', to: 'item#marc_record', as: 'marc_record', via: [:get, :post]
   match 'youtube_trailer', to: 'item#youtube_trailer', as: 'youtube_trailer', via: [:get, :post]
