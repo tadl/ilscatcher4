@@ -12,7 +12,7 @@ class Register
       raw_date = params[:birth_year] + '-' + params[:birth_month] + '-' + params[:birth_day]
       raw_date = raw_date.to_date rescue nil
       if raw_date 
-        params[:birth_date] = params[:birth_month] + '-' + params[:birth_day] + '-' + params[:birth_year]
+        params[:birth_date] = params[:birth_year] + '-' + params[:birth_month] + '-' + params[:birth_day]
       else
         params[:birth_date] = 'invalid'
       end 
