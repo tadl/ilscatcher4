@@ -40,11 +40,6 @@ class Register
     elsif !params[:zip_code].match?(/^\d{5}(?:[-\s]\d{4})?$/)
       validate_hash['zip_code'] = 'invalid'
     end
-    if params[:phone].blank?
-      validate_hash['phone'] = 'missing'
-    elsif params[:phone] == 'invalid'
-      validate_hash['phone'] = 'invalid'
-    end
     if !params[:email].blank? && !params[:email].match?(/\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/)
       validate_hash['email'] = 'invalid'
     end
