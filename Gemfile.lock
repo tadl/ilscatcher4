@@ -89,7 +89,7 @@ GEM
       dry-validation (~> 1.0, >= 1.0.0)
     connection_pool (2.2.5)
     crass (1.0.6)
-    dalli (2.7.10)
+    dalli (3.2.3)
     deep_merge (1.2.2)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
@@ -321,7 +321,7 @@ DEPENDENCIES
   chromedriver-helper
   coffee-rails (~> 4.2)
   config
-  dalli (= 2.7.10)
+  dalli (= 3.2.3)
   dotenv-rails
   elasticsearch (= 7.0.0)
   faraday (~> 0.15.4)
